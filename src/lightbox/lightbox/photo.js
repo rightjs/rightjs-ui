@@ -10,7 +10,7 @@
  */
 Lightbox.Photo = new Class(Lightbox, {
   extend: {
-    Options: Object.extend(Lightbox.Options, {
+    Options: Object.merge(Lightbox.Options, {
       blockContent: true
     })
   },
@@ -27,7 +27,7 @@ Lightbox.Photo = new Class(Lightbox, {
 });
 
 // scanning the document on load for the photos to process
-document.onLoad(function() {
+document.onReady(function() {
   var lightbox = new Lightbox.Photo();
   
   // grabbing the singles
@@ -40,7 +40,7 @@ document.onLoad(function() {
   
   // grabbing the roadtrip
   var roadtrip = $$('a[rel="lightbox[roadtrip]"]');
-  raodtrip.each(function(a) {
+  roadtrip.each(function(a) {
     a.onClick(function(event) {
       event.stop();
       lightbox.show(this, roadtrip)

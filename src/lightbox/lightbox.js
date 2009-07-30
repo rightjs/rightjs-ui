@@ -10,14 +10,13 @@ var Lightbox = new Class(Observer, {
     EVENTS: $w("show hide"),
 
     Options: {
-      showHideDuration: 'short',
-      hideOnEsc:        true,
-      showCloseButton:  true,
-      blockContent:     false
+      fxDuration:      200,
+      hideOnEsc:       true,
+      showCloseButton: true,
+      blockContent:    false
     },
     
-    boxes: [],
-    hide: function() { this.boxes.each('hide'); }
+    boxes: []
   },
   
   /**
@@ -30,13 +29,15 @@ var Lightbox = new Class(Observer, {
     Lightbox.boxes.push(this);
     
     // building the main elements
-    this.element = this.E('lightbox'});
-    this.dialog  = this.E('lightbox-dialog',  this.element);
-    this.header  = this.E('lightbox-header',  this.dialog);
-    this.caption = this.E('lightbox-caption', this.header);
-    this.body    = this.E('lightbox-body',    this.dialog);
-    this.content = this.E('lightbox-content', this.body);
-    this.locker  = this.E('lightbox-locker',  this.body);
+    this.element  = this.E('lightbox').setStyle('display: none');
+    this.locker   = this.E('lightbox-locker',    this.element);
+    this.dialog   = this.E('lightbox-dialog',    this.element);
+    this.header   = this.E('lightbox-header',    this.dialog);
+    this.caption  = this.E('lightbox-caption',   this.header);
+    this.body     = this.E('lightbox-body',      this.dialog);
+    this.content  = this.E('lightbox-content',   this.body);
+    this.bodyLock = this.E('lightbox-body-lock', this.body);
+    
     
     // the close button if asked
     if (this.options.showCloseButton) {
@@ -46,7 +47,7 @@ var Lightbox = new Class(Observer, {
     
     // attaching the escape keypress to close the box
     if (this.options.hideOnEsc) {
-      document.onKeypress(function(event) {
+      document.onKeydown(function(event) {
         if (event.keyCode == 27) {
           this.hide();
         }
@@ -60,7 +61,7 @@ var Lightbox = new Class(Observer, {
    * @return Lightbox self
    */
   hide: function() {
-    this.element.hide('fade', {duration: this.options.showHideDuration});
+    this.element.hide('fade', {duration: this.options.fxDuration/2});
     return this.fire('hide');
   },
   
@@ -71,7 +72,25 @@ var Lightbox = new Class(Observer, {
    * @return Lightbox self
    */
   show: function() {
-    this.element.show('fade', {duration: this.options.showHideDuration});
+    this.element.insertTo(document.body).setStyle({
+      width:  window.sizes().x + 'px',
+      height: window.sizes().y + 'px',
+      marginTop:  '-'+document.body.getStyle('marginTop')+'px',
+      marginLeft: '-'+document.body.getStyle('marginLeft')+'px'
+    });
+    
+    if (this.element.hidden()) {
+      this.element.show();
+      
+      if (self.Fx) {
+        this.locker.setStyle('opacity:0');
+        this.dialog.setStyle('opacity:0');
+        
+        this.locker.morph({opacity: 0.7}, {duration: this.options.fxDuration});
+        this.dialog.morph({opacity: 1},   {duration: this.options.fxDuration});
+      }
+    }
+      
     this.updateContent.apply(this, arguments);
     return this.fire('show');
   },
@@ -105,11 +124,36 @@ var Lightbox = new Class(Observer, {
     
     options.onStart.unshift(this.lockBody.bind(this));
     options.onComplete.push(this.resize.bind(this));
-    options.onComplete.push(this.unlockBody.bind(this));
     
     options.method = options.method || 'get';
     
+    this.show();
+    
     Xhr.load(url, options);
+    
+    return this;
+  },
+  
+  /**
+   * resizes the dialogue to fit the content
+   *
+   * @param Object {x:.., y:..} optional end size definition
+   * @return Lightbox self
+   */
+  resize: function(size) {
+    this.resizeLock();
+    
+    if (size) {
+      if (Fx) {
+        this.body.morph(size, {
+          duration: this.options.fxDuration,
+          onFinish: this.resizeUnlock.bind(this)
+        });
+      } else {
+        this.body.setStyle(size);
+        this.resizeUnlock();
+      }
+    }
     
     return this;
   },
@@ -119,28 +163,36 @@ var Lightbox = new Class(Observer, {
   // shows the content in the body element
   updateContent: function(content) {
     this.lockBody();
-    this.content.update(content);
+    this.content.update(content || '');
     this.resize();
-    this.unlockBody();
   },
   
   // locks the body
   lockBody: function() {
-    this.locker.removeClass('lightbox-locker-transparent').show();
+    this.bodyLock.removeClass('lightbox-body-lock-transparent').show();
   },
   
   // unlocks the body
   unlockBody: function() {
     if (this.options.blockContent) {
-      this.locker.addClass('lightbox-locker-transparent');
+      this.bodyLock.addClass('lightbox-body-lock-transparent');
     } else {
-      this.locker.hide();
+      this.bodyLock.hide();
     }
-  }
+  },
   
-  // adjusts the dialogute to fit the content
-  resize: function() {
-    
+  // resize specific lock
+  resizeLock: function() {
+    this.lockBody();
+    this.bodyLock.addClass('lightbox-body-lock-resizing');
+    this.content.hide();
+  },
+  
+  // resize specific unlock
+  resizeUnlock: function() {
+    this.bodyLock.removeClass('lightbox-body-lock-resizing');
+    this.unlockBody();
+    this.content.show('fade', {duration: this.options.fxDuration});
   },
   
 // private
