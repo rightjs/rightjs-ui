@@ -8,6 +8,26 @@ Lightbox.Photo = new Class(Lightbox, {
   initialize: function(options) {
     this.$super(options);
     this.element.addClass('lightbox-photo');
+    
+    this.prevButton = this.E('lightbox-prev-button', this.dialog).update('&lsaquo;&lsaquo;&lsaquo;').set('title', 'Previous');
+    this.nextButton = this.E('lightbox-next-button', this.dialog).update('&rsaquo;&rsaquo;&rsaquo;').set('title', 'Next');
+    
+    this.prevButton.onClick(this.showPrev.bind(this));
+    this.nextButton.onClick(this.showNext.bind(this));
+  },
+  
+  showPrev: function() {
+    if (this.needPrevButton()) {
+      this.show(this.link.roadtrip[this.link.roadtrip.indexOf(this.link) - 1]);
+    }
+    return this;
+  },
+  
+  showNext: function() {
+    if (this.needNextButton()) {
+      this.show(this.link.roadtrip[this.link.roadtrip.indexOf(this.link) + 1]);
+    }
+    return this;
   },
 
 // protected
@@ -24,10 +44,13 @@ Lightbox.Photo = new Class(Lightbox, {
   },
   
   updateImage: function(link) {
+    this.link  = link;
     this.image = $E('img', {src: link.href});
-    this.roadtrip = link.roadtrip;
     this.setTitle(link.title);
     this.content.update(this.image);
+    
+    this.prevButton[this.needPrevButton() ? 'show' : 'hide']();
+    this.nextButton[this.needNextButton() ? 'show' : 'hide']();
     
     this.resize();
   },
@@ -39,5 +62,15 @@ Lightbox.Photo = new Class(Lightbox, {
     } else {
       arguments.callee.bind(this).delay(10);
     }
+  },
+  
+  // checks if there is a previous image link
+  needPrevButton: function() {
+    return this.link && this.link.roadtrip && this.link.roadtrip.first() != this.link;
+  },
+  
+  // checks if there is a next image link
+  needNextButton: function() {
+    return this.link && this.link.roadtrip && this.link.roadtrip.last() != this.link;
   }
 });

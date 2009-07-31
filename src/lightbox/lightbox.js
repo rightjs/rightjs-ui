@@ -42,7 +42,8 @@ var Lightbox = new Class({
     // the close button if asked
     if (this.options.showCloseButton) {
       this.closeButton = this.E('lightbox-close-button', this.dialog)
-        .onClick(this.hide.bind(this));
+        .onClick(this.hide.bind(this)).update('&otimes;')
+        .set('title', 'Close');
     }
     
     // attaching the escape keypress to close the box
