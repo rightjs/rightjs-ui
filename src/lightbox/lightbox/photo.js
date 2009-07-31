@@ -9,8 +9,8 @@ Lightbox.Photo = new Class(Lightbox, {
     this.$super(options);
     this.element.addClass('lightbox-photo');
     
-    this.prevButton = this.E('lightbox-prev-button', this.dialog).update('&lsaquo;&lsaquo;&lsaquo;').set('title', 'Previous');
-    this.nextButton = this.E('lightbox-next-button', this.dialog).update('&rsaquo;&rsaquo;&rsaquo;').set('title', 'Next');
+    this.prevButton = this.E('lightbox-prev-button', this.dialog).hide().update('&lsaquo;&lsaquo;&lsaquo;').set('title', 'Previous');
+    this.nextButton = this.E('lightbox-next-button', this.dialog).hide().update('&rsaquo;&rsaquo;&rsaquo;').set('title', 'Next');
     
     this.prevButton.onClick(this.showPrev.bind(this));
     this.nextButton.onClick(this.showNext.bind(this));
@@ -46,7 +46,6 @@ Lightbox.Photo = new Class(Lightbox, {
   updateImage: function(link) {
     this.link  = link;
     this.image = $E('img', {src: link.href});
-    this.setTitle(link.title);
     this.content.update(this.image);
     
     this.prevButton[this.needPrevButton() ? 'show' : 'hide']();
@@ -57,7 +56,8 @@ Lightbox.Photo = new Class(Lightbox, {
   
   // need this case there is a tiny delay because of the image switching
   resize: function() {
-    if (this.image.offsetHeight > 0) {
+    if (this.image && this.image.offsetHeight > 0) {
+      this.setTitle(this.link.title);
       return this.$super();
     } else {
       arguments.callee.bind(this).delay(10);

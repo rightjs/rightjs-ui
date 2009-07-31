@@ -34,7 +34,8 @@ var Lightbox = new Class({
     this.locker   = this.E('lightbox-locker',    this.element);
     this.dialog   = this.E('lightbox-dialog',    this.element);
     this.caption  = this.E('lightbox-caption',   this.dialog);
-    this.body     = this.E('lightbox-body',      this.dialog);
+    this.bodyWrap = this.E('lightbox-body-wrap', this.dialog);
+    this.body     = this.E('lightbox-body',      this.bodyWrap);
     this.content  = this.E('lightbox-content',   this.body);
     this.bodyLock = this.E('lightbox-body-lock', this.body).hide();
     
@@ -42,8 +43,7 @@ var Lightbox = new Class({
     // the close button if asked
     if (this.options.showCloseButton) {
       this.closeButton = this.E('lightbox-close-button', this.dialog)
-        .onClick(this.hide.bind(this)).update('&otimes;')
-        .set('title', 'Close');
+        .onClick(this.hide.bind(this)).update('&times;').set('title', 'Close');
     }
     
     // attaching the escape keypress to close the box
@@ -65,7 +65,13 @@ var Lightbox = new Class({
    * @return Lighbox self
    */
   setTitle: function(txt) {
-    this.caption.update(txt);
+    this.caption.fade('out', {
+      duration: this.options.fxDuration/2,
+      onFinish: function() {
+        this.caption.update(txt).fade('in', {duration: this.options.fxDuration/2});
+      }.bind(this)
+    });
+    
     return this;
   },
   
@@ -155,8 +161,7 @@ var Lightbox = new Class({
   resize: function(size, no_fx) {
     size = this.contentSize(size);
     
-    if (Browser.OLD)
-      var top = (this.element.sizes().y - size.height.toInt())/2 + 'px';
+    if (Browser.OLD) var top = (this.element.sizes().y - size.height.toInt() - 50 - (Browser.IE6 ? 10 : 0))/2 + 'px';
     
     if (no_fx === true) {
       this.body.setStyle(size);
@@ -169,9 +174,7 @@ var Lightbox = new Class({
       });
     }
     
-    
-    if (Browser.OLD)
-      this.dialog.morph({top: top}, {duration: this.options.fxDuration, queue:false});
+    if (Browser.OLD) no_fx === true ? this.dialog.setStyle({top: top}) : this.dialog.morph({top: top}, {duration: this.options.fxDuration});
     
     return this;
   },
@@ -239,6 +242,8 @@ var Lightbox = new Class({
     var size = size === this.$listeners ? null : size,
       max_width = this.element.offsetWidth * 0.8,
       max_height = this.element.offsetHeight * 0.8;
+    
+    if (Browser.OLD) max_height -= 60;
     
     if (size) {
       this.content.setStyle(size);
