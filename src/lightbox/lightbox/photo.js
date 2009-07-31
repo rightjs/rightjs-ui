@@ -14,7 +14,12 @@ Lightbox.Photo = new Class(Lightbox, {
   
   update: function(link) {
     if (link && link.href) {
-      this.load(link.href, {onComplete: this.updateImage.bind(this, link)});
+      this.loadLock();
+      
+      // using the iframed request to make the browser cache work
+      var xhr = new Xhr.IFramed();
+      xhr.onreadystatechange = this.updateImage.bind(this, link);
+      xhr.iframe.src = link.href;
     }
   },
   
@@ -23,5 +28,16 @@ Lightbox.Photo = new Class(Lightbox, {
     this.roadtrip = link.roadtrip;
     this.setTitle(link.title);
     this.content.update(this.image);
+    
+    this.resize();
+  },
+  
+  // need this case there is a tiny delay because of the image switching
+  resize: function() {
+    if (this.image.offsetHeight > 0) {
+      return this.$super();
+    } else {
+      arguments.callee.bind(this).delay(10);
+    }
   }
 });

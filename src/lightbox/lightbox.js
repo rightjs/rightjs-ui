@@ -126,19 +126,18 @@ var Lightbox = new Class({
   load: function(url, options) {
     var options = options || {};
     
-    $w('onStart onComplete').each(function(name) {
+    $w('onCreate onComplete').each(function(name) {
       options[name] = options[name] ? isArray(options[name]) ? options[name] : [options[name]] : [];
     });
     
     // adding the selfupdate callback as default
     if (options.onComplete.empty() && !options.onSuccess) {
       options.onComplete.push(function(request) {
-        alert(request.getHeader('Content-type'))
-        this.lock().content.update(request.responseText);
+        this.content.update(request.responseText);
       }.bind(this));
     }
     
-    options.onStart.unshift(this.lock.bind(this));
+    options.onCreate.unshift(this.loadLock.bind(this));
     options.onComplete.push(this.resize.bind(this));
     
     options.method = options.method || 'get';
@@ -187,7 +186,7 @@ var Lightbox = new Class({
   
   // locks the body
   lock: function() {
-    this.bodyLock.removeClass('lightbox-body-lock-transparent').show();
+    this.bodyLock.removeClass('lightbox-body-lock-transparent').removeClass('lightbox-body-lock-loading').show();
     return this;
   },
   
@@ -203,16 +202,17 @@ var Lightbox = new Class({
   
   // resize specific lock
   resizeLock: function() {
-    this.lock();
-    this.bodyLock.addClass('lightbox-body-lock-resizing');
-    this.content.hide();
+    this.lock().content.hide();
   },
   
   // resize specific unlock
   resizeUnlock: function() {
-    this.unlock();
-    this.bodyLock.removeClass('lightbox-body-lock-resizing');
-    this.content.show('fade', {duration: this.options.fxDuration});
+    this.unlock().content.show('fade', {duration: this.options.fxDuration/2});
+  },
+  
+  // xhr requests loading specific lock
+  loadLock: function() {
+    this.lock().bodyLock.addClass('lightbox-body-lock-loading');
   },
   
   // performs an action showing the lighbox
