@@ -6,4 +6,4 @@
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 
-if (!RightJS) { throw "Gimme RightJS. Please." };
+if (!RightJS || !Fx) { throw "Gimme RightJS with Fx. Please." };

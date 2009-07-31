@@ -1,8 +1,9 @@
 /* The RightJS Lightbox Stylesheets */
 div.lightbox {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
+  width: 100%;
   text-align: center;
 }
 
@@ -13,8 +14,6 @@ div.lightbox-locker {
   width: 100%;
   height: 100%;
   background-color: black;
-  opacity: 0.7;
-  * filter: alpha(opacity=70);
 }
 
 div.lightbox-dialog {
@@ -22,28 +21,38 @@ div.lightbox-dialog {
   display: inline-block;
   * display: inline;
   * zoom: 1;
+  vertical-align: middle;
   position: relative;
   max-width: 80%;
   max-height: 80%;
-  top: 30%;
   padding: 1em;
-  border-radius: 1em;
-  -moz-border-radius: 1em;
-  -webkit-border-radius: 1em;
+  border-radius: .6em;
+  -moz-border-radius: .6em;
+  -webkit-border-radius: .6em;
   text-align: left;
-  opacity: 1 !important;
 }
 
 div.lightbox-body {
   min-height: 10em;
   min-width: 10em;
+  height: 10em;
+  width: 10em;
   position: relative;
-  background-color: inherit;
+  padding: 0;
   overflow: hidden;
 }
 
+div.lightbox-content {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  line-height: 100%;
+}
+
 div.lightbox-body-lock {
-  background-color: inherit;
+  background-color: white;
   background-image: url('../images/lightbox/spinner.gif');
   background-repeat: no-repeat;
   background-position: center center;
@@ -52,8 +61,47 @@ div.lightbox-body-lock {
   top: 0px;
   width: 100%;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 div.lightbox-body-lock-resizing {
- 
+  background-image: none;
+}
+
+div.lightbox-body-lock-transparent {
+  background: none;
+}
+
+div.lightbox-caption {
+  position: absolute;
+  width: auto;
+  height: auto;
+  line-height: 100%;
+  left: .5em;
+  top: 0px;
+  margin-top: -1.2em;
+  color: #DDD;
+  font-weight: normal;
+  font-size: 140%;
+  font-family: Georgia;
+  text-shadow: black 2px 2px 2px;
+}
+
+/* Lightbox.Photo styles */
+div.lightbox-photo div.lightbox-dialog {
+  padding: 0;
+  border: 1px solid #777;
+  background: #CCC;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+div.lightbox-photo div.lightbox-content img {
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+}
+div.lightbox-photo div.lightbox-body-lock {
+  background: #CCC;
 }

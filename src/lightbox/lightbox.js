@@ -3,12 +3,11 @@
  *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-var Lightbox = new Class(Observer, {
+Browser.IE6 = navigator.userAgent.indexOf("MSIE 6") != -1;
+var Lightbox = new Class({
   include: Options,
   
   extend: {
-    EVENTS: $w("show hide"),
-
     Options: {
       fxDuration:      200,
       hideOnEsc:       true,
@@ -16,6 +15,8 @@ var Lightbox = new Class(Observer, {
       blockContent:    false
     },
     
+    // instantly hides all the boxes
+    kill: function() { Lightbox.boxes.each('kill'); },
     boxes: []
   },
   
@@ -25,23 +26,22 @@ var Lightbox = new Class(Observer, {
    * @param Object options override
    */
   initialize: function(options) {
-    this.$super(options);
+    this.setOptions(options);
     Lightbox.boxes.push(this);
     
     // building the main elements
     this.element  = this.E('lightbox').setStyle('display: none');
     this.locker   = this.E('lightbox-locker',    this.element);
     this.dialog   = this.E('lightbox-dialog',    this.element);
-    this.header   = this.E('lightbox-header',    this.dialog);
-    this.caption  = this.E('lightbox-caption',   this.header);
+    this.caption  = this.E('lightbox-caption',   this.dialog);
     this.body     = this.E('lightbox-body',      this.dialog);
     this.content  = this.E('lightbox-content',   this.body);
-    this.bodyLock = this.E('lightbox-body-lock', this.body);
+    this.bodyLock = this.E('lightbox-body-lock', this.body).hide();
     
     
     // the close button if asked
     if (this.options.showCloseButton) {
-      this.closeButton = this.E('lightbox-close-button', this.header)
+      this.closeButton = this.E('lightbox-close-button', this.dialog)
         .onClick(this.hide.bind(this));
     }
     
@@ -53,6 +53,19 @@ var Lightbox = new Class(Observer, {
         }
       }.bindAsEventListener(this));
     }
+    
+    window.on('resize', this.boxResize.bind(this, "resize"));
+  },
+  
+  /**
+   * Sets the popup's title
+   *
+   * @param mixed string or element or somethin'
+   * @return Lighbox self
+   */
+  setTitle: function(txt) {
+    this.caption.update(txt);
+    return this;
   },
   
   /**
@@ -61,8 +74,28 @@ var Lightbox = new Class(Observer, {
    * @return Lightbox self
    */
   hide: function() {
-    this.element.hide('fade', {duration: this.options.fxDuration/2});
-    return this.fire('hide');
+    this.element.hide('fade', {duration: this.options.fxDuration/2, onFinish: this.kill.bind(this)});
+    return this;
+  },
+  
+  /**
+   * Instantly removes the lightbox out of the user's see
+   *
+   * @return Lightbox self
+   */
+  kill: function() {
+    this.element.remove();
+    return this;
+  },
+  
+  /**
+   * Killall lightboxes except this one
+   *
+   * @return Lightbox self
+   */
+  killOthers: function() {
+    Lightbox.boxes.without(this).each('kill');
+    return this;
   },
   
   /**
@@ -71,28 +104,10 @@ var Lightbox = new Class(Observer, {
    * @param mixed content String, Element, Array, NodeList, ....
    * @return Lightbox self
    */
-  show: function() {
-    this.element.insertTo(document.body).setStyle({
-      width:  window.sizes().x + 'px',
-      height: window.sizes().y + 'px',
-      marginTop:  '-'+document.body.getStyle('marginTop')+'px',
-      marginLeft: '-'+document.body.getStyle('marginLeft')+'px'
-    });
+  show: function(content, size) {
+    this.showingSelf(this.update.bind(this, content, size));
     
-    if (this.element.hidden()) {
-      this.element.show();
-      
-      if (self.Fx) {
-        this.locker.setStyle('opacity:0');
-        this.dialog.setStyle('opacity:0');
-        
-        this.locker.morph({opacity: 0.7}, {duration: this.options.fxDuration});
-        this.dialog.morph({opacity: 1},   {duration: this.options.fxDuration});
-      }
-    }
-      
-    this.updateContent.apply(this, arguments);
-    return this.fire('show');
+    return this;
   },
   
   /**
@@ -118,20 +133,17 @@ var Lightbox = new Class(Observer, {
     // adding the selfupdate callback as default
     if (options.onComplete.empty() && !options.onSuccess) {
       options.onComplete.push(function(request) {
-        this.show(request.responseText);
+        alert(request.getHeader('Content-type'))
+        this.lock().content.update(request.responseText);
       }.bind(this));
     }
     
-    options.onStart.unshift(this.lockBody.bind(this));
+    options.onStart.unshift(this.lock.bind(this));
     options.onComplete.push(this.resize.bind(this));
     
     options.method = options.method || 'get';
     
-    this.show();
-    
-    Xhr.load(url, options);
-    
-    return this;
+    return this.showingSelf(Xhr.load.bind(Xhr, url, options));
   },
   
   /**
@@ -140,20 +152,26 @@ var Lightbox = new Class(Observer, {
    * @param Object {x:.., y:..} optional end size definition
    * @return Lightbox self
    */
-  resize: function(size) {
-    this.resizeLock();
+  resize: function(size, no_fx) {
+    size = this.contentSize(size);
     
-    if (size) {
-      if (Fx) {
-        this.body.morph(size, {
-          duration: this.options.fxDuration,
-          onFinish: this.resizeUnlock.bind(this)
-        });
-      } else {
-        this.body.setStyle(size);
-        this.resizeUnlock();
-      }
+    if (Browser.OLD)
+      var top = (this.element.sizes().y - size.height.toInt())/2 + 'px';
+    
+    if (no_fx === true) {
+      this.body.setStyle(size);
+    } else {
+      this.resizeLock();
+
+      this.body.morph(size, {
+        duration: this.options.fxDuration,
+        onFinish: this.resizeUnlock.bind(this)
+      });
     }
+    
+    
+    if (Browser.OLD)
+      this.dialog.morph({top: top}, {duration: this.options.fxDuration, queue:false});
     
     return this;
   },
@@ -161,38 +179,104 @@ var Lightbox = new Class(Observer, {
 // protected
   
   // shows the content in the body element
-  updateContent: function(content) {
-    this.lockBody();
+  update: function(content, size) {
+    this.lock();
     this.content.update(content || '');
-    this.resize();
+    this.resize(size);
   },
   
   // locks the body
-  lockBody: function() {
+  lock: function() {
     this.bodyLock.removeClass('lightbox-body-lock-transparent').show();
+    return this;
   },
   
   // unlocks the body
-  unlockBody: function() {
+  unlock: function() {
     if (this.options.blockContent) {
       this.bodyLock.addClass('lightbox-body-lock-transparent');
     } else {
       this.bodyLock.hide();
     }
+    return this;
   },
   
   // resize specific lock
   resizeLock: function() {
-    this.lockBody();
+    this.lock();
     this.bodyLock.addClass('lightbox-body-lock-resizing');
     this.content.hide();
   },
   
   // resize specific unlock
   resizeUnlock: function() {
+    this.unlock();
     this.bodyLock.removeClass('lightbox-body-lock-resizing');
-    this.unlockBody();
     this.content.show('fade', {duration: this.options.fxDuration});
+  },
+  
+  // performs an action showing the lighbox
+  showingSelf: function(callback) {
+    this.element.insertTo(document.body);
+    this.killOthers().boxResize();
+    
+    if (this.element.hidden()) {
+      this.locker.setStyle('opacity:0').morph({opacity: 0.8}, {duration: this.options.fxDuration});
+      this.dialog.setStyle('opacity:0').morph({opacity: 1},   {duration: this.options.fxDuration});
+      
+      this.element.show();
+      
+      callback.delay(this.options.fxDuration);
+    } else {
+      callback();
+    }
+    return this;
+  },
+  
+  // returns the content size hash
+  contentSize: function(size) {
+    var size = size === this.$listeners ? null : size,
+      max_width = this.element.offsetWidth * 0.8,
+      max_height = this.element.offsetHeight * 0.8;
+    
+    if (size) {
+      this.content.setStyle(size);
+    }
+    
+    size = this.content.sizes();
+    
+    return {
+      width:  (size.x > max_width  ? max_width  : size.x)+"px",
+      height: (size.y > max_height ? max_height : size.y)+"px"
+    };
+  },
+  
+  // adjusts the box size so that it closed the whole window
+  boxResize: function(resize) {
+    var height = window.sizes().y + 'px';
+    
+    this.element.setStyle({height: height, lineHeight: height});
+    
+    if (Browser.OLD) {
+      // IE6 nd 7 doesn't get the vertical align properly
+      this.dialog.style.top = (height.toInt() - this.dialog.offsetHeight) / 2 + 'px';
+      
+      // IE6 needs to handle the locker position and size manually
+      if (Browser.IE6) {
+        this.locker.resize(window.sizes());
+        
+        this.element.style.position = 'absolute';
+        
+        var reposition_locker = function() {
+          this.element.style.top = document.documentElement.scrollTop + 'px';
+        }.bind(this);
+        
+        window.attachEvent('onscroll', reposition_locker);
+        reposition_locker();
+      }
+    }
+    
+    return resize ? this.resize(false, true) : this;
   },
   
 // private

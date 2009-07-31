@@ -1,50 +1,27 @@
 /**
  * Lightbox Photo is the lightbox photo display
  *
- * Credits:
- *   Inspired by and monkeys the Lightbox 2 project
- *    -- http://www.huddletogether.com/projects/lightbox2/ 
- *      Copyright (C) Lokesh Dhakar
- *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 Lightbox.Photo = new Class(Lightbox, {
-  extend: {
-    Options: Object.merge(Lightbox.Options, {
-      blockContent: true
-    })
-  },
   
+  initialize: function(options) {
+    this.$super(options);
+    this.element.addClass('lightbox-photo');
+  },
+
 // protected
   
-  updateContent: function(link, roadtrip) {
-    this.load(link.href, {onComplete: this.updateImage.bind(this, link, roadtrip)});
+  update: function(link) {
+    if (link && link.href) {
+      this.load(link.href, {onComplete: this.updateImage.bind(this, link)});
+    }
   },
   
-  updateImage: function(link, roadtrip) {
-    
+  updateImage: function(link) {
+    this.image = $E('img', {src: link.href});
+    this.roadtrip = link.roadtrip;
+    this.setTitle(link.title);
+    this.content.update(this.image);
   }
-});
-
-// scanning the document on load for the photos to process
-document.onReady(function() {
-  var lightbox = new Lightbox.Photo();
-  
-  // grabbing the singles
-  $$('a[rel=lightbox]').each(function(a) {
-    a.onClick(function(event) {
-      event.stop();
-      lightbox.show(this);
-    });
-  });
-  
-  // grabbing the roadtrip
-  var roadtrip = $$('a[rel="lightbox[roadtrip]"]');
-  roadtrip.each(function(a) {
-    a.onClick(function(event) {
-      event.stop();
-      lightbox.show(this, roadtrip)
-    })
-  });
-  
 });
