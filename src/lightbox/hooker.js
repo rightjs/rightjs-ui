@@ -14,7 +14,7 @@ document.onReady(function() {
  $$('a[rel=lightbox]').each(function(a) {
    a.onClick(function(event) {
      event.stop();
-     new Lightbox.Photo().show(this);
+     new Lightbox().show(this);
    });
  });
 
@@ -24,7 +24,7 @@ document.onReady(function() {
    a.roadtrip = roadtrip;
    a.onClick(function(event) {
      event.stop();
-     new Lightbox.Photo().show(this);
+     new Lightbox().show(this);
    })
  });
 });

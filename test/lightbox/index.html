@@ -7,22 +7,19 @@
   <script src="../../src/lightbox/lightbox.js" type="text/javascript"></script>
   <script src="../../src/lightbox/lightbox/loader.js" type="text/javascript"></script>
   <script src="../../src/lightbox/lightbox/roadtrip.js" type="text/javascript"></script>
-  <script src="../../src/lightbox/lightbox/photo.js" type="text/javascript"></script>
+  <script src="../../src/lightbox/lightbox/image.js" type="text/javascript"></script>
   <script src="../../src/lightbox/hooker.js" type="text/javascript"></script>
   <script type="text/javascript">
   // <![CDATA[
     function show_text() {
-      new Lightbox()
-        .show($('lorem-ipsum-text').innerHTML, {width: '20em'})
+      new Lightbox().show($('lorem-ipsum-text').innerHTML, {width: '20em'});
     }
     
     function load_text() {
-      var box = new Lightbox()
-        .load('lorem.html')
-        .setTitle('Ajaxed Content');
+      var box = new Lightbox().load('lorem.html').setTitle('Ajaxed Content');
     }
     
-    document.onReady(load_text)
+    //document.onReady(load_text)
   // ]]>
   </script>
 </head>

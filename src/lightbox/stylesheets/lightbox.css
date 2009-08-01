@@ -111,25 +111,25 @@ div.lightbox-next-link {
 }
 
 
-/* Lightbox.Photo styles */
-div.lightbox-photo div.lightbox-body-wrap {
+/* Lightbox images displaying styles */
+div.lightbox-image div.lightbox-body-wrap {
   padding: 0;
   border: 1px solid #777;
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
 }
-div.lightbox-photo div.lightbox-content img {
+div.lightbox-image div.lightbox-content img {
   vertical-align: middle;
 }
 
-div.lightbox-photo div.lightbox-caption {
+div.lightbox-image div.lightbox-caption {
   margin-left: .2em;
 }
 
-div.lightbox-photo div.lightbox-close-button {
+div.lightbox-image div.lightbox-close-button {
   right: .2em;
 }
-div.lightbox-photo div.lightbox-prev-link {
+div.lightbox-image div.lightbox-prev-link {
   left: 0;
 }

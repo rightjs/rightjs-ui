@@ -65,7 +65,11 @@ var Lightbox = new Class({
    * @return Lightbox self
    */
   show: function(content, size) {
-    return this.showingSelf(this.update.bind(this, content, size));
+    return this.showingSelf(function() {
+      this.lock();
+      this.content.update(content || '');
+      this.resize(size);
+    }.bind(this));
   },
   
   /**
@@ -77,7 +81,7 @@ var Lightbox = new Class({
   resize: function(size, no_fx) {
     size = this.contentSize(size);
     
-    if (Browser.OLD) var top = (this.element.sizes().y - size.height.toInt() - 50 - (Browser.IE6 ? 10 : 0))/2 + 'px';
+    if (Browser.OLD) var top = (this.element.sizes().y - size.height.toInt() - 50)/2 + 'px';
     
     if (no_fx === true) {
       this.body.setStyle(size);
@@ -96,13 +100,6 @@ var Lightbox = new Class({
   },
   
 // protected
-  
-  // shows the content in the body element
-  update: function(content, size) {
-    this.lock();
-    this.content.update(content || '');
-    this.resize(size);
-  },
   
   // locks the body
   lock: function() {
@@ -128,11 +125,6 @@ var Lightbox = new Class({
   // resize specific unlock
   resizeUnlock: function() {
     this.unlock().content.show('fade', {duration: this.options.fxDuration/2});
-  },
-  
-  // xhr requests loading specific lock
-  loadLock: function() {
-    this.lock().bodyLock.addClass('lightbox-body-lock-loading');
   },
   
   // performs an action showing the lighbox

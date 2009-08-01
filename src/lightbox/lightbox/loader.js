@@ -51,6 +51,14 @@ Lightbox.include((function() {
       options.method = options.method || 'get';
 
       return this.showingSelf(Xhr.load.bind(Xhr, url, options));
+    },
+    
+  // protected
+    
+    // xhr requests loading specific lock
+    loadLock: function() {
+      this.lock().bodyLock.addClass('lightbox-body-lock-loading');
+      return this;
     }
   };
 })());

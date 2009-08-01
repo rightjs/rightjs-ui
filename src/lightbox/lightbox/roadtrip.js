@@ -32,8 +32,8 @@ Lightbox.include((function() {
       var res = old_event.apply(this, arguments);
       
       document.onKeydown(function(event) {
-        if (event.keyCode == 37) this.showPrev();
-        if (event.keyCode == 39) this.showNext();
+        if (event.keyCode == 37) { event.stop(); this.showPrev(); }
+        if (event.keyCode == 39) { event.stop(); this.showNext(); }
       }.bind(this));
       
       return res;
