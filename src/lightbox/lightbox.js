@@ -3,7 +3,6 @@
  *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-Browser.IE6 = navigator.userAgent.indexOf("MSIE 6") != -1;
 var Lightbox = new Class({
   include: Options,
   
@@ -26,36 +25,9 @@ var Lightbox = new Class({
    * @param Object options override
    */
   initialize: function(options) {
-    this.setOptions(options);
+    this.setOptions(options).build().connectEvents();
+    
     Lightbox.boxes.push(this);
-    
-    // building the main elements
-    this.element  = this.E('lightbox').setStyle('display: none');
-    this.locker   = this.E('lightbox-locker',    this.element);
-    this.dialog   = this.E('lightbox-dialog',    this.element);
-    this.caption  = this.E('lightbox-caption',   this.dialog);
-    this.bodyWrap = this.E('lightbox-body-wrap', this.dialog);
-    this.body     = this.E('lightbox-body',      this.bodyWrap);
-    this.content  = this.E('lightbox-content',   this.body);
-    this.bodyLock = this.E('lightbox-body-lock', this.body).hide();
-    
-    
-    // the close button if asked
-    if (this.options.showCloseButton) {
-      this.closeButton = this.E('lightbox-close-button', this.dialog)
-        .onClick(this.hide.bind(this)).update('&times;').set('title', 'Close');
-    }
-    
-    // attaching the escape keypress to close the box
-    if (this.options.hideOnEsc) {
-      document.onKeydown(function(event) {
-        if (event.keyCode == 27) {
-          this.hide();
-        }
-      }.bindAsEventListener(this));
-    }
-    
-    window.on('resize', this.boxResize.bind(this, "resize"));
   },
   
   /**
@@ -112,9 +84,7 @@ var Lightbox = new Class({
    * @return Lightbox self
    */
   show: function(content, size) {
-    this.showingSelf(this.update.bind(this, content, size));
-    
-    return this;
+    return this.showingSelf(this.update.bind(this, content, size));
   },
   
   /**
@@ -268,7 +238,7 @@ var Lightbox = new Class({
       this.dialog.style.top = (height.toInt() - this.dialog.offsetHeight) / 2 + 'px';
       
       // IE6 needs to handle the locker position and size manually
-      if (Browser.IE6) {
+      if (navigator.userAgent.indexOf("MSIE 6") != -1) {
         this.locker.resize(window.sizes());
         
         this.element.style.position = 'absolute';
@@ -283,6 +253,39 @@ var Lightbox = new Class({
     }
     
     return resize ? this.resize(false, true) : this;
+  },
+  
+  // builds the basic structure
+  build: function() {
+    this.element  = this.E('lightbox').setStyle('display: none');
+    this.locker   = this.E('lightbox-locker',    this.element);
+    this.dialog   = this.E('lightbox-dialog',    this.element);
+    this.caption  = this.E('lightbox-caption',   this.dialog);
+    this.bodyWrap = this.E('lightbox-body-wrap', this.dialog);
+    this.body     = this.E('lightbox-body',      this.bodyWrap);
+    this.content  = this.E('lightbox-content',   this.body);
+    this.bodyLock = this.E('lightbox-body-lock', this.body).hide();
+    
+    // the close button if asked
+    if (this.options.showCloseButton) {
+      this.closeButton = this.E('lightbox-close-button', this.dialog)
+        .onClick(this.hide.bind(this)).update('&times;').set('title', 'Close');
+    }
+    return this;
+  },
+  
+  // connects the events handling for the box
+  connectEvents: function() {
+    if (this.options.hideOnEsc) {
+      document.onKeydown(function(event) {
+        if (event.keyCode == 27) {
+          this.hide();
+        }
+      }.bindAsEventListener(this));
+    }
+    return this;
+    
+    window.on('resize', this.boxResize.bind(this, "resize"));
   },
   
 // private

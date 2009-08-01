@@ -81,31 +81,31 @@ div.lightbox-caption {
   text-shadow: black 2px 2px 2px;
 }
 
-div.lightbox-close-button, div.lightbox-prev-button, div.lightbox-next-button  {
+div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {
   position: absolute;
   bottom: 0;
   color: #888;
   cursor: pointer;
-  font-size: 170%;
+  font-size: 150%;
   font-weight: bold;
 }
-div.lightbox-close-button:hover, div.lightbox-prev-button:hover, div.lightbox-next-button:hover {
+div.lightbox-close-button:hover, div.lightbox-prev-link:hover, div.lightbox-next-link:hover {
   color: white;
 }
 
 div.lightbox-close-button {
   right: .5em;
-  font-size: 150%;
 }
 
-div.lightbox-prev-button, div.lightbox-next-button {
+div.lightbox-prev-link, div.lightbox-next-link {
   padding: 0 .2em;
+  font-size: 180%;
 }
-div.lightbox-prev-button {
-  left: 0;
+div.lightbox-prev-link {
+  left: .3em;
 }
 
-div.lightbox-next-button {
+div.lightbox-next-link {
   left: 2em;
 }
 
@@ -128,4 +128,7 @@ div.lightbox-photo div.lightbox-caption {
 
 div.lightbox-photo div.lightbox-close-button {
   right: .2em;
+}
+div.lightbox-photo div.lightbox-prev-link {
+  left: 0;
 }
