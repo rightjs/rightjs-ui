@@ -12,6 +12,7 @@
     function show_text() {
       new Lightbox()
         .show($('lorem-ipsum-text').innerHTML, {width: '20em'})
+        .setTitle('Boo')
     }
     
     function load_text() {
@@ -20,7 +21,7 @@
         .setTitle('Ajaxed Content');
     }
     
-    //document.onReady(show_text)
+    document.onReady(show_text)
   // ]]>
   </script>
 </head>

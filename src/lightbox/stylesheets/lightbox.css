@@ -7,6 +7,10 @@ div.lightbox {
   text-align: center;
 }
 
+div.lightbox div {
+  line-height: normal;
+}
+
 div.lightbox-locker {
   position: absolute;
   top: 0px;
@@ -22,11 +26,8 @@ div.lightbox-dialog {
   * zoom: 1;
   vertical-align: middle;
   position: relative;
-  max-width: 80%;
-  max-height: 80%;
   text-align: left;
-  padding-top: 1.7em;
-  padding-bottom: 1.4em;
+  padding-bottom: 1.6em;
 }
 
 div.lightbox-body-wrap {
@@ -38,24 +39,16 @@ div.lightbox-body-wrap {
 }
 
 div.lightbox-body {
-  background-color: white;
-  min-height: 10em;
-  min-width: 10em;
+  position: relative;
   height: 10em;
   width: 10em;
-  position: relative;
-  padding: 0;
+  min-height: 10em;
+  min-width: 10em;
   overflow: hidden;
 }
 
 div.lightbox-content {
-  background: white;
   position: absolute;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  line-height: 100%;
 }
 
 div.lightbox-body-lock {
@@ -65,12 +58,10 @@ div.lightbox-body-lock {
   top: 0px;
   width: 100%;
   height: 100%;
-  padding: 0;
-  margin: 0;
 }
 
 div.lightbox-body-lock-loading {
-  background-image: url('../images/lightbox/spinner.gif');
+  background-image: url('../images/spinner.gif');
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -80,14 +71,9 @@ div.lightbox-body-lock-transparent {
 }
 
 div.lightbox-caption {
+  margin-left: .7em;
+  margin-bottom: .1em;
   white-space: nowrap;
-  position: absolute;
-  width: auto;
-  height: auto;
-  line-height: 100%;
-  * line-height: 20pt;
-  left: .5em;
-  top: 0px;
   color: #DDD;
   font-weight: bold;
   font-size: 140%;
@@ -96,10 +82,6 @@ div.lightbox-caption {
 }
 
 div.lightbox-close-button, div.lightbox-prev-button, div.lightbox-next-button  {
-  width: auto;
-  height: auto;
-  line-height: 100%;
-  text-align: center;
   position: absolute;
   bottom: 0;
   color: #888;
@@ -137,13 +119,11 @@ div.lightbox-photo div.lightbox-body-wrap {
   -webkit-border-radius: 0px;
 }
 div.lightbox-photo div.lightbox-content img {
-  margin: 0px;
-  padding: 0px;
   vertical-align: middle;
 }
 
 div.lightbox-photo div.lightbox-caption {
-  left: 0;
+  margin-left: .2em;
 }
 
 div.lightbox-photo div.lightbox-close-button {
