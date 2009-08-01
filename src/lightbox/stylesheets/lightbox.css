@@ -58,12 +58,31 @@ div.lightbox-body-lock {
   top: 0px;
   width: 100%;
   height: 100%;
+  text-align: center;
 }
 
-div.lightbox-body-lock-loading {
-  background-image: url('../images/spinner.gif');
-  background-repeat: no-repeat;
-  background-position: center center;
+div.lightbox-body-lock-spinner {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+div.lightbox-body-lock-spinner div {
+  float: left;
+  font-size: 200%;
+  line-height: 20pt;
+  color: #AAA;
+}
+div.lightbox-body-lock-spinner div.glow {
+  color: #666;
+  font-size: 300%;
+  margin-top: -3pt;
+}
+
+div.lightbox-body-lock-loading div.lightbox-body-lock-spinner {
+  display: inline-block;
+  * display: inline;
+  * zoom: 1;
 }
 
 div.lightbox-body-lock-transparent {
@@ -125,6 +144,15 @@ div.lightbox-image div.lightbox-content img {
 
 div.lightbox-image div.lightbox-caption {
   margin-left: .2em;
+}
+
+div.lightbox-image div.lightbox-body-wrap, div.lightbox-image div.lightbox-body-lock {
+  background-color: #DDD;
+}
+
+div.lightbox-image div.lightbox-body-lock-spinner {
+  bottom: 1em;
+  right: 1em;
 }
 
 div.lightbox-image div.lightbox-close-button {

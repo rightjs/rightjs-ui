@@ -5,6 +5,7 @@
  */
 Lightbox.include((function() {
   var old_show = Lightbox.prototype.show;
+  var old_build = Lightbox.prototype.build;
   
   return {
     // hightjacking the links
@@ -59,6 +60,21 @@ Lightbox.include((function() {
     loadLock: function() {
       this.lock().bodyLock.addClass('lightbox-body-lock-loading');
       return this;
+    },
+    
+    build: function() {
+      var res = old_build.apply(this, arguments);
+      
+      // building a textual spinner
+      var spinner = this.E('lightbox-body-lock-spinner', this.bodyLock);
+      var dots    = '1234'.split('').map(function(i) {
+        return $E('div', {html: '.', 'class': i == 1 ? 'glow':null}).insertTo(spinner);
+      });
+      (function() {
+        var dot = dots.pop(); dot.insertTo(spinner, 'top'); dots.unshift(dot);
+      }).periodical(400);
+      
+      return res;
     }
   };
 })());
