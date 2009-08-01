@@ -72,7 +72,7 @@ div.lightbox-body-lock-transparent {
 
 div.lightbox-caption {
   height: 1em;
-  margin-left: .7em;
+  margin: 0 .7em;
   margin-bottom: .1em;
   white-space: nowrap;
   color: #DDD;

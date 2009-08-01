@@ -33,7 +33,7 @@ Lightbox.include((function() {
      */
     load: function(url, options) {
       var options = options || {};
-
+      
       $w('onCreate onComplete').each(function(name) {
         options[name] = options[name] ? isArray(options[name]) ? options[name] : [options[name]] : [];
       });
