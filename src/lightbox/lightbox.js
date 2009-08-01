@@ -14,8 +14,6 @@ var Lightbox = new Class({
       blockContent:    false
     },
     
-    // instantly hides all the boxes
-    kill: function() { Lightbox.boxes.each('kill'); },
     boxes: []
   },
   
@@ -53,27 +51,10 @@ var Lightbox = new Class({
    * @return Lightbox self
    */
   hide: function() {
-    this.element.hide('fade', {duration: this.options.fxDuration/2, onFinish: this.kill.bind(this)});
-    return this;
-  },
-  
-  /**
-   * Instantly removes the lightbox out of the user's see
-   *
-   * @return Lightbox self
-   */
-  kill: function() {
-    this.element.remove();
-    return this;
-  },
-  
-  /**
-   * Killall lightboxes except this one
-   *
-   * @return Lightbox self
-   */
-  killOthers: function() {
-    Lightbox.boxes.without(this).each('kill');
+    this.element.hide('fade', {
+      duration: this.options.fxDuration/2,
+      onFinish: this.element.remove.bind(this.element)
+    });
     return this;
   },
   
@@ -85,41 +66,6 @@ var Lightbox = new Class({
    */
   show: function(content, size) {
     return this.showingSelf(this.update.bind(this, content, size));
-  },
-  
-  /**
-   * Loads the given url address via an xhr request
-   *
-   * NOTE: will perform a GET request by default
-   *
-   * NOTE: will just update the body content with
-   *       the response text if no onComplete or
-   *       onSuccess callbacks were set
-   *
-   * @param String url address
-   * @param Object xhr options
-   * @return Lightbox self
-   */
-  load: function(url, options) {
-    var options = options || {};
-    
-    $w('onCreate onComplete').each(function(name) {
-      options[name] = options[name] ? isArray(options[name]) ? options[name] : [options[name]] : [];
-    });
-    
-    // adding the selfupdate callback as default
-    if (options.onComplete.empty() && !options.onSuccess) {
-      options.onComplete.push(function(request) {
-        this.content.update(request.responseText);
-      }.bind(this));
-    }
-    
-    options.onCreate.unshift(this.loadLock.bind(this));
-    options.onComplete.push(this.resize.bind(this));
-    
-    options.method = options.method || 'get';
-    
-    return this.showingSelf(Xhr.load.bind(Xhr, url, options));
   },
   
   /**
@@ -191,8 +137,9 @@ var Lightbox = new Class({
   
   // performs an action showing the lighbox
   showingSelf: function(callback) {
+    Lightbox.boxes.without(this).each('hide');
     this.element.insertTo(document.body);
-    this.killOthers().boxResize();
+    this.boxResize();
     
     if (this.element.hidden()) {
       this.locker.setStyle('opacity:0').morph({opacity: 0.8}, {duration: this.options.fxDuration});
