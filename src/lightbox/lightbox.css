@@ -23,7 +23,6 @@
   
 */
 
-
 div.lightbox {
   position: fixed;
   top: 0px;
@@ -116,16 +115,15 @@ div.lightbox-body-lock-transparent {
 }
 
 div.lightbox-caption {
-  height: 1em;
+  height: 1.2em;
   margin: 0 .7em;
   margin-bottom: .1em;
   white-space: nowrap;
   color: #DDD;
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.6em;
   font-family: Helvetica;
   text-shadow: black 2px 2px 2px;
-  *height: 1.2em;
 }
 
 div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {

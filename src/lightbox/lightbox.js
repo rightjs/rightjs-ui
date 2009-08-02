@@ -93,7 +93,7 @@ var Lightbox = new Class({
     
     var body_style   = this.contentSize(size);
     var height_diff  = this.dialog.sizes().y - this.body.sizes().y;
-    var body_height  = body_style.height.toInt() || 160;
+    var body_height  = body_style.height.toInt() || this.minBodyHeight();
     var dialog_style = {
       top: (this.element.sizes().y - body_height - height_diff)/2 + 'px'
     };
@@ -110,31 +110,7 @@ var Lightbox = new Class({
       this.body.setStyle(body_style);
       this.dialog.setStyle(dialog_style);
     } else {
-      this.resizeLock();
-      
-      // processing everything in a single visual effect so it looked smooth
-      var body_start_width   = this.body.sizes().x;
-      var body_end_width     = body_style.width.toInt();
-      var body_start_height  = this.body.sizes().y;
-      var body_end_height    = body_style.height.toInt();
-      var dialog_start_top   = this.dialog.style.top.toInt();
-      var dialog_end_top     = dialog_style.top.toInt();
-      var dialog_start_width = this.dialog.sizes().x;
-      var dialog_end_width   = (dialog_style.width || '0').toInt();
-      var body   = this.body;
-      var dialog = this.dialog;
-      
-      $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
-        render: function(delta) {
-          body.style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
-          body.style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
-          dialog.style.top  = (dialog_start_top  + (dialog_end_top  - dialog_start_top)  * delta) + 'px';
-          
-          if (Browser.IE6) {
-            dialog.style.width  = (dialog_start_width  + (dialog_end_width  - dialog_start_width)  * delta) + 'px';
-          }
-        }
-      }).onFinish(this.resizeUnlock.bind(this)).start();
+      this.resizeFx(body_style, dialog_style);
     }
     
     return this;
@@ -263,6 +239,40 @@ var Lightbox = new Class({
     window.on('resize', this.boxResize.bind(this));
     
     return this;
+  },
+  
+  // calculates the minimal body height
+  minBodyHeight: function() {
+    return $E('div', {'class': 'lightbox-body', style: 'background: none; position: absolute'}).insertTo(document.body).sizes().y;
+  },
+  
+  // processes the resizing visual effect
+  resizeFx: function(body_style, dialog_style) {
+    this.resizeLock();
+    
+    // processing everything in a single visual effect so it looked smooth
+    var body_start_width   = this.body.sizes().x;
+    var body_end_width     = body_style.width.toInt();
+    var body_start_height  = this.body.sizes().y;
+    var body_end_height    = body_style.height.toInt();
+    var dialog_start_top   = this.dialog.style.top.toInt();
+    var dialog_end_top     = dialog_style.top.toInt();
+    var dialog_start_width = this.dialog.sizes().x;
+    var dialog_end_width   = (dialog_style.width || '0').toInt();
+    var body   = this.body;
+    var dialog = this.dialog;
+    
+    $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
+      render: function(delta) {
+        body.style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
+        body.style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
+        dialog.style.top  = (dialog_start_top  + (dialog_end_top  - dialog_start_top)  * delta) + 'px';
+        
+        if (Browser.IE6) {
+          dialog.style.width  = (dialog_start_width  + (dialog_end_width  - dialog_start_width)  * delta) + 'px';
+        }
+      }
+    }).onFinish(this.resizeUnlock.bind(this)).start();
   },
   
 // private
