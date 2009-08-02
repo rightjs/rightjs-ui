@@ -11,6 +11,7 @@ var Lightbox = new Class({
     Version: "#{version}",
     
     Options: {
+      endOpacity:      0.8,
       fxDuration:      200,
       hideOnEsc:       true,
       showCloseButton: true,
@@ -88,37 +89,52 @@ var Lightbox = new Class({
    * @return Lightbox self
    */
   resize: function(size, no_fx) {
-    size = this.contentSize(size);
-
-    if (Browser.OLD || Browser.Konqueror) {
-      var height_diff = this.dialog.offsetHeight - this.body.offsetHeight;
+    this.dialog.style.top = (window.sizes().y - this.dialog.sizes().y) / 2 + 'px';
+    
+    var body_style   = this.contentSize(size);
+    var height_diff  = this.dialog.sizes().y - this.body.sizes().y;
+    var body_height  = body_style.height.toInt() || 160;
+    var dialog_style = {
+      top: (this.element.sizes().y - body_height - height_diff)/2 + 'px'
+    };
+    
+    // IE6 screws with the dialog width
+    if (Browser.IE6) {
+      var padding = this.bodyWrap.getStyle('padding').toInt() > 0 ? 15 : 0;
+      this.bodyWrap.setStyle('padding: '+padding+'px');
       
-      var dialog_style = {
-        top: (this.element.sizes().y - size.height.toInt() - height_diff)/2 + 'px'
-      };
-      
-      // IE6 screws with the dialog width
-      if (Browser.IE6) {
-        var padding = this.bodyWrap.getStyle('padding').toInt() > 0 ? 15 : 0;
-        this.bodyWrap.setStyle('padding: '+padding+'px');
-        
-        dialog_style.width = (size.width.toInt() + padding * 2) + 'px';
-      }
+      dialog_style.width = (body_style.width.toInt() + padding * 2) + 'px';
     }
     
     if (no_fx === true) {
-      this.body.setStyle(size);
+      this.body.setStyle(body_style);
+      this.dialog.setStyle(dialog_style);
     } else {
       this.resizeLock();
-
-      this.body.morph(size, {
-        duration: this.options.fxDuration,
-        onFinish: this.resizeUnlock.bind(this)
-      });
-    }
-    
-    if (Browser.OLD || Browser.Konqueror) {
-      no_fx === true ? this.dialog.setStyle(dialog_style) : this.dialog.morph(dialog_style, {duration: this.options.fxDuration});
+      
+      // processing everything in a single visual effect so it looked smooth
+      var body_start_width   = this.body.sizes().x;
+      var body_end_width     = body_style.width.toInt();
+      var body_start_height  = this.body.sizes().y;
+      var body_end_height    = body_style.height.toInt();
+      var dialog_start_top   = this.dialog.style.top.toInt();
+      var dialog_end_top     = dialog_style.top.toInt();
+      var dialog_start_width = this.dialog.sizes().x;
+      var dialog_end_width   = (dialog_style.width || '0').toInt();
+      var body   = this.body;
+      var dialog = this.dialog;
+      
+      $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
+        render: function(delta) {
+          body.style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
+          body.style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
+          dialog.style.top  = (dialog_start_top  + (dialog_end_top  - dialog_start_top)  * delta) + 'px';
+          
+          if (Browser.IE6) {
+            dialog.style.width  = (dialog_start_width  + (dialog_end_width  - dialog_start_width)  * delta) + 'px';
+          }
+        }
+      }).onFinish(this.resizeUnlock.bind(this)).start();
     }
     
     return this;
@@ -173,43 +189,39 @@ var Lightbox = new Class({
   
   // adjusts the box size so that it closed the whole window
   boxResize: function(resize) {
-    var height = window.sizes().y + 'px';
+    this.element.resize(window.sizes());
     
-    this.element.setStyle({height: height, lineHeight: height});
-    
-    if (Browser.OLD || Browser.Konqueror) {
-      // IE6 nd 7 doesn't get the vertical align properly
-      this.dialog.style.top = (height.toInt() - (this.dialog.offsetHeight || 170)) / 2 + 'px';
-      
-      // IE6 needs to handle the locker position and size manually
-      if (Browser.IE6) {
-        this.locker.resize(window.sizes());
+    // IE6 needs to handle the locker position and size manually
+    if (Browser.IE6) {
+      this.locker.resize(window.sizes());
         
-        this.element.style.position = 'absolute';
+      this.element.style.position = 'absolute';
         
-        var reposition_locker = function() {
-          this.element.style.top = document.documentElement.scrollTop + 'px';
-        }.bind(this);
+      var reposition_locker = function() {
+        this.element.style.top = document.documentElement.scrollTop + 'px';
+      }.bind(this);
         
-        window.attachEvent('onscroll', reposition_locker);
-        reposition_locker();
-      }
+      window.attachEvent('onscroll', reposition_locker);
+      reposition_locker();
     }
     
-    return resize ? this.resize(false, true) : this;
+    return this.resize(false, true);
   },
   
   // performs an action showing the lighbox
   showingSelf: function(callback) {
     Lightbox.boxes.without(this).each('hide');
-    this.element.insertTo(document.body);
-    this.boxResize();
     
     if (this.element.hidden()) {
-      this.locker.setStyle('opacity:0').morph({opacity: 0.8}, {duration: this.options.fxDuration});
-      this.dialog.setStyle('opacity:0').morph({opacity: 1},   {duration: this.options.fxDuration});
+      this.locker.setStyle('opacity:0');
+      this.dialog.setStyle('opacity:0');
       
-      this.element.show();
+      this.element.insertTo(document.body).show();
+      
+      this.boxResize();
+      
+      this.locker.morph({opacity: this.options.endOpacity}, {duration: this.options.fxDuration});
+      this.dialog.morph({opacity: 1},                       {duration: this.options.fxDuration});
       
       callback.delay(this.options.fxDuration);
     } else {
