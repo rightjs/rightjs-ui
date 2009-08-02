@@ -82,9 +82,11 @@ var Lightbox = new Class({
   resize: function(size, no_fx) {
     size = this.contentSize(size);
 
-    if (Browser.OLD) {
+    if (Browser.OLD || Browser.Konqueror) {
+      var height_diff = this.dialog.offsetHeight - this.body.offsetHeight;
+      
       var dialog_style = {
-        top: (this.element.sizes().y - (this.content.offsetHeight < 170 ? 170 : size.height.toInt()) - 57)/2 + 'px'
+        top: (this.element.sizes().y - size.height.toInt() - height_diff)/2 + 'px'
       };
       
       // IE6 screws with the dialog width
@@ -107,7 +109,9 @@ var Lightbox = new Class({
       });
     }
     
-    if (Browser.OLD) no_fx === true ? this.dialog.setStyle(dialog_style) : this.dialog.morph(dialog_style, {duration: this.options.fxDuration});
+    if (Browser.OLD || Browser.Konqueror) {
+      no_fx === true ? this.dialog.setStyle(dialog_style) : this.dialog.morph(dialog_style, {duration: this.options.fxDuration});
+    }
     
     return this;
   },
@@ -165,9 +169,9 @@ var Lightbox = new Class({
     
     this.element.setStyle({height: height, lineHeight: height});
     
-    if (Browser.OLD) {
+    if (Browser.OLD || Browser.Konqueror) {
       // IE6 nd 7 doesn't get the vertical align properly
-      this.dialog.style.top = (height.toInt() - this.dialog.offsetHeight) / 2 + 'px';
+      this.dialog.style.top = (height.toInt() - (this.dialog.offsetHeight || 170)) / 2 + 'px';
       
       // IE6 needs to handle the locker position and size manually
       if (Browser.IE6) {
