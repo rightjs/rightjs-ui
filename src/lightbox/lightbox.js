@@ -8,6 +8,8 @@ var Lightbox = new Class({
   include: Options,
   
   extend: {
+    Version: "#{version}",
+    
     Options: {
       fxDuration:      200,
       hideOnEsc:       true,
