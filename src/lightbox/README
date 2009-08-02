@@ -1,5 +1,77 @@
-Lightbox
-========
+Right Lightbox
+==============
+
+Right Lightbox is a lightbox widget that implemented using the RightJS library
+
+
+Whats up?
+=================
+
+ * Support of any html content displaying
+ * Content loading via ajax requests
+ * Road trips support
+ * Content auto discovery via the rel="lightbox" attribute
+ * Tiny size, no image dependencies, fully css based design
+ * Everything gets included in a single file
+
+
+API-Reference
+=====
+
+Right Lightbox has a really simple and short api
+
+ * hide - hides the lightbox
+ * show(mixed content[, Object sizes]) - show the content
+ * load(String url[, Object options]) - load the content via ajax
+
+You can have those methods at any instances like that
+
+new Lightbox().show('my stuff');
+
+or at the class level
+
+Lightbox.show('my stuff');
+
+You can send dom elements in the 'show' methods, or a nodes-list
+or an array of nodes, anything you need.
+
+Lightbox.show($('my-element'));
+Lightbox.show($('my-element').innerHTML);
+Lightbox.show(['this', 'that', 'and those']);
+
+If you send a link node to the 'show' method then Lightbox will
+automatically load the content from the url address it refers to
+and set the title from the link
+
+<a href="the/address.html" title="My Link" id="my-link">My Link</a>
+
+Lightbox.show($('my-link')); // this will load the 'the/address.html'
+
+Options
+=======
+
+When you instance a new lightbox object, you can pass the following options
+
+ * fxDuration - the visual effects duration (200 ms by default)
+ * hideOnEsc  - if set false, won't let the user to close the lightbox by the Esc button
+ * showCloseButton - if set false, won't show the close button
+ * blockContent - if set true, then all the displayed content will be hovered
+                with a transparent div and won't be clickable.
+
+
+Links auto discovery
+====================
+
+In similarity to the Lightbox 2 project, you can specify the 'rel'
+attribute of your links and those links will be automatically hooked
+to be shown through the lightbox.
+
+<a href="image1.jpg" rel="lightbox"><img src="image1-thmb.jpg" /></a>
+<a href="image2.jpg" rel="lightbox"><img src="image2-thmb.jpg" /></a>
+
+Use the attribute rel="lightbox[roadtrip]" if need the ligthbox to show
+the 'next' and 'prev' buttons so the user could see all your images without
+closing the lightbox
 
 
 
