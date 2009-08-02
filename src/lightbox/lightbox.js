@@ -127,25 +127,6 @@ var Lightbox = new Class({
     this.unlock().content.show('fade', {duration: this.options.fxDuration/2});
   },
   
-  // performs an action showing the lighbox
-  showingSelf: function(callback) {
-    Lightbox.boxes.without(this).each('hide');
-    this.element.insertTo(document.body);
-    this.boxResize();
-    
-    if (this.element.hidden()) {
-      this.locker.setStyle('opacity:0').morph({opacity: 0.8}, {duration: this.options.fxDuration});
-      this.dialog.setStyle('opacity:0').morph({opacity: 1},   {duration: this.options.fxDuration});
-      
-      this.element.show();
-      
-      callback.delay(this.options.fxDuration);
-    } else {
-      callback();
-    }
-    return this;
-  },
-  
   // returns the content size hash
   contentSize: function(size) {
     var size = size === this.$listeners ? null : size,
@@ -194,6 +175,25 @@ var Lightbox = new Class({
     return resize ? this.resize(false, true) : this;
   },
   
+  // performs an action showing the lighbox
+  showingSelf: function(callback) {
+    Lightbox.boxes.without(this).each('hide');
+    this.element.insertTo(document.body);
+    this.boxResize();
+    
+    if (this.element.hidden()) {
+      this.locker.setStyle('opacity:0').morph({opacity: 0.8}, {duration: this.options.fxDuration});
+      this.dialog.setStyle('opacity:0').morph({opacity: 1},   {duration: this.options.fxDuration});
+      
+      this.element.show();
+      
+      callback.delay(this.options.fxDuration);
+    } else {
+      callback();
+    }
+    return this;
+  },
+  
   // builds the basic structure
   build: function() {
     this.element  = this.E('lightbox').setStyle('display: none');
@@ -218,13 +218,15 @@ var Lightbox = new Class({
     if (this.options.hideOnEsc) {
       document.onKeydown(function(event) {
         if (event.keyCode == 27) {
+          event.stop();
           this.hide();
         }
       }.bindAsEventListener(this));
     }
-    return this;
     
-    window.on('resize', this.boxResize.bind(this, "resize"));
+    window.on('resize', this.boxResize.bind(this));
+    
+    return this;
   },
   
 // private
