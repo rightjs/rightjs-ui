@@ -34,18 +34,8 @@ Lightbox.include((function() {
     
     // inserts the image
     updateImage: function(image, link) {
-//      var image = $E('img', {src: link.href});
       this.content.update(image);
-
-      // because there is a tiny delay between image loading and insertion
-      // we need wait until the image will be updated
-      (function() {
-        if (image.offsetHeight > 0) {
-          this.checkRoadtrip().setTitle(link.title).resize();
-        } else {
-          arguments.callee.bind(this).delay(20);
-        }
-      }.bind(this))();
+      this.checkRoadtrip().setTitle(link.title).resize();
     },
     
     // checks if the given url is an url to an image
