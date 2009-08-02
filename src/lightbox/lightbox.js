@@ -244,8 +244,8 @@ var Lightbox = new Class({
   // calculates the minimal body height
   minBodyHeight: function() {
     var element = $E('div', {'class': 'lightbox-body', style: 'background: none; position: absolute'}).insertTo(document.body),
-      height = e.sizes().y;
-    e.remove();
+      height = element.sizes().y;
+    element.remove();
     return height;
   },
   
