@@ -15,6 +15,12 @@ var Lightbox = new Class({
       blockContent:    false
     },
     
+    i18n: {
+      Close: 'Close',
+      Prev:  'Previous',
+      Next:  'Next'
+    },
+    
     boxes: []
   },
   
@@ -224,7 +230,7 @@ var Lightbox = new Class({
     // the close button if asked
     if (this.options.showCloseButton) {
       this.closeButton = this.E('lightbox-close-button', this.dialog)
-        .onClick(this.hide.bind(this)).update('&times;').set('title', 'Close');
+        .onClick(this.hide.bind(this)).update('&times;').set('title', Lightbox.i18n.Close);
     }
     return this;
   },

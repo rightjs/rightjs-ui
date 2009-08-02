@@ -13,6 +13,7 @@ Whats up?
  * Content auto discovery via the rel="lightbox" attribute
  * Tiny size, no image dependencies, fully css based design
  * Everything gets included in a single file
+ * i18n support
 
 
 API-Reference
@@ -73,6 +74,18 @@ Use the attribute rel="lightbox[roadtrip]" if need the ligthbox to show
 the 'next' and 'prev' buttons so the user could see all your images without
 closing the lightbox
 
+
+Internationalization
+====================
+
+There is the an object called 'i18n' in the Lightbox class which contains
+the texts of the titles. If you need to change them, you can do it like this
+
+Lightbox.i18n = {
+  Close: 'Закрыть',
+  Prev:  'Предыдущая',
+  Next:  'Следующая'
+};
 
 
 --
