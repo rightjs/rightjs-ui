@@ -3,6 +3,7 @@
  *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
+Browser.IE6 = navigator.userAgent.indexOf("MSIE 6") != -1;
 var Lightbox = new Class({
   include: Options,
   
@@ -80,8 +81,20 @@ var Lightbox = new Class({
    */
   resize: function(size, no_fx) {
     size = this.contentSize(size);
-    
-    if (Browser.OLD) var top = (this.element.sizes().y - size.height.toInt() - 50)/2 + 'px';
+
+    if (Browser.OLD) {
+      var dialog_style = {
+        top: (this.element.sizes().y - (this.content.offsetHeight < 170 ? 170 : size.height.toInt()) - 57)/2 + 'px'
+      };
+      
+      // IE6 screws with the dialog width
+      if (Browser.IE6) {
+        var padding = this.bodyWrap.getStyle('padding').toInt() > 0 ? 15 : 0;
+        this.bodyWrap.setStyle('padding: '+padding+'px');
+        
+        dialog_style.width = (size.width.toInt() + padding * 2) + 'px';
+      }
+    }
     
     if (no_fx === true) {
       this.body.setStyle(size);
@@ -94,7 +107,7 @@ var Lightbox = new Class({
       });
     }
     
-    if (Browser.OLD) no_fx === true ? this.dialog.setStyle({top: top}) : this.dialog.morph({top: top}, {duration: this.options.fxDuration});
+    if (Browser.OLD) no_fx === true ? this.dialog.setStyle(dialog_style) : this.dialog.morph(dialog_style, {duration: this.options.fxDuration});
     
     return this;
   },
@@ -104,6 +117,7 @@ var Lightbox = new Class({
   // locks the body
   lock: function() {
     this.bodyLock.removeClass('lightbox-body-lock-transparent').removeClass('lightbox-body-lock-loading').show();
+    if (Browser.OLD) this.bodyLock.setStyle("opacity: 1");
     return this;
   },
   
@@ -124,7 +138,9 @@ var Lightbox = new Class({
   
   // resize specific unlock
   resizeUnlock: function() {
-    this.unlock().content.show('fade', {duration: this.options.fxDuration/2});
+    this.unlock().content.show('fade', {
+      duration: this.options.fxDuration/2
+    });
   },
   
   // returns the content size hash
@@ -133,11 +149,7 @@ var Lightbox = new Class({
       max_width = this.element.offsetWidth * 0.8,
       max_height = this.element.offsetHeight * 0.8;
     
-    if (Browser.OLD) max_height -= 60;
-    
-    if (size) {
-      this.content.setStyle(size);
-    }
+    if (size) this.content.setStyle(size);
     
     size = this.content.sizes();
     
@@ -158,7 +170,7 @@ var Lightbox = new Class({
       this.dialog.style.top = (height.toInt() - this.dialog.offsetHeight) / 2 + 'px';
       
       // IE6 needs to handle the locker position and size manually
-      if (navigator.userAgent.indexOf("MSIE 6") != -1) {
+      if (Browser.IE6) {
         this.locker.resize(window.sizes());
         
         this.element.style.position = 'absolute';

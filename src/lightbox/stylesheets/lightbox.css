@@ -45,10 +45,12 @@ div.lightbox-body {
   min-height: 10em;
   min-width: 10em;
   overflow: hidden;
+  *background-color: white;
 }
 
 div.lightbox-content {
   position: absolute;
+  *background-color: white;
 }
 
 div.lightbox-body-lock {
@@ -99,6 +101,7 @@ div.lightbox-caption {
   font-size: 140%;
   font-family: Helvetica;
   text-shadow: black 2px 2px 2px;
+  *height: 1.2em;
 }
 
 div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {
