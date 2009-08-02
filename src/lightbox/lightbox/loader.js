@@ -12,7 +12,9 @@ Lightbox.include((function() {
     show: function(content) {
       if (content && content.href) {
         return this.load(content.href, {
-          onComplete: this.setTitle.bind(this, content.title)
+          onComplete: function(request) {
+            this.setTitle(content.title).content.update(request.responseText);
+          }.bind(this)
         });
       } else {
         return old_show.apply(this, arguments);
