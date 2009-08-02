@@ -20,9 +20,9 @@ Lightbox.include((function() {
           this.loadLock().roadLink = content;
           
           // using the iframed request to make the browser cache work
-          var xhr = new Xhr.IFramed();
-          xhr.onreadystatechange = this.updateImage.bind(this, content);
-          xhr.iframe.src = content.href;
+          var image = new Image();
+          image.onload = this.updateImage.bind(this, image, content);
+          image.src = content.href;
           
         }.bind(this));
       } else {
@@ -33,8 +33,8 @@ Lightbox.include((function() {
   // protected
     
     // inserts the image
-    updateImage: function(link) {
-      var image = $E('img', {src: link.href});
+    updateImage: function(image, link) {
+//      var image = $E('img', {src: link.href});
       this.content.update(image);
 
       // because there is a tiny delay between image loading and insertion
