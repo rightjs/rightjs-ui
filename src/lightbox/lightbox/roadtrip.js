@@ -41,7 +41,7 @@ Lightbox.include((function() {
     
     // tries to show the previous item on the roadtrip
     showPrev: function() {
-      if (this.hasPrev()) {
+      if (this.hasPrev() && this.element.visible()) {
         this.show(this.roadLink.roadtrip[this.roadLink.roadtrip.indexOf(this.roadLink) - 1]);
       }
       return this;
@@ -49,7 +49,7 @@ Lightbox.include((function() {
 
     // tries to show the next item on the roadtrip
     showNext: function() {
-      if (this.hasNext()) {
+      if (this.hasNext() && this.element.visible()) {
         this.show(this.roadLink.roadtrip[this.roadLink.roadtrip.indexOf(this.roadLink) + 1]);
       }
       return this;

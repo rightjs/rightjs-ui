@@ -95,6 +95,8 @@ div.lightbox-body-lock-spinner {
 div.lightbox-body-lock-spinner div {
   float: left;
   font-size: 200%;
+  font-family: Georgia;
+  font-weight: bold;
   line-height: 20pt;
   color: #AAA;
 }
