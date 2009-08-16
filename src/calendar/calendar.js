@@ -2,20 +2,21 @@
  * The calendar widget for RightJS
  *
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 var Calendar = new Class(Observer, {
   extend: {
-    EVENTS: $w('show hide select change'),
+    EVENTS: $w('show hide select done'),
     
     Options: {
-      format:      'ISO_8601',
-      showTime:    false,
-      showButtons: false,
-      minDate:     null,
-      maxDate:     null,
-      firstDay:    1,     // 1 for Monday, 0 for Sunday
-      fxDuration:  200
+      format:        'ISO_8601',
+      showTime:      false,
+      showButtons:   false,
+      minDate:       null,
+      maxDate:       null,
+      firstDay:      1,     // 1 for Monday, 0 for Sunday
+      fxDuration:    200,
+      numberOfMonth: 1      // a number or [x, y] greed definition
     },
     
     Formats: {
@@ -71,6 +72,10 @@ var Calendar = new Class(Observer, {
       this.options.dayNames.push(this.options.dayNames.shift());
     }
     
+    if (!isArray(this.options.numberOfMonth)) {
+      this.options.numberOfMonth = [this.options.numberOfMonth, 1];
+    }
+    
     return this;
   },
   
@@ -81,7 +86,7 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   setDate: function(date) {
-    this.date = isString(date) ? Date.parse(date) : date;
+    this.date = new Date(date);
     return this.update();
   },
   
@@ -136,83 +141,6 @@ var Calendar = new Class(Observer, {
   insertTo: function(element, position) {
     this.element.addClass('right-calendar-inline').insertTo(element, position);
     return this;
-  },
-  
-  /**
-   * Switches to one month forward
-   *
-   * @return Calendar this
-   */
-  next: function() {
-    this.date.setMonth(this.date.getMonth() + 1);
-    return this.update();
-  },
-  
-  /**
-   * Switches to on month back
-   *
-   * @return Calendar this
-   */
-  prev: function() {
-    this.date.setMonth(this.date.getMonth() - 1);
-    return this.update();
-  },
-  
-// protected
-
-  // updates the calendar view
-  update: function(date) {
-    var date = new Date((date || this.date).toGMTString());
-    
-    // getting the number of days in the month
-    date.setDate(32);
-    var days_number = 32 - date.getDate();
-    date.setMonth(date.getMonth()-1);
-    
-    // collecting the elements to update
-    var rows  = this.table.select('tbody tr');
-    var cells = rows.shift().select('td');
-    this.table.select('tbody td').each('update', '').each('setClass', 'right-calendar-day-blank');
-    
-    for (var i=1; i <= days_number; i++) {
-      date.setDate(i);
-      var day_num = date.getDay();
-      
-      if (this.options.firstDay) {
-        day_num = day_num ? day_num-1 : 6;
-      }
-      
-      cells[day_num].update(i+'').setClass('');
-      
-      if ((this.options.minDate && this.options.minDate > date) || (this.options.maxDate && this.options.maxDate < date))
-        cells[day_num].setClass('right-calendar-day-disabled');
-      
-      if (day_num == 6) {
-        cells = rows.shift().select('td');
-      }
-    }
-    
-    this.caption.update(this.options.i18n.monthNames[date.getMonth()]+" "+date.getFullYear());
-  },
-
-  build: function() {
-    this.prevButton = $E('div', {'class': 'right-calendar-prev-button', html: '&lsaquo;', title: this.options.i18n.Prev}).onClick(this.prev.bind(this));
-    this.nextButton = $E('div', {'class': 'right-calendar-next-button', html: '&rsaquo;', title: this.options.i18n.Next}).onClick(this.next.bind(this));
-    this.caption    = $E('div', {'class': 'right-calendar-caption'});
-    
-    this.table = $E('table').insert(
-      '<thead>'+
-        '<tr>'+this.options.dayNames.map(function(name) {return '<th>'+name+'</th>';}).join('')+'</tr>'+
-      '</thead><tbody>'+
-        '123456'.split('').map(function() {return '<tr><td><td><td><td><td><td><td></tr>'}).join('')+
-      '</tbody>'
-    );
-    
-    this.element.insert([
-      $E('div', {'class': 'right-calendar-header'}).insert([this.nextButton, this.prevButton, this.caption]),
-      this.table
-    ]);
-    
-    return this;
   }
+  
 });

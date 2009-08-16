@@ -5,12 +5,8 @@
     <link href="../../src/calendar/calendar.css" media="screen" rel="stylesheet" type="text/css" />
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar.js" type="text/javascript"></script>
+    <script src="../../src/calendar/calendar/builder.js" type="text/javascript"></script>
     <script src="../../src/calendar/hooker.js" type="text/javascript"></script>
-    <script type="text/javascript">
-    // <![CDATA[
-    
-    // ]]>
-    </script>
     <style>
     html, body {
       font-family: Verdana, sans-serif;
@@ -30,6 +26,24 @@
       <script type="text/javascript">
       // <![CDATA[
         new Calendar().insertTo('single');
+      // ]]>
+      </script>
+    </p>
+    <p>
+      Three In A Row:
+      <div id="three"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({numberOfMonth: 3}).insertTo('three');
+      // ]]>
+      </script>
+    </p>
+    <p>
+      Greed:
+      <div id="greed"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({numberOfMonth: [3, 2]}).insertTo('greed');
       // ]]>
       </script>
     </p>
