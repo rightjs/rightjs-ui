@@ -58,7 +58,7 @@
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   cursor: pointer;
-  color: #666;
+  color: #555;
   background-color: #FFF;
 }
 *.right-ui-button:hover {
@@ -73,6 +73,7 @@
 
 div.right-calendar {
   position: absolute;
+  height: auto;
   border: 1px solid #BBB;
   position: relative;
   padding: .5em;
@@ -150,6 +151,7 @@ div.right-calendar-month table td.right-calendar-day-selected {
   background-color: #FB6;
   border-color: #BA8;
   color: brown;
+  
 }
 
 div.right-calendar-time {

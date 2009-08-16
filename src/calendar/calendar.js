@@ -64,7 +64,11 @@ var Calendar = new Class(Observer, {
   setOptions: function(options) {
     this.$super(options);
     
-    this.options.i18n = Object.merge(this.constructor.i18n, this.options.i18n);
+    this.options.i18n = {};
+    for (var key in this.constructor.i18n) {
+      this.options.i18n[key] = isArray(this.constructor.i18n[key]) ? this.constructor.i18n[key].clone() : this.constructor.i18n[key];
+    }
+    this.options.i18n = Object.merge(this.options.i18n, options||{});
     
     this.options.dayNames = this.options.i18n.dayNamesMin;
     
@@ -106,7 +110,7 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   hide: function() {
-    this.element.hide('slide', {duration: this.options.fxDuration});
+    this.element.hide('fade', {duration: this.options.fxDuration});
     return this;
   },
   
@@ -117,18 +121,8 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   show: function(position) {
-    this.element.show('slide', {duration: this.options.fxDuration});
+    this.element.show('fade', {duration: this.options.fxDuration});
     return this;
-  },
-  
-  /**
-   * Shows the calendar at the given element left-bottom corner
-   *
-   * @param Element element or String element id
-   * @return Calendar this
-   */
-  showAt: function(element) {
-    return this.show($(element).position());
   },
   
   /**
@@ -142,5 +136,4 @@ var Calendar = new Class(Observer, {
     this.element.addClass('right-calendar-inline').insertTo(element, position);
     return this;
   }
-  
 });

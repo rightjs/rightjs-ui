@@ -59,6 +59,9 @@ Calendar.include({
     this.nowButton.onClick(this.setDate.bind(this, new Date()));
     this.doneButton.onClick(this.done.bind(this));
     
+    // blocking all the events from the element
+    this.element.onClick(function(e) {e.stop();});
+    
     return this;
   }
 });
