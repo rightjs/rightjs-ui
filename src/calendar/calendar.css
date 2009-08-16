@@ -1,0 +1,78 @@
+/* Right-Calendar widget styles */
+div.right-calendar {
+  position: absolute;
+  border: 1px solid #BBB;
+  position: relative;
+  padding: .5em;
+  border-radius: .3em;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
+  cursor: default;
+  background-color: #FFF;
+}
+div.right-calendar-inline {
+  display: inline-block;
+  * display: inline;
+  * zoom: 1;
+}
+
+div.right-calendar-header {
+  text-align: center;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+
+div.right-calendar-prev-button, div.right-calendar-next-button {
+  float: left;
+  padding: 0;
+  height: 1em;
+  line-height: 1em;
+  width: 1em;
+  padding: .1em .3em;
+  text-align: center;
+  border: 1px solid #DDD;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  cursor: pointer;
+  color: #666;
+}
+div.right-calendar-prev-button:hover, div.right-calendar-next-button:hover {
+  color: #222;
+  border-color: #FB6;
+  background-color: #FB6;
+}
+
+div.right-calendar-next-button {
+  float: right;
+}
+
+div.right-calendar table {
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  margin-top: .2em;
+}
+div.right-calendar table th {
+  color: #777;
+  text-align: center;
+}
+
+div.right-calendar table td {
+  text-align: right;
+  padding: .1em .3em;
+  background-color: #EEE;
+  cursor: pointer;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+}
+div.right-calendar table td:hover {
+  background-color: #FB6;
+}
+
+div.right-calendar table td.right-calendar-day-blank {
+  background: transparent;
+  cursor: default;
+}
