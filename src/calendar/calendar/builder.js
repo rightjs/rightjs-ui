@@ -4,39 +4,6 @@
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 Calendar.include({
-  /**
-   * Handles the user's select even
-   *
-   * @param HTMLTableCell clicked cell
-   * @return Calendar self
-   */
-  select: function(cell) {
-    var date = null; // grab the data out of the cell
-    
-    return this.fire('select', date);
-  },
-  
-  /**
-   * Switches to one month forward
-   *
-   * @return Calendar this
-   */
-  next: function() {
-    this.prevDate = new Date(this.prevDate || this.date);
-    this.prevDate.setMonth(this.prevDate.getMonth() + 1);
-    return this.update(this.prevDate);
-  },
-  
-  /**
-   * Switches to on month back
-   *
-   * @return Calendar this
-   */
-  prev: function() {
-    this.prevDate = new Date(this.prevDate || this.date);
-    this.prevDate.setMonth(this.prevDate.getMonth() - 1);
-    return this.update(this.prevDate);
-  },
   
 // protected
 
@@ -86,6 +53,8 @@ Calendar.include({
       
       if ((this.options.minDate && this.options.minDate > date) || (this.options.maxDate && this.options.maxDate < date))
         cells[day_num].setClass('right-calendar-day-disabled');
+        
+      cells[day_num].date = new Date(date);
       
       if (day_num == 6) {
         cells = rows.shift().select('td');
@@ -115,13 +84,12 @@ Calendar.include({
     return this;
   },
   
+  // builds the monthes swapping buttons
   buildSwaps: function() {
     this.prevButton = $E('div', {'class': 'right-ui-button right-calendar-prev-button',
-        html: '&lsaquo;', title: this.options.i18n.Prev
-      }).onClick(this.prev.bind(this)).insertTo(this.element);
+        html: '&lsaquo;', title: this.options.i18n.Prev}).insertTo(this.element);
     this.nextButton = $E('div', {'class': 'right-ui-button right-calendar-next-button',
-        html: '&rsaquo;', title: this.options.i18n.Next
-      }).onClick(this.next.bind(this)).insertTo(this.element);
+        html: '&rsaquo;', title: this.options.i18n.Next}).insertTo(this.element);
   },
   
   // builds a month block
@@ -138,6 +106,7 @@ Calendar.include({
     ]);
   },
   
+  // builds the time selection block
   buildTime: function() {
     this.hours = $E('select');
     this.minutes = $E('select');
@@ -154,6 +123,7 @@ Calendar.include({
       .setStyle('display: '+(this.options.showTime ? 'block' : 'none'));
   },
   
+  // builds the bottom buttons block
   buildButtons: function() {
     this.nowButton = $E('div', {'class': 'right-ui-button right-calendar-now-button', html: this.options.i18n.Now});
     this.doneButton = $E('div', {'class': 'right-ui-button right-calendar-done-button', html: this.options.i18n.Done});

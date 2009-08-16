@@ -52,7 +52,7 @@ var Calendar = new Class(Observer, {
     this.$super(options);
     
     this.element = $E('div', {'class': 'right-calendar'});
-    this.build().setDate(new Date());
+    this.build().connectEvents().setDate(new Date());
   },
   
   /**

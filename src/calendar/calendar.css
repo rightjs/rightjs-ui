@@ -159,6 +159,10 @@ div.right-calendar-time select {
   margin: 0 .4em;
 }
 
+div.right-calendar-buttons div.right-ui-button {
+  width: 3.2em;
+}
+
 div.right-calendar-done-button {
   float: right;
 }
