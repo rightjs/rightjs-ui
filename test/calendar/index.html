@@ -19,9 +19,9 @@
     <p>
       Some calendar use-cases
     </p>
-    <h2>Inlined Calendars</h2>
+    
     <p>
-      <label>Single:</label>
+      <h2>Single</h2>
       <div id="single"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -30,7 +30,7 @@
       </script>
     </p>
     <p>
-      Three In A Row:
+      <h2>Three In A Row</h2>
       <div id="three"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -39,11 +39,29 @@
       </script>
     </p>
     <p>
-      Greed:
+      <h2>Greed</h2>
       <div id="greed"></div>
       <script type="text/javascript">
       // <![CDATA[
         new Calendar({numberOfMonth: [3, 2]}).insertTo('greed');
+      // ]]>
+      </script>
+    </p>
+    <p>
+      <h2>With Time</h2>
+      <div id="with-time"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({showTime: true}).insertTo('with-time');
+      // ]]>
+      </script>
+    </p>
+    <p>
+      <h2>With Buttons</h2>
+      <div id="with-buttons"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({showButtons: true}).insertTo('with-buttons');
       // ]]>
       </script>
     </p>

@@ -54,6 +54,9 @@ Calendar.include({
       this.updateMonth(monthes.shift(), month_date);
     }
     
+    this.hours.value = date.getHours();
+    this.minutes.value = date.getMinutes();
+    
     return this;
   },
   
@@ -94,10 +97,10 @@ Calendar.include({
 
   // builds the calendar
   build: function() {
-    this.prevButton = $E('div', {'class': 'right-calendar-prev-button', html: '&lsaquo;', title: this.options.i18n.Prev}).onClick(this.prev.bind(this));
-    this.nextButton = $E('div', {'class': 'right-calendar-next-button', html: '&rsaquo;', title: this.options.i18n.Next}).onClick(this.next.bind(this));
+    this.buildSwaps();
     
-    var greed = $E('table', {'class': 'right-calendar-greed'});
+    // building the calendars greed
+    var greed = $E('table', {'class': 'right-calendar-greed'}).insertTo(this.element);
     
     for (var y=0; y < this.options.numberOfMonth[1]; y++) {
       var row   = $E('tr').insertTo(greed);
@@ -106,13 +109,19 @@ Calendar.include({
       }
     }
     
-    greed.select('div table tbody td').each(function(cell) { cell.onClick(this.select(cell)); }.bind(this));
-    
-    this.element.insert([
-      this.nextButton, this.prevButton, greed
-    ]);
+    this.buildTime();
+    this.buildButtons();
     
     return this;
+  },
+  
+  buildSwaps: function() {
+    this.prevButton = $E('div', {'class': 'right-ui-button right-calendar-prev-button',
+        html: '&lsaquo;', title: this.options.i18n.Prev
+      }).onClick(this.prev.bind(this)).insertTo(this.element);
+    this.nextButton = $E('div', {'class': 'right-ui-button right-calendar-next-button',
+        html: '&rsaquo;', title: this.options.i18n.Next
+      }).onClick(this.next.bind(this)).insertTo(this.element);
   },
   
   // builds a month block
@@ -127,6 +136,31 @@ Calendar.include({
         '</tbody>'
       )
     ]);
+  },
+  
+  buildTime: function() {
+    this.hours = $E('select');
+    this.minutes = $E('select');
+    
+    (60).times(function(i) {
+      var c = i < 10 ? '0'+i : i;
+      
+      this.hours.insert($E('option', {value: i, html: c}));
+      this.minutes.insert($E('option', {value: i, html: c}));
+    }, this);
+    
+    $E('div', {'class': 'right-calendar-time'}).insertTo(this.element)
+      .insert([this.hours, document.createTextNode(":"), this.minutes])
+      .setStyle('display: '+(this.options.showTime ? 'block' : 'none'));
+  },
+  
+  buildButtons: function() {
+    this.nowButton = $E('div', {'class': 'right-ui-button right-calendar-now-button', html: this.options.i18n.Now});
+    this.doneButton = $E('div', {'class': 'right-ui-button right-calendar-done-button', html: this.options.i18n.Done});
+    
+    $E('div', {'class': 'right-ui-buttons right-calendar-buttons'})
+      .insert([this.doneButton, this.nowButton]).insertTo(this.element)
+      .setStyle('display: '+(this.options.showButtons ? 'block' : 'none'));
   }
 
 });

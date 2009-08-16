@@ -4,8 +4,8 @@
  * Elements have the following structure:
  *
  * <div class="right-calendar">
- *   <div class="right-calendar-next-button">&lsaquo;</div>
- *   <div class="right-calendar-prev-button">&rsaquo:</div>
+ *   <div class="right-ui-button right-calendar-next-button">&lsaquo;</div>
+ *   <div class="right-ui-button right-calendar-prev-button">&rsaquo:</div>
  *
  *   <table class="right-calendar-greed">
  *     <tr><td>
@@ -34,9 +34,9 @@
  *     <select></select> : <select></select>
  *   </div>
  *
- *   <div class="right-calendar-buttons">
- *     <input type="button" value="Done" class="right-calendar-done-button" />
- *     <input type="button" value="Now" class="right-calendar-now-button" />
+ *   <div class="right-ui-buttons right-calendar-buttons">
+ *     <input type="button" value="Done" class="right-ui-button right-calendar-done-button" />
+ *     <input type="button" value="Now" class="right-ui-button right-calendar-now-button" />
  *   </div>
  *
  * </div>
@@ -44,6 +44,33 @@
  *
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
+
+*.right-ui-button {
+  display: inline-block;
+* display: inline;
+* zoom: 1;
+  height: 1em;
+  line-height: 1em;
+  padding: .2em .5em;
+  text-align: center;
+  border: 1px solid #CCC;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  cursor: pointer;
+  color: #666;
+  background-color: #FFF;
+}
+*.right-ui-button:hover {
+  color: #222;
+  border-color: #BA8;
+  background-color: #FB6;
+}
+*.right-ui-buttons {
+  margin-top: .5em;
+}
+
+
 div.right-calendar {
   position: absolute;
   border: 1px solid #BBB;
@@ -65,25 +92,9 @@ div.right-calendar-inline {
 div.right-calendar-prev-button, div.right-calendar-next-button {
   position: absolute;
   float: left;
-  height: 1em;
-  line-height: 1em;
   width: 1em;
-  padding: .1em .3em;
-  text-align: center;
-  border: 1px solid #CCC;
-  border-radius: .2em;
-  -moz-border-radius: .2em;
-  -webkit-border-radius: .2em;
-  cursor: pointer;
-  color: #666;
-  background-color: #FFF;
+  padding: .15em .4em;
 }
-div.right-calendar-prev-button:hover, div.right-calendar-next-button:hover {
-  color: #222;
-  border-color: #BA8;
-  background-color: #FB6;
-}
-
 div.right-calendar-next-button {
   right: .5em;
 }
@@ -139,4 +150,15 @@ div.right-calendar-month table td.right-calendar-day-selected {
   background-color: #FB6;
   border-color: #BA8;
   color: brown;
+}
+
+div.right-calendar-time {
+  text-align: center;
+}
+div.right-calendar-time select {
+  margin: 0 .4em;
+}
+
+div.right-calendar-done-button {
+  float: right;
 }
