@@ -72,6 +72,20 @@
       </script>
     </p>
     
+    <h2>With Dates Range</h2>
+    <p>
+      <div id="with-dates-range"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var min_date = new Date();
+        var max_date = new Date();
+        min_date.setMonth(min_date.getMonth() - 1);
+        max_date.setMonth(max_date.getMonth() + 1);
+        new Calendar({minDate: min_date, maxDate: max_date}).insertTo('with-dates-range');
+      // ]]>
+      </script>
+    </p>
+    
     <h2>Assigned To The Input Element</h2>
     <p>
       <input type="text" id="some-input" />

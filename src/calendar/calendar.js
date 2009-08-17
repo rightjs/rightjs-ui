@@ -64,20 +64,29 @@ var Calendar = new Class(Observer, {
   setOptions: function(options) {
     this.$super(options);
     
+    // merging the i18n tables
     this.options.i18n = {};
     for (var key in this.constructor.i18n) {
       this.options.i18n[key] = isArray(this.constructor.i18n[key]) ? this.constructor.i18n[key].clone() : this.constructor.i18n[key];
     }
     this.options.i18n = Object.merge(this.options.i18n, options||{});
     
+    // defining the current days sequence
     this.options.dayNames = this.options.i18n.dayNamesMin;
-    
     if (this.options.firstDay) {
       this.options.dayNames.push(this.options.dayNames.shift());
     }
     
+    // the monthes table cleaning up
     if (!isArray(this.options.numberOfMonth)) {
       this.options.numberOfMonth = [this.options.numberOfMonth, 1];
+    }
+    
+    // min/max dates preprocessing
+    if (this.options.minDate) this.options.minDate = new Date(this.options.minDate);
+    if (this.options.maxDate) {
+      this.options.maxDate = new Date(this.options.maxDate);
+      this.options.maxDate.setDate(this.options.maxDate.getDate() + 1);
     }
     
     return this;

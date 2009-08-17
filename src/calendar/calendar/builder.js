@@ -6,7 +6,7 @@
 Calendar.include({
   
 // protected
-
+  
   // updates the calendar view
   update: function(date) {
     var date = new Date(date || this.date);
@@ -20,6 +20,8 @@ Calendar.include({
       
       this.updateMonth(monthes.shift(), month_date);
     }
+    
+    this.updateNextPrevMonthButtons(date, monthes_num);
     
     if (this.options.showTime) {
       this.hours.value = date.getHours();
@@ -64,6 +66,42 @@ Calendar.include({
     }
     
     element.first('div.right-calendar-month-caption').update(this.options.i18n.monthNames[date.getMonth()]+" "+date.getFullYear());
+  },
+  
+  updateNextPrevMonthButtons: function(date, monthes_num) {
+    if (this.options.minDate) {
+      var beginning = new Date(date.getFullYear(),0,1,0,0,0);
+      beginning.setMonth(date.getMonth() - (monthes_num - monthes_num/2).ceil());
+      
+      var min_date = new Date(this.options.minDate.getFullYear(), this.options.minDate.getMonth(), 1, 0,0,0);
+      
+      this.hasPrevMonth = beginning >= min_date;
+    } else {
+      this.hasPrevMonth = true;
+    }
+    
+    if (this.options.maxDate) {
+      var end = new Date(date);
+      var max_date = new Date(this.options.maxDate);
+      [end, max_date].each(function(date) {
+        date.setDate(32);
+        date.setMonth(date.getMonth() - 1);
+        date.setDate(32 - date.getDate());
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+      });
+      
+      this.hasNextMonth = end < max_date;
+    } else {
+      this.hasNextMonth = true;
+    }
+    
+    
+    
+    this.nextButton[this.hasNextMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
+    this.prevButton[this.hasPrevMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
   },
 
   // builds the calendar

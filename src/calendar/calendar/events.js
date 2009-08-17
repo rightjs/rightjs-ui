@@ -22,7 +22,10 @@ Calendar.include({
    */
   next: function() {
     this.prevDate = new Date(this.prevDate || this.date);
-    this.prevDate.setMonth(this.prevDate.getMonth() + 1);
+    
+    if (this.hasNextMonth) {
+      this.prevDate.setMonth(this.prevDate.getMonth() + 1);
+    }
     return this.update(this.prevDate);
   },
   
@@ -33,7 +36,10 @@ Calendar.include({
    */
   prev: function() {
     this.prevDate = new Date(this.prevDate || this.date);
-    this.prevDate.setMonth(this.prevDate.getMonth() - 1);
+    
+    if (this.hasPrevMonth) {
+      this.prevDate.setMonth(this.prevDate.getMonth() - 1);
+    }
     return this.update(this.prevDate);
   },
 // protected

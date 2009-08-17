@@ -66,6 +66,12 @@
   border-color: #BA8;
   background-color: #FB6;
 }
+*.right-ui-button-disabled, *.right-ui-button-disabled:hover {
+  color: #888;
+  background: #EEE;
+  border-color: #CCC;
+  cursor: default;
+}
 *.right-ui-buttons {
   margin-top: .5em;
 }
@@ -151,7 +157,12 @@ div.right-calendar-month table td.right-calendar-day-selected {
   background-color: #FB6;
   border-color: #BA8;
   color: brown;
-  
+}
+div.right-calendar-month table td.right-calendar-day-disabled {
+  color: #888;
+  background: #EEE;
+  border-color: #CCC;
+  cursor: default;
 }
 
 div.right-calendar-time {
