@@ -85,6 +85,23 @@
       </script>
     </p>
     
+    <h2>Assigned To A Date-Time Field And Has Buttons</h2>
+    <p>
+      <input type="text" id="date-time-input" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({showTime: true, showButtons: true}).assignTo('date-time-input');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>With Auto Discovery Fields</h2>
+    <p>
+      <input type="text" rel="calendar" />
+      <input type="text" id="input-with-rel" />
+      <img src="" style="padding: 0 9px; margin-left: .5em; border:1px solid gray;cursor:pointer" rel="calendar[input-with-rel]" />
+    </p>
+    
     <h2>Just Some Text To Make The Page Long Enough</h2>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

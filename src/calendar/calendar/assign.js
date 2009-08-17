@@ -23,7 +23,7 @@ Calendar.include({
     if (trigger) {
       trigger.onClick(function(e) {
         e.stop();
-        this.toggleAt(input.focus());
+        this.showAt(input.focus());
       }.bind(this));
     } else {
       input.on({
@@ -65,7 +65,7 @@ Calendar.include({
       top: (dims.top + dims.height)+'px'
     }).insertTo(document.body);
       
-    return this.show();
+    return this.hideOthers().show();
   },
   
   /**
@@ -80,6 +80,21 @@ Calendar.include({
     } else {
       this.showAt(input);
     }
+    return this;
+  },
+  
+// protected
+
+  // hides all the other calendars on the page
+  hideOthers: function() {
+    $$('div.right-calendar').each(function(element) {
+      if (!element.hasClass('right-calendar-inline')) {
+        if (element != this.element) {
+          element.hide();
+        }
+      }
+    });
+    
     return this;
   }
 });
