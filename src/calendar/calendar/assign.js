@@ -48,9 +48,14 @@ Calendar.include({
     this.setDate(Date.parse(element.value) || new Date());
     
     // RightJS < 1.4.1 bug handling
-    if (RightJS.version.replace('.', '').toInt() < 141 && Browser.WebKit) {
-      dims.left += document.body.scrolls().x;
-      dims.top  += document.body.scrolls().y;
+    if (RightJS.version.replace('.', '').toInt() < 141) {
+      if (Browser.WebKit) {
+        dims.left += document.body.scrolls().x;
+        dims.top  += document.body.scrolls().y;
+      } else if (Browser.Konqueror) {
+        dims.left = element.offsetLeft;
+        dims.top  = element.offsetTop;
+      }
     }
     
     this.element.setStyle({
