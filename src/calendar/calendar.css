@@ -166,5 +166,6 @@ div.right-calendar-buttons div.right-ui-button {
 }
 
 div.right-calendar-done-button {
-  float: right;
+  position: absolute;
+  right: .5em;
 }

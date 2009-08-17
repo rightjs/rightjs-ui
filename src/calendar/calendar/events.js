@@ -56,8 +56,10 @@ Calendar.include({
     }, this);
     
     // connecting the bottom buttons
-    this.nowButton.onClick(this.setDate.bind(this, new Date()));
-    this.doneButton.onClick(this.done.bind(this));
+    if (this.nowButton) {
+      this.nowButton.onClick(this.setDate.bind(this, new Date()));
+      this.doneButton.onClick(this.done.bind(this));
+    }
     
     // blocking all the events from the element
     this.element.onClick(function(e) {e.stop();});

@@ -18,10 +18,15 @@ Calendar.include({
    * @return Calendar this
    */
   assignTo: function(input, trigger) {
-    if ($(trigger)) {
-      trigger.onClick(this.toggleAt.bind(this, input));
+    var input = $(input), trigger = $(trigger);
+    
+    if (trigger) {
+      trigger.onClick(function(e) {
+        e.stop();
+        this.toggleAt(input.focus());
+      }.bind(this));
     } else {
-      $(input).on({
+      input.on({
         focus: this.showAt.bind(this, input),
         click: function(e) { e.stop(); }
       });
@@ -39,9 +44,21 @@ Calendar.include({
    * @return Calendar this
    */
   showAt: function(element) {
-    this.setDate(Date.parse($(element).value) || new Date());
+    var element = $(element), dims = element.dimensions();
+    this.setDate(Date.parse(element.value) || new Date());
     
-    this.element.setStyle('position:absolute').insertTo(element, 'after');
+    // RightJS < 1.4.1 bug handling
+    if (RightJS.version.replace('.', '').toInt() < 141 && Browser.WebKit) {
+      dims.left += document.body.scrolls().x;
+      dims.top  += document.body.scrolls().y;
+    }
+    
+    this.element.setStyle({
+      position: 'absolute',
+      margin: '0',
+      left: (dims.left)+'px',
+      top: (dims.top + dims.height)+'px'
+    }).insertTo(document.body);
       
     return this.show();
   },
@@ -53,7 +70,7 @@ Calendar.include({
    * @return Calendar this
    */
   toggleAt: function(input) {
-    if (this.element.visible()) {
+    if (this.element.parentNode && this.element.visible()) {
       this.hide();
     } else {
       this.showAt(input);

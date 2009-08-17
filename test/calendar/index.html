@@ -22,8 +22,8 @@
       Some calendar use-cases
     </p>
     
+    <h2>Single</h2>
     <p>
-      <h2>Single</h2>
       <div id="single"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -31,8 +31,9 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>Three In A Row</h2>
     <p>
-      <h2>Three In A Row</h2>
       <div id="three"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -40,8 +41,9 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>Greed</h2>
     <p>
-      <h2>Greed</h2>
       <div id="greed"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -49,8 +51,9 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>With Time</h2>
     <p>
-      <h2>With Time</h2>
       <div id="with-time"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -58,8 +61,9 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>With Buttons</h2>
     <p>
-      <h2>With Buttons</h2>
       <div id="with-buttons"></div>
       <script type="text/javascript">
       // <![CDATA[
@@ -67,12 +71,16 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>Assigned To The Input Element</h2>
     <p>
-      <h2>Assigned To The Input Element</h2>
       <input type="text" id="some-input" />
+      <input type="text" id="input-with-image" />
+      <img src="" style="padding: 0 9px; margin-left: .5em; border:1px solid gray;cursor:pointer" id="input-image" />
       <script type="text/javascript">
       // <![CDATA[
         new Calendar().assignTo('some-input');
+        new Calendar().assignTo('input-with-image', 'input-image');
       // ]]>
       </script>
     </p>

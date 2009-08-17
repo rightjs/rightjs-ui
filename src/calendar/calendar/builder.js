@@ -21,8 +21,10 @@ Calendar.include({
       this.updateMonth(monthes.shift(), month_date);
     }
     
-    this.hours.value = date.getHours();
-    this.minutes.value = date.getMinutes();
+    if (this.options.showTime) {
+      this.hours.value = date.getHours();
+      this.minutes.value = date.getMinutes();
+    }
     
     return this;
   },
@@ -69,10 +71,11 @@ Calendar.include({
     this.buildSwaps();
     
     // building the calendars greed
-    var greed = $E('table', {'class': 'right-calendar-greed'}).insertTo(this.element);
+    var greed = tbody = $E('table', {'class': 'right-calendar-greed'}).insertTo(this.element);
+    if (Browser.OLD) tbody = $E('tbody').insertTo(greed);
     
     for (var y=0; y < this.options.numberOfMonth[1]; y++) {
-      var row   = $E('tr').insertTo(greed);
+      var row   = $E('tr').insertTo(tbody);
       for (var x=0; x < this.options.numberOfMonth[0]; x++) {
         $E('td').insertTo(row).insert(this.buildMonth());
       }
@@ -108,6 +111,8 @@ Calendar.include({
   
   // builds the time selection block
   buildTime: function() {
+    if (!this.options.showTime) return;
+    
     this.hours = $E('select');
     this.minutes = $E('select');
     
@@ -119,18 +124,18 @@ Calendar.include({
     }, this);
     
     $E('div', {'class': 'right-calendar-time'}).insertTo(this.element)
-      .insert([this.hours, document.createTextNode(":"), this.minutes])
-      .setStyle('display: '+(this.options.showTime ? 'block' : 'none'));
+      .insert([this.hours, document.createTextNode(":"), this.minutes]);
   },
   
   // builds the bottom buttons block
   buildButtons: function() {
+    if (!this.options.showButtons) return;
+    
     this.nowButton = $E('div', {'class': 'right-ui-button right-calendar-now-button', html: this.options.i18n.Now});
     this.doneButton = $E('div', {'class': 'right-ui-button right-calendar-done-button', html: this.options.i18n.Done});
     
     $E('div', {'class': 'right-ui-buttons right-calendar-buttons'})
-      .insert([this.doneButton, this.nowButton]).insertTo(this.element)
-      .setStyle('display: '+(this.options.showButtons ? 'block' : 'none'));
+      .insert([this.doneButton, this.nowButton]).insertTo(this.element);
   }
 
 });
