@@ -45,7 +45,7 @@ Calendar.include({
    */
   showAt: function(element) {
     var element = $(element), dims = element.dimensions();
-    this.setDate(this.parse(element.value) || new Date());
+    this.setDate(this.parse(element.value));
     
     // RightJS < 1.4.1 bug handling
     if (RightJS.version.replace('.', '').toInt() < 141) {
@@ -66,8 +66,8 @@ Calendar.include({
     }).insertTo(document.body);
     
     this.stopObserving('select').stopObserving('done');
-    this.on(this.showButtons ? 'done' : 'select', function(date) {
-      element.value = this.format(date);
+    this.on(this.doneButton ? 'done' : 'select', function() {
+      element.value = this.format();
     }.bind(this));
       
     return this.hideOthers().show();

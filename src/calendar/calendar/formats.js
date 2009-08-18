@@ -40,10 +40,10 @@ Calendar.include({
       
     } else if (isString(string) && string) {
       var tpl = RegExp.escape(this.options.format);
-      var holders = tpl.match(/(^|[^%])%[a-z]/ig).map('match', /[a-z]$/i).map('first');
-      var re  = new RegExp('^'+tpl.replace(/(^|[^%])(%[a-z])/ig, '$1(.+?)')+'$');
+      var holders = tpl.match(/%[a-z]/ig).map('match', /[a-z]$/i).map('first').without('%');
+      var re  = new RegExp('^'+tpl.replace(/%p/i, '(pm|PM|am|AM)').replace(/(%[a-z])/ig, '(.+?)')+'$');
       
-      var match = string.match(re);
+      var match = string.trim().match(re);
       
       if (match) {
         match.shift();
@@ -63,7 +63,7 @@ Calendar.include({
             switch(key) {
               case 'd': 
               case 'e': date   = value; break;
-              case 'm': month  = value; break;
+              case 'm': month  = value-1; break;
               case 'y': 
               case 'Y': year   = value; break;
               case 'H': 
@@ -77,7 +77,10 @@ Calendar.include({
         }
         
         // converting 1..12am|pm into 0..23 hours marker
-        if (meridian) hour = (meridian == 'pm' ? hour + 12 : hour) - 1;
+        if (meridian) {
+          hour = hour == 12 ? 0 : hour;
+          hour = (meridian == 'pm' ? hour + 12 : hour);
+        }
         
         date = new Date(year, month, date, hour, minute, second);
       }
@@ -89,35 +92,37 @@ Calendar.include({
   },  
   
   /**
-   * Formats the given date into a string depend on the current format
+   * Formats the current date into a string depend on the current or given format
    *
-   * @param Data data
+   * @param String optional format
    * @return String formatted data
    */
-  format: function(date) {
-    var i18n      = this.options.i18n;
-    var day_num   = date.getDay();
-    var month_num = date.getMonth();
-    var date_num  = date.getDate();
-    var year      = date.getFullYear();
-    var hour      = date.getHours();
-    var minute    = date.getMinutes();
-    var second    = date.getSeconds();
+  format: function(format) {
+    var i18n   = this.options.i18n;
+    var day    = this.date.getDay();
+    var month  = this.date.getMonth();
+    var date   = this.date.getDate();
+    var year   = this.date.getFullYear();
+    var hour   = this.date.getHours();
+    var minute = this.date.getMinutes();
+    var second = this.date.getSeconds();
+    
+    var hour_ampm = (hour == 0 ? 12 : hour < 13 ? hour : hour - 12);
     
     var values    = {
-      a: i18n.dayNamesShort[day_num],
-      A: i18n.dayNames[day_num],
-      b: i18n.monthNamesShort[month_num],
-      B: i18n.monthNames[month_num],
-      d: (date_num < 10 ? '0' : '') + date_num,
-      e: ''+date_num,
-      m: (month_num < 9 ? '0' : '') + (month_num+1),
+      a: i18n.dayNamesShort[day],
+      A: i18n.dayNames[day],
+      b: i18n.monthNamesShort[month],
+      B: i18n.monthNames[month],
+      d: (date < 10 ? '0' : '') + date,
+      e: ''+date,
+      m: (month < 9 ? '0' : '') + (month+1),
       y: (''+year).substring(2,4),
       Y: ''+year,
       H: (hour < 10 ? '0' : '')+ hour,
       k: '' + hour,
-      I: '' + ((hour < 12 ? hour : hour - 11)+1),
-      l: ((hour < 9 || (hour > 11 && hour < 21)) ? '0' : '') + ((hour < 12 ? hour : hour - 11)+1),
+      I: (hour > 0 && (hour < 10 || (hour > 12 && hour < 22)) ? '0' : '') + hour_ampm,
+      l: '' + hour_ampm,
       p: hour < 12 ? 'AM' : 'PM',
       P: hour < 12 ? 'am' : 'pm',
       M: (minute < 10 ? '0':'')+minute,
@@ -125,7 +130,7 @@ Calendar.include({
       '%': '%'
     };
     
-    var result = this.options.format;
+    var result = format || this.options.format;
     for (var key in values) {
       result = result.replace('%'+key, values[key]);
     }

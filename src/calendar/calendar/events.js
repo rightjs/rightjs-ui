@@ -16,6 +16,15 @@ Calendar.include({
   },
   
   /**
+   * Covers the 'done' event fire
+   *
+   * @return Calendar this
+   */
+  done: function() {
+    return this.fire('done', this.date).hide();
+  },
+  
+  /**
    * Switches to one month forward
    *
    * @return Calendar this
@@ -56,10 +65,16 @@ Calendar.include({
           var prev = this.element.first('.right-calendar-day-selected');
           if (prev) prev.removeClass('right-calendar-day-selected');
           cell.addClass('right-calendar-day-selected');
-          this.select(cell.date);
+          this.setDay(cell.date);
         }
       }.bind(this));
     }, this);
+    
+    // connecting the time picker events
+    if (this.hours) {
+      this.hours.on('change', this.setHour.bind(this));
+      this.minutes.on('change', this.setMinute.bind(this));
+    }
     
     // connecting the bottom buttons
     if (this.nowButton) {
@@ -71,5 +86,24 @@ Calendar.include({
     this.element.onClick(function(e) {e.stop();});
     
     return this;
+  },
+  
+  // sets the date without nucking the time
+  setDay: function(date) {
+    this.date.setYear(date.getFullYear());
+    this.date.setMonth(date.getMonth());
+    this.date.setDate(date.getDate());
+    return this.select(this.date);
+  },
+  
+  setHour: function() {
+    this.date.setHours(this.hours.value);
+    return this.select(this.date);
+  },
+  
+  setMinute: function() {
+    this.date.setMinutes(this.minutes.value);
+    return this.select(this.date);
   }
+  
 });

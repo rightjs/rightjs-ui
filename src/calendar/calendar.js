@@ -87,7 +87,7 @@ var Calendar = new Class(Observer, {
     }
     
     // format catching up
-    this.options.format = this.constructor.Formats[this.options.format] || this.options.format;
+    this.options.format = (this.constructor.Formats[this.options.format] || this.options.format).trim();
     
     return this;
   },

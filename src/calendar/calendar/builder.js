@@ -157,7 +157,7 @@ Calendar.include({
     (60).times(function(i) {
       var c = i < 10 ? '0'+i : i;
       
-      this.hours.insert($E('option', {value: i, html: c}));
+      if (i < 24) this.hours.insert($E('option', {value: i, html: c}));
       this.minutes.insert($E('option', {value: i, html: c}));
     }, this);
     
