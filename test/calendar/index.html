@@ -1,13 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>RightJS Lightbox Test</title>
+    <title>RightJS Calendar Test</title>
     <link href="../../src/calendar/calendar.css" media="screen" rel="stylesheet" type="text/css" />
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar/builder.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar/events.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar/assign.js" type="text/javascript"></script>
+    <script src="../../src/calendar/calendar/formats.js" type="text/javascript"></script>
     <script src="../../src/calendar/hooker.js" type="text/javascript"></script>
     <style>
     html, body {
@@ -104,7 +105,7 @@
       <input type="text" id="date-time-input" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({showTime: true, showButtons: true}).assignTo('date-time-input');
+        new Calendar({format: "%Y-%m-%d %H:%M", showTime: true, showButtons: true}).assignTo('date-time-input');
       // ]]>
       </script>
     </p>

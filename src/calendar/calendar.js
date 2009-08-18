@@ -9,7 +9,7 @@ var Calendar = new Class(Observer, {
     EVENTS: $w('show hide select done'),
     
     Options: {
-      format:        'ISO_8601',
+      format:        'ISO', // a key out of the predefined formats or a format string
       showTime:      false,
       showButtons:   false,
       minDate:       null,
@@ -20,13 +20,10 @@ var Calendar = new Class(Observer, {
     },
     
     Formats: {
-      ISO_8601:  'yyyy-mm-dd',
-      RFC_822:   'D, d M yy',
-      RFC_850:   'DD, dd-M-yy',
-      RFC_1036:  'D, d M yy',
-      RFC_1123:  'D, d M yyyy',
-      RFC_2822:  'D, d M yyyy',
-      TIMESTAMP: '@'
+      ISO:    '%Y-%m-%d',
+      POSIX:  '%Y/%m/%d',
+      EUR:    '%d-%m-%Y',
+      US:     '%m/%d/%Y'
     },
     
     i18n: {
@@ -83,11 +80,14 @@ var Calendar = new Class(Observer, {
     }
     
     // min/max dates preprocessing
-    if (this.options.minDate) this.options.minDate = new Date(this.options.minDate);
+    if (this.options.minDate) this.options.minDate = this.parse(this.options.minDate);
     if (this.options.maxDate) {
-      this.options.maxDate = new Date(this.options.maxDate);
+      this.options.maxDate = this.parse(this.options.maxDate);
       this.options.maxDate.setDate(this.options.maxDate.getDate() + 1);
     }
+    
+    // format catching up
+    this.options.format = this.constructor.Formats[this.options.format] || this.options.format;
     
     return this;
   },
@@ -99,15 +99,14 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   setDate: function(date) {
-    this.date = new Date(date);
+    this.date = this.parse(date);
     return this.update();
   },
   
   /**
    * Returns the current date on the calendar
    *
-   * @param boolean if true, the result will be in a Date object
-   * @return String formatted date or Date object
+   * @return Date currently selected date on the calendar
    */
   getDate: function() {
     return this.date;
