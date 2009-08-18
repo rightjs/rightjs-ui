@@ -138,9 +138,9 @@ Calendar.include({
     return $E('div', {'class': 'right-calendar-month'}).insert([
       $E('div', {'class': 'right-calendar-month-caption'}),
       $E('table').insert(
-        '<thead>'+
-          '<tr>'+this.options.dayNames.map(function(name) {return '<th>'+name+'</th>';}).join('')+'</tr>'+
-        '</thead><tbody>'+
+        '<thead><tr>'+
+          this.options.dayNames.map(function(name) {return '<th>'+name+'</th>';}).join('')+
+        '</tr></thead><tbody>'+
           '123456'.split('').map(function() {return '<tr><td><td><td><td><td><td><td></tr>'}).join('')+
         '</tbody>'
       )
