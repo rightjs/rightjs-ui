@@ -114,9 +114,11 @@ div.right-calendar-month-caption {
 
 table.right-calendar-greed {
   border-spacing: 0;
+  border: none;
 }
 table.right-calendar-greed td {
   vertical-align: top;
+  border: none;
 }
 
 div.right-calendar-month table {
@@ -126,10 +128,12 @@ div.right-calendar-month table {
   width: 100%;
   margin-top: .2em;
   border-spacing: 1px;
+  border: none;
 }
 div.right-calendar-month table th {
   color: #777;
   text-align: center;
+  border: none;
 }
 
 div.right-calendar-month table td {
