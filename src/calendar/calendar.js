@@ -9,14 +9,14 @@ var Calendar = new Class(Observer, {
     EVENTS: $w('show hide select done'),
     
     Options: {
-      format:        'ISO', // a key out of the predefined formats or a format string
-      showTime:      false,
-      showButtons:   false,
-      minDate:       null,
-      maxDate:       null,
-      firstDay:      1,     // 1 for Monday, 0 for Sunday
-      fxDuration:    200,
-      numberOfMonth: 1      // a number or [x, y] greed definition
+      format:         'ISO', // a key out of the predefined formats or a format string
+      showTime:       false,
+      showButtons:    false,
+      minDate:        null,
+      maxDate:        null,
+      firstDay:       1,     // 1 for Monday, 0 for Sunday
+      fxDuration:     200,
+      numberOfMonths: 1      // a number or [x, y] greed definition
     },
     
     Formats: {
@@ -75,8 +75,8 @@ var Calendar = new Class(Observer, {
     }
     
     // the monthes table cleaning up
-    if (!isArray(this.options.numberOfMonth)) {
-      this.options.numberOfMonth = [this.options.numberOfMonth, 1];
+    if (!isArray(this.options.numberOfMonths)) {
+      this.options.numberOfMonths = [this.options.numberOfMonths, 1];
     }
     
     // min/max dates preprocessing

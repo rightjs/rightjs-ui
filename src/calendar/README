@@ -42,7 +42,7 @@ or alter the Calendar.Options variable to make the changes globally
  * minDate     - the minimum date you can select
  * maxDate     - the maximum date you can select
  * firstDay    - 1 for Monday (default), 0 for Sunday
- * numberOfMonth - a number of month to display (default 1), or a [x,y] monthes greed definition
+ * numberOfMonths - a number of month to display (default 1), or a [x,y] monthes greed definition
  * fxDuration  - the visual effects duration (if Fx is available)
 
 

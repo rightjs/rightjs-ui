@@ -98,8 +98,6 @@ Calendar.include({
       this.hasNextMonth = true;
     }
     
-    
-    
     this.nextButton[this.hasNextMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
     this.prevButton[this.hasPrevMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
   },
@@ -112,9 +110,9 @@ Calendar.include({
     var greed = tbody = $E('table', {'class': 'right-calendar-greed'}).insertTo(this.element);
     if (Browser.OLD) tbody = $E('tbody').insertTo(greed);
     
-    for (var y=0; y < this.options.numberOfMonth[1]; y++) {
+    for (var y=0; y < this.options.numberOfMonths[1]; y++) {
       var row   = $E('tr').insertTo(tbody);
-      for (var x=0; x < this.options.numberOfMonth[0]; x++) {
+      for (var x=0; x < this.options.numberOfMonths[0]; x++) {
         $E('td').insertTo(row).insert(this.buildMonth());
       }
     }

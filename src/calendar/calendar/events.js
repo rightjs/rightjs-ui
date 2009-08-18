@@ -21,7 +21,9 @@ Calendar.include({
    * @return Calendar this
    */
   done: function() {
-    return this.fire('done', this.date).hide();
+    if (!this.element.hasClass('right-calendar-inline'))
+      this.hide();
+    return this.fire('done', this.date);
   },
   
   /**
