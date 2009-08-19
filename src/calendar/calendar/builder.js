@@ -43,7 +43,10 @@ Calendar.include({
     // collecting the elements to update
     var rows  = element.select('tbody tr');
     var cells = rows.shift().select('td');
-    element.select('tbody td').each('update', '').each('setClass', 'right-calendar-day-blank');
+    element.select('tbody td').each(function(td) {
+      td.innerHTML = '';
+      td.className = 'right-calendar-day-blank';
+    });
     
     for (var i=1; i <= days_number; i++) {
       date.setDate(i);
@@ -53,10 +56,11 @@ Calendar.include({
         day_num = day_num ? day_num-1 : 6;
       }
       
-      cells[day_num].update(i+'').setClass(cur_day == (date.getTime() / 86400000).ceil() ? 'right-calendar-day-selected' : '');
+      cells[day_num].innerHTML = ''+i;
+      cells[day_num].className = cur_day == (date.getTime() / 86400000).ceil() ? 'right-calendar-day-selected' : '';
       
       if ((this.options.minDate && this.options.minDate > date) || (this.options.maxDate && this.options.maxDate < date))
-        cells[day_num].setClass('right-calendar-day-disabled');
+        cells[day_num].className = 'right-calendar-day-disabled';
         
       cells[day_num].date = new Date(date);
       
