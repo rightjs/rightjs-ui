@@ -99,7 +99,7 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   setDate: function(date) {
-    this.date = this.parse(date);
+    this.date = this.prevDate = this.parse(date);
     return this.update();
   },
   
