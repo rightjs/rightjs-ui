@@ -48,7 +48,7 @@ Calendar.include({
     this.setDate(this.parse(element.value));
     
     // RightJS < 1.4.1 bug handling
-    if (RightJS.version.replace('.', '').toInt() < 141) {
+    if (RightJS.version < '1.4.1') {
       if (Browser.WebKit) {
         dims.left += document.body.scrolls().x;
         dims.top  += document.body.scrolls().y;

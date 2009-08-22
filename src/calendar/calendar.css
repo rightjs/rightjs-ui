@@ -88,12 +88,16 @@ div.right-calendar {
   -webkit-border-radius: .3em;
   cursor: default;
   background-color: #EEE;
+  -moz-box-shadow: .2em .4em .8em #666;
+  -webkit-box-shadow: .2em .4em .8em #666;
 }
 div.right-calendar-inline {
   position: relative;
   display: inline-block;
   * display: inline;
   * zoom: 1;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 div.right-calendar-prev-button, div.right-calendar-next-button {
