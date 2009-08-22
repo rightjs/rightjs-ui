@@ -1,0 +1,32 @@
+/**
+ * Right Tooltips basic stylesheet
+ *
+ * <div class="right-tooltip">
+ *   <div class="right-tooltip-container"></div>
+ * </div>
+ *
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ */
+
+div.right-tooltip {
+  position: absolute;
+  margin-top: 16pt;
+  margin-left: 2pt;
+  border: 1px solid #DDD;
+  background-color: #FFF8EE;
+  color: #666;
+  font-size: 80%;
+  cursor: default;
+  border-radius: .4em;
+  -moz-border-radius: .4em;
+  -webkit-border-radius: .4em;
+  box-shadow: .4em .4em .4em #AAA;
+  -moz-box-shadow: .4em .4em .4em #AAA;
+  -webkit-box-shadow: .4em .4em .4em #AAA;
+}
+
+div.right-tooltip-container {
+  margin: .6em;
+  border-left: 2px solid brown;
+  padding-left: .5em;
+}

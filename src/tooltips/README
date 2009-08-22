@@ -1,0 +1,29 @@
+Right Tooltip
+=============
+
+The native tooltips feature for RightJS
+
+NOTE: will work both with or without the Fx module
+
+
+Usage
+=====
+
+As any other tooltips just specify the rel="tooltip" attribute on your
+element and the script will automatically hook it up on load
+
+
+Options
+=======
+
+You might alter the following keys of the Tooltip.Options object
+
+ * tags       - tags to check on load, by default '*' - all tags
+ * fxName     - the visual effect name 'fade'
+ * fxDuration - the visual effect duration 400
+ * delay      - the appearance delay 400
+ * idSuffix   - the identified tooltips suffix '-tooltip'
+ 
+
+--
+Copyright (C) 2009 Nikolay V. Nemshilov aka St.

@@ -1,0 +1,54 @@
+#
+# The module building tool
+#
+# Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+#
+
+require 'rake'
+require 'fileutils'
+require File.dirname(__FILE__) + "/../../lib/frontcompiler/init.rb"
+
+TOOLTIPS_VERSION    = '1.0.0'
+TOOLTIPS_BUILD_DIR  = File.dirname(__FILE__) + "/../../build"
+TOOLTIPS_BUILD_NAME = 'right-tooltips'
+
+TOOLTIPS_FILES = %w{
+  tooltip
+  hooker
+}
+
+task :default => :build
+
+desc "Builds the module"
+task :build do
+  puts "\n * Building Tooltips\n"
+  
+  FileUtils.mkdir_p TOOLTIPS_BUILD_DIR
+  
+  # removing the old versions
+  FileUtils.rm "#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}.js"     rescue nil
+  FileUtils.rm "#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-src.js" rescue nil
+  
+  @compiler = FrontCompiler.new
+  
+  @source   = TOOLTIPS_FILES.collect do |filename|
+    File.open("#{filename}.js").read
+  end.join("\n\n")
+  
+  @source << "\n\n#{@compiler.inline_css(File.open('tooltips.css').read)}"
+  
+  @source.gsub! '#{version}', TOOLTIPS_VERSION
+  
+  @header   = File.open("header.js").read
+  
+  # writting files
+  File.open("#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}.js", "w") do |file|
+    file.write @header
+    file.write @compiler.compact_js(@source).create_self_build
+  end
+  
+  File.open("#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-src.js", "w") do |file|
+    file.write @header
+    file.write "\n#{@source}"
+  end
+end
