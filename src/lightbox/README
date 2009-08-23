@@ -82,9 +82,9 @@ There is the an object called 'i18n' in the Lightbox class which contains
 the texts of the titles. If you need to change them, you can do it like this
 
 Lightbox.i18n = {
-  Close: 'Закрыть',
-  Prev:  'Предыдущая',
-  Next:  'Следующая'
+  CloseTitle: 'Закрыть',
+  PrevTitle:  'Предыдущая',
+  NextTitle:  'Следующая'
 };
 
 

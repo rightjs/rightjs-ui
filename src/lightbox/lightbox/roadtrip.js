@@ -20,9 +20,9 @@ Lightbox.include((function() {
       var res = old_build.apply(this, arguments);
       
       this.prevLink = this.E('lightbox-prev-link', this.dialog).onClick(this.showPrev.bind(this))
-        .update('&lsaquo;&lsaquo;&lsaquo;').set('title', Lightbox.i18n.Prev).hide();
+        .update(Lightbox.i18n.PrevText).set('title', Lightbox.i18n.PrevTitle).hide();
       this.nextLink = this.E('lightbox-next-link', this.dialog).onClick(this.showNext.bind(this))
-        .update('&rsaquo;&rsaquo;&rsaquo;').set('title', Lightbox.i18n.Next).hide();
+        .update(Lightbox.i18n.NextText).set('title', Lightbox.i18n.NextTitle).hide();
       
       return res;
     },
