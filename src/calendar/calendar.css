@@ -141,6 +141,7 @@ div.right-calendar-month table {
   width: auto;
   margin-top: .2em;
   border-spacing: 1px;
+  border-collapse: separate;
   border: none;
   background: none;
 }
