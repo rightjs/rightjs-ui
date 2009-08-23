@@ -14,6 +14,7 @@ var Lightbox = new Class({
       endOpacity:      0.8,
       fxDuration:      200,
       hideOnEsc:       true,
+      hideOnOutClick:  true,
       showCloseButton: true,
       blockContent:    false,
       relName:         'lightbox'
@@ -226,6 +227,11 @@ var Lightbox = new Class({
       this.closeButton = this.E('lightbox-close-button', this.dialog)
         .onClick(this.hide.bind(this)).update(Lightbox.i18n.CloseText).set('title', Lightbox.i18n.CloseTitle);
     }
+    
+    if (this.options.hideOnOutClick) {
+      this.locker.onClick(this.hide.bind(this));
+    }
+    
     return this;
   },
   
