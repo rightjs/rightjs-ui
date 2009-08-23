@@ -24,8 +24,10 @@ Calendar.include({
     this.updateNextPrevMonthButtons(date, monthes_num);
     
     if (this.options.showTime) {
-      this.hours.value = date.getHours();
-      this.minutes.value = date.getMinutes();
+      this.hours.value = this.options.timePeriod < 60 ? date.getHours() :
+        (date.getHours()/(this.options.timePeriod/60)).round() * (this.options.timePeriod/60);
+      
+      this.minutes.value = (date.getMinutes() / (this.options.timePeriod % 60)).round() * this.options.timePeriod;
     }
     
     return this;
@@ -156,11 +158,20 @@ Calendar.include({
     this.hours = $E('select');
     this.minutes = $E('select');
     
-    (60).times(function(i) {
+    var minute_options_number = 60 / this.options.timePeriod;
+    
+    (minute_options_number == 0 ? 1 : minute_options_number).times(function(i) {
+      i = i * this.options.timePeriod;
       var c = i < 10 ? '0'+i : i;
-      
-      if (i < 24) this.hours.insert($E('option', {value: i, html: c}));
       this.minutes.insert($E('option', {value: i, html: c}));
+    }, this);
+    
+    var hour_options_number = this.options.timePeriod > 59 ? (24 * 60 / this.options.timePeriod) : 24;
+    
+    (hour_options_number == 0 ? 1 : hour_options_number).times(function(i) {
+      if (this.options.timePeriod > 59) i = (i * this.options.timePeriod / 60).floor();
+      var c = i < 10 ? '0'+i : i;
+      this.hours.insert($E('option', {value: i, html: c}));
     }, this);
     
     $E('div', {'class': 'right-calendar-time'}).insertTo(this.element)

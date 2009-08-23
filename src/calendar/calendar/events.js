@@ -74,8 +74,8 @@ Calendar.include({
     
     // connecting the time picker events
     if (this.hours) {
-      this.hours.on('change', this.setHour.bind(this));
-      this.minutes.on('change', this.setMinute.bind(this));
+      this.hours.on('change', this.setTime.bind(this));
+      this.minutes.on('change', this.setTime.bind(this));
     }
     
     // connecting the bottom buttons
@@ -98,12 +98,8 @@ Calendar.include({
     return this.select(this.date);
   },
   
-  setHour: function() {
+  setTime: function() {
     this.date.setHours(this.hours.value);
-    return this.select(this.date);
-  },
-  
-  setMinute: function() {
     this.date.setMinutes(this.minutes.value);
     return this.select(this.date);
   }

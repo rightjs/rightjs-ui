@@ -17,6 +17,7 @@ var Calendar = new Class(Observer, {
       firstDay:       1,     // 1 for Monday, 0 for Sunday
       fxDuration:     200,
       numberOfMonths: 1,     // a number or [x, y] greed definition
+      timePeriod:     1,     // the timepicker minimal periods (in minutes, might be bigger than 60)
       checkTags:      '*',
       relName:        'calendar'
     },
