@@ -44,6 +44,7 @@ or alter the Calendar.Options variable to make the changes globally
  * firstDay    - 1 for Monday (default), 0 for Sunday
  * numberOfMonths - a number of month to display (default 1), or a [x,y] monthes greed definition
  * fxDuration  - the visual effects duration (if Fx is available)
+ * relName    - name for the rel attribute to be recoginized
 
 
 Formats

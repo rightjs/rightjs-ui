@@ -18,7 +18,8 @@ Options
 
 You might alter the following keys of the Tooltip.Options object
 
- * tags       - tags to check on load, by default '*' - all tags
+ * checkTags  - tags to check on load, by default '*' - all tags
+ * relName    - name for the rel attribute to be recoginized
  * fxName     - the visual effect name 'fade'
  * fxDuration - the visual effect duration 400
  * delay      - the appearance delay 400

@@ -53,8 +53,10 @@ Options
 
 When you instance a new lightbox object, you can pass the following options
 
+ * relName    - name by which Lightbox will search auto discovered elements
  * fxDuration - the visual effects duration (200 ms by default)
  * hideOnEsc  - if set false, won't let the user to close the lightbox by the Esc button
+ * hideOnOutClick  - marker if the lightbox should get hidden by clicking outside of the box
  * showCloseButton - if set false, won't show the close button
  * blockContent - if set true, then all the displayed content will be hovered
                 with a transparent div and won't be clickable.
