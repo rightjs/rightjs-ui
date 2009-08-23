@@ -16,7 +16,9 @@ var Calendar = new Class(Observer, {
       maxDate:        null,
       firstDay:       1,     // 1 for Monday, 0 for Sunday
       fxDuration:     200,
-      numberOfMonths: 1      // a number or [x, y] greed definition
+      numberOfMonths: 1,     // a number or [x, y] greed definition
+      checkTags:      '*',
+      relName:        'calendar'
     },
     
     Formats: {

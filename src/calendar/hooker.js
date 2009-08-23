@@ -5,9 +5,10 @@
  */
 document.onReady(function() {
   var calendar = new Calendar();
+  var rel_id_re = new RegExp(Calendar.Options.relName+'\\[(.+?)\\]');
   
-  $$('*[rel*=calendar]').each(function(element) {
-    var rel_id = element.get('rel').match(/calendar\[(.+?)\]/);
+  $$(Calendar.Options.checkTags+'[rel*='+Calendar.Options.relName+']').each(function(element) {
+    var rel_id = element.get('rel').match(rel_id_re);
     if (rel_id) {
       var input = $(rel_id[1]);
       if (input) {

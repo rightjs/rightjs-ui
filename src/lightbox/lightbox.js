@@ -15,7 +15,8 @@ var Lightbox = new Class({
       fxDuration:      200,
       hideOnEsc:       true,
       showCloseButton: true,
-      blockContent:    false
+      blockContent:    false,
+      relName:         'lightbox'
     },
     
     i18n: {

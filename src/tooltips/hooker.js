@@ -4,7 +4,7 @@
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 document.onReady(function() {
-  $$(Tooltip.Options.tags+'[rel=tooltip]').each(function(element) {
+  $$(Tooltip.Options.checkTags+'[rel='+Tooltip.Options.relName+']').each(function(element) {
     var text = element.get('title') || element.get('alt');
     if (text) {
       new Tooltip(element);

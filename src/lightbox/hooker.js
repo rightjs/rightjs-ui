@@ -11,7 +11,7 @@
  */
 document.onReady(function() {
  // grabbing the singles
- $$('a[rel=lightbox]').each(function(a) {
+ $$('a[rel='+Lightbox.Options.relName+']').each(function(a) {
    a.onClick(function(event) {
      event.stop();
      Lightbox.show(this);
@@ -19,7 +19,7 @@ document.onReady(function() {
  });
 
  // grabbing the roadtrip
- var roadtrip = $$('a[rel="lightbox[roadtrip]"]');
+ var roadtrip = $$('a[rel="'+Lightbox.Options.relName+'[roadtrip]"]');
  roadtrip.each(function(a) {
    a.roadtrip = roadtrip;
    a.onClick(function(event) {

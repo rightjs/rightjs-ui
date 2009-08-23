@@ -10,11 +10,12 @@ var Tooltip = new Class({
   
   extend: {
     Options: {
-      tags:       '*', // tags that should be checked on-load
+      checkTags:  '*', // tags that should be checked on-load
+      relName:    'tooltip',
+      idSuffix:   '-tooltip',
       fxName:     'fade',
       fxDuration: 400,
-      delay:      400,  // the appearance delay
-      idSuffix:   '-tooltip'
+      delay:      400  // the appearance delay
     },
     
     current: null // currently active tooltip reference
