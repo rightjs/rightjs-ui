@@ -31,6 +31,7 @@ task :build do
   
   # removing the old versions
   FileUtils.rm "#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}.js"     rescue nil
+  FileUtils.rm "#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}-min.js"     rescue nil
   FileUtils.rm "#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}-src.js" rescue nil
   
   @compiler = FrontCompiler.new
@@ -49,6 +50,11 @@ task :build do
   File.open("#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}.js", "w") do |file|
     file.write @header
     file.write @compiler.compact_js(@source).create_self_build
+  end
+  
+  File.open("#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}-min.js", "w") do |file|
+    file.write @header
+    file.write @compiler.compact_js(@source)
   end
   
   File.open("#{LIGHTBOX_BUILD_DIR}/#{LIGHTBOX_BUILD_NAME}-src.js", "w") do |file|

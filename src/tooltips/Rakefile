@@ -27,6 +27,7 @@ task :build do
   
   # removing the old versions
   FileUtils.rm "#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}.js"     rescue nil
+  FileUtils.rm "#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-min.js" rescue nil
   FileUtils.rm "#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-src.js" rescue nil
   
   @compiler = FrontCompiler.new
@@ -45,6 +46,11 @@ task :build do
   File.open("#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}.js", "w") do |file|
     file.write @header
     file.write @compiler.compact_js(@source).create_self_build
+  end
+  
+  File.open("#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-min.js", "w") do |file|
+    file.write @header
+    file.write @compiler.compact_js(@source)
   end
   
   File.open("#{TOOLTIPS_BUILD_DIR}/#{TOOLTIPS_BUILD_NAME}-src.js", "w") do |file|
