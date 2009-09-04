@@ -60,6 +60,7 @@ Lightbox.include((function() {
     
     // xhr requests loading specific lock
     loadLock: function() {
+      this.loading = true;
       this.lock().bodyLock.addClass('lightbox-body-lock-loading');
       return this;
     },

@@ -114,6 +114,7 @@ var Lightbox = new Class({
     if (no_fx === true) {
       this.body.setStyle(body_style);
       this.dialog.setStyle(dialog_style);
+      this.loading = false;
     } else {
       this.resizeFx(body_style, dialog_style);
     }
@@ -150,6 +151,7 @@ var Lightbox = new Class({
     this.unlock().content.show('fade', {
       duration: this.options.fxDuration/2
     });
+    this.loading = false;
   },
   
   // returns the content size hash
@@ -177,13 +179,7 @@ var Lightbox = new Class({
       this.locker.resize(window.sizes());
         
       this.element.style.position = 'absolute';
-        
-      var reposition_locker = function() {
-        this.element.style.top = document.documentElement.scrollTop + 'px';
-      }.bind(this);
-        
-      window.attachEvent('onscroll', reposition_locker);
-      reposition_locker();
+      this.element.style.top = document.documentElement.scrollTop + 'px';
     }
     
     return this.resize(false, true);
@@ -231,6 +227,10 @@ var Lightbox = new Class({
     if (this.options.hideOnOutClick) {
       this.locker.onClick(this.hide.bind(this));
     }
+    
+    document.on('mousewheel', function(e) { e.stop();
+      this[(e.detail || -e.wheelDelta) < 0 ? 'showPrev' : 'showNext']();
+    }.bind(this));
     
     return this;
   },
