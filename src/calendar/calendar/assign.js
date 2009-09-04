@@ -28,7 +28,11 @@ Calendar.include({
     } else {
       input.on({
         focus: this.showAt.bind(this, input),
-        click: function(e) { e.stop(); }
+        click: function(e) { e.stop(); },
+        keyDown: function(e) {
+          if (e.keyCode == 9 && this.element.visible())
+            this.hide();
+        }.bind(this)
       });
     }
     
