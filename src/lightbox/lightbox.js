@@ -228,8 +228,11 @@ var Lightbox = new Class({
       this.locker.onClick(this.hide.bind(this));
     }
     
-    document.on('mousewheel', function(e) { e.stop();
-      this[(e.detail || -e.wheelDelta) < 0 ? 'showPrev' : 'showNext']();
+    document.on('mousewheel', function(e) {
+      if (this.element.visible()) {
+        e.stop();
+        this[(e.detail || -e.wheelDelta) < 0 ? 'showPrev' : 'showNext']();
+      }
     }.bind(this));
     
     return this;
