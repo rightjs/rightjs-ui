@@ -76,6 +76,9 @@ Calendar.include({
     if (this.hours) {
       this.hours.on('change', this.setTime.bind(this));
       this.minutes.on('change', this.setTime.bind(this));
+      if (!this.options.twentyFourHour) {
+        this.meridian.on('change', this.setTime.bind(this));
+      }
     }
     
     // connecting the bottom buttons
@@ -99,8 +102,11 @@ Calendar.include({
   },
   
   setTime: function() {
-    this.date.setHours(this.hours.value);
+    var hour = new Number(this.hours.value)
+      + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0);
+    this.date.setHours(hour);
     this.date.setMinutes(this.minutes.value);
+
     return this.select(this.date);
   }
   

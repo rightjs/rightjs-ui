@@ -22,7 +22,7 @@
     <p>
       Some calendar use-cases
     </p>
-    
+
     <h2>Single</h2>
     <p>
       <div id="single"></div>
@@ -146,7 +146,48 @@
       // ]]>
       </script>
     </p>
-    
+
+    <h2>With Meridian Dropdown Due to 12 Hour Format</h2>
+    <p>
+      12 hour format, with a meridian dropdown menu that is sensitive to the time format that was supplied to the
+      <code>Calendar</code> options.  Note that the time should reflect the time that the page was loaded.
+    </p>
+    <p>
+      <input type="text" id="meridian-dropdown-1" value="Using %Y-%m-%d %I:%M %p" size="30" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({format: "%Y-%m-%d %I:%M %p", showTime: true}).assignTo("meridian-dropdown-1");
+      // ]]>
+      </script>
+      <input type="text" id="meridian-dropdown-2" value="Using %Y-%m-%d %I:%M %P" size="30" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({format: "%Y-%m-%d %I:%M %P", showTime: true}).assignTo("meridian-dropdown-2");
+      // ]]>
+      </script>
+    </p>
+
+    <h2>Future Time Period</h2>
+    <p>
+      Showing calendars configured with different time periods.  The calendar should automatically pick
+      the time period that is equivalent to now or as close as possible in the future.
+    </p>
+    <p>
+      <input type="text" id="timeperiod-dropdown-1" value="Using %Y-%m-%d %I:%M %p" size="30" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({format: "%Y-%m-%d %I:%M %p", showTime: true, timePeriod: 15}).assignTo("timeperiod-dropdown-1");
+      // ]]>
+      </script>
+
+      <input type="text" id="timeperiod-dropdown-2" value="Using %Y-%m-%d %I:%M %P" size="30" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({format: "%Y-%m-%d %I:%M %P", showTime: true, timePeriod: 60}).assignTo("timeperiod-dropdown-2");
+      // ]]>
+      </script>
+
+    </p>
     
     <h2>Just Some Text To Make The Page Long Enough</h2>
     <p>

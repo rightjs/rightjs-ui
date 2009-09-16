@@ -19,7 +19,8 @@ var Calendar = new Class(Observer, {
       numberOfMonths: 1,     // a number or [x, y] greed definition
       timePeriod:     1,     // the timepicker minimal periods (in minutes, might be bigger than 60)
       checkTags:      '*',
-      relName:        'calendar'
+      relName:        'calendar',
+      twentyFourHour: true
     },
     
     Formats: {
@@ -91,7 +92,10 @@ var Calendar = new Class(Observer, {
     
     // format catching up
     this.options.format = (this.constructor.Formats[this.options.format] || this.options.format).trim();
-    
+    if (this.options.timePeriod < 60) {
+      this.inspectFormat(this.options);
+    }
+
     return this;
   },
   

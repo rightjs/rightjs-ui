@@ -189,6 +189,9 @@ div.right-calendar-month table td.right-calendar-day-disabled {
 }
 
 div.right-calendar-time {
+  border-top: 1px solid #ccc;
+  margin-top: .3em;
+  padding-top: .5em;
   text-align: center;
 }
 div.right-calendar-time select {
