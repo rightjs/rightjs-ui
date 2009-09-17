@@ -10,7 +10,7 @@ var Calendar = new Class(Observer, {
     
     Options: {
       format:         'ISO', // a key out of the predefined formats or a format string
-      showTime:       false,
+      showTime:       null,  // null for automatic, or true|false to enforce
       showButtons:    false,
       minDate:        null,
       maxDate:        null,
@@ -20,7 +20,7 @@ var Calendar = new Class(Observer, {
       timePeriod:     1,     // the timepicker minimal periods (in minutes, might be bigger than 60)
       checkTags:      '*',
       relName:        'calendar',
-      twentyFourHour: true
+      twentyFourHour: null   // null for automatic, or true|false to enforce
     },
     
     Formats: {
@@ -92,8 +92,20 @@ var Calendar = new Class(Observer, {
     
     // format catching up
     this.options.format = (this.constructor.Formats[this.options.format] || this.options.format).trim();
-    if (this.options.timePeriod < 60) {
-      this.inspectFormat(this.options);
+    
+    // setting up the showTime option
+    if (this.options.showTime === null) {
+      this.options.showTime = this.options.format.search(/%[HkIl]/) > -1;
+    }
+    
+    // setting up the 24-hours format
+    if (this.options.twentyFourHour === null) {
+      this.options.twentyFourHour = this.options.format.search(/%[Il]/) < 0;
+    }
+    
+    // enforcing the 24 hours format if the time threshold is some weird number
+    if (this.options.timePeriod > 60 && 12 % (this.options.timePeriod/60).ceil()) {
+      this.options.twentyFourHour = true;
     }
 
     return this;

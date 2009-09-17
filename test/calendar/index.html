@@ -63,6 +63,15 @@
       </script>
     </p>
     
+    <p>
+      <div id="with-time-ampm"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Calendar({showTime: true, twentyFourHour: false}).insertTo('with-time-ampm');
+      // ]]>
+      </script>
+    </p>
+    
     <h2>With Buttons</h2>
     <p>
       <div id="with-buttons"></div>
@@ -105,7 +114,7 @@
       <input type="text" id="date-time-input" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %H:%M", showTime: true, showButtons: true}).assignTo('date-time-input');
+        new Calendar({format: "%Y-%m-%d %H:%M", showButtons: true}).assignTo('date-time-input');
       // ]]>
       </script>
     </p>
@@ -122,7 +131,7 @@
       <input type="text" id="fancy-formatting" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%B %d, %Y %I:%M%P", showTime: true}).assignTo('fancy-formatting');
+        new Calendar({format: "%B %d, %Y %I:%M%P"}).assignTo('fancy-formatting');
       // ]]>
       </script>
     </p>
@@ -132,7 +141,7 @@
       <input type="text" id="only-15-minutes" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %H:%M", showTime: true, timePeriod: 15}).assignTo('only-15-minutes');
+        new Calendar({format: "%Y-%m-%d %H:%M", timePeriod: 15}).assignTo('only-15-minutes');
       // ]]>
       </script>
     </p>
@@ -142,7 +151,7 @@
       <input type="text" id="only-3-hours" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %H:%M", showTime: true, timePeriod: 180}).assignTo('only-3-hours');
+        new Calendar({format: "%Y-%m-%d %H:%M", timePeriod: 180}).assignTo('only-3-hours');
       // ]]>
       </script>
     </p>
@@ -156,13 +165,13 @@
       <input type="text" id="meridian-dropdown-1" value="Using %Y-%m-%d %I:%M %p" size="30" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %I:%M %p", showTime: true}).assignTo("meridian-dropdown-1");
+        new Calendar({format: "%Y-%m-%d %I:%M %p"}).assignTo("meridian-dropdown-1");
       // ]]>
       </script>
       <input type="text" id="meridian-dropdown-2" value="Using %Y-%m-%d %I:%M %P" size="30" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %I:%M %P", showTime: true}).assignTo("meridian-dropdown-2");
+        new Calendar({format: "%Y-%m-%d %I:%M %P"}).assignTo("meridian-dropdown-2");
       // ]]>
       </script>
     </p>
@@ -176,14 +185,14 @@
       <input type="text" id="timeperiod-dropdown-1" value="Using %Y-%m-%d %I:%M %p" size="30" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %I:%M %p", showTime: true, timePeriod: 15}).assignTo("timeperiod-dropdown-1");
+        new Calendar({format: "%Y-%m-%d %I:%M %p", timePeriod: 15}).assignTo("timeperiod-dropdown-1");
       // ]]>
       </script>
 
       <input type="text" id="timeperiod-dropdown-2" value="Using %Y-%m-%d %I:%M %P" size="30" />
       <script type="text/javascript">
       // <![CDATA[
-        new Calendar({format: "%Y-%m-%d %I:%M %P", showTime: true, timePeriod: 60}).assignTo("timeperiod-dropdown-2");
+        new Calendar({format: "%Y-%m-%d %I:%M %P", timePeriod: 120}).assignTo("timeperiod-dropdown-2");
       // ]]>
       </script>
 

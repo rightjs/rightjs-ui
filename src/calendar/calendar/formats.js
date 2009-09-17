@@ -137,17 +137,5 @@ Calendar.include({
     }
     
     return result;
-  },
-
-  /**
-   * Inspects the format string and updates any corresponding options.
-   *
-   * @param Associative Array mandatory options
-   */
-  inspectFormat: function(options) {
-    if (options.format.search(/%[IL]/) >= 0) {
-      options.twentyFourHour = false;
-    }
   }
-
 });
