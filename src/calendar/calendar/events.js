@@ -67,7 +67,7 @@ Calendar.include({
           var prev = this.element.first('.right-calendar-day-selected');
           if (prev) prev.removeClass('right-calendar-day-selected');
           cell.addClass('right-calendar-day-selected');
-          this.setDay(cell.date);
+          this.setTime(cell.date);
         }
       }.bind(this));
     }, this);
@@ -94,16 +94,15 @@ Calendar.include({
   },
   
   // sets the date without nucking the time
-  setDay: function(date) {
-    this.date.setYear(date.getFullYear());
-    this.date.setMonth(date.getMonth());
-    this.date.setDate(date.getDate());
-    return this.select(this.date);
-  },
-  
-  setTime: function() {
-    var hour = this.hours.value.toInt() + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0);
-    this.date.setHours(hour);
+  setTime: function(date) {
+    // from clicking a day in a month table
+    if (date instanceof Date) {
+      this.date.setYear(date.getFullYear());
+      this.date.setMonth(date.getMonth());
+      this.date.setDate(date.getDate());
+    }
+    
+    this.date.setHours(this.hours.value.toInt() + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0));
     this.date.setMinutes(this.minutes.value);
 
     return this.select(this.date);
