@@ -9,22 +9,31 @@
  *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-document.onReady(function() {
- // grabbing the singles
- $$('a[rel='+Lightbox.Options.relName+']').each(function(a) {
-   a.onClick(function(event) {
-     event.stop();
-     Lightbox.show(this);
-   });
- });
+document.onReady(Lightbox.rescan = function() {
+  // grabbing the singles
+  $$('a[rel='+Lightbox.Options.relName+']').each(function(a) {
+    if (!a.showLightbox) {
+      a.showLightbox = function(event) {
+        event.stop();
+        Lightbox.show(this);
+      };
+      a.onClick('showLightbox');
+    }
+  });
 
- // grabbing the roadtrip
- var roadtrip = $$('a[rel="'+Lightbox.Options.relName+'[roadtrip]"]');
- roadtrip.each(function(a) {
-   a.roadtrip = roadtrip;
-   a.onClick(function(event) {
-     event.stop();
-     Lightbox.show(this);
-   })
- });
+  // grabbing the roadtrip
+  var roadtrip = $$('a[rel="'+Lightbox.Options.relName+'[roadtrip]"]');
+  roadtrip.each(function(a) {
+    // removing the listener case the roadmap might get changed
+    if (a.showLightbox) {
+      a.stopObserving(a.showLightbox);
+    }
+    
+    a.roadtrip = roadtrip;
+    a.showLightbox = function(event) {
+      event.stop();
+      Lightbox.show(this);
+    };
+    a.onClick(a.showLightbox);
+  });
 });
