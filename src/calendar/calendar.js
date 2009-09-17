@@ -9,18 +9,19 @@ var Calendar = new Class(Observer, {
     EVENTS: $w('show hide select done'),
     
     Options: {
-      format:         'ISO', // a key out of the predefined formats or a format string
-      showTime:       null,  // null for automatic, or true|false to enforce
+      format:         'ISO',  // a key out of the predefined formats or a format string
+      showTime:       null,   // null for automatic, or true|false to enforce
       showButtons:    false,
       minDate:        null,
       maxDate:        null,
-      firstDay:       1,     // 1 for Monday, 0 for Sunday
+      firstDay:       1,      // 1 for Monday, 0 for Sunday
+      fxName:         'fade', // set to null if you don't wanna any fx
       fxDuration:     200,
-      numberOfMonths: 1,     // a number or [x, y] greed definition
-      timePeriod:     1,     // the timepicker minimal periods (in minutes, might be bigger than 60)
+      numberOfMonths: 1,      // a number or [x, y] greed definition
+      timePeriod:     1,      // the timepicker minimal periods (in minutes, might be bigger than 60)
       checkTags:      '*',
       relName:        'calendar',
-      twentyFourHour: null   // null for automatic, or true|false to enforce
+      twentyFourHour: null    // null for automatic, or true|false to enforce
     },
     
     Formats: {
@@ -137,7 +138,7 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   hide: function() {
-    this.element.hide('fade', {duration: this.options.fxDuration});
+    this.element.hide(this.options.fxName, {duration: this.options.fxDuration});
     return this;
   },
   
@@ -148,7 +149,7 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   show: function(position) {
-    this.element.show('fade', {duration: this.options.fxDuration});
+    this.element.show(this.options.fxName, {duration: this.options.fxDuration});
     return this;
   },
   
