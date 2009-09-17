@@ -139,6 +139,7 @@ var Calendar = new Class(Observer, {
    */
   hide: function() {
     this.element.hide(this.options.fxName, {duration: this.options.fxDuration});
+    Calendar.current = null;
     return this;
   },
   
@@ -150,6 +151,7 @@ var Calendar = new Class(Observer, {
    */
   show: function(position) {
     this.element.show(this.options.fxName, {duration: this.options.fxDuration});
+    Calendar.current = this;
     return this;
   },
   

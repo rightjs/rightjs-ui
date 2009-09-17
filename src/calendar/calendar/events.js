@@ -3,6 +3,33 @@
  *
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
+ 
+// the document keybindings hookup
+document.onKeydown(function(event) {
+ if (Calendar.current) {
+   var name;
+
+   switch(event.keyCode) {
+     case 27: name = 'hide';      break;
+     case 37: name = 'prevDay';   break;
+     case 39: name = 'nextDay';   break;
+     case 38: name = 'prevWeek';  break;
+     case 40: name = 'nextWeek';  break;
+     case 34: name = 'nextMonth'; break;
+     case 33: name = 'prevMonth'; break;
+     case 13:
+        Calendar.current.select(Calendar.current.date);
+        name = 'done';
+        break;
+   }
+
+   if (name) {
+     Calendar.current[name]();
+     event.stop();
+   }
+ }
+});
+ 
 Calendar.include({
   /**
    * Initiates the 'select' event on the object
@@ -26,39 +53,53 @@ Calendar.include({
     return this.fire('done', this.date);
   },
   
-  /**
-   * Switches to one month forward
-   *
-   * @return Calendar this
-   */
-  next: function() {
-    this.prevDate = new Date(this.prevDate || this.date);
-    
-    if (this.hasNextMonth) {
-      this.prevDate.setMonth(this.prevDate.getMonth() + 1);
-    }
-    return this.update(this.prevDate);
+  nextDay: function() {
+    return this.changeDate({'Date': 1});
   },
   
-  /**
-   * Switches to on month back
-   *
-   * @return Calendar this
-   */
-  prev: function() {
-    this.prevDate = new Date(this.prevDate || this.date);
-    
-    if (this.hasPrevMonth) {
-      this.prevDate.setMonth(this.prevDate.getMonth() - 1);
-    }
-    return this.update(this.prevDate);
+  prevDay: function() {
+    return this.changeDate({'Date': -1});
   },
+  
+  nextWeek: function() {
+    return this.changeDate({'Date': 7});
+  },
+  
+  prevWeek: function() {
+    return this.changeDate({'Date': -7});
+  },
+  
+  nextMonth: function() {
+    return this.changeDate({Month: 1});
+  },
+  
+  prevMonth: function() {
+    return this.changeDate({Month: -1});
+  },
+  
 // protected
+
+  // changes the current date according to the hash
+  changeDate: function(hash) {
+    var date = new Date(this.date);
+    
+    for (var key in hash) {
+      date['set'+key](date['get'+key]() + hash[key]);
+    }
+    
+    // checking the date range constrains
+    if (!(
+      (this.options.minDate && this.options.minDate > date) ||
+      (this.options.maxDate && this.options.maxDate < date)
+    )) this.date = date;
+    
+    return this.update(this.date);
+  },
   
   connectEvents: function() {
     // connecting the monthes swapping
-    this.prevButton.onClick(this.prev.bind(this));
-    this.nextButton.onClick(this.next.bind(this));
+    this.prevButton.onClick(this.prevMonth.bind(this));
+    this.nextButton.onClick(this.nextMonth.bind(this));
     
     // connecting the calendar day-cells
     this.element.select('div.right-calendar-month table tbody td').each(function(cell) {
