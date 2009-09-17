@@ -123,7 +123,7 @@ Calendar.include({
       }
     }
     
-    this.buildTime();
+    if (this.options.showTime) this.buildTime();
     this.buildButtons();
     
     return this;
@@ -139,83 +139,50 @@ Calendar.include({
   
   // builds a month block
   buildMonth: function() {
-    return $E('div', {'class': 'right-calendar-month'}).insert([
-      $E('div', {'class': 'right-calendar-month-caption'}),
-      $E('table').insert(
-        '<thead><tr>'+
-          this.options.dayNames.map(function(name) {return '<th>'+name+'</th>';}).join('')+
-        '</tr></thead><tbody>'+
+    return $E('div', {'class': 'right-calendar-month'}).insert(
+      '<div class="right-calendar-month-caption"></div>'+
+      '<table><thead><tr>'+
+        this.options.dayNames.map(function(name) {return '<th>'+name+'</th>';}).join('')+
+      '</tr></thead><tbody>'+
           '123456'.split('').map(function() {return '<tr><td><td><td><td><td><td><td></tr>'}).join('')+
-        '</tbody>'
-      )
-    ]);
+      '</tbody></table>'
+    );
   },
   
   // builds the time selection block
   buildTime: function() {
-    if (!this.options.showTime) return;
+    var time_picker = $E('div', {'class': 'right-calendar-time', html: ':'}).insertTo(this.element);
     
-    var now = new Date();
-    this.hours = $E('select');
-    this.minutes = $E('select');
-    var minute_options_number = 60 / this.options.timePeriod;
-
-    var minute_selected = false;
-    var first_minute_option_properties;
-    (minute_options_number == 0 ? 1 : minute_options_number).times(function(i) {
-      i = i * this.options.timePeriod;
-      var c = i < 10 ? '0'+i : i;
-      var option_properties = {value: i, html: c};
-      if (!first_minute_option_properties) {
-        first_minute_option_properties = option_properties;
-      }
-      if (!minute_selected && i >= now.getMinutes()) {
-        minute_selected = true;
-        option_properties['selected'] = 'selected';
-      }
-      this.minutes.insert($E('option', option_properties));
-    }, this);
-
-    // roll over the hour when the minute falls within the final period
-    if (!minute_selected) {
-      first_minute_option_properties['selected'] = 'selected';
-    }
-
-    var hour_basis = this.options.twentyFourHour ? 24 : 12;
-    var hour_options_number = this.options.timePeriod > 59 ? (24 * 60 / this.options.timePeriod) : hour_basis;
-
-    var hour_selected = false;
-    var hour_to_select = now.getHours() + (minute_selected ? 0 : 1);
+    this.hours = $E('select').insertTo(time_picker, 'top');
+    this.minutes = $E('select').insertTo(time_picker);
     
-    (hour_options_number == 0 ? 1 : hour_options_number).times(function(i) {
-      if (this.options.timePeriod > 59) i = (i * this.options.timePeriod / 60).floor();
-      var c = i < 10 ? '0' + i : i;
-      var option_properties = {value: c, html: c == 0 && !this.options.twentyFourHour ? 12 : c};
-      if ((this.options.twentyFourHour && i == hour_to_select)
-        || (!this.options.twentyFourHour && i == (hour_to_select % 12))
-        || (!hour_selected && i > hour_to_select)) {
-        hour_selected = true;
-        option_properties['selected'] = 'selected';
-      }
-      this.hours.insert($E('option', option_properties));
-    }, this);
-
-    var children = $A([this.hours, document.createTextNode(":"), this.minutes]);
-    if (!this.options.twentyFourHour) {
-      var meridian = $E('select');
-      var entries = this.options.format.search(/%P/) >= 0 ? ['am', 'pm'] : ['AM', 'PM'];
-      entries.each(function(entry, i) {
-        var option_properties = {value: entry.toLowerCase(), html: entry};
-        if ((hour_to_select >= 12 && option_properties.value == 'pm')
-          || (hour_to_select < 12 && option_properties.value == 'am')) {
-          option_properties['selected'] = 'selected';
+    var minutes_threshold = this.options.timePeriod < 60 ? this.options.timePeriod : 60;
+    var hours_threshold   = this.options.timePeriod < 60 ? 1 : (this.options.timePeriod / 60).ceil();
+    
+    (60).times(function(i) {
+      var caption = (i < 10 ? '0' : '') + i;
+      
+      if (i < 24 && i % hours_threshold == 0) {
+        if (this.options.twentyFourHour)
+          this.hours.insert($E('option', {value: i, html: caption}));
+        else if (i < 12) {
+          this.hours.insert($E('option', {value: i, html: i == 0 ? 12 : i}));
         }
-        meridian.insert($E('option', option_properties));
-      });
-      children.push(meridian);
-      this.meridian = meridian;
+      }
+      
+      if (i % minutes_threshold == 0) {
+        this.minutes.insert($E('option', {value: i, html: caption}));
+      }
+    }, this);
+    
+    // adding the meridian picker if it's a 12 am|pm picker
+    if (!this.options.twentyFourHour) {
+      this.meridian = $E('select').insertTo(time_picker);
+      
+      (this.options.format.includes(/%P/) ? ['am', 'pm'] : ['AM', 'PM']).each(function(value) {
+        this.meridian.insert($E('option', {value: value.toLowerCase(), html: value}));
+      }, this);
     }
-    $E('div', {'class': 'right-calendar-time'}).insertTo(this.element).insert(children);
   },
   
   // builds the bottom buttons block

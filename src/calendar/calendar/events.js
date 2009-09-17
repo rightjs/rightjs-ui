@@ -102,8 +102,7 @@ Calendar.include({
   },
   
   setTime: function() {
-    var hour = new Number(this.hours.value)
-      + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0);
+    var hour = this.hours.value.toInt() + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0);
     this.date.setHours(hour);
     this.date.setMinutes(this.minutes.value);
 
