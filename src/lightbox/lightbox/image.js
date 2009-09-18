@@ -40,7 +40,7 @@ Lightbox.include((function() {
     
     // checks if the given url is an url to an image
     isImageUrl: function(url) {
-      return this.IMAGE_FORMATS.include(String(url).toLowerCase().split('.').last());
+      return this.IMAGE_FORMATS.include(String(url).toLowerCase().split('?').first().split('.').last());
     }
   };
 })());
