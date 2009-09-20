@@ -5,7 +5,7 @@
  */
 var Autocompleter = new Class(Observer, {
   extend: {
-    EVENTS: $w('show hide update load'),
+    EVENTS: $w('show hide update load select done'),
     
     Options: {
       url:        document.location.href,
@@ -36,7 +36,7 @@ var Autocompleter = new Class(Observer, {
   initialize: function(input, options) {
     this.$super(options);
     
-    this.input     = $(input).onKeyup(this.watch.bind(this));
+    this.input     = $(input).onKeyup(this.watch.bind(this)).onBlur(this.hide.bind(this));
     this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.input, 'after');
   },
   
@@ -71,10 +71,8 @@ var Autocompleter = new Class(Observer, {
   // handles the list hidding
   hide: function() {
     if (this.container.visible()) {
-      this.container.hide(this.options.fxName, {
-        duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'hide')
-      });
+      this.container.hide();
+      this.fire.bind(this, 'hide');
     }
     
     Autocompleter.current = null;
@@ -82,10 +80,42 @@ var Autocompleter = new Class(Observer, {
     return this;
   },
   
+  // selects the next item on the list
+  prev: function() {
+    return this.select('prev', this.container.select('li').last());
+  },
+  
+  // selects the next item on the list
+  next: function() {
+    return this.select('next', this.container.first('li'));
+  },
+  
+  // marks it done
+  done: function(current) {
+    var current = current || this.container.first('li.current');
+    if (current) {
+      this.input.value = current.innerHTML.stripTags();
+    }
+    
+    return this.fire('done').hide();
+  },
+  
 // protected
+
+  // works with the 'prev' and 'next' methods
+  select: function(what, fallback) {
+    var current = this.container.first('li.current');
+    if (current) {
+      current = current[what]('li') || current;
+    }
+    
+    return this.fire('select', (current || fallback).radioClass('current'));
+  },
 
   // receives the keyboard events out of the input element
   watch: function(event) {
+    if ([27,37,38,39,40,13].include(event.keyCode)) return; // skip the overlaping key codes
+    
     if (this.input.value.length >= this.options.minLength) {
       if (this.timeout) {
         this.timeout.cancel();
@@ -118,8 +148,13 @@ var Autocompleter = new Class(Observer, {
   
   // updates the suggestions list
   suggest: function(result, search) {
-    this.container.update(result);
+    this.container.update(result).select('li').each(function(li) {
+      // we reassiging the events each time so the were no doublecalls
+      li.onmouseover = function() { li.radioClass('current'); };
+      li.onmousedown = function() { this.done(li); }.bind(this);
+    }, this);
     
+    // saving the result in cache
     if (this.options.cache) {
       this.cache[search] = result;
     }

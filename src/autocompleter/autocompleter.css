@@ -20,9 +20,15 @@ div.autocompleter ul {
   margin: 0;
   padding: 0;
   border: none;
+  background: none;
 }
 div.autocompleter ul li {
   margin: 0;
   padding: .2em .4em;
   border: none;
+  background: none;
+  cursor: pointer;
+}
+div.autocompleter ul li.current {
+  background: #EEE;
 }
