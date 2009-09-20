@@ -1,0 +1,28 @@
+/**
+ * The autocompleter styles
+ *
+ * Copyright (C) Nikolay V. Nemshilov aka St.
+ */
+div.autocompleter {
+  display: none;
+  position: absolute;
+  z-index: 1000000000000;
+  border: 1px solid #DDD;
+  margin: 0;
+  padding: 0;
+  background: white;
+  -moz-box-shadow: #BBB .2em .2em .3em;
+  -webkit-box-shadow: #BBB .2em .2em .2em;
+  overflow: hidden;
+}
+div.autocompleter ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+div.autocompleter ul li {
+  margin: 0;
+  padding: .2em .4em;
+  border: none;
+}
