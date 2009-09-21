@@ -16,7 +16,7 @@ var Autocompleter = new Class(Observer, {
       threshold:  200,       // the typing pause threshold
       
       cache:      true,      // the use the results cache
-      locals:     null,      // an optional local search results list
+      local:      null,      // an optional local search results list
       
       fxName:     'slide',
       fxDuration: 'short',
@@ -114,7 +114,8 @@ var Autocompleter = new Class(Observer, {
 
   // receives the keyboard events out of the input element
   watch: function(event) {
-    if ([27,37,38,39,40,13].include(event.keyCode)) return; // skip the overlaping key codes
+    // skip the overlaping key codes that are already watched in the hooker.js
+    if ([27,37,38,39,40,13].include(event.keyCode)) return;
     
     if (this.input.value.length >= this.options.minLength) {
       if (this.timeout) {
@@ -133,8 +134,8 @@ var Autocompleter = new Class(Observer, {
     
     if (this.cache[search]) {
       this.suggest(this.cache[search], search);
-    } else if (this.options.locals) {
-      this.findLocals(search);
+    } else if (this.options.local) {
+      this.suggest(this.findLocal(search), search);
     } else {
       Xhr.load(this.options.url.replace('%{search}', encodeURIComponent(search)), {
         method:  this.options.method,
@@ -163,11 +164,13 @@ var Autocompleter = new Class(Observer, {
   },
   
   // performs the locals search
-  findLocals: function(search) {
+  findLocal: function(search) {
     return $E('ul').insert(
-      this.options.locals.map(function(option) {
+      this.options.local.map(function(option) {
         if (option.includes(search)) {
-          return $E('li', {html: option});
+          return $E('li', {html:
+            option.replace(new RegExp("("+RegExp.escape(search)+")", 'g'), '<strong>$1</strong>')
+          });
         }
       }).compact()
     );
