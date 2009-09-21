@@ -18,7 +18,7 @@
     <p>
       Some tooltips tests
     </p>
-    <h1>Simple completer</h1>
+    <h1>Simple Completer (asdf)</h1>
     <p>
       <input type="text" id="simple-completer" />
       <script type="text/javascript">
@@ -36,6 +36,16 @@
           local: $w('mommy daddy sonny doggy kitty')
         });
       </script>
+    </p>
+    
+    <h2>Auto-Discovered Completer With Url</h2>
+    <p>
+      <input type="text" rel="autocompleter[./search/%{search}.html]" />
+    </p>
+    
+    <h2>Auto-Discovered Completer With Local Options</h2>
+    <p>
+      <input type="text" rel="autocompleter['mommy','daddy','sonny','doggy','kitty']" />
     </p>
     
     <h2>Just Some Text To Make The Page Long Enough</h2>
