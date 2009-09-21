@@ -1,0 +1,104 @@
+Right Autocompleter
+===================
+
+Right autocompelter is the basic autocompletion feature implemented using the RightJS framework
+
+
+What's Up?
+==========
+
+ * Work with ajax requests and with local options list
+ * RESTful design and serverside caching friendly urls
+ * Responses caching feature
+ * Comes in a single tiny file, no css or image dependencies
+ * Has basic styles in the box
+ * The field auto-discovery feature
+
+
+API-Reference
+=============
+
+Basically there is no public api, just the constructor 
+
+ initialize(Element id_or_instance, Object options);
+
+ 
+Options
+=======
+
+  * url        - document.location - the url, might have the %{search} placeholders
+  * param      - 'search'          - the requests parameter name
+  * method     - 'get'             - the requests method
+  * minLength  - 1                 - the minimal length when it starts work
+  * threshold  - 200               - the typing pause threshold
+  * cache      - true              - the use the results cache
+  * local      - null              - an optional local search results list
+  * fxName     - 'slide'           - visual effects name, use 'null' to disable fx
+  * fxDuration - 'short'           - the visual effect duration
+  * spinner    - 'native'          - spinner reference
+  * relName    - 'autocompleter'   - the auto-discovery feature key
+  
+
+Events
+======
+  
+  Autocompleter might notify you about the following events
+  
+ * show    - when the list of suggestions is shown
+ * hide    - when the list of suggestions is hidden
+ * update  - when the list of suggestions was updated
+ * load    - when the xhr request is loaded
+ * select  - when some option was selected
+ * done    - when the option was copied to the input element
+
+
+Url Specifying
+========
+
+Right autocompleter provides two options to work with the target urls, you might
+specify the 'param' and 'url' options as the default and usual approach.
+
+new Autocompleter('my-input', {
+  url: '/my/url',
+  param: 'search'
+});
+
+In this case the autocompleter will hit urls like this.
+
+/my/url?param=a
+/my/url?param=as
+/my/url?param=asd
+/my/url?param=asdf
+
+You also might want to have more caching friendly urls without the parameters
+in this case you might use the '%{search}' placeholder in your url. Like this
+
+new Autocompleter('my-input', {
+  url: '/my/url/%{search}.js'
+});
+
+In this case the autocompleter will hit urls like this
+
+/my/url/a.js
+/my/url/as.js
+/my/url/asd.js
+/my/url/asdf.js
+
+Which might be easier and more effectively cached on the server side
+
+
+Auto-Discovery Feature
+======================
+
+As all the other widgets out of the RightJS UI library the autocompleters
+have ability to be automatically discovered and initialized. For that 
+purpose you might use a 'rel' attribute like this.
+
+<input type="text" rel="autocompleter[/your/url/goes/here]" />
+
+You also might define a local options list like this
+
+<input type="text" rel="autocompleter['mommy', 'daddy', 'sonny']"/>
+
+
+

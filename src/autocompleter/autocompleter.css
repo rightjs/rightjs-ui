@@ -1,6 +1,17 @@
 /**
  * The autocompleter styles
  *
+ * The elements structure is simple
+ *
+ *   <div class="autocompleter">
+ *     <ul>
+ *       <li>boo</li>
+ *       <li>boo</li>
+ *       <li>boo</li>
+ *     </ul>
+ *   </div>
+ *
+ *
  * Copyright (C) Nikolay V. Nemshilov aka St.
  */
 div.autocompleter {

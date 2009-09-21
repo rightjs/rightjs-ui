@@ -139,7 +139,7 @@ var Autocompleter = new Class(Observer, {
     } else if (this.options.local) {
       this.suggest(this.findLocal(search), search);
     } else {
-      Xhr.load(this.options.url.replace('%{search}', encodeURIComponent(search)), {
+      this.request = Xhr.load(this.options.url.replace('%{search}', encodeURIComponent(search)), {
         method:  this.options.method,
         spinner: this.options.spinner,
         onComplete: function(response) {
