@@ -32,12 +32,33 @@ div.autocompleter ul li {
   background: none;
   cursor: pointer;
 }
-div.autocompleter ul li:last-child {
-  border-bottom: 1px solid #CCC;
-}
 div.autocompleter ul li:first-child {
   border-top: 1px solid #CCC;
 }
+div.autocompleter ul li:last-child {
+  border-bottom: 1px solid #CCC;
+* border-bottom: none;
+}
 div.autocompleter ul li.current {
   background: #DDD;
+}
+
+div.autocompleter-spinner {
+  position: absolute;
+  z-index: 1000000000000;
+  width: 18px;
+  text-align: center;
+  font-size: 140%;
+  font-family: Georgia;
+  background: #DDD;
+  color: #666;
+  display: none;
+}
+div.autocompleter-spinner div.dot-1 {
+  margin-left: -4px;
+}
+div.autocompleter-spinner div.dot-2 {
+}
+div.autocompleter-spinner div.dot-3 {
+  margin-left: 4px;
 }

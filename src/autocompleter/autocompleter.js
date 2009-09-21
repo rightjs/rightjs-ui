@@ -38,6 +38,8 @@ var Autocompleter = new Class(Observer, {
     
     this.input     = $(input).onKeyup(this.watch.bind(this)).onBlur(this.hide.bind(this));
     this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.input, 'after');
+    
+    this.checkSpinner();
   },
   
   // catching up with some additonal options
@@ -174,5 +176,31 @@ var Autocompleter = new Class(Observer, {
         }
       }).compact()
     );
+  },
+  
+  // builds a native textual spinner if necessary
+  checkSpinner: function() {
+    if (this.options.spinner == 'native') {
+      var dims = this.input.dimensions();
+      
+      this.options.spinner = $E('div', {
+        'class': 'autocompleter-spinner'
+      }).setStyle({
+        top: (dims.top + 1) + 'px',
+        height: (dims.height - 2) + 'px',
+        lineHeight: (dims.height - 2) + 'px',
+        left: (dims.left + dims.width - 19) + 'px'
+      }).insertTo(this.input, 'after');
+      
+      var dots = '123'.split('').map(function(i) {
+        return $E('div', {'class': 'dot-'+i, html: '&raquo;'});
+      });
+      
+      (function() {
+        var dot = dots.shift();
+        dots.push(dot);
+        this.options.spinner.update(dot);
+      }.bind(this)).periodical(400);
+    }
   }
 });
