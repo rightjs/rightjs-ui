@@ -7,7 +7,7 @@ div.autocompleter {
   display: none;
   position: absolute;
   z-index: 1000000000000;
-  border: 1px solid #DDD;
+  border: none;
   margin: 0;
   padding: 0;
   background: white;
@@ -21,14 +21,23 @@ div.autocompleter ul {
   padding: 0;
   border: none;
   background: none;
+* border-bottom: 1px solid #CCC;
 }
 div.autocompleter ul li {
   margin: 0;
   padding: .2em .4em;
-  border: none;
+  border: 1px solid #CCC;
+  border-top: none;
+  border-bottom: none;
   background: none;
   cursor: pointer;
 }
+div.autocompleter ul li:last-child {
+  border-bottom: 1px solid #CCC;
+}
+div.autocompleter ul li:first-child {
+  border-top: 1px solid #CCC;
+}
 div.autocompleter ul li.current {
-  background: #EEE;
+  background: #DDD;
 }

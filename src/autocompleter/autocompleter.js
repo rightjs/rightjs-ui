@@ -58,7 +58,7 @@ var Autocompleter = new Class(Observer, {
       this.container.setStyle({
         top: (dims.top + dims.height) + 'px',
         left: dims.left + 'px',
-        width: (dims.width - 2) + 'px'
+        width: dims.width + 'px'
       }).show(this.options.fxName, {
         duration: this.options.fxDuration,
         onFinish: this.fire.bind(this, 'show')
