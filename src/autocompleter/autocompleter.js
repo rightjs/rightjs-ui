@@ -167,11 +167,12 @@ var Autocompleter = new Class(Observer, {
   
   // performs the locals search
   findLocal: function(search) {
+    var regexp = new RegExp("("+RegExp.escape(search)+")", 'ig');
     return $E('ul').insert(
       this.options.local.map(function(option) {
-        if (option.includes(search)) {
+        if (regexp.test(option)) {
           return $E('li', {html:
-            option.replace(new RegExp("("+RegExp.escape(search)+")", 'g'), '<strong>$1</strong>')
+            option.replace(regexp, '<strong>$1</strong>')
           });
         }
       }).compact()
