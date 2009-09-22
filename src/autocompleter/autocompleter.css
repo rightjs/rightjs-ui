@@ -22,8 +22,8 @@ div.autocompleter {
   margin: 0;
   padding: 0;
   background: white;
-  -moz-box-shadow: #BBB .2em .2em .3em;
-  -webkit-box-shadow: #BBB .2em .2em .2em;
+  -moz-box-shadow: #BBB .2em .2em .4em;
+  -webkit-box-shadow: #BBB .2em .2em .4em;
   overflow: hidden;
 }
 div.autocompleter ul {
@@ -35,6 +35,8 @@ div.autocompleter ul {
 * border-bottom: 1px solid #CCC;
 }
 div.autocompleter ul li {
+  list-style: none;
+  font-weight: normal;
   margin: 0;
   padding: .2em .4em;
   border: 1px solid #CCC;
@@ -64,6 +66,8 @@ div.autocompleter-spinner {
   background: #DDD;
   color: #666;
   display: none;
+  margin: 0;
+  padding: 0;
 }
 div.autocompleter-spinner div.dot-1 {
   margin-left: -4px;

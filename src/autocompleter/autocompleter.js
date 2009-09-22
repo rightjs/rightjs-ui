@@ -124,6 +124,8 @@ var Autocompleter = new Class(Observer, {
         this.timeout.cancel();
       }
       this.timeout = this.trigger.bind(this).delay(this.options.threshold);
+    } else {
+      return this.hide();
     }
   },
   
@@ -133,6 +135,8 @@ var Autocompleter = new Class(Observer, {
     
     this.cache = this.cache || {};
     var search = this.input.value;
+    
+    if (search.length < this.options.minLength) return this.hide();
     
     if (this.cache[search]) {
       this.suggest(this.cache[search], search);
