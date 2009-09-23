@@ -17,7 +17,7 @@
 div.autocompleter {
   display: none;
   position: absolute;
-  z-index: 1000000000000;
+  z-index: 100000000;
   border: none;
   margin: 0;
   padding: 0;
@@ -58,7 +58,7 @@ div.autocompleter ul li.current {
 
 div.autocompleter-spinner {
   position: absolute;
-  z-index: 1000000000000;
+  z-index: 100000000;
   width: 18px;
   text-align: center;
   font-size: 140%;
