@@ -51,17 +51,6 @@ Calendar.include({
     var element = $(element), dims = element.dimensions();
     this.setDate(this.parse(element.value));
     
-    // RightJS < 1.4.1 bug handling
-    if (RightJS.version < '1.4.1') {
-      if (Browser.WebKit) {
-        dims.left += document.body.scrolls().x;
-        dims.top  += document.body.scrolls().y;
-      } else if (Browser.Konqueror) {
-        dims.left = element.offsetLeft;
-        dims.top  = element.offsetTop;
-      }
-    }
-    
     this.element.setStyle({
       position: 'absolute',
       margin: '0',
