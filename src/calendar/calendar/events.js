@@ -143,8 +143,10 @@ Calendar.include({
       this.date.setDate(date.getDate());
     }
     
-    this.date.setHours(this.hours.value.toInt() + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0));
-    this.date.setMinutes(this.minutes.value);
+    if (this.hours) {
+      this.date.setHours(this.hours.value.toInt() + (!this.options.twentyFourHour && this.meridian.value == 'pm' ? 12 : 0));
+      this.date.setMinutes(this.minutes.value);
+    }
 
     return this.select(this.date);
   }
