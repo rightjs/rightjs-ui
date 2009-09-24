@@ -21,11 +21,11 @@ var Tooltip = new Class({
     current: null // currently active tooltip reference
   },
   
-  initialize: function(element) {
+  initialize: function(element, options) {
     this.element   = $E('div', {'class': 'right-tooltip'}).insertTo(document.body).hide();
     this.container = $E('div', {'class': 'right-tooltip-container'}).insertTo(this.element);
     
-    this.setOptions().assignTo(element);
+    this.setOptions(options).assignTo(element);
   },
   
   setText: function(text) {
