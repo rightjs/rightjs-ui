@@ -8,7 +8,7 @@ var Sortable = new Class(Observer, {
     EVENTS: $w('update'),
     
     Options: {
-      axis: 'auto',        // 'auto', 'vertical', 'horizontal', 'x', 'y'
+      direction: 'auto',   // 'auto', 'vertical', 'horizontal', 'x', 'y'
       
       tags: 'li',          // the list items tag name
       
@@ -26,7 +26,20 @@ var Sortable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
+    this.onUpdate(function(element, position) {
+      console.log(element.innerHTML, "moved to", position);
+    });
+    
     this.init();
+  },
+  
+  // detaches all the events out of the elemnts
+  destroy: function() {
+    this.getItems.each(function(item) {
+      item.undoDraggable().undoDroppable();
+    });
+    
+    return this;
   },
   
   // callback for the moved elements
@@ -35,41 +48,44 @@ var Sortable = new Class(Observer, {
     var position = items.indexOf(element);
     
     if (position > -1 && position != element.current_position) {
-      console.log(element.innerHTML, "moved to", position);
+      this.fire('update', element, position);
       
       items.each(function(item, index) {
         item.current_position = index;
-      })
+      });
     }
   },
   
 // protected
   
+  // inits the sortable unit
   init: function() {
     var items = this.getItems();
     
     if (items.length) {
       var callback  = this.moved.bind(this);
       
-      var direction = this.options.axis != 'auto' ? this.options.axis :
+      // guessing the direction
+      var direction = this.options.direction != 'auto' ? this.options.direction :
         ['left', 'right'].include(items[0].getStyle('float')) ? 'x' : 'y';
-        
+      
+      // the draggable options
       var drag_options = {
         range:  this.element,
         axis:   direction,
         revert: true,
         revertDuration: 0,
         onStop: function() {
-          callback(this.element)
+          callback(this.element);
         }
       };
       
+      // the droppable options
       var drop_options = {
-        overlap: direction,
-        overlapSize: ['x', 'horizontal'].includes(direction) ? 0.2 : 0.4,
+        overlap:      direction,
         containtment: items,
         onHover: function(draggable) {
-          // calculating the sapping direction
+          // calculating the swapping direction
           var drag_dims = draggable.element.dimensions();
           var this_dims = this.element.dimensions();
           
@@ -83,6 +99,7 @@ var Sortable = new Class(Observer, {
         }
       }
       
+      // processing the items
       items.each(function(item, index) {
         item.makeDraggable(drag_options).makeDroppable(drop_options).current_position = index;
       });
