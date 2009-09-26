@@ -8,11 +8,20 @@ var Sortable = new Class(Observer, {
     EVENTS: $w('update'),
     
     Options: {
-      direction: 'auto',   // 'auto', 'vertical', 'horizontal', 'x', 'y'
-      
-      tags: 'li',          // the list items tag name
-      
-      relName: 'sortable'  // the auto-discovery feature key
+      direction:  'auto',     // 'auto', 'vertical', 'horizontal', 'x', 'y'
+                  
+      tags:       'li',       // the list items tag name
+                  
+      url:        null,       // the Xhr requests url address, might contain the '%{id}' placeholder
+      method:     'put',      // the Xhr requests method
+                  
+      Xhr:        {},         // additional Xhr options
+                  
+      idParam:    'id',       // the id value name
+      posParam:   'position', // the position value name
+      parseId:    true,       // if the id attribute should be converted into an integer before sending
+                  
+      relName:    'sortable'  // the auto-discovery feature key
     }
   },
   
@@ -26,11 +35,7 @@ var Sortable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.onUpdate(function(element, position) {
-      console.log(element.innerHTML, "moved to", position);
-    });
-    
-    this.init();
+    this.init().onUpdate('tryXhr');
   },
   
   // detaches all the events out of the elemnts
@@ -53,6 +58,40 @@ var Sortable = new Class(Observer, {
       items.each(function(item, index) {
         item.current_position = index;
       });
+    }
+  },
+  
+  // tries to send an Xhr request about the element relocation
+  tryXhr: function(element, position) {
+    if (this.options.url) {
+      var url = this.options.url, params = {};
+      
+      // building the Xhr request options
+      var options = Object.merge({
+        method: this.options.method,
+        params: {}
+      }, this.options.Xhr);
+      
+      // grabbing the id
+      var id = element.id || '';
+      if (this.options.parseId && id) {
+        id = id.match(/\d+/) || '';
+      }
+      
+      // assigning the parameters
+      if (url.include('%{id}')) {
+        url = url.replace('%{id}', id);
+      } else {
+        params[this.options.idParam] = id;
+      }
+      params[this.options.posParam] = position;
+      
+      // merging the params with possible Xhr params
+      if (isString(options.params)) options.params += '&'+Object.toQueryString(params);
+      else options.params = Object.merge(options.params, params);
+      
+      // calling the server
+      Xhr.load(url, options);
     }
   },
   
@@ -104,6 +143,8 @@ var Sortable = new Class(Observer, {
         item.makeDraggable(drag_options).makeDroppable(drop_options).current_position = index;
       });
     }
+    
+    return this;
   },
   
   // returns the list of the items

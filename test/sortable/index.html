@@ -21,7 +21,7 @@
       cursor: move;
     }
     ul.sortable-test li.dragging {
-      opacity: 0.5;
+      opacity: 0.7;
     }
     
     ul.horizontal {
@@ -64,6 +64,22 @@
       <script type="text/javascript">
       // <![CDATA[
         new Sortable('horizontal-sortable');
+      // ]]>
+      </script>
+      <div style="clear:both"></div>
+    </p>
+    
+    <h2>Sortable With Xhr</h2>
+    <p>
+      <ul id="sortable-with-xhr" class="sortable-test">
+        <li id="item_1">Item #1</li>
+        <li id="item_2">Item #2</li>
+        <li id="item_3">Item #3</li>
+        <li id="item_4">Item #4</li>
+      </ul>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Sortable('sortable-with-xhr', {url: 'items/%{id}.js', method: 'get'});
       // ]]>
       </script>
     </p>
