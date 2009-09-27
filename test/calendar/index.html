@@ -10,7 +10,7 @@
     <script src="../../src/calendar/calendar/events.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar/assign.js" type="text/javascript"></script>
     <script src="../../src/calendar/calendar/formats.js" type="text/javascript"></script>
-    <script src="../../src/calendar/hooker.js" type="text/javascript"></script>
+    <script src="../../src/calendar/document.js" type="text/javascript"></script>
     <style>
     html, body {
       font-family: Verdana, sans-serif;
@@ -122,7 +122,7 @@
     
     <h2>With Auto Discovery Fields</h2>
     <p>
-      <input type="text" rel="calendar" />
+      <input type="text" rel="calendar" data-calendar-options="{format:'US'}" />
       <input type="text" id="input-with-rel" />
       <a href="" rel="calendar[input-with-rel]">Click me!</a>
     </p>

@@ -42,6 +42,27 @@ var Calendar = new Class(Observer, {
       dayNamesMin:     $w('Su Mo Tu We Th Fr Sa'),
       monthNames:      $w('January February March April May June July August September October November December'),
       monthNamesShort: $w('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec')
+    },
+    
+    // scans for the auto-discoverable calendar inputs
+    rescan: function() {
+      var key       = Calendar.Options.relName;
+      var rel_id_re = new RegExp(key+'\\[(.+?)\\]');
+
+      $$(Calendar.Options.checkTags+'[rel*='+key+']').each(function(element) {
+        var data     = element.get('data-'+key+'-options');
+        var calendar = new Calendar(eval('('+data+')') || {});
+        
+        var rel_id   = element.get('rel').match(rel_id_re);
+        if (rel_id) {
+          var input = $(rel_id[1]);
+          if (input) {
+            calendar.assignTo(input, element);
+          }
+        } else {
+          calendar.assignTo(element);
+        }
+      });
     }
   },
   

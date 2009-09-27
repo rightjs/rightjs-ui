@@ -18,7 +18,7 @@ CALENDAR_FILES = %w{
   calendar/events
   calendar/assign
   calendar/formats
-  hooker
+  document
 }
 
 task :default => :build
