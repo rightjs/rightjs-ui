@@ -39,7 +39,7 @@ var Autocompleter = new Class(Observer, {
     this.input     = $(input).onKeyup(this.watch.bind(this)).onBlur(this.hide.bind(this));
     this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.input, 'after');
     
-    this.checkSpinner();
+    this.getSpinner();
   },
   
   // catching up with some additonal options
@@ -145,7 +145,7 @@ var Autocompleter = new Class(Observer, {
     } else {
       this.request = Xhr.load(this.options.url.replace('%{search}', encodeURIComponent(search)), {
         method:  this.options.method,
-        spinner: this.options.spinner,
+        spinner: this.getSpinner(),
         onComplete: function(response) {
           this.fire('load').suggest(response.responseText, search);
         }.bind(this)
@@ -184,17 +184,13 @@ var Autocompleter = new Class(Observer, {
   },
   
   // builds a native textual spinner if necessary
-  checkSpinner: function() {
-    if (this.options.spinner == 'native') {
-      var dims = this.input.dimensions();
-      
-      this.options.spinner = $E('div', {
+  getSpinner: function() {
+    this._spinner = this._spinner || this.options.spinner;
+    
+    // building the native spinner
+    if (this._spinner == 'native') {
+      this._spinner = $E('div', {
         'class': 'autocompleter-spinner'
-      }).setStyle({
-        top: (dims.top + 1) + 'px',
-        height: (dims.height - 2) + 'px',
-        lineHeight: (dims.height - 2) + 'px',
-        left: (dims.left + dims.width - 19) + 'px'
       }).insertTo(this.input, 'after');
       
       var dots = '123'.split('').map(function(i) {
@@ -204,8 +200,25 @@ var Autocompleter = new Class(Observer, {
       (function() {
         var dot = dots.shift();
         dots.push(dot);
-        this.options.spinner.update(dot);
+        this._spinner.update(dot);
       }.bind(this)).periodical(400);
     }
+    
+    // repositioning the native spinner
+    if (this.options.spinner == 'native') {
+      var dims = this.input.dimensions();
+      
+      this._spinner.setStyle('visiblity: hidden').show();
+      
+      this._spinner.setStyle({
+        visibility: 'visible',
+        top: (dims.top + 1) + 'px',
+        height: (dims.height - 2) + 'px',
+        lineHeight: (dims.height - 2) + 'px',
+        left: (dims.left + dims.width - this._spinner.offsetWidth - 1) + 'px'
+      }).hide();
+    }
+    
+    return this._spinner;
   }
 });

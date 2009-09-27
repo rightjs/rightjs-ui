@@ -59,13 +59,13 @@ div.autocompleter ul li.current {
 div.autocompleter-spinner {
   position: absolute;
   z-index: 100000000;
-  width: 18px;
   text-align: center;
   font-size: 140%;
   font-family: Georgia;
   background: #DDD;
   color: #666;
   display: none;
+  width: 1em;
   margin: 0;
   padding: 0;
 }
