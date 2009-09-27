@@ -5,6 +5,7 @@
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../lib/right-dnd.js" type="text/javascript"></script>
     <script src="../../src/sortable/sortable.js" type="text/javascript"></script>
+    <script src="../../src/sortable/document.js" type="text/javascript"></script>
     <style>
     html, body {
       font-family: Verdana, sans-serif;
@@ -88,5 +89,27 @@
       // ]]>
       </script>
     </p>
+    
+    <h2>Automatically Discovered Sortables</h2>
+    <p>
+      Simple sortable
+      <ul class="sortable-test" rel="sortable">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+    </p>
+    <p>
+      Remote calling sortable
+      <ul class="sortable-test" rel="sortable[items/%{id}.html]" data-sortable-options="{method: 'get', Xhr: {evalScripts: true, onComplete: 'tryScripts'}}">
+        <li id="item_1">Item #1</li>
+        <li id="item_2">Item #2</li>
+        <li id="item_3">Item #3</li>
+        <li id="item_4">Item #4</li>
+      </ul>
+    </p>
+    
   </body>
 </body>

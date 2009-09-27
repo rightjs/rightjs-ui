@@ -22,6 +22,26 @@ var Sortable = new Class(Observer, {
       parseId:    true,       // if the id attribute should be converted into an integer before sending
                   
       relName:    'sortable'  // the auto-discovery feature key
+    },
+    
+    // scans through the page for auto-discoverable sortables
+    rescan: function() {
+      var key = Sortable.Options.relName;
+      var reg = new RegExp('^'+key+'\\[(.+?)\\]');
+      
+      $$('ul[rel^="'+key+'"], ol[rel^="'+key+'"]').each(function(element) {
+        if (!element._sortable) {
+          var data    = element.get('data-'+key+'-options');
+          var options = eval('('+data+')') || {};
+          
+          var url  = element.get('rel').match(reg);
+          if (url) {
+            options.url = url[1];
+          }
+          
+          new Sortable(element, options);
+        }
+      });
     }
   },
   
@@ -35,7 +55,7 @@ var Sortable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.init().onUpdate('tryXhr');
+    this.element._sortable = this.init().onUpdate('tryXhr');
   },
   
   // detaches all the events out of the elemnts
@@ -43,6 +63,7 @@ var Sortable = new Class(Observer, {
     this.getItems.each(function(item) {
       item.undoDraggable().undoDroppable();
     });
+    delete(this.element._sortable);
     
     return this;
   },
