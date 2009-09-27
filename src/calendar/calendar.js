@@ -63,50 +63,56 @@ var Calendar = new Class(Observer, {
    * @param Object options
    * @return Calendar this
    */
-  setOptions: function(options) {
-    this.$super(options);
+  setOptions: function(user_options) {
+    this.$super(user_options);
     
-    // merging the i18n tables
-    this.options.i18n = {};
-    for (var key in this.constructor.i18n) {
-      this.options.i18n[key] = isArray(this.constructor.i18n[key]) ? this.constructor.i18n[key].clone() : this.constructor.i18n[key];
-    }
-    this.options.i18n = Object.merge(this.options.i18n, options||{});
+    var klass   = this.constructor;
+    var options = this.options;
     
-    // defining the current days sequence
-    this.options.dayNames = this.options.i18n.dayNamesMin;
-    if (this.options.firstDay) {
-      this.options.dayNames.push(this.options.dayNames.shift());
-    }
-    
-    // the monthes table cleaning up
-    if (!isArray(this.options.numberOfMonths)) {
-      this.options.numberOfMonths = [this.options.numberOfMonths, 1];
-    }
-    
-    // min/max dates preprocessing
-    if (this.options.minDate) this.options.minDate = this.parse(this.options.minDate);
-    if (this.options.maxDate) {
-      this.options.maxDate = this.parse(this.options.maxDate);
-      this.options.maxDate.setDate(this.options.maxDate.getDate() + 1);
-    }
-    
-    // format catching up
-    this.options.format = (this.constructor.Formats[this.options.format] || this.options.format).trim();
-    
-    // setting up the showTime option
-    if (this.options.showTime === null) {
-      this.options.showTime = this.options.format.search(/%[HkIl]/) > -1;
-    }
-    
-    // setting up the 24-hours format
-    if (this.options.twentyFourHour === null) {
-      this.options.twentyFourHour = this.options.format.search(/%[Il]/) < 0;
-    }
-    
-    // enforcing the 24 hours format if the time threshold is some weird number
-    if (this.options.timePeriod > 60 && 12 % (this.options.timePeriod/60).ceil()) {
-      this.options.twentyFourHour = true;
+    with (this.options) {
+      // merging the i18n tables
+      options.i18n = {};
+
+      for (var key in klass.i18n) {
+        i18n[key] = isArray(klass.i18n[key]) ? klass.i18n[key].clone() : klass.i18n[key];
+      }
+      $ext(i18n, (user_options || {}).i18n);
+      
+      // defining the current days sequence
+      options.dayNames = i18n.dayNamesMin;
+      if (firstDay) {
+        dayNames.push(dayNames.shift());
+      }
+      
+      // the monthes table cleaning up
+      if (!isArray(numberOfMonths)) {
+        numberOfMonths = [numberOfMonths, 1];
+      }
+      
+      // min/max dates preprocessing
+      if (minDate) minDate = this.parse(minDate);
+      if (maxDate) {
+        maxDate = this.parse(maxDate);
+        maxDate.setDate(maxDate.getDate() + 1);
+      }
+      
+      // format catching up
+      format = (klass.Formats[format] || format).trim();
+      
+      // setting up the showTime option
+      if (showTime === null) {
+        showTime = format.search(/%[HkIl]/) > -1;
+      }
+      
+      // setting up the 24-hours format
+      if (twentyFourHour === null) {
+        twentyFourHour = format.search(/%[Il]/) < 0;
+      }
+      
+      // enforcing the 24 hours format if the time threshold is some weird number
+      if (timePeriod > 60 && 12 % (timePeriod/60).ceil()) {
+        twentyFourHour = true;
+      }
     }
 
     return this;
