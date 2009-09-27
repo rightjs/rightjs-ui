@@ -157,7 +157,7 @@ var Sortable = new Class(Observer, {
           
           this.element.insert(draggable.clone, before ? 'before' : 'after');
         }
-      }
+      };
       
       // processing the items
       items.each(function(item, index) {

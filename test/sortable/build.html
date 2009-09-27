@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>RightJS Sortables Build Test</title>
+    <script src="../../lib/right.js" type="text/javascript"></script>
+    <script src="../../lib/right-dnd.js" type="text/javascript"></script>
+    <script src="../../build/right-sortable-min.js" type="text/javascript"></script>
+    <style>
+    html, body {
+      font-family: Verdana, sans-serif;
+      font-size: 10pt;
+    }
+    ul.sortable-test {
+      width: 20em;
+    }
+    ul.sortable-test li {
+      list-style: none;
+      padding: .2em .5em;
+      margin: .2em;
+      background: pink;
+      cursor: move;
+    }
+    ul.sortable-test li.dragging {
+      opacity: 0.7;
+    }
+    
+    ul.horizontal {
+      width: 30em;
+    }
+    ul.horizontal li {
+      float: left;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>RightJS Sortables Build Test</h1>
+    
+    <h2>Simple sortable</h2>
+    <p>
+      <ul id="simple-sortable" class="sortable-test">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+      
+      <script type="text/javascript">
+      // <![CDATA[
+        new Sortable('simple-sortable');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Horizontal sortable</h2>
+    <p>
+      <ul id="horizontal-sortable" class="sortable-test horizontal">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Sortable('horizontal-sortable');
+      // ]]>
+      </script>
+      <div style="clear:both"></div>
+    </p>
+    
+    <h2>Sortable With Xhr</h2>
+    <p>
+      <ul id="sortable-with-xhr" class="sortable-test">
+        <li id="item_1">Item #1</li>
+        <li id="item_2">Item #2</li>
+        <li id="item_3">Item #3</li>
+        <li id="item_4">Item #4</li>
+      </ul>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Sortable('sortable-with-xhr', {
+          url: 'items/%{id}.html', method: 'get',
+          Xhr: {
+            onComplete: function() { this.text.evalScripts(); }
+          }
+        });
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Automatically Discovered Sortables</h2>
+    <p>
+      Simple sortable
+      <ul class="sortable-test" rel="sortable">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+    </p>
+    <p>
+      Remote calling sortable
+      <ul class="sortable-test" rel="sortable[items/%{id}.html]" data-sortable-options="{method: 'get', Xhr: {evalScripts: true, onComplete: 'tryScripts'}}">
+        <li id="item_1">Item #1</li>
+        <li id="item_2">Item #2</li>
+        <li id="item_3">Item #3</li>
+        <li id="item_4">Item #4</li>
+      </ul>
+    </p>
+    
+  </body>
+</body>
