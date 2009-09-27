@@ -14,7 +14,7 @@ TOOLTIPS_BUILD_NAME = 'right-tooltips'
 
 TOOLTIPS_FILES = %w{
   tooltip
-  hooker
+  document
 }
 
 task :default => :build

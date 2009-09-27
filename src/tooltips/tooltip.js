@@ -18,7 +18,19 @@ var Tooltip = new Class({
       delay:      400  // the appearance delay
     },
     
-    current: null // currently active tooltip reference
+    current: null, // currently active tooltip reference
+    
+    // scans the page for auto-discoverable tooltiped elements
+    rescan: function() {
+      var key = Tooltip.Options.relName;
+      $$(Tooltip.Options.checkTags+'[rel='+key+']').each(function(element) {
+        var text = element.get('title') || element.get('alt');
+        if (text) {
+          var data = element.get('data-'+key+'-options');
+          new Tooltip(element, eval('('+data+')'));
+        }
+      });
+    }
   },
   
   initialize: function(element, options) {

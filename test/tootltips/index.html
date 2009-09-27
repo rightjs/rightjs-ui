@@ -5,7 +5,7 @@
     <link href="../../src/tooltips/tooltips.css" media="screen" rel="stylesheet" type="text/css" />
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../src/tooltips/tooltip.js" type="text/javascript"></script>
-    <script src="../../src/tooltips/hooker.js" type="text/javascript"></script>
+    <script src="../../src/tooltips/document.js" type="text/javascript"></script>
     <style>
     html, body {
       font-family: Verdana, sans-serif;
@@ -37,7 +37,7 @@
       <div title="Title &lt;b&gt;with&lt;/b&gt; &lt;u&gt;html&lt;u&gt; code" rel="tooltip" class="tooltiped">This one should have tooltip with html code</div>
     </p>
     <p>
-      <img src="http://rightjs.org/images/test/1.jpg" rel="tooltip" alt="The pictue tooltip" />
+      <img src="http://rightjs.org/images/test/1.jpg" rel="tooltip" alt="The pictue tooltip" data-tooltip-options="{delay: 50}" />
     </p>
   </body>
 </html>
