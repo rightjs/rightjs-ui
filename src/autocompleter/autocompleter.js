@@ -24,6 +24,33 @@ var Autocompleter = new Class(Observer, {
       spinner:    'native',
       
       relName:    'autocompleter'
+    },
+    
+    // scans the document for autocompletion fields
+    rescan: function() {
+      var key = Autocompleter.Options.relName;
+      var reg = new RegExp('^'+key+'+\\[(.*?)\\]$');
+      
+      $$('input[rel^="'+key+'"]').each(function(input) {
+        if (!input.autocompleter) {
+          var data = input.get('data-'+key+'-options');
+          var options = Object.merge(eval('('+data+')'));
+          var match = input.get('rel').match(reg);
+          
+          if (match) {
+            var url = match[1];
+
+            // if looks like a list of local options
+            if (url.match(/^['"].*?['"]$/)) {
+              options.local = eval('['+url+']');
+            } else if (!url.blank()) {
+              options.url = url;
+            }
+          }
+          
+          new Autocompleter(input, options);
+        }
+      });
     }
   },
   
@@ -36,10 +63,21 @@ var Autocompleter = new Class(Observer, {
   initialize: function(input, options) {
     this.$super(options);
     
-    this.input     = $(input).onKeyup(this.watch.bind(this)).onBlur(this.hide.bind(this));
+    // storing the callbacks so we could detach them later
+    this._watch = this.watch.bind(this);
+    this._hide  = this.hide.bind(this);
+    
+    this.input     = $(input).onKeyup(this._watch).onBlur(this._hide);
     this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.input, 'after');
     
-    this.getSpinner();
+    this.input.autocompleter = this;
+  },
+  
+  // kills the autocompleter
+  destroy: function() {
+    this.input.stopObserving('keyup', this._watch).stopObserving('blur', this._hide);
+    delete(this.input.autocompleter);
+    return this;
   },
   
   // catching up with some additonal options

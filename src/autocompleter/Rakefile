@@ -14,7 +14,7 @@ AUTOCOMPLETER_BUILD_NAME = 'right-autocompleter'
 
 AUTOCOMPLETER_FILES = %w{
   autocompleter
-  hooker
+  document
 }
 
 task :default => :build

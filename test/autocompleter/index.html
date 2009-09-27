@@ -5,7 +5,7 @@
     <link href="../../src/autocompleter/autocompleter.css" media="screen" rel="stylesheet" type="text/css" />
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../src/autocompleter/autocompleter.js" type="text/javascript"></script>
-    <script src="../../src/autocompleter/hooker.js" type="text/javascript"></script>
+    <script src="../../src/autocompleter/document.js" type="text/javascript"></script>
     <style>
     html, body {
       font-family: Verdana, sans-serif;
@@ -40,7 +40,7 @@
     
     <h2>Auto-Discovered Completer With Url</h2>
     <p>
-      <input type="text" rel="autocompleter[./search/%{search}.html]" />
+      <input type="text" rel="autocompleter[./search/%{search}.html]" data-autocompleter-options="{fxDuration: 1000, fxName: 'fade'}" />
     </p>
     
     <h2>Auto-Discovered Completer With Local Options</h2>
