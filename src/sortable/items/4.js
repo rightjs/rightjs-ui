@@ -1,1 +1,0 @@
-alert("Moved #4");

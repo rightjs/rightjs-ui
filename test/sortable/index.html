@@ -79,7 +79,12 @@
       </ul>
       <script type="text/javascript">
       // <![CDATA[
-        new Sortable('sortable-with-xhr', {url: 'items/%{id}.js', method: 'get'});
+        new Sortable('sortable-with-xhr', {
+          url: 'items/%{id}.html', method: 'get',
+          Xhr: {
+            onComplete: function() { this.text.evalScripts(); }
+          }
+        });
       // ]]>
       </script>
     </p>
