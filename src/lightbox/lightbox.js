@@ -1,6 +1,11 @@
 /**
  * The lightbox widget
  *
+ * Credits:
+ *   Inspired by and monkeys the Lightbox 2 project
+ *    -- http://www.huddletogether.com/projects/lightbox2/ 
+ *      Copyright (C) Lokesh Dhakar
+ *
  * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 Browser.IE6 = navigator.userAgent.indexOf("MSIE 6") != -1;
@@ -29,7 +34,46 @@ var Lightbox = new Class({
       NextTitle:  'Next Image'
     },
     
-    boxes: []
+    boxes: [],
+    
+    // scans the page for auto-discoverable lighbox links
+    rescan: function() {
+      var key = Lightbox.Options.relName;
+      var get_options = function(element) {
+        var data = element.get('data-'+key+'-options');
+        return eval('('+data+')') || {};
+      };
+      
+      // grabbing the singles
+      $$('a[rel='+key+']').each(function(a) {
+        if (!a.showLightbox) {
+          var options = get_options(a);
+          a.showLightbox = function(event) {
+            event.stop();
+            new Lightbox(options).show(this);
+          };
+          a.onClick('showLightbox');
+        }
+      });
+
+      // grabbing the roadtrip
+      var roadtrip = $$('a[rel="'+key+'[roadtrip]"]');
+      roadtrip.each(function(a) {
+        // removing the listener case the roadmap might get changed
+        if (a.showLightbox) {
+          a.stopObserving(a.showLightbox);
+        }
+        
+        var options = get_options(a);
+
+        a.roadtrip = roadtrip;
+        a.showLightbox = function(event) {
+          event.stop();
+          new Lightbox(options).show(this);
+        };
+        a.onClick(a.showLightbox);
+      });
+    }
   },
   
   /**
