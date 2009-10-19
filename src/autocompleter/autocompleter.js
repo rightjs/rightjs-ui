@@ -86,7 +86,7 @@ var Autocompleter = new Class(Observer, {
     
     // building the correct url template with a placeholder
     if (!this.options.url.includes('%{search}')) {
-      this.options.url = (this.options.url.includes('?') ? '&' : '?') + this.options.param + '=%{search}';
+      this.options.url += (this.options.url.includes('?') ? '&' : '?') + this.options.param + '=%{search}';
     }
   },
   
