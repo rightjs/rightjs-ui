@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>RightJS Tabs Test</title>
+    <link href="../../src/tabs/tabs.css" media="screen" rel="stylesheet" type="text/css" />
+    <script src="../../lib/right.js" type="text/javascript"></script>
+    <script src="../../src/tabs/tabs.js" type="text/javascript"></script>
+    <script src="../../src/tabs/tabs/tab.js" type="text/javascript"></script>
+    <script src="../../src/tabs/tabs/panel.js" type="text/javascript"></script>
+    <script src="../../src/tabs/document.js" type="text/javascript"></script>
+    <style>
+    html, body {
+      font-family: Verdana, sans-serif;
+      font-size: 10pt;
+      width: 40em;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>RightJS Tabs Test</h1>
+    
+    <h2>Basic version</h2>
+    <p>
+      <div class="r-tabs">
+        <ul>
+          <li class="r-tabs-current"><a href="#tab-1">Tab 1</a></li>
+          <li><a href="#tab-2">Tab 2</a></li>
+          <li><a href="#tab-3">Tab 3</a></li>
+          <li><a href="#tab-4">Tab 4</a></li>
+        </ul>
+        
+        <div id="tab-1" class="r-tabs-current">tab body 1</div>
+        <div id="tab-2">tab body 2</div>
+        <div id="tab-3">tab body 3</div>
+        <div id="tab-4">tab body 4</div>
+      </div>
+    </p>
+    
+    <h2>UL version with id-prefix</h2>
+    <p>
+      <ul class="r-tabs" data-tabs-options="{idPrefix: 'pre-'}">
+        <ul>
+          <li><a href="#ul-tab-1">Tab 1</a></li>
+          <li class="r-tabs-current"><a href="#ul-tab-2">Tab 2</a></li>
+          <li><a href="#ul-tab-3">Tab 3</a></li>
+          <li><a href="#ul-tab-4">Tab 4</a></li>
+        </ul>
+        
+        <li id="pre-ul-tab-1">tab body 1</li>
+        <li id="pre-ul-tab-2" class="r-tabs-current">tab body 2</li>
+        <li id="pre-ul-tab-3">tab body 3</li>
+        <li id="pre-ul-tab-4">tab body 4</li>
+      </ul>
+    </p>
+    
+    <h2>With tabs at the bottom</h2>
+    <p>
+      <div class="r-tabs r-tabs-bottom">
+        <ul>
+          <li><a href="#b-tab-1">Tab 1</a></li>
+          <li><a href="#b-tab-2">Tab 2</a></li>
+          <li class="r-tabs-current"><a href="#b-tab-3">Tab 3</a></li>
+          <li><a href="#b-tab-4">Tab 4</a></li>
+        </ul>
+        
+        <div id="b-tab-1">tab body 1</div>
+        <div id="b-tab-2">tab body 2</div>
+        <div id="b-tab-3" class="r-tabs-current">tab body 3</div>
+        <div id="b-tab-4">tab body 4</div>
+      </div>
+    </p>
+    
+    <h2>With tabs on the left side</h2>
+    <p>
+      <div class="r-tabs r-tabs-left">
+        <ul>
+          <li><a href="#l-tab-1">Tab 1</a></li>
+          <li><a href="#l-tab-2">Tab 2</a></li>
+          <li><a href="#l-tab-3">Tab 3</a></li>
+          <li class="r-tabs-current"><a href="#l-tab-4">Tab 4</a></li>
+        </ul>
+        
+        <div id="l-tab-1">tab body 1</div>
+        <div id="l-tab-2">tab body 2</div>
+        <div id="l-tab-3">tab body 3</div>
+        <div id="l-tab-4" class="r-tabs-current">tab body 4</div>
+        
+      </div>
+      <div style="clear: both"></div>
+    </p>
+    
+    <h2>With tabs at the right side</h2>
+    <p>
+      <div class="r-tabs r-tabs-right">
+        <ul>
+          <li><a href="#r-tab-1">Tab 1</a></li>
+          <li><a href="#r-tab-2">Tab 2</a></li>
+          <li class="r-tabs-current"><a href="#r-tab-3">Tab 3</a></li>
+          <li><a href="#r-tab-4">Tab 4</a></li>
+        </ul>
+        
+        <div id="r-tab-1">tab body 1</div>
+        <div id="r-tab-2">tab body 2</div>
+        <div id="r-tab-3" class="r-tabs-current">tab body 3</div>
+        <div id="r-tab-4">tab body 4</div>
+      </div>
+      
+      <div style="clear: both"></div>
+    </p>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,121 @@
+Welcome !
+=========
+
+Right tabs is the unified tabs engine for RightJS. It handles all sorts and kinds of tabs,
+usual tabs, remote tabs, carousels and harmonicas.
+
+The options, events and the markuping principles are mostly inspired by common sense and
+the jQuery UI Tabs plugin
+
+
+Usage
+=====
+
+Include the right-tabs.js file on your page and then prepare your markuping like that
+
+<div class="r-tabs">
+  <ul>
+    <li><a href="#tab-1">Tab 1</a></li>
+    <li><a href="#tab-2">Tab 2</a></li>
+  </ul>
+  
+  <div id="tab-1">Body 1</div>
+  <div id="tab-2">Body 2</div>
+</div>
+
+or If you wish you can use more semantic friendly approach with the (UL|OL)/LI tags
+
+<ul class="r-tabs">
+  <ul>
+    <li><a href="#tab-1">Tab 1</a></li>
+    <li><a href="#tab-2">Tab 2</a></li>
+  </ul>
+  
+  <li id="tab-1">Body 1</li>
+  <li id="tab-2">Body 2</li>
+</ul>
+
+
+Remote Tabs
+===========
+
+For the remote tabs just specify the urls, the engine will take care of the things automatically
+
+<ul class="r-tabs">
+  <ul>
+    <li><a href="/some/url1">Tab 1</a></li>
+    <li><a href="/some/url2">Tab 2</a></li>
+  </ul>
+</ul>
+
+Or you can specify a common remote tabs url address like that
+
+<ul class="r-tabs" data-tabs-options="{url:'/some/url/%{id}'}">
+  <ul>
+    <li><a href="#tab-1">Tab 1</a></li>
+    <li><a href="#tab-2">Tab 2</a></li>
+  </ul>
+</ul>
+
+In this case the engine will replace the '%{id}' placeholder with the anchor texts and
+hit urls like this
+
+/some/url/tab-1
+/some/url/tab-2
+
+
+Defining The Current Tab
+========================
+
+By default the right-tabs engine will watch the url address anchors and if there is one
+matching then use it as the current tab index. You also can active the cookie based markers
+storage by specifying the 'Cookie' option, or you can specify the current tab manually by
+a css-class like that
+
+<ul class="r-tabs">
+  <ul>
+    <li><a href="#tab-1">Tab 1</a></li>
+    <li class="r-tabs-current"><a href="#tab-2">Tab 2</a></li>
+  </ul>
+  ....
+</ul>
+
+
+Tabs Variants
+=============
+
+With the right-tabs you define the tabs system variant and the tabs-bar position
+by the css-classes
+
+<ul class="r-tabs r-tabs-carousel">
+  ....
+</ul>
+
+<ul class="r-tabs r-tabs-harmonica">
+  ....
+</ul>
+
+<ul class="r-tabs r-tabs-bottom">
+  ....
+</ul>
+
+<ul class="r-tabs r-tabs-right">
+  ....
+</ul>
+
+
+Options
+=======
+
+You can deliver the tab-options by specifying the 'data-tabs-options' attribute
+with the tabs JSON hash. Or you can send them to the Tabs unit constructor.
+
+The list of supported tabs is following
+
+Events
+======
+
+....
+
+
+
