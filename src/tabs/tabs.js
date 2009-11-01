@@ -138,7 +138,8 @@ var Tabs = new Class(Observer, {
     if (!this.element.hasClass('r-tabs-carousel'))
       this.element.addClass('r-tabs-simple');
     
-    return this;
+    this.disable(this.options.disabled);
+    return this.show(this.options.selected);
   },
   
   // finds and interconnects the tabs
@@ -150,7 +151,7 @@ var Tabs = new Class(Observer, {
     this.tabsList = this.element.first('UL').addClass('r-tabs-list');
     
     this.tabs = this.tabsList.subNodes().map(function(node) {
-      var tab = new Tabs.Tab(node.addClass('r-tabs-tab'), this);
+      return new Tabs.Tab(node.addClass('r-tabs-tab'), this);
     }, this);
   },
   

@@ -43,7 +43,16 @@
   opacity: 1;
   filter: alpha(opacity=100);
 }
-
+*.r-tabs-disabled, *.r-tabs-disabled a, *.r-tabs-disabled a:hover {
+  background: #EEE;
+  border-color: #DDD;
+  color: #AAA;
+  cursor: default;
+}
+*.r-tabs-disabled a img, *.r-tabs-disabled a:hover img {
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
 
 *.r-tabs *.r-tabs-list {
   margin-bottom: .5em;

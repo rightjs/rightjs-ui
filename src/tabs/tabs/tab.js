@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-Tabs.Tab = new Class(Observer, {
+Tabs.Tab = new Class({
   extend: {
     autoId: 0
   },
@@ -23,14 +23,40 @@ Tabs.Tab = new Class(Observer, {
   
   click: function(event) {
     event.stop();
-    
+    return this.fire('click').disabled() ? this : this.show();
+  },
+  
+  show: function() {
     this.element.radioClass('r-tabs-current');
     this.panel.show();
     
-    this.controller.fire('click', this);
+    this.controller.tabs.each(function(tab) {
+      if (tab != this) tab.fire('hide');
+    }, this);
+    
+    return this.fire('show');
+  },
+  
+  disable: function() {
+    this.element.addClass('r-tabs-disabled');
+    return this.fire('disable');
+  },
+  
+  enable: function() {
+    this.element.removeClass('r-tabs-disabled');
+    return this.fire('enable');
+  },
+  
+  disabled: function() {
+    return this.element.hasClass('r-tabs-disabled');
   },
   
 // protected
+
+  fire: function(event) {
+    this.controller.fire(event, this);
+    return this;
+  },
   
   // generates the automaticall id for the tab
   findLink: function() {
