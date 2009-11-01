@@ -81,29 +81,6 @@ a css-class like that
 </ul>
 
 
-Tabs Variants
-=============
-
-With the right-tabs you define the tabs system variant and the tabs-bar position
-by the css-classes
-
-<ul class="r-tabs r-tabs-carousel">
-  ....
-</ul>
-
-<ul class="r-tabs r-tabs-harmonica">
-  ....
-</ul>
-
-<ul class="r-tabs r-tabs-bottom">
-  ....
-</ul>
-
-<ul class="r-tabs r-tabs-right">
-  ....
-</ul>
-
-
 Options
 =======
 

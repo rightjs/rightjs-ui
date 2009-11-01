@@ -8,19 +8,22 @@ var Tabs = new Class(Observer, {
   
   extend: {
     Options: {
-      idPrefix: '',      // the tab-body elements id prefix
+      idPrefix:    '',      // the tab-body elements id prefix
       
-      resize:   true,    // if the tab containers should be resized automatically
-      resizeFx: 'slide', // slide, fade, null
+      resize:      true,    // if the tab containers should be resized automatically
+      resizeFx:    'slide', // 'slide', 'fade', 'both', null
       
-      selected: null,    // the index of the currently opened tab, by default will check url, cookies or set 0
-      disabled: [],      // list of disabled tab indexes
+      scrollTabs:  false,   // use the tabs list scrolling
+      scrollSpeed: 400,     // the tabs scrolling speed (fx duration)
       
-      url:      false,   // a common remote tabs url template, should have the %{id} placeholder
-      cache:    false,   // marker if the remote tabs should be cached
+      selected:    null,    // the index of the currently opened tab, by default will check url, cookies or set 0
+      disabled:    [],      // list of disabled tab indexes
       
-      Xhr:      null,    // the xhr addtional options
-      Cookie:   null     // set the cookie options if you'd like to keep the last selected tab index in cookies
+      url:         false,   // a common remote tabs url template, should have the %{id} placeholder
+      cache:       false,   // marker if the remote tabs should be cached
+      
+      Xhr:         null,    // the xhr addtional options
+      Cookie:      null     // set the cookie options if you'd like to keep the last selected tab index in cookies
     },
     
     // scans and automatically intializes the tabs
@@ -55,22 +58,110 @@ var Tabs = new Class(Observer, {
     delete(this.element._tabs);
   },
   
+  /**
+   * Shows the given tab
+   *
+   * @param integer tab index or a Tabs.Tab instance
+   * @return Tabs this
+   */
+  show: function(tab) {
+    return this.callTab(tab, 'show');
+  },
+  
+  next: function() {
+    
+  },
+  
+  prev: function() {
+    
+  },
+  
+  /**
+   * Disables the given tab
+   *
+   * @param integer tab index or a Tabs.Tab instance or a list of them
+   * @return Tabs this
+   */
+  disable: function(tab) {
+    return this.callTab(tab, 'disable');
+  },
+  
+  /**
+   * Enables the given tab
+   *
+   * @param integer tab index or a Tabs.Tab instance or a list of them
+   * @return Tabs this
+   */
+  enable: function(tab) {
+    return this.callTab(tab, 'enable');
+  },
+  
+  /**
+   * Creates a new tab
+   *
+   * @param String title
+   * @param mixed content
+   * @param Object options
+   * @return Tabs this
+   */
+  add: function(title, content, options) {
+    // TODO me
+  },
+  
+  /**
+   * Removes the given tab
+   *
+   * @param integer tab index or a Tabs.Tab instance or a list of them
+   * @return Tabs this
+   */
+  remote: function(tab) {
+    return this.callTab(tab, 'remove');
+  },
+  
 // protected
+  
+  // calls the tab (or tabs) method
+  callTab: function(tab, method) {
+    if (isArray(tab)) tab.each(this[method], this);
+    else (isNumber(tab) ? this.tabs[tab] : tab)[method]();
+    return this;
+  },
+  
+  // initializes the tabs unit
   init: function() {
     this.findTabs();
+    
+    if (this.options.scrollTabs || this.element.hasClass('r-tabs-carousel'))
+      this.buildScroller();
+      
+    this.element.addClass('r-tabs');
+    if (!this.element.hasClass('r-tabs-carousel'))
+      this.element.addClass('r-tabs-simple');
     
     return this;
   },
   
+  // finds and interconnects the tabs
   findTabs: function() {
-    var nodes = this.element.subNodes();
-    this.panels = nodes.filter('id').map(function(element) {
-      return new Tabs.Panel(element, this);
+    this.panels = this.element.subNodes().filter('id').map(function(element) {
+      return new Tabs.Panel(element.addClass('r-tabs-panel'), this);
     }, this);
     
-    var tabs  = nodes.first(function(node) { return node.tagName == 'UL';}).select('li');
-    this.tabs = tabs.map(function(node) {
-      var tab = new Tabs.Tab(node, this);
+    this.tabsList = this.element.first('UL').addClass('r-tabs-list');
+    
+    this.tabs = this.tabsList.subNodes().map(function(node) {
+      var tab = new Tabs.Tab(node.addClass('r-tabs-tab'), this);
     }, this);
+  },
+  
+  // builds the tabs scroller block
+  buildScroller: function() {
+    if (!this.element.first('r-tabs-scroller')) {
+      this.element.insert($E('div', {'class': 'r-tabs-scroller'}).insert([
+        $E('div', {'class': 'r-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.prev.bind(this)),
+        $E('div', {'class': 'r-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.next.bind(this)),
+        $E('div', {'class': 'r-tabs-scroll-body'}).insert(this.tabsList)
+      ]), 'top');
+    }
   }
 });

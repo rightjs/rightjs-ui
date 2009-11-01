@@ -1,171 +1,160 @@
-*.r-tabs {
+/* RESET */
+*.r-tabs, *.r-tabs *.r-tabs-list, *.r-tabs *.r-tabs-tab, *.r-tabs *.r-tabs-panel,
+*.r-tabs-scroll-left, *.r-tabs-scroll-right, *.r-tabs-scroll-body {
   margin: 0;
   padding: 0;
-  list-style: none;
-  position: relative;
-  padding-top: 2em;
-}
-*.r-tabs > li, *.r-tabs > div {
-  display: none;
-  margin: 0;
-  padding: .5em;
-  border-top: 1px solid #DDD;
-}
-*.r-tabs > li.r-tabs-current, *.r-tabs > div.r-tabs-current {
-  display: block;
-}
-
-*.r-tabs > ul {
-  position: absolute;
-  top: 0;
-  margin: 0;
-  padding: 0 .5em;
-  list-style: none;
   background: none;
   border: none;
+  list-style: none;
   display: block;
-  height: 2em;
+  width: auto;
+  height: auto;
 }
 
-*.r-tabs > ul li {
-  float: left;
-  margin: 0;
-  padding: 0;
-  background: none;
-}
-*.r-tabs > ul li a {
-  cursor: pointer;
+/* basic tabs styles */
+*.r-tabs-tab, *.r-tabs-tab a {
   display: block;
+  float: left;
+}
+*.r-tabs-tab a {
+  cursor: pointer;
   text-decoration: none;
   border: 1px solid #CCC;
-  border-bottom: none;
-  height: 1.8em;
-  line-height: 1.8em;
-  margin: 0;
-  margin-top: .2em;
-  padding: 0 1em;
   background: #DDD;
   color: #444;
   -moz-border-radius: .3em;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-bottomright: 0;
   -webkit-border-radius: .3em;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
 }
-*.r-tabs > ul li a:hover {
-  border-color: #AAA;
+*.r-tabs-tab a:hover {
+  border-color: #CCC;
   background: #EEE;
 }
-*.r-tabs > ul li.r-tabs-current a {
-  height: 2em;
-  line-height: 2em;
-  margin-top: 0;
+*.r-tabs *.r-tabs-list *.r-tabs-current a {
   font-weight: bold;
   color: #000;
   background: #FFF;
 }
-
-
-/* Tabs variants */
-*.r-tabs-bottom {
-  padding: 0;
-  padding-bottom: 2em;
-}
-*.r-tabs-bottom > ul {
-  top: auto;
-  bottom: 0;
-}
-*.r-tabs-bottom > ul li a {
-  margin-top: -1px;
-  border: 1px solid #CCC;
-  border-top: none;
-  -moz-border-radius: .3em;
-  -moz-border-radius-topleft: 0;
-  -moz-border-radius-topright: 0;
-  -webkit-border-radius: .3em;
-  -webkit-border-top-left-radius: 0;
-  -webkit-border-top-right-radius: 0;
-}
-*.r-tabs-bottom > ul li.r-tabs-current a {
-  margin-top: -1px;
-}
-*.r-tabs-bottom > li, *.r-tabs-bottom > div {
+*.r-tabs-tab a img {
   border: none;
-  border-bottom: 1px solid #DDD;
+  opacity: .6;
+  filter: alpha(opacity=60);
+}
+*.r-tabs-tab a:hover img, *.r-tabs *.r-tabs-list *.r-tabs-current a img {
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
 
-*.r-tabs-left {
-  padding: 0;
+
+*.r-tabs *.r-tabs-list {
+  margin-bottom: .5em;
 }
-*.r-tabs-left > ul {
-  position: static;
-  float: left;
-  border: none;
-  border-right: 1px solid #CCC;
-  padding: .5em 0;
-  margin-right: .5em;
-  height: auto;
+
+
+*.r-tabs *.r-tabs-panel {
+  display: none;
 }
-*.r-tabs-left > ul li {
-  float: none;
+*.r-tabs *.r-tabs-current {
+  display: block;
 }
-*.r-tabs-left > ul li a {
+
+
+/* the tabs scroller style */
+*.r-tabs *.r-tabs-scroller {
+  padding: 0 1.4em;
+  position: relative;
+  margin-bottom: .5em;
+}
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-left,
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-right {
+  width: 1.1em;
+  text-align: center;
+  background: #EEE;
+  color: #888;
+  cursor: pointer;
+  border: 1px solid #DDD;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-left:hover,
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-right:hover {
+  color: #000;
+  background: #DDD;
+  border-color: #AAA;
+}
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-right {
+  left: auto;
+  right: 0px;
+}
+*.r-tabs *.r-tabs-scroller *.r-tabs-scroll-body {
+  width: 100%;
+  overflow: hidden;
+}
+*.r-tabs *.r-tabs-scroller *.r-tabs-list {
+  width: 99999em;
   margin: 0;
-  margin-left: .2em;
+}
+
+
+/* simple tabs style */
+*.r-tabs-simple *.r-tabs-list {
   height: 2em;
-  line-height: 2em;
-  border: 1px solid #CCC;
-  border-right: none;
-  -moz-border-radius: .3em;
-  -moz-border-radius-topright: 0;
+  padding: 0 1em;
+  border-bottom: 1px solid #CCC;
+}
+*.r-tabs-simple *.r-tabs-tab {
+  margin-top: -1px;
+  margin-right: 1px;
+}
+*.r-tabs-simple *.r-tabs-tab a {
+  line-height: 1.8em;
+  margin-top: .2em;
+  padding: 0 1em;
+  border-bottom: none;
+  -moz-border-radius-bottomleft: 0;
   -moz-border-radius-bottomright: 0;
-  -webkit-border-radius: .3em;
-  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
   -webkit-border-bottom-right-radius: 0;
 }
-*.r-tabs-left > ul li.r-tabs-current a {
-  margin: 0;
-  margin-right: -1px;
+*.r-tabs-simple *.r-tabs-list *.r-tabs-current a {
+  line-height: 200%;
+  position: relative;
+  margin-top: 1px;
 }
-*.r-tabs-left > li, *.r-tabs-left > div {
-  border: none;
+*.r-tabs-simple *.r-tabs-scroller {
+  border-bottom: 1px solid #CCC;
 }
-
-
-*.r-tabs-right {
+*.r-tabs-simple *.r-tabs-scroller *.r-tabs-scroll-left,
+*.r-tabs-simple *.r-tabs-scroller *.r-tabs-scroll-right {
+  line-height: 1.8em;
+  top: .2em;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+}
+*.r-tabs-simple *.r-tabs-scroller *.r-tabs-scroll-body {
+  position: relative;
+  top: 1px;
+}
+*.r-tabs-simple *.r-tabs-scroller *.r-tabs-scroll-body *.r-tabs-list {
   padding: 0;
 }
-*.r-tabs-right > ul {
-  position: static;
-  float: right;
-  border: none;
-  border-left: 1px solid #CCC;
-  padding: .5em 0;
-  margin-left: .5em;
-  height: auto;
+
+/* carousel styles */
+*.r-tabs-carousel *.r-tabs-list,
+*.r-tabs-carousel *.r-tabs-tab a,
+*.r-tabs-carousel *.r-tabs-scroller *.r-tabs-scroll-left,
+*.r-tabs-carousel *.r-tabs-scroller *.r-tabs-scroll-right {
+  height: 6em;
+  line-height: 6em;
 }
-*.r-tabs-right > ul li {
-  float: none;
-}
-*.r-tabs-right > ul li a {
-  margin: 0;
+*.r-tabs-carousel *.r-tabs-tab {
   margin-right: .2em;
-  height: 2em;
-  line-height: 2em;
+}
+*.r-tabs-carousel *.r-tabs-tab a img {
   border: 1px solid #CCC;
-  border-left: none;
-  -moz-border-radius: .3em;
-  -moz-border-radius-topleft: 0;
-  -moz-border-radius-bottomleft: 0;
-  -webkit-border-radius: .3em;
-  -webkit-border-top-left-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-}
-*.r-tabs-right > ul li.r-tabs-current a {
-  margin: 0;
-  margin-left: -1px;
-}
-*.r-tabs-right > li, *.r-tabs-right > div {
-  border: none;
+  margin: .4em;
 }

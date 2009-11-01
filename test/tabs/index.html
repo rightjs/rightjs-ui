@@ -12,7 +12,10 @@
     html, body {
       font-family: Verdana, sans-serif;
       font-size: 10pt;
-      width: 40em;
+      width: 640px;
+    }
+    h2 {
+      margin-top: 4em;
     }
     </style>
   </head>
@@ -53,61 +56,72 @@
       </ul>
     </p>
     
-    <h2>With tabs at the bottom</h2>
+    <h2>Tabs with scrolling</h2>
     <p>
-      <div class="r-tabs r-tabs-bottom">
-        <ul>
-          <li><a href="#b-tab-1">Tab 1</a></li>
-          <li><a href="#b-tab-2">Tab 2</a></li>
-          <li class="r-tabs-current"><a href="#b-tab-3">Tab 3</a></li>
-          <li><a href="#b-tab-4">Tab 4</a></li>
-        </ul>
-        
-        <div id="b-tab-1">tab body 1</div>
-        <div id="b-tab-2">tab body 2</div>
-        <div id="b-tab-3" class="r-tabs-current">tab body 3</div>
-        <div id="b-tab-4">tab body 4</div>
-      </div>
-    </p>
-    
-    <h2>With tabs on the left side</h2>
-    <p>
-      <div class="r-tabs r-tabs-left">
-        <ul>
-          <li><a href="#l-tab-1">Tab 1</a></li>
-          <li><a href="#l-tab-2">Tab 2</a></li>
-          <li><a href="#l-tab-3">Tab 3</a></li>
-          <li class="r-tabs-current"><a href="#l-tab-4">Tab 4</a></li>
-        </ul>
-        
-        <div id="l-tab-1">tab body 1</div>
-        <div id="l-tab-2">tab body 2</div>
-        <div id="l-tab-3">tab body 3</div>
-        <div id="l-tab-4" class="r-tabs-current">tab body 4</div>
-        
-      </div>
-      <div style="clear: both"></div>
-    </p>
-    
-    <h2>With tabs at the right side</h2>
-    <p>
-      <div class="r-tabs r-tabs-right">
+      <div class="r-tabs" data-tabs-options="{scrollTabs:true}">
         <ul>
           <li><a href="#r-tab-1">Tab 1</a></li>
-          <li><a href="#r-tab-2">Tab 2</a></li>
-          <li class="r-tabs-current"><a href="#r-tab-3">Tab 3</a></li>
+          <li class="r-tabs-current"><a href="#r-tab-2">Tab 2</a></li>
+          <li><a href="#r-tab-3">Tab 3</a></li>
           <li><a href="#r-tab-4">Tab 4</a></li>
+          <li><a href="#r-tab-5">Tab 5</a></li>
+          <li><a href="#r-tab-6">Tab 6</a></li>
+          <li><a href="#r-tab-7">Tab 7</a></li>
+          <li><a href="#r-tab-8">Tab 8</a></li>
+          <li><a href="#r-tab-9">Tab 9</a></li>
+          <li><a href="#r-tab-0">Tab 0</a></li>
         </ul>
         
         <div id="r-tab-1">tab body 1</div>
-        <div id="r-tab-2">tab body 2</div>
-        <div id="r-tab-3" class="r-tabs-current">tab body 3</div>
+        <div id="r-tab-2" class="r-tabs-current">tab body 2</div>
+        <div id="r-tab-3">tab body 3</div>
         <div id="r-tab-4">tab body 4</div>
+        <div id="r-tab-5">tab body 5</div>
+        <div id="r-tab-6">tab body 6</div>
+        <div id="r-tab-7">tab body 7</div>
+        <div id="r-tab-8">tab body 8</div>
+        <div id="r-tab-9">tab body 9</div>
+        <div id="r-tab-0">tab body 0</div>
       </div>
-      
-      <div style="clear: both"></div>
     </p>
     
+    <h2>Carousel Simple</h2>
+    <p>
+      <div class="r-tabs r-tabs-carousel">
+        <ul>
+          <li><a href="#cs-tab-1"><img src="http://rightjs.org/images/test/1-min.jpg" /></a></li>
+          <li><a href="#cs-tab-2"><img src="http://rightjs.org/images/test/2-min.jpg" /></a></li>
+          <li class="r-tabs-current"><a href="#cs-tab-3"><img src="http://rightjs.org/images/test/3-min.jpg" /></a></li>
+          <li><a href="#cs-tab-4"><img src="http://rightjs.org/images/test/4-min.jpg" /></a></li>
+          <!--li><a href="#cs-tab-5"><img src="http://rightjs.org/images/test/5-min.jpg" /></a></li>
+          <li><a href="#cs-tab-6"><img src="http://rightjs.org/images/test/6-min.jpg" /></a></li-->
+          <li><a href="#cs-tab-7"><img src="http://rightjs.org/images/test/1-min.jpg" /></a></li>
+          <li><a href="#cs-tab-8"><img src="http://rightjs.org/images/test/2-min.jpg" /></a></li>
+          <li><a href="#cs-tab-10"><img src="http://rightjs.org/images/test/3-min.jpg" /></a></li>
+          <li><a href="#cs-tab-11"><img src="http://rightjs.org/images/test/4-min.jpg" /></a></li>
+          <!--li><a href="#cs-tab-12"><img src="http://rightjs.org/images/test/5-min.jpg" /></a></li>
+          <li><a href="#cs-tab-13"><img src="http://rightjs.org/images/test/6-min.jpg" /></a></li-->
+        </ul>
+        
+        <div id="cs-tab-1"><img src="http://rightjs.org/images/test/1.jpg" /></div>
+        <div id="cs-tab-2"><img src="http://rightjs.org/images/test/2.jpg" /></div>
+        <div id="cs-tab-3" class="r-tabs-current"><img src="http://rightjs.org/images/test/3.jpg" /></div>
+        <div id="cs-tab-4"><img src="http://rightjs.org/images/test/4.jpg" /></div>
+        <div id="cs-tab-5"><img src="http://rightjs.org/images/test/5.jpg" /></div>
+        <div id="cs-tab-6"><img src="http://rightjs.org/images/test/6.jpg" /></div>
+        <div id="cs-tab-7"><img src="http://rightjs.org/images/test/1.jpg" /></div>
+        <div id="cs-tab-8"><img src="http://rightjs.org/images/test/2.jpg" /></div>
+        <div id="cs-tab-9"><img src="http://rightjs.org/images/test/3.jpg" /></div>
+        <div id="cs-tab-10"><img src="http://rightjs.org/images/test/4.jpg" /></div>
+        <div id="cs-tab-11"><img src="http://rightjs.org/images/test/5.jpg" /></div>
+        <div id="cs-tab-12"><img src="http://rightjs.org/images/test/6.jpg" /></div>
+      </div>
+    </p>
     
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
   </body>
 </html>
