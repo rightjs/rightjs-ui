@@ -54,14 +54,10 @@ return {
   // picks the next/prev non-disabled available tab
   pickTab: function(pos) {
     var current = this.tabs.first('current');
-    if (current) {
-      // searching for the next undisabled tab
-      for (var i=this.tabs.indexOf(current) + pos; pos > 0 ? i < this.tabs.length : i > -1; i+=pos) {
-        if (!this.tabs[i].disabled()) {
-          this.show(i);
-          break;
-        }
-      }
+    if (current && current.enabled()) {
+      var enabled_tabs = this.tabs.filter('enabled');
+      var tab = enabled_tabs[enabled_tabs.indexOf(current) + pos];
+      if (tab) tab.show();
     }
   },
   

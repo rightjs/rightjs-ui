@@ -4,9 +4,9 @@
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 var Tabs = new Class(Observer, {
-  EVENTS: $('show hide click load disable enable add remove'),
-  
   extend: {
+    EVENTS: $w('show hide click load disable enable add remove'),
+    
     Options: {
       idPrefix:       '',      // the tab-body elements id prefix
       
@@ -48,6 +48,8 @@ var Tabs = new Class(Observer, {
     this.$super(options || eval('('+this.element.get('data-tabs-options')+')'));
     
     this.element._tabs = this.init();
+    
+    this.show(this.options.selected);
   },
   
   /**
@@ -140,8 +142,7 @@ var Tabs = new Class(Observer, {
     if (this.isSimple())
       this.element.addClass('r-tabs-simple');
     
-    this.disable(this.options.disabled);
-    return this.show(this.options.selected);
+    return this.disable(this.options.disabled);
   },
   
   // finds and interconnects the tabs

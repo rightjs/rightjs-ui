@@ -49,7 +49,11 @@ Tabs.Tab = new Class({
   },
   
   disabled: function() {
-    return this.element.hasClass('r-tabs-disabled');
+    return !this.enabled();
+  },
+  
+  enabled: function() {
+    return !this.element.hasClass('r-tabs-disabled');
   },
   
   current: function() {
