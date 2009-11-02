@@ -17,6 +17,7 @@
   float: left;
 }
 *.r-tabs-tab a {
+  position: relative;
   cursor: pointer;
   text-decoration: none;
   border: 1px solid #CCC;
@@ -56,6 +57,22 @@
 
 *.r-tabs *.r-tabs-list {
   margin-bottom: .5em;
+}
+
+/* TODO make it look properly in IE */
+*.r-tabs-tab-close-icon {
+  float: right;
+  margin-right: -0.5em;
+  margin-left: 0.5em;
+  cursor: pointer;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+*.r-tabs-tab-close-icon:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  color: #B00;
+  text-shadow: #888 .15em .15em .2em;
 }
 
 /* the panels and locker styles */

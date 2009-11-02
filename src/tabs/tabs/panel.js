@@ -37,5 +37,10 @@ Tabs.Panel = new Class(Observer, {
   update: function(content) {
     this.element.update(content||'');
     return this;
+  },
+  
+  remove: function() {
+    this.element.remove();
+    return this;
   }
 });

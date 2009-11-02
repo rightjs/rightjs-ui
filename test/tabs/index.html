@@ -10,6 +10,7 @@
     <script src="../../src/tabs/tabs/scroll.js" type="text/javascript"></script>
     <script src="../../src/tabs/tabs/current.js" type="text/javascript"></script>
     <script src="../../src/tabs/tabs/remote.js" type="text/javascript"></script>
+    <script src="../../src/tabs/tabs/builder.js" type="text/javascript"></script>
     <script src="../../src/tabs/document.js" type="text/javascript"></script>
     <style>
     html, body {
@@ -39,9 +40,9 @@
       </div>
     </p>
     
-    <h2>UL version with id-prefix</h2>
+    <h2>UL version with options, id-prefix and removable icons</h2>
     <p>
-      <ul class="r-tabs" data-tabs-options="{idPrefix: 'pre-'}">
+      <ul class="r-tabs" data-tabs-options="{idPrefix: 'pre-', removable: true}">
         <ul>
           <li><a href="#ul-tab-1">Tab 1</a></li>
           <li class="r-tabs-current"><a href="#ul-tab-2">Tab 2</a></li>
@@ -102,7 +103,7 @@
       </div>
     </p>
     
-    <h2>Remote Tabs With Common Address</h2>
+    <h2>Remote Tabs With A Common Address</h2>
     <p>
       <div class="r-tabs" data-tabs-options="{idPrefix:'cr-', url: 'content/%{id}.html'}">
         <ul>
@@ -112,6 +113,59 @@
           <li><a href="#tab-4">Tab 4</a></li>
         </ul>
       </div>
+    </p>
+    
+    <h2>Automatically Generated Tabs</h2>
+    <p>
+      <div id="auto-tabs">
+        <ul></ul>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var tabs = new Tabs('auto-tabs', {idPrefix: 'auto-'});
+        
+        tabs.add('Tab 1', 'Content 1');
+        tabs.add('Tab 2', 'Content 2');
+        tabs.add('Tab 4', 'Content 4');
+        tabs.add('Tab 3', 'Content 3', {position: 2});
+        
+        tabs.show(0);
+      // ]]>
+      </script>
+    </p>
+    <p>
+      <div id="auto-tabs-with-url">
+        <ul></ul>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var tabs = new Tabs('auto-tabs-with-url', {idPrefix: 'auto-with-url'});
+        
+        tabs.add('Tab 1', null, {url: 'content/tab-1.html'});
+        tabs.add('Tab 2', null, {url: 'content/tab-2.html'});
+        tabs.add('Tab 4', null, {url: 'content/tab-4.html'});
+        tabs.add('Tab 3', null, {url: 'content/tab-3.html', position: 2});
+        
+        tabs.show(0);
+      // ]]>
+      </script>
+    </p>
+    <p>
+      <div id="auto-tabs-with-ids">
+        <ul></ul>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var tabs = new Tabs('auto-tabs-with-ids', {idPrefix: 'auto-with-ids', url: 'content/%{id}.html'});
+        
+        tabs.add('Tab 1', null, {id: 'tab-1'});
+        tabs.add('Tab 2', null, {id: 'tab-2'});
+        tabs.add('Tab 4', null, {id: 'tab-4'});
+        tabs.add('Tab 3', null, {id: 'tab-3', position: 2});
+        
+        tabs.show(0);
+      // ]]>
+      </script>
     </p>
     
     <h2>Tabs with scrolling</h2>

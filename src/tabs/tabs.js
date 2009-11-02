@@ -20,6 +20,8 @@ var Tabs = new Class(Observer, {
       selected:       null,    // the index of the currently opened tab, by default will check url, cookies or set 0
       disabled:       [],      // list of disabled tab indexes
       
+      removable:      false,   // set true if you want a close icon on your tabs
+      
       url:            false,   // a common remote tabs url template, should have the %{id} placeholder
       cache:          false,   // marker if the remote tabs should be cached
       
@@ -89,28 +91,6 @@ var Tabs = new Class(Observer, {
    */
   enable: function(tab) {
     return this.callTab(tab, 'enable');
-  },
-  
-  /**
-   * Creates a new tab
-   *
-   * @param String title
-   * @param mixed content
-   * @param Object options
-   * @return Tabs this
-   */
-  add: function(title, content, options) {
-    // TODO me
-  },
-  
-  /**
-   * Removes the given tab
-   *
-   * @param integer tab index or a Tabs.Tab instance or a list of them
-   * @return Tabs this
-   */
-  remote: function(tab) {
-    return this.callTab(tab, 'remove');
   },
   
 // protected
