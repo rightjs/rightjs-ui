@@ -113,7 +113,7 @@ return {
     // applying the scroll
     var style = {left: scroll + 'px'};
     
-    if (this.options.scrollDuration)
+    if (this.options.scrollDuration && self.Fx)
       this.tabsList.morph(style, {duration: this.options.scrollDuration});
     else
       this.tabsList.setStyle(style);

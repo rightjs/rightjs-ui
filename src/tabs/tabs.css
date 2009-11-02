@@ -1,6 +1,6 @@
 /* RESET */
 *.r-tabs, *.r-tabs *.r-tabs-list, *.r-tabs *.r-tabs-tab, *.r-tabs *.r-tabs-panel,
-*.r-tabs-scroll-left, *.r-tabs-scroll-right, *.r-tabs-scroll-body {
+*.r-tabs-scroll-left, *.r-tabs-scroll-right, *.r-tabs-scroll-body, *.r-tabs-panel-locker {
   margin: 0;
   padding: 0;
   background: none;
@@ -58,12 +58,41 @@
   margin-bottom: .5em;
 }
 
-
+/* the panels and locker styles */
 *.r-tabs *.r-tabs-panel {
   display: none;
+  position: relative;
+  min-height: 8em;
 }
 *.r-tabs *.r-tabs-current {
   display: block;
+}
+
+*.r-tabs-panel-locker {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  background: #888;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 100%;
+}
+*.r-tabs-panel-locker-spinner {
+  position: absolute;
+  left: 44%;
+  top: 44%;
+}
+*.r-tabs-panel-locker-spinner div {
+  float: left;
+  font-size: 200%;
+  letter-spacing: -0.1em;
+  color: #444;
+}
+*.r-tabs-panel-locker-spinner div.glow {
+  color: #BBB;
 }
 
 

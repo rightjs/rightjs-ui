@@ -147,14 +147,10 @@ var Tabs = new Class(Observer, {
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.panels = this.element.subNodes().filter('id').map(function(element) {
-      return new Tabs.Panel(element.addClass('r-tabs-panel'), this);
-    }, this);
-    
     this.tabsList = this.element.first('UL').addClass('r-tabs-list');
     
     this.tabs = this.tabsList.subNodes().map(function(node) {
-      return new Tabs.Tab(node.addClass('r-tabs-tab'), this);
+      return new Tabs.Tab(node, this);
     }, this);
   }
 });

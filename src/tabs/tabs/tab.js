@@ -9,33 +9,39 @@ Tabs.Tab = new Class({
   },
   
   initialize: function(element, controller) {
-    this.element = element;
+    this.element    = element.addClass('r-tabs-tab');
     this.controller = controller;
     
     this.element.onMousedown(this.click.bind(this)).onClick('stopEvent');
     
     this.findLink();
     
-    this.panel = controller.panels.first(function(panel) {
-      return panel.id == controller.options.idPrefix + this.id;
-    }, this);
+    var panel_id = controller.options.idPrefix + this.id
+    var panel = $(panel_id) || $E(controller.element.tagName == 'UL' ? 'LI' : 'DIV',
+      {id: panel_id}).insertTo(controller.element);
+      
+    this.panel = new Tabs.Panel(panel, controller);
   },
   
   click: function(event) {
     event.stop();
-    return this.fire('click').disabled() ? this : this.show();
+    return this.fire('click').show();
   },
   
   show: function() {
-    this.element.radioClass('r-tabs-current');
-    this.controller.scrollToTab(this);
-    this.panel.show();
+    if (this.enabled()) {
+      this.element.radioClass('r-tabs-current');
+      this.controller.scrollToTab(this);
+      this.panel.show();
+
+      this.controller.tabs.each(function(tab) {
+        if (tab != this) tab.fire('hide');
+      }, this);
+      
+      this.fire('show');
+    }
     
-    this.controller.tabs.each(function(tab) {
-      if (tab != this) tab.fire('hide');
-    }, this);
-    
-    return this.fire('show');
+    return this;
   },
   
   disable: function() {
