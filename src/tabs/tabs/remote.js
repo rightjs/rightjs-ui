@@ -11,24 +11,30 @@ return {
   // wrapping the show mehtod, to catch the remote requests
   show: function() {
     var result  = old_show.apply(this, arguments);
-    var url     = this.link.getAttribute('href');
+    var url     = this.link.href;
     var options = this.controller.options;
     
     // building the url
-    if (url.startsWith('#')) 
-      url = options.url ? options.url.replace('%{id}', url.slice(1)) : null;
+    if (url.includes('#')) 
+      url = options.url ? options.url.replace('%{id}', url.split('#')[1]) : null;
     
     // if there is an actual url and no ongoing request or a cache, starting the request
     if (url && !this.request && !(options.cache || this.cache)) {
       this.panel.lock();
       
-      this.request = Xhr.load(url, options.Xhr).onComplete(function(response) {
-        this.panel.update(response.text);
+      try { // TODO remote the try/catch block and change the test urls to the rightjs.org demo urls
         
-        this.request = null; // removing the request marker so it could be rerun
+        this.request = Xhr.load(url, options.Xhr).onComplete(function(response) {
+          this.panel.update(response.text);
+
+          this.request = null; // removing the request marker so it could be rerun
+          if (options.cache) this.cache = true;
+
+          this.fire('load');
+        }.bind(this));
         
-        if (options.cache) this.cache = true;
-      }.bind(this));
+      // TODO nuke me
+      } catch(e) { if (!Browser.OLD) throw(e) } // Old IE browsers will get screwed on local tests
     }
     
     return result;

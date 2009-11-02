@@ -62,7 +62,7 @@
 *.r-tabs *.r-tabs-panel {
   display: none;
   position: relative;
-  min-height: 8em;
+  min-height: 4em;
 }
 *.r-tabs *.r-tabs-current {
   display: block;
@@ -87,12 +87,17 @@
 }
 *.r-tabs-panel-locker-spinner div {
   float: left;
-  font-size: 200%;
-  letter-spacing: -0.1em;
-  color: #444;
+  background: #444;
+  width: .5em;
+  height: 1em;
+  margin-right: .1em;
+  -moz-border-radius: .1em;
+  -webkit-border-radius: .1em;
 }
 *.r-tabs-panel-locker-spinner div.glow {
-  color: #BBB;
+  background: #CCC;
+  height: 1.2em;
+  margin-top: -0.1em;
 }
 
 

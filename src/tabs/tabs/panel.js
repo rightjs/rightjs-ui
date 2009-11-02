@@ -22,7 +22,7 @@ Tabs.Panel = new Class(Observer, {
     var locker  = $E('div', {'class': 'r-tabs-panel-locker'});
     var spinner = $E('div', {'class': 'r-tabs-panel-locker-spinner'}).insertTo(locker);
     var dots    = '1234'.split('').map(function(i) {
-      return $E('div', {html: '&bull;', 'class': i == 1 ? 'glow':null}).insertTo(spinner);
+      return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
     });
     
     (function() {
