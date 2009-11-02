@@ -100,8 +100,10 @@
 *.r-tabs *.r-tabs-scroller *.r-tabs-scroll-body {
   width: 100%;
   overflow: hidden;
+  position: relative;
 }
 *.r-tabs *.r-tabs-scroller *.r-tabs-list {
+  position: relative;
   width: 99999em;
   margin: 0;
 }
@@ -161,7 +163,7 @@
   line-height: 6em;
 }
 *.r-tabs-carousel *.r-tabs-tab {
-  margin-right: .2em;
+  margin-right: 2px;
 }
 *.r-tabs-carousel *.r-tabs-tab a img {
   border: 1px solid #CCC;

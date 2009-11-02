@@ -8,22 +8,23 @@ var Tabs = new Class(Observer, {
   
   extend: {
     Options: {
-      idPrefix:    '',      // the tab-body elements id prefix
+      idPrefix:       '',      // the tab-body elements id prefix
       
-      resize:      true,    // if the tab containers should be resized automatically
-      resizeFx:    'slide', // 'slide', 'fade', 'both', null
+      resize:         true,    // if the tab containers should be resized automatically
+      resizeFx:       'slide', // 'slide', 'fade', 'both', null
+      resizeDuration: 400,     // the tab panels resize fx duration
       
-      scrollTabs:  false,   // use the tabs list scrolling
-      scrollSpeed: 400,     // the tabs scrolling speed (fx duration)
+      scrollTabs:     false,   // use the tabs list scrolling
+      scrollDuration: 400,     // the tabs scrolling fx duration
       
-      selected:    null,    // the index of the currently opened tab, by default will check url, cookies or set 0
-      disabled:    [],      // list of disabled tab indexes
+      selected:       null,    // the index of the currently opened tab, by default will check url, cookies or set 0
+      disabled:       [],      // list of disabled tab indexes
       
-      url:         false,   // a common remote tabs url template, should have the %{id} placeholder
-      cache:       false,   // marker if the remote tabs should be cached
+      url:            false,   // a common remote tabs url template, should have the %{id} placeholder
+      cache:          false,   // marker if the remote tabs should be cached
       
-      Xhr:         null,    // the xhr addtional options
-      Cookie:      null     // set the cookie options if you'd like to keep the last selected tab index in cookies
+      Xhr:            null,    // the xhr addtional options
+      Cookie:         null     // set the cookie options if you'd like to keep the last selected tab index in cookies
     },
     
     // scans and automatically intializes the tabs
@@ -66,14 +67,6 @@ var Tabs = new Class(Observer, {
    */
   show: function(tab) {
     return this.callTab(tab, 'show');
-  },
-  
-  next: function() {
-    
-  },
-  
-  prev: function() {
-    
   },
   
   /**
@@ -119,23 +112,32 @@ var Tabs = new Class(Observer, {
   },
   
 // protected
+
+  isSimple: function() {
+    return !(this.isCarousel() || this.isHarmonica());
+  },
+
+  isCarousel: function() {
+    return this.element.hasClass('r-tabs-carousel');
+  },
+  
+  isHarmonica: function() {
+    return this.element.hasClass('r-tabs-harmonica');
+  },
   
   // calls the tab (or tabs) method
   callTab: function(tab, method) {
     if (isArray(tab)) tab.each(this[method], this);
-    else (isNumber(tab) ? this.tabs[tab] : tab)[method]();
+    else if (tab = isNumber(tab) ? this.tabs[tab] : tab) tab[method]();
     return this;
   },
   
   // initializes the tabs unit
   init: function() {
     this.findTabs();
-    
-    if (this.options.scrollTabs || this.element.hasClass('r-tabs-carousel'))
-      this.buildScroller();
       
     this.element.addClass('r-tabs');
-    if (!this.element.hasClass('r-tabs-carousel'))
+    if (this.isSimple())
       this.element.addClass('r-tabs-simple');
     
     this.disable(this.options.disabled);
@@ -153,16 +155,5 @@ var Tabs = new Class(Observer, {
     this.tabs = this.tabsList.subNodes().map(function(node) {
       return new Tabs.Tab(node.addClass('r-tabs-tab'), this);
     }, this);
-  },
-  
-  // builds the tabs scroller block
-  buildScroller: function() {
-    if (!this.element.first('r-tabs-scroller')) {
-      this.element.insert($E('div', {'class': 'r-tabs-scroller'}).insert([
-        $E('div', {'class': 'r-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.prev.bind(this)),
-        $E('div', {'class': 'r-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.next.bind(this)),
-        $E('div', {'class': 'r-tabs-scroll-body'}).insert(this.tabsList)
-      ]), 'top');
-    }
   }
 });

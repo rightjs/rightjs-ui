@@ -28,6 +28,7 @@ Tabs.Tab = new Class({
   
   show: function() {
     this.element.radioClass('r-tabs-current');
+    this.controller.scrollToTab(this);
     this.panel.show();
     
     this.controller.tabs.each(function(tab) {
@@ -49,6 +50,15 @@ Tabs.Tab = new Class({
   
   disabled: function() {
     return this.element.hasClass('r-tabs-disabled');
+  },
+  
+  current: function() {
+    return this.element.hasClass('r-tabs-current');
+  },
+  
+  // returns the tab width, used for the scrolling calculations
+  width: function() {
+    return this.element.offsetWidth + this.element.getStyle('marginRight').toInt();
   },
   
 // protected
