@@ -61,7 +61,9 @@
 
 /* TODO make it look properly in IE */
 *.r-tabs-tab-close-icon {
-  float: right;
+  display: inline-block;
+* display: inline;
+* zoom: 1;
   margin-right: -0.5em;
   margin-left: 0.5em;
   cursor: pointer;

@@ -22,11 +22,11 @@ Tabs.Tab = new Class({
       
     this.panel = new Tabs.Panel(panel, controller);
     
-    // adding the 'remove' icon onto the tab
-    if (controller.options.removable) {
+    // adding the 'close' icon onto the tab
+    if (controller.options.closable) {
       this.link.insert($E('div', {
         'class': 'r-tabs-tab-close-icon', 'html': '&times;'
-      }).onMousedown(this.remove.bind(this)).onClick('stopEvent'), 'top');
+      }).onMousedown(this.remove.bind(this)).onClick('stopEvent'));
     }
   },
   

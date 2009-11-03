@@ -20,7 +20,7 @@ var Tabs = new Class(Observer, {
       selected:       null,    // the index of the currently opened tab, by default will check url, cookies or set 0
       disabled:       [],      // list of disabled tab indexes
       
-      removable:      false,   // set true if you want a close icon on your tabs
+      closable:       false,   // set true if you want a close icon on your tabs
       
       url:            false,   // a common remote tabs url template, should have the %{id} placeholder
       cache:          false,   // marker if the remote tabs should be cached
