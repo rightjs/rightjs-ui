@@ -139,6 +139,7 @@
   position: absolute;
   top: 0px;
   left: 0px;
+  z-index: 100;
 }
 *.r-tabs *.r-tabs-scroller *.r-tabs-scroll-left:hover,
 *.r-tabs *.r-tabs-scroller *.r-tabs-scroll-right:hover {
@@ -154,10 +155,11 @@
   width: 100%;
   overflow: hidden;
   position: relative;
+  z-index: 50;
 }
 *.r-tabs *.r-tabs-scroller *.r-tabs-list {
   position: relative;
-  width: 99999em;
+  width: 999em;
   margin: 0;
 }
 
