@@ -5,16 +5,30 @@
  */
 Tabs.Panel = new Class(Observer, {
   
-  initialize: function(element, controller) {
+  initialize: function(element, tab) {
+    this.tab     = tab;
+    this.id      = element.id;
     this.element = element.addClass('r-tabs-panel');
-    this.controller = controller;
-    
-    this.id = element.id;
   },
   
-  
+  // shows the panel
   show: function() {
-    this.element.radioClass('r-tabs-current');
+    return this.resizing(function() {
+      this.element.radioClass('r-tabs-current');
+    });
+  },
+  
+  // updates the panel content
+  update: function(content) {
+    return this.resizing(function() {
+      this.element.update(content||'');
+    });
+  },
+  
+  // removes the pannel
+  remove: function() {
+    this.element.remove();
+    return this;
   },
   
   // locks the panel with a spinner locker
@@ -33,14 +47,66 @@ Tabs.Panel = new Class(Observer, {
     this.element.insert(locker, 'top');
   },
   
-  // updates the panel content
-  update: function(content) {
-    this.element.update(content||'');
-    return this;
-  },
+// protected
   
-  remove: function() {
-    this.element.remove();
+  resizing: function(callback) {
+    if (this.__working) return this.resizing.bind(this, callback).delay(20);
+    
+    var controller = this.tab.controller, options = controller.options;
+    
+    if (options.resizeFx && self.Fx) {
+      this.__working = true;
+      
+      var element  = controller.element;
+      var panel    = this.element;
+      var fx_name  = options.resizeFx;
+      
+      if (fx_name == 'both' && this.element.first('div.r-tabs-panel-locker')) fx_name = 'slide';
+      
+      // calculating the visual effects durations
+      var duration = options.resizeDuration; duration = Fx.Durations[duration] || duration;
+      var resize_duration = options.resizeFx == 'fade' ? 0 : options.resizeFx == 'slide' ? duration : duration / 2;
+      var fade_duration   = duration - resize_duration;
+      
+      // saving the previous sizes
+      var prev_panel = controller.element.subNodes().filter('hasClass', 'r-tabs-current').last();
+      var prev_element_height = element.offsetHeight;
+      var prev_panel_height   = prev_panel ? prev_panel.offsetHeight : 0;
+      
+      // preparing the element for resize
+      if (fx_name != 'fade')
+        element.setStyle({height: prev_element_height+'px'});
+      
+      if (fx_name != 'slide')
+        panel.setStyle({opacity: 0});
+      
+      
+      callback.call(this);
+      
+      
+      // resizing the tabs element
+      if (fx_name != 'fade') {
+        var new_size = prev_element_height + panel.offsetHeight - prev_panel_height;
+        var set_back = element.setStyle.bind(element, {height: 'auto'});
+        
+        if (new_size != prev_element_height) {
+          element.morph({height: new_size + 'px'}, {onFinish: set_back, duration: resize_duration });
+        } else {
+          set_back();
+        }
+      }
+      
+      if (fx_name != 'slide')
+        panel.morph.bind(panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
+      
+      
+      // removing the working marker
+      (function() { this.__working = false; }).bind(this).delay(duration);
+    } else {
+      callback.call(this);
+    }
+    
     return this;
   }
+  
 });

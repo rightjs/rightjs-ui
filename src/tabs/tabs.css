@@ -11,6 +11,11 @@
   height: auto;
 }
 
+*.r-tabs {
+  overflow: hidden; /* for fxed resizes */
+  border-bottom: 1px solid #CCC;
+}
+
 /* basic tabs styles */
 *.r-tabs-tab, *.r-tabs-tab a {
   display: block;
@@ -55,11 +60,6 @@
   filter: alpha(opacity=50);
 }
 
-*.r-tabs *.r-tabs-list {
-  margin-bottom: .5em;
-}
-
-/* TODO make it look properly in IE */
 *.r-tabs-tab-close-icon {
   display: inline-block;
 * display: inline;
@@ -82,6 +82,7 @@
   display: none;
   position: relative;
   min-height: 4em;
+  padding: .5em 0;
 }
 *.r-tabs *.r-tabs-current {
   display: block;

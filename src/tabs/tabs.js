@@ -9,9 +9,9 @@ var Tabs = new Class(Observer, {
     
     Options: {
       idPrefix:       '',      // the tab-body elements id prefix
+      tabsElement:    null,    // the tabs list element reference, in case it situated somewhere else
       
-      resize:         true,    // if the tab containers should be resized automatically
-      resizeFx:       'slide', // 'slide', 'fade', 'both', null
+      resizeFx:       'both',  // 'slide', 'fade', 'both' or null for no fx
       resizeDuration: 400,     // the tab panels resize fx duration
       
       scrollTabs:     false,   // use the tabs list scrolling
@@ -127,7 +127,7 @@ var Tabs = new Class(Observer, {
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.tabsList = this.element.first('UL').addClass('r-tabs-list');
+    this.tabsList = $(this.options.tabsElement) || this.element.first('UL').addClass('r-tabs-list');
     
     this.tabs = this.tabsList.subNodes().map(function(node) {
       return new Tabs.Tab(node, this);

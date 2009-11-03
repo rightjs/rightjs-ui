@@ -22,7 +22,7 @@ return {
     if (url && !this.request && !(options.cache || this.cache)) {
       this.panel.lock();
       
-      try { // TODO remote the try/catch block and change the test urls to the rightjs.org demo urls
+      try { // basically that's for the development tests, so the IE browsers didn't get screwed on the test page
         
         this.request = Xhr.load(url, options.Xhr).onComplete(function(response) {
           this.panel.update(response.text);
@@ -33,15 +33,10 @@ return {
           this.fire('load');
         }.bind(this));
         
-      // TODO nuke me
-      } catch(e) { if (!Browser.OLD) throw(e) } // Old IE browsers will get screwed on local tests
+      } catch(e) { if (!Browser.OLD) throw(e) }
     }
     
     return result;
   }
-  
-// protected
-
-  
   
 }})());

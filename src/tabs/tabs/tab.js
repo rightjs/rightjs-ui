@@ -20,7 +20,7 @@ Tabs.Tab = new Class({
     var panel = $(panel_id) || $E(controller.element.tagName == 'UL' ? 'LI' : 'DIV',
       {id: panel_id}).insertTo(controller.element);
       
-    this.panel = new Tabs.Panel(panel, controller);
+    this.panel = new Tabs.Panel(panel, this);
     
     // adding the 'close' icon onto the tab
     if (controller.options.closable) {
