@@ -14,7 +14,7 @@ Tabs.Panel = new Class(Observer, {
   // shows the panel
   show: function() {
     return this.resizing(function() {
-      this.element.radioClass('r-tabs-current');
+      this.element.radioClass('r-tabs-panel-current');
     });
   },
   
@@ -69,13 +69,15 @@ Tabs.Panel = new Class(Observer, {
       var fade_duration   = duration - resize_duration;
       
       // saving the previous sizes
-      var prev_panel = controller.element.subNodes().filter('hasClass', 'r-tabs-current').last();
+      var prev_panel = controller.element.subNodes().filter('hasClass', 'r-tabs-panel-current').last();
       var prev_element_height = element.offsetHeight;
       var prev_panel_height   = prev_panel ? prev_panel.offsetHeight : 0;
       
       // preparing the element for resize
-      if (fx_name != 'fade')
+      if (fx_name != 'fade' && !controller.isHarmonica) {
         element.setStyle({height: prev_element_height+'px'});
+      }
+      
       
       if (fx_name != 'slide')
         panel.setStyle({opacity: 0});
@@ -86,14 +88,25 @@ Tabs.Panel = new Class(Observer, {
       
       // resizing the tabs element
       if (fx_name != 'fade') {
-        var new_size = prev_element_height + panel.offsetHeight - prev_panel_height;
-        var set_back = element.setStyle.bind(element, {height: 'auto'});
-        
-        if (new_size != prev_element_height) {
-          element.morph({height: new_size + 'px'}, {onFinish: set_back, duration: resize_duration });
+        if (controller.isHarmonica) {
+          var old_size  = prev_panel_height;
+          var new_size  = panel.offsetHeight;
+          var set_back  = panel.setStyle.bind(element, {height: 'auto'});
+          var container = panel;
         } else {
-          set_back();
+          var old_size  = prev_element_height;
+          var new_size  = prev_element_height + panel.offsetHeight - prev_panel_height;
+          var set_back  = element.setStyle.bind(element, {height: 'auto'});
+          var container = element;
+          
+          if (new_size != old_size) {
+            container.morph({height: new_size + 'px'}, {onFinish: set_back, duration: resize_duration });
+          } else {
+            set_back();
+          }
         }
+        
+        
       }
       
       if (fx_name != 'slide')

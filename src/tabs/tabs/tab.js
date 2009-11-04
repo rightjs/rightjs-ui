@@ -33,13 +33,12 @@ Tabs.Tab = new Class({
   
   show: function() {
     if (this.enabled()) {
+      var prev_tab = this.controller.tabs.first('current');
+      if (prev_tab)  prev_tab.fire('hide');
+      
       this.element.radioClass('r-tabs-current');
       this.controller.scrollToTab(this);
       this.panel.show();
-
-      this.controller.tabs.each(function(tab) {
-        if (tab != this) tab.fire('hide');
-      }, this);
       
       this.fire('show');
     }
