@@ -37,7 +37,7 @@ return {
    * @return Tabs this
    */
   scrollLeft: function() {
-    return this[this.isCarousel() ? 'prev' : 'justScroll'](+0.6);
+    return this[this.isCarousel ? 'prev' : 'justScroll'](+0.6);
   },
 
   /**
@@ -46,7 +46,7 @@ return {
    * @return Tabs this
    */
   scrollRight: function() {
-    return this[this.isCarousel() ? 'next' : 'justScroll'](-0.6);
+    return this[this.isCarousel ? 'next' : 'justScroll'](-0.6);
   },
 
 // protected
@@ -73,10 +73,10 @@ return {
       
       // calculating the scroll (the carousel tabs should be centralized)
       var available_width = this.tabsList.parentNode.offsetWidth;
-      var scroll = (this.isCarousel() ? (available_width/2 + tab.width()/2) : available_width) - tabs_width;
+      var scroll = (this.isCarousel ? (available_width/2 + tab.width()/2) : available_width) - tabs_width;
       
       // check if the tab doesn't need to be scrolled
-      if (!this.isCarousel()) {
+      if (!this.isCarousel) {
         var current_scroll  = this.tabsList.getStyle('left').toInt() || 0;
         
         if (scroll >= current_scroll && scroll < (current_scroll + available_width - tab.width()))
@@ -123,7 +123,7 @@ return {
   init: function() {
     old_init.call(this);
 
-    if (this.scrollable = (this.options.scrollTabs || this.isCarousel())) {
+    if (this.scrollable = (this.options.scrollTabs || this.isCarousel)) {
       this.buildScroller();
     }
 

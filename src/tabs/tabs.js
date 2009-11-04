@@ -5,7 +5,7 @@
  */
 var Tabs = new Class(Observer, {
   extend: {
-    EVENTS: $w('show hide click load disable enable add remove'),
+    EVENTS: $w('show hide click load disable enable add remove move'),
     
     Options: {
       idPrefix:       '',      // the tab-body elements id prefix
@@ -50,8 +50,6 @@ var Tabs = new Class(Observer, {
     this.$super(options || eval('('+this.element.get('data-tabs-options')+')'));
     
     this.element._tabs = this.init();
-    
-    this.show(this.options.selected);
   },
   
   /**
@@ -94,18 +92,6 @@ var Tabs = new Class(Observer, {
   },
   
 // protected
-
-  isSimple: function() {
-    return !(this.isCarousel() || this.isHarmonica());
-  },
-
-  isCarousel: function() {
-    return this.element.hasClass('r-tabs-carousel');
-  },
-  
-  isHarmonica: function() {
-    return this.element.hasClass('r-tabs-harmonica');
-  },
   
   // calls the tab (or tabs) method
   callTab: function(tab, method) {
@@ -116,10 +102,14 @@ var Tabs = new Class(Observer, {
   
   // initializes the tabs unit
   init: function() {
+    this.isHarmonica = this.element.tagName == 'DL';
+    this.isCarousel  = this.element.hasClass('r-tabs-carousel');
+    this.isSimple    = !this.isHarmonica && !this.isCarousel;
+    
     this.findTabs();
-      
+    
     this.element.addClass('r-tabs');
-    if (this.isSimple())
+    if (this.isSimple)
       this.element.addClass('r-tabs-simple');
     
     return this.disable(this.options.disabled);
@@ -127,10 +117,24 @@ var Tabs = new Class(Observer, {
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.tabsList = $(this.options.tabsElement) || this.element.first('UL').addClass('r-tabs-list');
+    this.tabsList = this.isHarmonica ? this.element : $(this.options.tabsElement) || this.element.first('UL').addClass('r-tabs-list');
     
-    this.tabs = this.tabsList.subNodes().map(function(node) {
+    this.tabs = this.tabsList.subNodes(this.isHarmonica ? 'dt' : null).map(function(node) {
       return new Tabs.Tab(node, this);
     }, this);
+  },
+  
+  // searches/builds a panel for the tab
+  findPanel: function(tab) {
+    var panel_id = this.options.idPrefix + tab.id, panel;
+    
+    if (this.isHarmonica) {
+      var next = tab.element.next();
+      panel = (next && next.tagName == 'DD') ? next : $E('DD').insertTo(tab.element, 'after');
+    } else {
+      panel = $(panel_id) || $E(this.element.tagName == 'UL' ? 'LI' : 'DIV').insertTo(this.element);
+    }
+      
+    return panel.set('id', panel_id);
   }
 });

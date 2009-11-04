@@ -15,12 +15,8 @@ Tabs.Tab = new Class({
     this.element.onMousedown(this.click.bind(this)).onClick('stopEvent');
     
     this.findLink();
-    
-    var panel_id = controller.options.idPrefix + this.id
-    var panel = $(panel_id) || $E(controller.element.tagName == 'UL' ? 'LI' : 'DIV',
-      {id: panel_id}).insertTo(controller.element);
       
-    this.panel = new Tabs.Panel(panel, this);
+    this.panel = new Tabs.Panel(controller.findPanel(this), this);
     
     // adding the 'close' icon onto the tab
     if (controller.options.closable) {
