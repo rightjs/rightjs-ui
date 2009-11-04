@@ -13,7 +13,7 @@ Usage
 
 Include the right-tabs.js file on your page and then prepare your markuping like that
 
-<div class="r-tabs">
+<div class="right-tabs">
   <ul>
     <li><a href="#tab-1">Tab 1</a></li>
     <li><a href="#tab-2">Tab 2</a></li>
@@ -25,7 +25,7 @@ Include the right-tabs.js file on your page and then prepare your markuping like
 
 or If you wish you can use more semantic friendly approach with the (UL|OL)/LI tags
 
-<ul class="r-tabs">
+<ul class="right-tabs">
   <ul>
     <li><a href="#tab-1">Tab 1</a></li>
     <li><a href="#tab-2">Tab 2</a></li>
@@ -41,7 +41,7 @@ Remote Tabs
 
 For the remote tabs just specify the urls, the engine will take care of the things automatically
 
-<ul class="r-tabs">
+<ul class="right-tabs">
   <ul>
     <li><a href="/some/url1">Tab 1</a></li>
     <li><a href="/some/url2">Tab 2</a></li>
@@ -50,7 +50,7 @@ For the remote tabs just specify the urls, the engine will take care of the thin
 
 Or you can specify a common remote tabs url address like that
 
-<ul class="r-tabs" data-tabs-options="{url:'/some/url/%{id}'}">
+<ul class="right-tabs" data-tabs-options="{url:'/some/url/%{id}'}">
   <ul>
     <li><a href="#tab-1">Tab 1</a></li>
     <li><a href="#tab-2">Tab 2</a></li>
@@ -72,10 +72,10 @@ matching then use it as the current tab index. You also can active the cookie ba
 storage by specifying the 'Cookie' option, or you can specify the current tab manually by
 a css-class like that
 
-<ul class="r-tabs">
+<ul class="right-tabs">
   <ul>
     <li><a href="#tab-1">Tab 1</a></li>
-    <li class="r-tabs-current"><a href="#tab-2">Tab 2</a></li>
+    <li class="right-tabs-current"><a href="#tab-2">Tab 2</a></li>
   </ul>
   ....
 </ul>

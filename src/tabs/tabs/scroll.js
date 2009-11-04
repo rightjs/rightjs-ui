@@ -132,11 +132,11 @@ return {
 
   // builds the tabs scroller block
   buildScroller: function() {
-    if (!this.element.first('r-tabs-scroller')) {
-      this.element.insert($E('div', {'class': 'r-tabs-scroller'}).insert([
-        $E('div', {'class': 'r-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.scrollLeft.bind(this)),
-        $E('div', {'class': 'r-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.scrollRight.bind(this)),
-        $E('div', {'class': 'r-tabs-scroll-body'}).insert(this.tabsList)
+    if (!this.element.first('right-tabs-scroller')) {
+      this.element.insert($E('div', {'class': 'right-tabs-scroller'}).insert([
+        $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.scrollLeft.bind(this)),
+        $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.scrollRight.bind(this)),
+        $E('div', {'class': 'right-tabs-scroll-body'}).insert(this.tabsList)
       ]), 'top');
     }
   }

@@ -8,13 +8,13 @@ Tabs.Panel = new Class(Observer, {
   initialize: function(element, tab) {
     this.tab     = tab;
     this.id      = element.id;
-    this.element = element.addClass('r-tabs-panel');
+    this.element = element.addClass('right-tabs-panel');
   },
   
   // shows the panel
   show: function() {
     return this.resizing(function() {
-      this.element.radioClass('r-tabs-panel-current');
+      this.element.radioClass('right-tabs-panel-current');
     });
   },
   
@@ -33,8 +33,8 @@ Tabs.Panel = new Class(Observer, {
   
   // locks the panel with a spinner locker
   lock: function() {
-    var locker  = $E('div', {'class': 'r-tabs-panel-locker'});
-    var spinner = $E('div', {'class': 'r-tabs-panel-locker-spinner'}).insertTo(locker);
+    var locker  = $E('div', {'class': 'right-tabs-panel-locker'});
+    var spinner = $E('div', {'class': 'right-tabs-panel-locker-spinner'}).insertTo(locker);
     var dots    = '1234'.split('').map(function(i) {
       return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
     });
@@ -61,7 +61,7 @@ Tabs.Panel = new Class(Observer, {
       var panel    = this.element;
       var fx_name  = options.resizeFx;
       
-      if (fx_name == 'both' && this.element.first('div.r-tabs-panel-locker')) fx_name = 'slide';
+      if (fx_name == 'both' && this.element.first('div.right-tabs-panel-locker')) fx_name = 'slide';
       
       // calculating the visual effects durations
       var duration = options.resizeDuration; duration = Fx.Durations[duration] || duration;
@@ -69,7 +69,7 @@ Tabs.Panel = new Class(Observer, {
       var fade_duration   = duration - resize_duration;
       
       // saving the previous sizes
-      var prev_panel = controller.element.subNodes().filter('hasClass', 'r-tabs-panel-current').last();
+      var prev_panel = controller.element.subNodes().filter('hasClass', 'right-tabs-panel-current').last();
       var prev_element_height = element.offsetHeight;
       var prev_panel_height   = prev_panel ? prev_panel.offsetHeight : 0;
       

@@ -7,7 +7,7 @@ Tabs.include((function() {
   var old_initialize = Tabs.prototype.initialize;
   
   var get_cookie_indexes = function() {
-    return self.Cookie ? (Cookie.get('r-tabs-indexes') || '').split(',') : [];
+    return self.Cookie ? (Cookie.get('right-tabs-indexes') || '').split(',') : [];
   };
   
   var save_tab_in_cookies = function(options, tabs, tab) {
@@ -15,7 +15,7 @@ Tabs.include((function() {
       var indexes = get_cookie_indexes();
       indexes = indexes.without.apply(indexes, tabs.map('id'));
       indexes.push(tab.id);
-      Cookie.set('r-tabs-indexes', indexes.uniq().join(','), options);
+      Cookie.set('right-tabs-indexes', indexes.uniq().join(','), options);
     }
   };
 

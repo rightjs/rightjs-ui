@@ -31,7 +31,7 @@ var Tabs = new Class(Observer, {
     
     // scans and automatically intializes the tabs
     rescan: function() {
-      $$('*.r-tabs').each(function(element) {
+      $$('*.right-tabs').each(function(element) {
         if (!element._tabs) {
           new Tabs(element);
         }
@@ -103,21 +103,21 @@ var Tabs = new Class(Observer, {
   // initializes the tabs unit
   init: function() {
     this.isHarmonica = this.element.tagName == 'DL';
-    this.isCarousel  = this.element.hasClass('r-tabs-carousel');
+    this.isCarousel  = this.element.hasClass('right-tabs-carousel');
     this.isSimple    = !this.isHarmonica && !this.isCarousel;
     
     this.findTabs();
     
-    this.element.addClass('r-tabs');
+    this.element.addClass('right-tabs');
     if (this.isSimple)
-      this.element.addClass('r-tabs-simple');
+      this.element.addClass('right-tabs-simple');
     
     return this.disable(this.options.disabled);
   },
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.tabsList = this.isHarmonica ? this.element : $(this.options.tabsElement) || this.element.first('UL').addClass('r-tabs-list');
+    this.tabsList = this.isHarmonica ? this.element : $(this.options.tabsElement) || this.element.first('UL').addClass('right-tabs-list');
     
     this.tabs = this.tabsList.subNodes(this.isHarmonica ? 'dt' : null).map(function(node) {
       return new Tabs.Tab(node, this);

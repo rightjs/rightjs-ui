@@ -9,7 +9,7 @@ Tabs.Tab = new Class({
   },
   
   initialize: function(element, controller) {
-    this.element    = element.addClass('r-tabs-tab');
+    this.element    = element.addClass('right-tabs-tab');
     this.controller = controller;
     
     this.element.onMousedown(this.click.bind(this)).onClick('stopEvent');
@@ -21,7 +21,7 @@ Tabs.Tab = new Class({
     // adding the 'close' icon onto the tab
     if (controller.options.closable) {
       this.link.insert($E('div', {
-        'class': 'r-tabs-tab-close-icon', 'html': '&times;'
+        'class': 'right-tabs-tab-close-icon', 'html': '&times;'
       }).onMousedown(this.remove.bind(this)).onClick('stopEvent'));
     }
   },
@@ -36,7 +36,7 @@ Tabs.Tab = new Class({
       var prev_tab = this.controller.tabs.first('current');
       if (prev_tab)  prev_tab.fire('hide');
       
-      this.element.radioClass('r-tabs-current');
+      this.element.radioClass('right-tabs-current');
       this.controller.scrollToTab(this);
       this.panel.show();
       
@@ -47,12 +47,12 @@ Tabs.Tab = new Class({
   },
   
   disable: function() {
-    this.element.addClass('r-tabs-disabled');
+    this.element.addClass('right-tabs-disabled');
     return this.fire('disable');
   },
   
   enable: function() {
-    this.element.removeClass('r-tabs-disabled');
+    this.element.removeClass('right-tabs-disabled');
     return this.fire('enable');
   },
   
@@ -61,19 +61,17 @@ Tabs.Tab = new Class({
   },
   
   enabled: function() {
-    return !this.element.hasClass('r-tabs-disabled');
+    return !this.element.hasClass('right-tabs-disabled');
   },
   
   current: function() {
-    return this.element.hasClass('r-tabs-current');
+    return this.element.hasClass('right-tabs-current');
   },
   
   remove: function(event) {
     if (event) event.stop();
     
-    this.element.remove();
-    this.panel.remove();
-    
+    // switching to the next available sibling
     if (this.current()) {
       var enabled = this.controller.tabs.filter('enabled');
       var sibling = enabled[enabled.indexOf(this) + 1] || enabled[enabled.indexOf(this)-1];
@@ -85,6 +83,8 @@ Tabs.Tab = new Class({
     
     // removing the tab out of the list
     this.controller.tabs.splice(this.controller.tabs.indexOf(this), 1);
+    this.element.remove();
+    this.panel.remove();
     
     return this;
   },
