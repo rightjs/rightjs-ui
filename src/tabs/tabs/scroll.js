@@ -51,6 +51,29 @@ return {
 
 // protected
 
+  // overloading the init script to add the scrollbar support
+  init: function() {
+    old_init.call(this);
+
+    if (this.scrollable = (this.options.scrollTabs || this.isCarousel)) {
+      this.buildScroller();
+    }
+
+    return this;
+  },
+
+  // builds the tabs scroller block
+  buildScroller: function() {
+    if (!this.element.first('right-tabs-scroller')) {
+      this.prevButton = $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.scrollLeft.bind(this));
+      this.nextButton = $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.scrollRight.bind(this));
+      
+      this.element.insert($E('div', {'class': 'right-tabs-scroller'}).insert([
+        this.prevButton, this.nextButton, $E('div', {'class': 'right-tabs-scroll-body'}).insert(this.tabsList)
+      ]), 'top');
+    }
+  },
+
   // picks the next/prev non-disabled available tab
   pickTab: function(pos) {
     var current = this.tabs.first('current');
@@ -100,6 +123,7 @@ return {
   // scrolls the tabs list to the position
   scrollTo: function(scroll) {
     // checking the constraints
+    var current_scroll  = this.tabsList.getStyle('left').toInt() || 0;
     var available_width = this.tabsList.parentNode.offsetWidth;
     var overall_width   = 0;
     for (var i=0; i < this.tabs.length; i++) {
@@ -113,32 +137,36 @@ return {
     // applying the scroll
     var style = {left: scroll + 'px'};
     
-    if (this.options.scrollDuration && self.Fx)
+    if (this.options.scrollDuration && self.Fx && current_scroll != scroll) {
       this.tabsList.morph(style, {duration: this.options.scrollDuration});
-    else
+    } else {
       this.tabsList.setStyle(style);
-  },
-
-  // overloading the init script to add the scrollbar support
-  init: function() {
-    old_init.call(this);
-
-    if (this.scrollable = (this.options.scrollTabs || this.isCarousel)) {
-      this.buildScroller();
     }
-
-    return this;
+    
+    this.checkScrollButtons(overall_width, available_width, scroll);
   },
-
-  // builds the tabs scroller block
-  buildScroller: function() {
-    if (!this.element.first('right-tabs-scroller')) {
-      this.element.insert($E('div', {'class': 'right-tabs-scroller'}).insert([
-        $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.scrollLeft.bind(this)),
-        $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.scrollRight.bind(this)),
-        $E('div', {'class': 'right-tabs-scroll-body'}).insert(this.tabsList)
-      ]), 'top');
+  
+  // checks the scroll buttons
+  checkScrollButtons: function(overall_width, available_width, scroll) {
+    var has_prev = has_next = false;
+    
+    if (this.isCarousel) {
+      var enabled = this.tabs.filter('enabled');
+      var current = enabled.first('current');
+      
+      if (current) {
+        var index = enabled.indexOf(current);
+        
+        has_prev = index > 0;
+        has_next = index < enabled.length - 1;
+      }
+    } else {
+      has_prev = scroll != 0;
+      has_next = scroll > (available_width - overall_width);
     }
+    
+    this.prevButton[has_prev ? 'removeClass' : 'addClass']('right-tabs-scroll-disabled');
+    this.nextButton[has_next ? 'removeClass' : 'addClass']('right-tabs-scroll-disabled');
   }
-};
-})());
+  
+}})());

@@ -132,9 +132,9 @@
   width: 1.1em;
   text-align: center;
   background: #EEE;
-  color: #888;
+  color: #666;
   cursor: pointer;
-  border: 1px solid #DDD;
+  border: 1px solid #CCC;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   position: absolute;
@@ -151,6 +151,13 @@
 .right-tabs .right-tabs-scroller .right-tabs-scroll-right {
   left: auto;
   right: 0px;
+}
+.right-tabs .right-tabs-scroller .right-tabs-scroll-disabled,
+.right-tabs .right-tabs-scroller .right-tabs-scroll-disabled:hover {
+  cursor: default;
+  background: #DDD;
+  border-color: #DDD;
+  color: #AAA;
 }
 .right-tabs .right-tabs-scroller .right-tabs-scroll-body {
   width: 100%;
