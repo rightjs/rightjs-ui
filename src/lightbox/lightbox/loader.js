@@ -71,7 +71,7 @@ Lightbox.include((function() {
       // building a textual spinner
       var spinner = this.E('lightbox-body-lock-spinner', this.bodyLock);
       var dots    = '1234'.split('').map(function(i) {
-        return $E('div', {html: '.', 'class': i == 1 ? 'glow':null}).insertTo(spinner);
+        return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
       });
       (function() {
         var dot = dots.pop(); dot.insertTo(spinner, 'top'); dots.unshift(dot);

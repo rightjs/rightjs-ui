@@ -94,16 +94,17 @@ div.lightbox-body-lock-spinner {
 }
 div.lightbox-body-lock-spinner div {
   float: left;
-  font-size: 200%;
-  font-family: Georgia;
-  font-weight: bold;
-  line-height: 20pt;
-  color: #AAA;
+  width: .5em;
+  height: .9em;
+  background: #AAA;
+  margin-left: .1em;
+  -moz-border-radius: .15em;
+  -webkit-border-radius: .15em;
 }
 div.lightbox-body-lock-spinner div.glow {
-  color: #666;
-  font-size: 300%;
-  margin-top: -3pt;
+  background: #666;
+  height: 1em;
+  margin-top: -0.05em;
 }
 
 div.lightbox-body-lock-loading div.lightbox-body-lock-spinner {
