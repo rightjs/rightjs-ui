@@ -9,7 +9,7 @@ Calendar.include({
   
   // updates the calendar view
   update: function(date) {
-    var date = new Date(date || this.date);
+    var date = new Date(date || this.date), options = this.options;
     
     var monthes     = this.element.select('div.right-calendar-month');
     var monthes_num = monthes.length;
@@ -23,11 +23,11 @@ Calendar.include({
     
     this.updateNextPrevMonthButtons(date, monthes_num);
     
-    if (this.options.showTime) {
-      this.hours.value = this.options.timePeriod < 60 ? date.getHours() :
-        (date.getHours()/(this.options.timePeriod/60)).round() * (this.options.timePeriod/60);
+    if (options.showTime) {
+      this.hours.value = options.timePeriod < 60 ? date.getHours() :
+        (date.getHours()/(options.timePeriod/60)).round() * (options.timePeriod/60);
       
-      this.minutes.value = (date.getMinutes() / (this.options.timePeriod % 60)).round() * this.options.timePeriod;
+      this.minutes.value = (date.getMinutes() / (options.timePeriod % 60)).round() * options.timePeriod;
     }
     
     return this;
@@ -50,6 +50,8 @@ Calendar.include({
       td.className = 'right-calendar-day-blank';
     });
     
+    var options = this.options;
+    
     for (var i=1; i <= days_number; i++) {
       date.setDate(i);
       var day_num = date.getDay();
@@ -61,7 +63,7 @@ Calendar.include({
       cells[day_num].innerHTML = ''+i;
       cells[day_num].className = cur_day == (date.getTime() / 86400000).ceil() ? 'right-calendar-day-selected' : '';
       
-      if ((this.options.minDate && this.options.minDate > date) || (this.options.maxDate && this.options.maxDate < date))
+      if ((options.minDate && options.minDate > date) || (options.maxDate && options.maxDate < date))
         cells[day_num].className = 'right-calendar-day-disabled';
         
       cells[day_num].date = new Date(date);
@@ -71,30 +73,31 @@ Calendar.include({
       }
     }
     
-    var caption = (this.options.listYears ? this.options.i18n.monthNamesShort[date.getMonth()] + ',' :
-      this.options.i18n.monthNames[date.getMonth()])+' '+date.getFullYear();
+    var caption = (options.listYears ? options.i18n.monthNamesShort[date.getMonth()] + ',' :
+      options.i18n.monthNames[date.getMonth()])+' '+date.getFullYear();
     
     element.first('div.right-calendar-month-caption').update(caption);
   },
   
   updateNextPrevMonthButtons: function(date, monthes_num) {
-    if (this.options.minDate) {
+    var options = this.options;
+    if (options.minDate) {
       var beginning = new Date(date.getFullYear(),0,1,0,0,0);
-      var min_date = new Date(this.options.minDate.getFullYear(),0,1,0,0,0);
+      var min_date = new Date(options.minDate.getFullYear(),0,1,0,0,0);
       
       this.hasPrevYear = beginning > min_date;
       
       beginning.setMonth(date.getMonth() - (monthes_num - monthes_num/2).ceil());
-      min_date.setMonth(this.options.minDate.getMonth());
+      min_date.setMonth(options.minDate.getMonth());
       
       this.hasPrevMonth = beginning >= min_date;
     } else {
       this.hasPrevMonth = this.hasPrevYear = true;
     }
     
-    if (this.options.maxDate) {
+    if (options.maxDate) {
       var end = new Date(date);
-      var max_date = new Date(this.options.maxDate);
+      var max_date = new Date(options.maxDate);
       [end, max_date].each(function(date) {
         date.setDate(32);
         date.setMonth(date.getMonth() - 1);
@@ -129,16 +132,17 @@ Calendar.include({
     
     // building the calendars greed
     var greed = tbody = $E('table', {'class': 'right-calendar-greed'}).insertTo(this.element);
+    var options = this.options;
     if (Browser.OLD) tbody = $E('tbody').insertTo(greed);
     
-    for (var y=0; y < this.options.numberOfMonths[1]; y++) {
+    for (var y=0; y < options.numberOfMonths[1]; y++) {
       var row   = $E('tr').insertTo(tbody);
-      for (var x=0; x < this.options.numberOfMonths[0]; x++) {
+      for (var x=0; x < options.numberOfMonths[0]; x++) {
         $E('td').insertTo(row).insert(this.buildMonth());
       }
     }
     
-    if (this.options.showTime) this.buildTime();
+    if (options.showTime) this.buildTime();
     this.buildButtons();
     
     return this;
@@ -146,16 +150,18 @@ Calendar.include({
   
   // builds the monthes swapping buttons
   buildSwaps: function() {
+    var i18n = this.options.i18n;
+    
     this.prevButton = $E('div', {'class': 'right-ui-button right-calendar-prev-button',
-        html: '&lsaquo;', title: this.options.i18n.Prev}).insertTo(this.element);
+        html: '&lsaquo;', title: i18n.Prev}).insertTo(this.element);
     this.nextButton = $E('div', {'class': 'right-ui-button right-calendar-next-button',
-        html: '&rsaquo;', title: this.options.i18n.Next}).insertTo(this.element);
+        html: '&rsaquo;', title: i18n.Next}).insertTo(this.element);
         
     if (this.options.listYears) {
       this.prevYearButton = $E('div', {'class': 'right-ui-button right-calendar-prev-year-button',
-        html: '&laquo;', title: this.options.i18n.PrevYear}).insertTo(this.prevButton, 'after');
+        html: '&laquo;', title: i18n.PrevYear}).insertTo(this.prevButton, 'after');
       this.nextYearButton = $E('div', {'class': 'right-ui-button right-calendar-next-year-button',
-        html: '&raquo;', title: this.options.i18n.NextYear}).insertTo(this.nextButton, 'before');
+        html: '&raquo;', title: i18n.NextYear}).insertTo(this.nextButton, 'before');
     }
   },
   
@@ -173,19 +179,20 @@ Calendar.include({
   
   // builds the time selection block
   buildTime: function() {
+    var options = this.options;
     var time_picker = $E('div', {'class': 'right-calendar-time', html: ':'}).insertTo(this.element);
     
     this.hours = $E('select').insertTo(time_picker, 'top');
     this.minutes = $E('select').insertTo(time_picker);
     
-    var minutes_threshold = this.options.timePeriod < 60 ? this.options.timePeriod : 60;
-    var hours_threshold   = this.options.timePeriod < 60 ? 1 : (this.options.timePeriod / 60).ceil();
+    var minutes_threshold = options.timePeriod < 60 ? options.timePeriod : 60;
+    var hours_threshold   = options.timePeriod < 60 ? 1 : (options.timePeriod / 60).ceil();
     
     (60).times(function(i) {
       var caption = (i < 10 ? '0' : '') + i;
       
       if (i < 24 && i % hours_threshold == 0) {
-        if (this.options.twentyFourHour)
+        if (options.twentyFourHour)
           this.hours.insert($E('option', {value: i, html: caption}));
         else if (i < 12) {
           this.hours.insert($E('option', {value: i, html: i == 0 ? 12 : i}));
@@ -198,10 +205,10 @@ Calendar.include({
     }, this);
     
     // adding the meridian picker if it's a 12 am|pm picker
-    if (!this.options.twentyFourHour) {
+    if (!options.twentyFourHour) {
       this.meridian = $E('select').insertTo(time_picker);
       
-      (this.options.format.includes(/%P/) ? ['am', 'pm'] : ['AM', 'PM']).each(function(value) {
+      (options.format.includes(/%P/) ? ['am', 'pm'] : ['AM', 'PM']).each(function(value) {
         this.meridian.insert($E('option', {value: value.toLowerCase(), html: value}));
       }, this);
     }
