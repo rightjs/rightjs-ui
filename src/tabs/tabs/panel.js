@@ -12,10 +12,10 @@ Tabs.Panel = new Class(Observer, {
   },
   
   // shows the panel
-  show: function() {
+  show: function(nofx) {
     return this.resizing(function() {
       this.element.radioClass('right-tabs-panel-current');
-    });
+    }, nofx);
   },
   
   // updates the panel content
@@ -49,12 +49,12 @@ Tabs.Panel = new Class(Observer, {
   
 // protected
   
-  resizing: function(callback) {
+  resizing: function(callback, nofx) {
     if (this.__working) return this.resizing.bind(this, callback).delay(20);
     
     var controller = this.tab.controller, options = controller.options;
     
-    if (options.resizeFx && self.Fx) {
+    if (!nofx && options.resizeFx && self.Fx) {
       this.__working = true;
       
       var element  = controller.element;

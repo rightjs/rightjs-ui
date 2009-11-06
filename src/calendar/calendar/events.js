@@ -77,6 +77,14 @@ Calendar.include({
     return this.changeDate({Month: -1});
   },
   
+  nextYear: function() {
+    return this.changeDate({FullYear: 1});
+  },
+  
+  prevYear: function() {
+    return this.changeDate({FullYear: -1});
+  },
+  
 // protected
 
   // changes the current date according to the hash
@@ -100,6 +108,10 @@ Calendar.include({
     // connecting the monthes swapping
     this.prevButton.onClick(this.prevMonth.bind(this));
     this.nextButton.onClick(this.nextMonth.bind(this));
+    if (this.nextYearButton) {
+      this.prevYearButton.onClick(this.prevYear.bind(this));
+      this.nextYearButton.onClick(this.nextYear.bind(this));
+    }
     
     // connecting the calendar day-cells
     this.element.select('div.right-calendar-month table tbody td').each(function(cell) {

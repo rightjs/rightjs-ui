@@ -44,7 +44,7 @@ return {
       var enabled = this.tabs.filter('enabled');
       current = enabled[this.urlIndex()] || enabled[this.cookieIndex()] || enabled.first('current') || enabled[0];
     }
-    if (current) this.show(current);
+    if (current) current.show(true);
   },
   
   // tries to find the current tab index in the url hash

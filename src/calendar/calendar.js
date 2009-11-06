@@ -25,17 +25,19 @@ var Calendar = new Class(Observer, {
     },
     
     Formats: {
-      ISO:    '%Y-%m-%d',
-      POSIX:  '%Y/%m/%d',
-      EUR:    '%d-%m-%Y',
-      US:     '%m/%d/%Y'
+      ISO:            '%Y-%m-%d',
+      POSIX:          '%Y/%m/%d',
+      EUR:            '%d-%m-%Y',
+      US:             '%m/%d/%Y'
     },
     
     i18n: {
-      Done:  'Done',
-      Now:   'Now',
-      Next:  'Next Month',
-      Prev:  'Previous Month',
+      Done:           'Done',
+      Now:            'Now',
+      Next:           'Next Month',
+      Prev:           'Previous Month',
+      NextYear:       'Next Year',
+      PrevYear:       'Prev Year',
       
       dayNames:        $w('Sunday Monday Tuesday Wednesday Thursday Friday Saturday'),
       dayNamesShort:   $w('Sun Mon Tue Wed Thu Fri Sat'),

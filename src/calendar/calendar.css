@@ -100,7 +100,8 @@ div.right-calendar-inline {
   -webkit-box-shadow: none;
 }
 
-div.right-calendar-prev-button, div.right-calendar-next-button {
+div.right-calendar-prev-button, div.right-calendar-next-button,
+div.right-calendar-prev-year-button, div.right-calendar-next-year-button {
   position: absolute;
   float: left;
   width: 1em;
@@ -108,6 +109,12 @@ div.right-calendar-prev-button, div.right-calendar-next-button {
 }
 div.right-calendar-next-button {
   right: .5em;
+}
+div.right-calendar-prev-year-button {
+  left: 2.55em;
+}
+div.right-calendar-next-year-button {
+  right: 2.55em;
 }
 
 div.right-calendar-month-caption {

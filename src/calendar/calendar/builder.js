@@ -71,19 +71,25 @@ Calendar.include({
       }
     }
     
-    element.first('div.right-calendar-month-caption').update(this.options.i18n.monthNames[date.getMonth()]+" "+date.getFullYear());
+    var caption = (this.options.listYears ? this.options.i18n.monthNamesShort[date.getMonth()] + ',' :
+      this.options.i18n.monthNames[date.getMonth()])+' '+date.getFullYear();
+    
+    element.first('div.right-calendar-month-caption').update(caption);
   },
   
   updateNextPrevMonthButtons: function(date, monthes_num) {
     if (this.options.minDate) {
       var beginning = new Date(date.getFullYear(),0,1,0,0,0);
-      beginning.setMonth(date.getMonth() - (monthes_num - monthes_num/2).ceil());
+      var min_date = new Date(this.options.minDate.getFullYear(),0,1,0,0,0);
       
-      var min_date = new Date(this.options.minDate.getFullYear(), this.options.minDate.getMonth(), 1, 0,0,0);
+      this.hasPrevYear = beginning > min_date;
+      
+      beginning.setMonth(date.getMonth() - (monthes_num - monthes_num/2).ceil());
+      min_date.setMonth(this.options.minDate.getMonth());
       
       this.hasPrevMonth = beginning >= min_date;
     } else {
-      this.hasPrevMonth = true;
+      this.hasPrevMonth = this.hasPrevYear = true;
     }
     
     if (this.options.maxDate) {
@@ -100,12 +106,21 @@ Calendar.include({
       });
       
       this.hasNextMonth = end < max_date;
+      
+      // checking the next year
+      [end, max_date].each('setMonth', 0);
+      this.hasNextYear = end < max_date;
     } else {
-      this.hasNextMonth = true;
+      this.hasNextMonth = this.hasNextYear = true;
     }
     
     this.nextButton[this.hasNextMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
     this.prevButton[this.hasPrevMonth ? 'removeClass':'addClass']('right-ui-button-disabled');
+    
+    if (this.nextYearButton) {
+      this.nextYearButton[this.hasNextYear ? 'removeClass':'addClass']('right-ui-button-disabled');
+      this.prevYearButton[this.hasPrevYear ? 'removeClass':'addClass']('right-ui-button-disabled');
+    }
   },
 
   // builds the calendar
@@ -135,6 +150,13 @@ Calendar.include({
         html: '&lsaquo;', title: this.options.i18n.Prev}).insertTo(this.element);
     this.nextButton = $E('div', {'class': 'right-ui-button right-calendar-next-button',
         html: '&rsaquo;', title: this.options.i18n.Next}).insertTo(this.element);
+        
+    if (this.options.listYears) {
+      this.prevYearButton = $E('div', {'class': 'right-ui-button right-calendar-prev-year-button',
+        html: '&laquo;', title: this.options.i18n.PrevYear}).insertTo(this.prevButton, 'after');
+      this.nextYearButton = $E('div', {'class': 'right-ui-button right-calendar-next-year-button',
+        html: '&raquo;', title: this.options.i18n.NextYear}).insertTo(this.nextButton, 'before');
+    }
   },
   
   // builds a month block

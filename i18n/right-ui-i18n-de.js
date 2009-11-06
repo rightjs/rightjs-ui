@@ -5,10 +5,12 @@
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
-    Done:  'Getan',
-    Now:   'Jetzt',
-    Next:  'Nächste Monat',
-    Prev:  'Vorhergehende Monat',
+    Done:           'Getan',
+    Now:            'Jetzt',
+    Next:           'Nächste Monat',
+    Prev:           'Vorhergehende Monat',
+    NextYear:       'Nächste Jahr',
+    PrevYear:       'Vorhergehende Jahr',
 
     dayNames:        $w('Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag'),
     dayNamesShort:   $w('Son Mon Die Mit Don Fre Sam'),

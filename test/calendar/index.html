@@ -83,7 +83,7 @@
       </script>
     </p>
     
-    <h2>With Dates Range</h2>
+    <h2>With Dates Range (+/- one month)</h2>
     <p>
       <div id="with-dates-range"></div>
       <script type="text/javascript">
@@ -93,6 +93,21 @@
         min_date.setMonth(min_date.getMonth() - 1);
         max_date.setMonth(max_date.getMonth() + 1);
         new Calendar({minDate: min_date, maxDate: max_date}).insertTo('with-dates-range');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>With Years Swapper And Date Range (+/- 2 years)</h2>
+    <p>
+      <div id="with-years-listing"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var min_date = new Date();
+        var max_date = new Date();
+        min_date.setFullYear(min_date.getFullYear() - 2);
+        max_date.setFullYear(max_date.getFullYear() + 2);
+        
+        new Calendar({minDate: min_date, maxDate: max_date, listYears: true}).insertTo('with-years-listing');
       // ]]>
       </script>
     </p>

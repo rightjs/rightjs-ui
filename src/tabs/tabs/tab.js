@@ -31,14 +31,14 @@ Tabs.Tab = new Class({
     return this.fire('click').show();
   },
   
-  show: function() {
+  show: function(nofx) {
     if (this.enabled()) {
       var prev_tab = this.controller.tabs.first('current');
       if (prev_tab)  prev_tab.fire('hide');
       
       this.element.radioClass('right-tabs-current');
       this.controller.scrollToTab(this);
-      this.panel.show();
+      this.panel.show(nofx);
       
       this.fire('show');
     }
