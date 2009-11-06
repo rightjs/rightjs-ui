@@ -63,8 +63,8 @@
 }
 *.right-ui-button:hover {
   color: #222;
-  border-color: #BA8;
-  background-color: #FB6;
+  border-color: #999;
+  background-color: #CCC;
 }
 *.right-ui-button-disabled, *.right-ui-button-disabled:hover {
   color: #888;
@@ -168,13 +168,15 @@ div.right-calendar-month table td:last-child {
   background-color: #FFF;
   border: 1px solid #CCC;
   cursor: pointer;
+  color: #555;
   border-radius: .2em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
 }
 div.right-calendar-month table td:hover {
-  background-color: #FB6;
-  border-color: #BA8;
+  background-color: #CCC;
+  border-color: #AAA;
+  color: #000;
 }
 
 div.right-calendar-month table td.right-calendar-day-blank {
@@ -184,9 +186,11 @@ div.right-calendar-month table td.right-calendar-day-blank {
 }
 
 div.right-calendar-month table td.right-calendar-day-selected {
-  background-color: #FB6;
-  border-color: #BA8;
-  color: brown;
+  background-color: #BBB;
+  border-color: #AAA;
+  color: #222;
+  font-weight: bold;
+  padding: .1em .2em;
 }
 div.right-calendar-month table td.right-calendar-day-disabled {
   color: #888;
