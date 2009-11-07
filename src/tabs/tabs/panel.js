@@ -52,7 +52,7 @@ Tabs.Panel = new Class(Observer, {
   resizing: function(callback) {
     if (this.__working) return this.resizing.bind(this, callback).delay(20);
     
-    var controller = this.tab.controller
+    var controller = this.tab.controller;
     var options    = controller.options;
     var prev_panel = controller.element.subNodes().first('hasClass', 'right-tabs-panel-current');
     var this_panel = this.element;
