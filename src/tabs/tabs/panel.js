@@ -12,10 +12,10 @@ Tabs.Panel = new Class(Observer, {
   },
   
   // shows the panel
-  show: function(nofx) {
+  show: function() {
     return this.resizing(function() {
       this.element.radioClass('right-tabs-panel-current');
-    }, nofx);
+    });
   },
   
   // updates the panel content
@@ -49,69 +49,64 @@ Tabs.Panel = new Class(Observer, {
   
 // protected
   
-  resizing: function(callback, nofx) {
+  resizing: function(callback) {
     if (this.__working) return this.resizing.bind(this, callback).delay(20);
     
-    var controller = this.tab.controller, options = controller.options;
+    var controller = this.tab.controller
+    var options    = controller.options;
+    var prev_panel = controller.element.subNodes().first('hasClass', 'right-tabs-panel-current');
+    var this_panel = this.element;
+    var swapping   = prev_panel != this_panel;
+    var loading    = this.element.first('div.right-tabs-panel-locker');
     
-    if (!nofx && options.resizeFx && self.Fx) {
+    if (options.resizeFx && self.Fx && prev_panel && (swapping || loading)) {
       this.__working = true;
       
-      var element  = controller.element;
-      var panel    = this.element;
-      var fx_name  = options.resizeFx;
-      
-      if (fx_name == 'both' && this.element.first('div.right-tabs-panel-locker')) fx_name = 'slide';
-      
       // calculating the visual effects durations
+      var fx_name  = (options.resizeFx == 'both' && loading) ? 'slide' : options.resizeFx;
       var duration = options.resizeDuration; duration = Fx.Durations[duration] || duration;
-      var resize_duration = options.resizeFx == 'fade' ? 0 : options.resizeFx == 'slide' ? duration : duration / 2;
+      var resize_duration = fx_name == 'fade' ? 0 : fx_name == 'slide' ? duration : duration / 2;
       var fade_duration   = duration - resize_duration;
       
-      // saving the previous sizes
-      var prev_panel = controller.element.subNodes().filter('hasClass', 'right-tabs-panel-current').last();
-      var prev_element_height = element.offsetHeight;
-      var prev_panel_height   = prev_panel ? prev_panel.offsetHeight : 0;
-      
-      // preparing the element for resize
-      if (fx_name != 'fade' && !controller.isHarmonica) {
-        element.setStyle({height: prev_element_height+'px'});
-      }
-      
-      
       if (fx_name != 'slide')
-        panel.setStyle({opacity: 0});
+        this_panel.setStyle({opacity: 0});
       
+      // saving the previous sizes
+      var prev_panel_height = (controller.isHarmonica && swapping) ? 0 : prev_panel.offsetHeight;
       
+      // applying the changes
       callback.call(this);
       
+      // getting the new size
+      var new_panel_height  = this_panel.offsetHeight;
       
-      // resizing the tabs element
-      if (fx_name != 'fade') {
-        if (controller.isHarmonica) {
-          var old_size  = prev_panel_height;
-          var new_size  = panel.offsetHeight;
-          var set_back  = panel.setStyle.bind(element, {height: 'auto'});
-          var container = panel;
-        } else {
-          var old_size  = prev_element_height;
-          var new_size  = prev_element_height + panel.offsetHeight - prev_panel_height;
-          var set_back  = element.setStyle.bind(element, {height: 'auto'});
-          var container = element;
-          
-          if (new_size != old_size) {
-            container.morph({height: new_size + 'px'}, {onFinish: set_back, duration: resize_duration });
-          } else {
-            set_back();
-          }
+      
+      if (fx_name != 'fade' && prev_panel_height != new_panel_height) {
+        // wrapping the element with an overflowed element to visualize the resize
+        var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'}).setHeight(prev_panel_height);
+        var set_back = fx_wrapper.replace.bind(fx_wrapper, this_panel);
+        this_panel.wrap(fx_wrapper);
+        
+        fx_wrapper.morph({height: new_panel_height + 'px'}, {duration: resize_duration, onFinish: set_back });
+        
+        // in case of harmonica nicely hidding the previous panel
+        if (controller.isHarmonica && swapping) {
+          prev_panel.addClass('right-tabs-panel-current');
+          var hide_wrapper = $E('div', {'class': 'right-tabs-resizer'}).setHeight(prev_panel.offsetHeight);
+          var prev_back = function() {
+            hide_wrapper.replace(prev_panel.removeClass('right-tabs-panel-current'));
+          };
+          prev_panel.wrap(hide_wrapper);
+          hide_wrapper.morph({height: '0px'}, {duration: resize_duration, onFinish: prev_back});
         }
-        
-        
+      } else {
+        // removing the resize duration out of the equasion
+        rezise_duration = 0;
+        duration = fade_duration;
       }
       
       if (fx_name != 'slide')
-        panel.morph.bind(panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
-      
+        this_panel.morph.bind(this_panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
       
       // removing the working marker
       (function() { this.__working = false; }).bind(this).delay(duration);

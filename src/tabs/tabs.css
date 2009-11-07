@@ -1,6 +1,6 @@
 /* RESET */
 .right-tabs, .right-tabs .right-tabs-list, .right-tabs .right-tabs-tab, .right-tabs .right-tabs-panel,
-.right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body, .right-tabs-panel-locker {
+.right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body, .right-tabs-panel-locker, .right-tabs-resizer {
   margin: 0;
   padding: 0;
   background: none;
@@ -12,8 +12,10 @@
 }
 
 .right-tabs {
-  overflow: hidden; /* for FXed resizes */
   border-bottom: 1px solid #CCC;
+}
+.right-tabs-resizer {
+  overflow: hidden;
 }
 
 /* basic tabs styles */
