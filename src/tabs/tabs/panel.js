@@ -82,12 +82,14 @@ Tabs.Panel = new Class(Observer, {
       
       
       if (fx_name != 'fade' && prev_panel_height != new_panel_height) {
+        // preserving the whole element size so it didn't jump when we are tossing the tabs around
+        controller.element.style.height = controller.element.offsetHeight + 'px';
+        
         // wrapping the element with an overflowed element to visualize the resize
         var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'}).setHeight(prev_panel_height);
         var set_back = fx_wrapper.replace.bind(fx_wrapper, this_panel);
         this_panel.wrap(fx_wrapper);
         
-        fx_wrapper.morph({height: new_panel_height + 'px'}, {duration: resize_duration, onFinish: set_back });
         
         // in case of harmonica nicely hidding the previous panel
         if (controller.isHarmonica && swapping) {
@@ -97,8 +99,13 @@ Tabs.Panel = new Class(Observer, {
             hide_wrapper.replace(prev_panel.removeClass('right-tabs-panel-current'));
           };
           prev_panel.wrap(hide_wrapper);
-          hide_wrapper.morph({height: '0px'}, {duration: resize_duration, onFinish: prev_back});
         }
+        
+        // getting back the auto-size so we could resize it
+        controller.element.style.height = 'auto';
+        
+        if (hide_wrapper) hide_wrapper.morph({height: '0px'}, {duration: resize_duration, onFinish: prev_back});
+        fx_wrapper.morph({height: new_panel_height + 'px'}, {duration: resize_duration, onFinish: set_back });
       } else {
         // removing the resize duration out of the equasion
         rezise_duration = 0;
