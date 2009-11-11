@@ -1,0 +1,48 @@
+/**
+ * There are just basic styles for the slider unig
+ *
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ */
+ 
+/* RESET */
+div.right-slider, div.right-slider-handle {
+  margin: 0; padding: 0; border: none; background: none;
+}
+
+/* horizontal slider */
+div.right-slider {
+  height: 0.4em;
+  width: 20em;
+  border: 1px solid #CCC;
+  background: #EEE;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  position: relative;
+}
+div.right-slider-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  width: 4pt;
+  height: 1em;
+  margin-top: -0.4em;
+  margin-left: 0.1em;
+  background: #CCC;
+  border: 1px solid #AAA;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+}
+
+/* vertical slider */
+div.right-slider-vertical {
+  height: 10em;
+  width: 0.4em;
+}
+div.right-slider-vertical div.right-slider-handle {
+  margin: 0;
+  margin-left: -0.4em;
+  margin-top: 0.1em;
+  height: 4pt;
+  width: 1em;
+}
