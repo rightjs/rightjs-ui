@@ -18,6 +18,7 @@ div.right-slider {
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   position: relative;
+  margin: .6em 0;
 }
 div.right-slider-handle {
   position: absolute;
@@ -38,6 +39,7 @@ div.right-slider-handle {
 div.right-slider-vertical {
   height: 10em;
   width: 0.4em;
+  margin: 0 .3em;
 }
 div.right-slider-vertical div.right-slider-handle {
   margin: 0;
