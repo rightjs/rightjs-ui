@@ -119,11 +119,13 @@ var Slider = new Class(Observer, {
    * @param mixed an input element reference
    * @return Slider this
    */
-  assignTo: function(input) {
-    return this.onChange(function(input, value) {
-      var input = $(input);
-      input[input.setValue ? 'setValue' : 'update'](''+value);
-    }, input);
+  assignTo: function(element) {
+    var element = $(element);
+    var assign  = function(value) {
+      element[element.setValue ? 'setValue' : 'update'](''+value);
+    };
+    assign(this.value);
+    return this.onChange(assign);
   },
   
 // protected
