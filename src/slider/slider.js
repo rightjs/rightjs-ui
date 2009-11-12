@@ -164,6 +164,7 @@ var Slider = new Class(Observer, {
   // callback for the element dragg
   dragged: function(draggable, event) {
     var position = draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat();
+    if (!this.horizontal) position = this.space - position;
     var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
     
     // rounding the value according to the options
@@ -200,9 +201,11 @@ var Slider = new Class(Observer, {
   
   // moves the slider to the given position
   moveTo: function(value) {
-    this.handle.style[this.horizontal ? 'left' : 'top'] = (
-      this.space / (this.options.max - this.options.min) * (value - this.options.min)
-    ) + 'px';
+    var position = this.space / (this.options.max - this.options.min) * (value - this.options.min);
+    
+    if (!this.horizontal) position = this.space - position;
+    
+    this.handle.style[this.horizontal ? 'left' : 'top'] = position + 'px';
     
     return this;
   },
