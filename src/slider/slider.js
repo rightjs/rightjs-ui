@@ -133,6 +133,22 @@ var Slider = new Class(Observer, {
       
     if (this.options.direction == 'y')
       this.element.addClass('right-slider-vertical');
+    
+    // fixing the manual position calculations for Konqueror
+    if (this.konqFix = (RightJS.version < '1.5.0' && !this.handle.getBoundingClientRect)) {
+      var parent = this.element;
+      var old_dims = this.handle.dimensions;
+      this.handle.dimensions = function() {
+        var dims = old_dims.call(this);
+        var subset = parent.dimensions();
+        
+        dims.top  += subset.top;
+        dims.left += subset.left;
+        
+        return dims;
+      };
+    }
+    
       
     return this.reset();
   },
@@ -167,8 +183,10 @@ var Slider = new Class(Observer, {
     // calculating the ranges
     if ((options.axis = this.direction) == 'x') {
       options.range.x = [element.left + offset, element.left + element.width - offset];
+      if (this.konqFix) options.range.x[0] -= element.left;
     } else {
       options.range.y = [element.top + offset, element.top  + element.height - offset];
+      if (this.konqFix) options.range.y[0] -= element.top;
     }
     
     // calculating the snapping range
