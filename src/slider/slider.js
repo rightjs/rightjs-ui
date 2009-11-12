@@ -64,6 +64,11 @@ var Slider = new Class(Observer, {
   setValue: function(value) {
     var value = isString(value) ? value.toFloat() : value;
     
+    // rounding the value according to the options
+    var base = Math.pow(10, this.options.round);
+    value = (value * base).round() / base;
+    
+    // checking the value constraings
     if (this.options.snap) value = value - value % this.options.snap;
     if (value < this.options.min) value = this.options.min;
     if (value > this.options.max) value = this.options.max;
@@ -166,10 +171,6 @@ var Slider = new Class(Observer, {
     var position = draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat();
     if (!this.horizontal) position = this.space - position;
     var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
-    
-    // rounding the value according to the options
-    var base = Math.pow(10, this.options.round);
-    value = (value * base).round() / base;
     
     this.setValue(value);
   },
