@@ -8,13 +8,13 @@ var Slider = new Class(Observer, {
     EVENTS: $w('change'),
     
     Options: {
-      min:       0,       // the min value
-      max:       100,     // the max value
-      snap:      0,       // the values threshold
-      value:     null,    // start value, if null then the min value will be used
-      direction: 'auto',  // slider direction 'auto' or enforce with 'x', 'y'
-      update:    null,    // reference to an element to update
-      round:     0        // the number of symbols after the decimal pointer
+      min:       0,     // the min value
+      max:       100,   // the max value
+      snap:      0,     // the values threshold
+      value:     null,  // start value, if null then the min value will be used
+      direction: 'x',   // slider direction 'x', 'y'
+      update:    null,  // reference to an element to update
+      round:     0      // the number of symbols after the decimal pointer
     },
     
     rescan: function() {
@@ -131,8 +131,11 @@ var Slider = new Class(Observer, {
         onDrag: this.dragged.bind(this)
       });
       
-    if (this.options.direction == 'y')
+    if (this.options.direction == 'y') {
       this.element.addClass('right-slider-vertical');
+    } else {
+      this.options.direction = this.element.hasClass('right-slider-vertical') ? 'y' : 'x';
+    }
     
     // fixing the manual position calculations for Konqueror
     if (this.konqFix = (RightJS.version < '1.5.0' && !this.handle.getBoundingClientRect)) {
@@ -160,7 +163,7 @@ var Slider = new Class(Observer, {
   
   // callback for the element dragg
   dragged: function(draggable, event) {
-    var position = draggable.element.style[this.direction == 'x' ? 'left' : 'top'].toFloat();
+    var position = draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat();
     var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
     
     // rounding the value according to the options
@@ -181,7 +184,7 @@ var Slider = new Class(Observer, {
     options.range = {};
     
     // calculating the ranges
-    if ((options.axis = this.direction) == 'x') {
+    if ((options.axis = this.options.direction) == 'x') {
       options.range.x = [element.left + offset, element.left + element.width - offset];
       if (this.konqFix) options.range.x[0] -= element.left;
     } else {
@@ -197,7 +200,7 @@ var Slider = new Class(Observer, {
   
   // moves the slider to the given position
   moveTo: function(value) {
-    this.handle.style[this.direction == 'x' ? 'left' : 'top'] = (
+    this.handle.style[this.horizontal ? 'left' : 'top'] = (
       this.space / (this.options.max - this.options.min) * (value - this.options.min)
     ) + 'px';
     
@@ -209,9 +212,9 @@ var Slider = new Class(Observer, {
     var handle      = this.handle.setStyle({left:'0', top:'0'}).dimensions();
     
     this.dimensions = this.element.dimensions();
-    this.direction  = this.options.direction != 'auto' ? this.options.direction : this.dimensions.width > this.dimensions.height ? 'x' : 'y';
-    this.offset     = this.direction == 'x' ? handle.left - this.dimensions.left : handle.top - this.dimensions.top;
-    this.space      = (this.direction == 'x' ? this.dimensions.width - handle.width : this.dimensions.height - handle.height) - this.offset * 2;
+    this.horizontal = this.options.direction == 'x';
+    this.offset     = this.horizontal ? handle.left - this.dimensions.left : handle.top - this.dimensions.top;
+    this.space      = (this.horizontal ? this.dimensions.width - handle.width : this.dimensions.height - handle.height) - this.offset * 2;
     
     return this;
   }
