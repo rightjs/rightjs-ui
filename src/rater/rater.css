@@ -1,0 +1,39 @@
+/**
+ * The rating widget stylesheet
+ *
+ * <div class="right-rater">
+ *   <div>&#9733;</div>
+ *   <div>&#9734;</div>
+ *   ...
+ * </div>
+ *
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ */
+div.right-rater, div.right-rater div {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  display: inline-block;
+* display: inline;
+* zoom: 1;
+  font-family: Arial;
+}
+
+div.right-rater div {
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  text-align: center;
+  cursor: pointer;
+  color: #888;
+}
+div.right-rater div.right-rater-glow {
+  color: brown;
+  text-shadow: #666 .05em .05em .15em;
+}
+
+/* disabled rater styles */
+div.right-rater-disabled div {
+  cursor: default;
+}
