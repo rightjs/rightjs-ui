@@ -62,6 +62,32 @@
         <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
       </div>
     </p>
+    <p>
+      This one gets disabled once you select something
+      <div class="right-rater" data-rater-options="{value:2, disableOnVote:true}">
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    
+    <h2>Assigned To A Field</h2>
+    <p>
+      <div class="right-rater" data-rater-options="{value:2, update:'the-field'}">
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+      <input type="text" id="the-field" size="1" />
+    </p>
+    
+    <h2>Auto-Generated</h2>
+    <div id="auto-generated"></div>
+    <script type="text/javascript">
+    // <![CDATA[
+      6..times(function(i) {
+        new Rater({
+          halfs: true, value: i
+        }).insertTo($E('p').insertTo('auto-generated'));
+      });
+    // ]]>
+    </script>
     
     <div style="height: 10em"></div>
   </body>

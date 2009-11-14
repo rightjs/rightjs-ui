@@ -9,13 +9,11 @@ var Rater = new Class(Observer, {
     
     Options: {
       size:          5,      // number of stars in the line
-      halfs:         false,  // allow usage of halfs
       value:         null,   // default value
       update:        null,   // an element to update
       
       disabled:      false,  // if it should be disabled
       disableOnVote: false,  // if it should be disabled when user clicks a value
-      disableOnSend: true,   // if it should be disabled when it sends an Xhr request
       
       url:           null,   // an url to send results with AJAX
       param:         'rate', // the value param name 
@@ -32,22 +30,24 @@ var Rater = new Class(Observer, {
   initialize: function() {
     var args = $A(arguments);
     
-    this.element = (args[0] && !isHash(args[0])) ? $(args.shift()) : this.build();
+    this.element = (args[0] && !isHash(args[0])) ? $(args[0]) : null;
+    this.$super(isHash(args.last()) ? args.last() : this.element ? eval('('+this.element.get('data-rater-options')+')') : null);
     
-    this.$super(isHash(args[0]) ? args[0] : eval('('+this.element.get('data-rater-options')+')'));
+    if (!this.element) this.element = this.build();
     
-    if (this.options.update) this.assignTo(this.options.update);
-    
-    this.element._slider = this.init();
+    this.element._rater = this.init();
   },
   
   setValue: function(value) {
     if (!this.disabled()) {
+      // converting the type and rounding the value
+      value = isString(value) ? value.toInt() : value;
+      value = isNumber(value) ? value.round() : 0;
+      
       // checking constraints
       if (value > this.options.size) value = this.options.size;
       else if (value < 0) value = 0;
       
-      value = value - value % (this.options.halfs ? 0.5 : 1);
       this.highlight(value);
       
       if (this.value != value) {
@@ -63,10 +63,22 @@ var Rater = new Class(Observer, {
   },
   
   insertTo: function(element, position) {
+    this.element.insertTo(element, position);
     return this;
   },
   
   assignTo: function(element) {
+    var element = $(element);
+    if (element && element.setValue) {
+      element._rater = this;
+      element.value  = this.value;
+      
+      element.onChange(function() {
+        this.setValue(element.value);
+      }.bind(this));
+      this.onChange(element.setValue.bind(element));
+      this.assignee = element;
+    }
     return this;
   },
   
@@ -95,6 +107,7 @@ var Rater = new Class(Observer, {
   
   clicked: function(index) {
     this.setValue(index + 1);
+    if (this.options.disableOnVote) this.disable();
   },
   
   leaved: function() {
@@ -119,6 +132,7 @@ var Rater = new Class(Observer, {
     this.setValue(this.options.value);
     
     if (this.options.disabled) this.disable();
+    if (this.options.update)   this.assignTo(this.options.update);
     
     return this;
   },

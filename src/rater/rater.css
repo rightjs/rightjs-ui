@@ -18,8 +18,11 @@ div.right-rater, div.right-rater div {
 * display: inline;
 * zoom: 1;
   font-family: Arial;
+  font-size: 110%;
 }
-
+div.right-rater {
+  width: 6em;
+}
 div.right-rater div {
   width: 1em;
   height: 1em;
