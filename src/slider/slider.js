@@ -125,6 +125,12 @@ var Slider = new Class(Observer, {
       element[element.setValue ? 'setValue' : 'update'](''+value);
     };
     assign(this.value);
+    
+    if (element.setValue) {
+      element.onChange(function() {
+        this.setValue(element.value);
+      }.bind(this));
+    }
     return this.onChange(assign);
   },
   
