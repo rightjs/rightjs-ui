@@ -64,7 +64,7 @@ var Rater = new Class(Observer, {
       this.highlight(value);
       
       if (this.value != value) {
-        this.fire('change', this.value = value);
+        this.fire('change', this.value = value, this);
       }
     }
     
@@ -121,6 +121,7 @@ var Rater = new Class(Observer, {
   send: function() {
     if (this.options.url) {
       new Xhr(this.options.url, this.options.Xhr).send(this.options.param+"="+this.value);
+      this.fire('send', this.value, this);
     }
     return this;
   },
@@ -160,7 +161,7 @@ var Rater = new Class(Observer, {
   hovered: function(index) {
     if (!this.disabled()) {
       this.highlight(index + 1);
-      this.fire('hover', index + 1);
+      this.fire('hover', index + 1, this);
     }
   },
   
