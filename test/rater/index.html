@@ -56,7 +56,7 @@
       </div>
     </p>
     
-    <h2>Disabled Slider</h2>
+    <h2>Disabled Rater</h2>
     <p>
       <div class="right-rater" data-rater-options="{value:2, disabled:true}">
         <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
@@ -75,6 +75,13 @@
         <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
       </div>
       <input type="text" id="the-field" size="1" />
+    </p>
+    
+    <h2>Remote Rater</h2>
+    <p>
+      <div class="right-rater" data-rater-options="{value:1, url:'xhr.html', Xhr: {method:'get',onComplete:function(){this.text.evalScripts()}}}">
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
     </p>
     
     <h2>Auto-Generated</h2>

@@ -20,6 +20,7 @@ var Rater = new Class(Observer, {
       Xhr:           null    // additional Xhr options
     },
     
+    // searches and initializes rating units
     rescan: function() {
       $$('div.right-rater').each(function(element) {
         if (!element._rater) new Rater(element);
@@ -27,6 +28,12 @@ var Rater = new Class(Observer, {
     }
   },
   
+  /**
+   * basic constructor
+   *
+   * @param mixed element reference or an options hash
+   * @param Object options hash
+   */
   initialize: function() {
     var args = $A(arguments);
     
@@ -38,6 +45,12 @@ var Rater = new Class(Observer, {
     this.element._rater = this.init();
   },
   
+  /**
+   * Sets the element value
+   *
+   * @param Number or String value
+   * @return Rater this
+   */
   setValue: function(value) {
     if (!this.disabled()) {
       // converting the type and rounding the value
@@ -58,15 +71,33 @@ var Rater = new Class(Observer, {
     return this;
   },
   
+  /**
+   * Returns the current value of the rater
+   *
+   * @return Number value
+   */
   getValue: function() {
     return this.value;
   },
   
+  /**
+   * Inserts the rater into the given element
+   *
+   * @param mixed element reference
+   * @param String optional position
+   * @return Rater this
+   */
   insertTo: function(element, position) {
     this.element.insertTo(element, position);
     return this;
   },
   
+  /**
+   * Assigns the unit to work with an input element
+   *
+   * @param mixed element reference
+   * @return Rater this
+   */
   assignTo: function(element) {
     var element = $(element);
     if (element && element.setValue) {
@@ -82,22 +113,50 @@ var Rater = new Class(Observer, {
     return this;
   },
   
+  /**
+   * Sends an Xhr request with the current value to the options.url address
+   *
+   * @return Rater this
+   */
+  send: function() {
+    if (this.options.url) {
+      new Xhr(this.options.url, this.options.Xhr).send(this.options.param+"="+this.value);
+    }
+    return this;
+  },
+  
+  /**
+   * Disables the instance
+   *
+   * @return Rater this
+   */
   disable: function() {
     this.element.addClass('right-rater-disabled');
     return this;
   },
   
+  /**
+   * Enables this instance
+   *
+   * @return Rater this
+   */
   enable: function() {
     this.element.removeClass('right-rater-disabled');
     return this;
   },
   
+  /**
+   * Checks if the instance is disabled
+   *
+   * @return boolean
+   */
   disabled: function() {
     return this.element.hasClass('right-rater-disabled');
   },
   
 // protected
 
+  // callback for 'hover' event
   hovered: function(index) {
     if (!this.disabled()) {
       this.highlight(index + 1);
@@ -105,21 +164,26 @@ var Rater = new Class(Observer, {
     }
   },
   
+  // callback for user-click
   clicked: function(index) {
     this.setValue(index + 1);
     if (this.options.disableOnVote) this.disable();
+    this.send();
   },
   
+  // callback when user moves the mouse out
   leaved: function() {
     this.setValue(this.value);
   },
   
+  // highlights the stars
   highlight: function(number) {
     this.stars.each(function(element, i) {
       element[number - 1 < i ? 'removeClass' : 'addClass']('right-rater-glow');
     });
   },
 
+  // initializes the script
   init: function() {
     this.stars = this.element.subNodes();
     
@@ -137,6 +201,7 @@ var Rater = new Class(Observer, {
     return this;
   },
   
+  // builds the elements structure
   build: function() {
     var element = $E('div', {'class': 'right-rater'});
     
