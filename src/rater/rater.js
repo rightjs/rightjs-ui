@@ -190,7 +190,7 @@ var Rater = new Class(Observer, {
     this.stars.each(function(element, index) {
       element.onMouseover(this.hovered.bind(this, index))
         .onClick(this.clicked.bind(this, index));
-    }, this)
+    }, this);
     
     this.element.onMouseout(this.leaved.bind(this));
     this.setValue(this.options.value);
