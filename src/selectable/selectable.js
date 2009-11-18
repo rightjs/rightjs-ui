@@ -267,6 +267,16 @@ var Selectable = new Class(Observer, {
       this.onSelect('hideList'); // don't move it upper, it will force the hide effect
     }
     
+    // auto-refresh feature
+    if (this.options.refresh) {
+      var old_insert = this.element.update;
+      this.element.update = function() {
+        var result = old_insert.apply(this.element, arguments);
+        this.refresh();
+        return result;
+      }.bind(this);
+    }
+    
     return this;
   },
   
