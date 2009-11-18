@@ -293,7 +293,7 @@ var Selectable = new Class(Observer, {
     
     if (value != this.value) {
       this.value = value;
-      this.fire('change', value);
+      this.fire('change', value, this);
     }
     
     return this;
@@ -452,10 +452,10 @@ var Selectable = new Class(Observer, {
         width: dims.width + 'px'
       }).show(this.options.fxName, {
         duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'show')
+        onFinish: this.fire.bind(this, 'show', this)
       });
       
-      if (!this.options.fxName) this.fire('show');
+      if (!this.options.fxName) this.fire('show', this);
     }
   },
   
@@ -464,10 +464,10 @@ var Selectable = new Class(Observer, {
     if (this.isSingle && this.element.visible()) {
       this.element.hide(this.options.fxName, {
         duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'hide')
+        onFinish: this.fire.bind(this, 'hide', this)
       });
       
-      if (!this.options.fxName) this.fire('hide');
+      if (!this.options.fxName) this.fire('hide', this);
     }
   },
   
