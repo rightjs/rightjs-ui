@@ -348,6 +348,26 @@ var Selectable = new Class(Observer, {
         this.select(item);
         this._massSelect = true; // mass-selection start
       }
+      
+      // mass-selection with a shift/meta key
+      if ((event.shiftKey || event.metaKey) && this._prevItem) {
+        var index1 = this.items.indexOf(this._prevItem);
+        var index2 = this.items.indexOf(item);
+        
+        if (index1 != index2) {
+          if (index1 > index2) {
+            var t = index1;
+            index1 = index2;
+            index2 = index1;
+          }
+            
+          for (var i=index1; i < index2; i++) {
+            this[this._prevItem.hasClass(this.selectedClass) ? 'select' : 'unselect'](this.items[i]);
+          }
+        }
+      }
+      
+      this._prevItem = item;
     }
   },
   
