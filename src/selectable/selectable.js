@@ -338,7 +338,7 @@ var Selectable = new Class(Observer, {
   
   // maps and filters only enabled items
   mapEnabled: function(keys) {
-    return this.map(keys).filter(function(item) {
+    return this.mapOrAll(keys).filter(function(item) {
       return !item.hasClass(this.disabledClass);
     }, this);
   },
