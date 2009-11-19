@@ -5,15 +5,15 @@
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
-    Done:           'Getan',
+    Done:           'Erledigt',
     Now:            'Jetzt',
-    Next:           'Nächste Monat',
-    Prev:           'Vorhergehende Monat',
-    NextYear:       'Nächste Jahr',
-    PrevYear:       'Vorhergehende Jahr',
+    Next:           'Nächster Monat',
+    Prev:           'Vorhergehender Monat',
+    NextYear:       'Nächstes Jahr',
+    PrevYear:       'Vorhergehendes Jahr',
 
     dayNames:        $w('Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag'),
-    dayNamesShort:   $w('Son Mon Die Mit Don Fre Sam'),
+    dayNamesShort:   $w('So Mo Di Mi Do Fr Sa'),
     dayNamesMin:     $w('So Mo Di Mi Do Fr Sa'),
     monthNames:      $w('Januar Februar März April Mai Juni Juli August September Oktober November Dezember'),
     monthNamesShort: $w('Jan Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez')
