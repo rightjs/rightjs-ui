@@ -22,7 +22,7 @@
     </style>
   </head>
   <body>
-    <h1>RightJS UI Slider Build Test</h1>
+    <h1>RightJS UI Slider Test</h1>
 
     <h2>Simple Slider</h2>
     <p>
@@ -43,27 +43,47 @@
     <h2>Snapping Slider</h2>
     <p>
       <div id="slider-out-3" class="slider-out-monitor"></div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:10}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:10}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:20}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:20}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:30}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-3',snap:30}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
     </p>
     
     <h2>With Shifted Ranges</h2>
     <p>
       <div id="slider-out-4" class="slider-out-monitor"></div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-4',min:-100,max:0,value:-20}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-4',min:-100,max:0,value:-20}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-4',min:-100,max:100,value:0}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-4',min:-100,max:100,value:0}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-4',min:100,max:200,value:120}">
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-4',min:100,max:200,value:120}">
+          <div class="right-slider-handle"></div>
+        </div>
+      </div>
+    </p>
+    
+    <h2>Assigned To Input</h2>
+    <p>
+      <input type="text" id="output-input" size="3" />
+      <div class="right-slider" data-slider-options="{update:'output-input'}">
         <div class="right-slider-handle"></div>
       </div>
     </p>
@@ -71,17 +91,25 @@
     <h2>With Round Settings</h2>
     <p>
       <div id="slider-out-5" class="slider-out-monitor"></div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-5',round:1}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-5',round:1}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-5',round:2}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-5',round:2}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-5',round:3}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-5',round:3}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
-      <div class="right-slider" data-slider-options="{update:'slider-out-5',round:4}">
-        <div class="right-slider-handle"></div>
+      <div>
+        <div class="right-slider" data-slider-options="{update:'slider-out-5',round:4}">
+          <div class="right-slider-handle"></div>
+        </div>
       </div>
     </p>
     
@@ -96,19 +124,21 @@
         min: -100,
         max: 100,
         value: 0
-      }).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      }).insertTo($E('div').insertTo('dynamic-sliders')).assignTo('slider-out-6');
       new Slider({
         min: -100,
-        max: 0,
-        value: 20,
+        max: 100,
+        value: 0,
         direction: 'y'
       }).insertTo('dynamic-sliders').assignTo('slider-out-6');
       
-      new Slider({value: 80, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
-      new Slider({value: 60, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
-      new Slider({value: 40, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
-      new Slider({value: 20, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      
       new Slider({value: 0, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 20, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 40, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 60, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 80, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 100, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
       // ]]>
       </script>
       

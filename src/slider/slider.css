@@ -19,6 +19,9 @@ div.right-slider {
   -webkit-border-radius: .2em;
   position: relative;
   margin: .6em 0;
+  display: inline-block;
+* display: inline;
+* zoom: 1;
 }
 div.right-slider-handle {
   position: absolute;
