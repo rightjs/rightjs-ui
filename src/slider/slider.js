@@ -69,7 +69,11 @@ var Slider = new Class(Observer, {
     value = (value * base).round() / base;
     
     // checking the value constraings
-    if (this.options.snap) value = value - value % this.options.snap;
+    if (this.options.snap) {
+      var snap = this.options.snap;
+      var diff = value % snap;
+      value = diff < snap/2 ? value - diff : value - diff + snap;
+    }
     if (value < this.options.min) value = this.options.min;
     if (value > this.options.max) value = this.options.max;
     
@@ -143,6 +147,9 @@ var Slider = new Class(Observer, {
         onBefore: this.prepare.bind(this),
         onDrag: this.dragged.bind(this)
       });
+    
+    // make it jump to the position
+    this.element.onClick(this.clicked.bind(this));
       
     if (this.options.direction == 'y') {
       this.element.addClass('right-slider-vertical');
@@ -174,13 +181,25 @@ var Slider = new Class(Observer, {
     return $E('div', {'class': 'right-slider'}).insert($E('div', {'class': 'right-slider-handle'}));
   },
   
+  // callback for the eleemnt on-click event to make the slider to jump there
+  clicked: function(event) {
+    event.stop();
+    this.precalc().moveTo(this.value);
+    
+    var position = event.position();
+    var element  = this.dimensions;
+    
+    var position = (this.horizontal ? position.x - element.left : position.y - element.top) - this.offset;
+    
+    if (position > this.space) position = this.space;
+    else if (position < 0)     position = 0;
+    
+    this.setPosition(position);
+  },
+  
   // callback for the element dragg
   dragged: function(draggable, event) {
-    var position = draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat();
-    if (!this.horizontal) position = this.space - position;
-    var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
-    
-    this.setValue(value);
+    this.setPosition(draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat());
   },
   
   // callback for the draggable before event
@@ -206,6 +225,14 @@ var Slider = new Class(Observer, {
     if (this.options.snap) {
       options.snap = this.space / (this.options.max - this.options.min) * this.options.snap;
     }
+  },
+  
+  // sets the slider value by the handle position
+  setPosition: function(position) {
+    if (!this.horizontal)  position = this.space - position;
+    var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
+    
+    this.setValue(value);
   },
   
   // moves the slider to the given position
