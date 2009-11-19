@@ -117,21 +117,34 @@ var Selectable = new Class(Observer, {
    * @param mixed an element reference
    * @return Selectable this
    */
-  assignTo: function(input) {
-    var input = $(input);
+  assignTo: function(element) {
+    var assign  = function(element, value) {
+      if (element = $(element)) {
+        if (value === undefined || value === null) value = '';
+        element[element.setValue ? 'setValue' : 'update'](''+value);
+      }
+    }.curry(element);
     
-    if (input && input.setValue) {
-      var set_value = function(value) {
-        input.setValue(value === null ? '' : value);
-      };
-      set_value(this.value);
-      this.onChange(set_value);
-      input.onChange(function() {
-        this.setValue(input.value);
+    var connect = function(element, object) {
+      var element = $(element);
+      if (element && element.onChange) {
+        element.onChange(function() {
+          this.setValue(element.value);
+        }.bind(object));
+      }
+    }.curry(element);
+    
+    if ($(element)) {
+      assign(this.value);
+      connect(this);
+    } else {
+      document.onReady(function() {
+        assign(this.value);
+        connect(this);
       }.bind(this));
     }
     
-    return this;
+    return this.onChange(assign);
   },
   
   /**

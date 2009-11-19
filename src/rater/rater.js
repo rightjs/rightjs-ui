@@ -99,18 +99,33 @@ var Rater = new Class(Observer, {
    * @return Rater this
    */
   assignTo: function(element) {
-    var element = $(element);
-    if (element && element.setValue) {
-      element._rater = this;
-      element.value  = this.value;
-      
-      element.onChange(function() {
-        this.setValue(element.value);
+    var assign  = function(element, value) {
+      if (element = $(element)) {
+        if (value === undefined || value === null) value = '';
+        element[element.setValue ? 'setValue' : 'update'](''+value);
+      }
+    }.curry(element);
+    
+    var connect = function(element, object) {
+      var element = $(element);
+      if (element && element.onChange) {
+        element.onChange(function() {
+          this.setValue(element.value);
+        }.bind(object));
+      }
+    }.curry(element);
+    
+    if ($(element)) {
+      assign(this.value);
+      connect(this);
+    } else {
+      document.onReady(function() {
+        assign(this.value);
+        connect(this);
       }.bind(this));
-      this.onChange(element.setValue.bind(element));
-      this.assignee = element;
     }
-    return this;
+    
+    return this.onChange(assign);
   },
   
   /**

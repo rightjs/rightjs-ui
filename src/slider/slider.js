@@ -124,17 +124,32 @@ var Slider = new Class(Observer, {
    * @return Slider this
    */
   assignTo: function(element) {
-    var element = $(element);
-    var assign  = function(value) {
-      element[element.setValue ? 'setValue' : 'update'](''+value);
-    };
-    assign(this.value);
+    var assign  = function(element, value) {
+      if (element = $(element)) {
+        if (value === undefined || value === null) value = '';
+        element[element.setValue ? 'setValue' : 'update'](''+value);
+      }
+    }.curry(element);
     
-    if (element.setValue) {
-      element.onChange(function() {
-        this.setValue(element.value);
+    var connect = function(element, object) {
+      var element = $(element);
+      if (element && element.onChange) {
+        element.onChange(function() {
+          this.setValue(element.value);
+        }.bind(object));
+      }
+    }.curry(element);
+    
+    if ($(element)) {
+      assign(this.value);
+      connect(this);
+    } else {
+      document.onReady(function() {
+        assign(this.value);
+        connect(this);
       }.bind(this));
     }
+    
     return this.onChange(assign);
   },
   
