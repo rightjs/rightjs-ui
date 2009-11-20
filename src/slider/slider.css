@@ -22,6 +22,7 @@ div.right-slider {
   display: inline-block;
 * display: inline;
 * zoom: 1;
+  vertical-align: middle;
 }
 div.right-slider-handle {
   position: absolute;

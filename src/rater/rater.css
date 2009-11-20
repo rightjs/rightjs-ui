@@ -22,6 +22,7 @@ div.right-rater, div.right-rater div {
 }
 div.right-rater {
   width: 6em;
+  vertical-align: middle;
 }
 div.right-rater div {
   width: 1em;

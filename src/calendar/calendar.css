@@ -94,6 +94,7 @@ div.right-calendar {
 div.right-calendar-inline {
   position: relative;
   display: inline-block;
+  vertical-align: top;
   * display: inline;
   * zoom: 1;
   -moz-box-shadow: none;
