@@ -21,7 +21,8 @@ var Calendar = new Class(Observer, {
       timePeriod:     1,      // the timepicker minimal periods (in minutes, might be bigger than 60)
       checkTags:      '*',
       relName:        'calendar',
-      twentyFourHour: null    // null for automatic, or true|false to enforce
+      twentyFourHour: null,   // null for automatic, or true|false to enforce
+      listYears:      false   // show/hide the years listing buttons
     },
     
     Formats: {
