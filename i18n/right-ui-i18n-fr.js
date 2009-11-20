@@ -6,7 +6,7 @@
 if (self.Calendar) {
   $ext(Calendar.i18n, {
     Done:            "Fait",
-    Now:             "Maintenant",
+    Now:             "Maint.",
     Next:            "Mois prochain",
     Prev:            "Mois précédent",
     NextYear:        "L'année prochain",
