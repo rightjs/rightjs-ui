@@ -17,7 +17,7 @@ var Lightbox = new Class({
     
     Options: {
       endOpacity:      0.8,
-      fxDuration:      200,
+      fxDuration:      300,
       hideOnEsc:       true,
       hideOnOutClick:  true,
       showCloseButton: true,
@@ -241,8 +241,10 @@ var Lightbox = new Class({
       
       this.boxResize();
       
-      this.locker.morph({opacity: this.options.endOpacity}, {duration: this.options.fxDuration});
-      this.dialog.morph({opacity: 1},                       {duration: this.options.fxDuration});
+      var options = {duration: this.options.fxDuration, fps:  Fx.Options.fps * 0.5};
+      
+      this.locker.morph({opacity: this.options.endOpacity}, options);
+      this.dialog.morph({opacity: 1},                       options);
       
       callback.delay(this.options.fxDuration);
     } else {
@@ -322,7 +324,7 @@ var Lightbox = new Class({
     var body   = this.body;
     var dialog = this.dialog;
     
-    $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
+    $ext(new Fx(this.dialog, {duration: this.options.fxDuration, fps: Fx.Options.fps * 0.6}), {
       render: function(delta) {
         body.style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
         body.style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
