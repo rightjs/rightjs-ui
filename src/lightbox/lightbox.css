@@ -136,6 +136,7 @@ div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {
   cursor: pointer;
   font-size: 150%;
   font-weight: bold;
+  font-family: Arial;
 }
 div.lightbox-close-button:hover, div.lightbox-prev-link:hover, div.lightbox-next-link:hover {
   color: white;
@@ -147,10 +148,10 @@ div.lightbox-close-button {
 
 div.lightbox-prev-link, div.lightbox-next-link {
   padding: 0 .2em;
-  font-size: 180%;
+  bottom: 2px;
 }
 div.lightbox-prev-link {
-  left: .3em;
+  left: .2em;
 }
 
 div.lightbox-next-link {
