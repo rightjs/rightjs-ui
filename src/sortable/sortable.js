@@ -80,6 +80,9 @@ var Sortable = new Class(Observer, {
         item.current_position = index;
       });
     }
+    
+    // resetting the left/top positions so it didn't jump next time
+    element.setStyle({left:'auto', top: 'auto'});
   },
   
   // tries to send an Xhr request about the element relocation
@@ -143,19 +146,21 @@ var Sortable = new Class(Observer, {
       // the droppable options
       var drop_options = {
         overlap:      direction,
-        containtment: items,
+        containment:  items,
         onHover: function(draggable) {
-          // calculating the swapping direction
-          var drag_dims = draggable.element.dimensions();
-          var this_dims = this.element.dimensions();
-          
-          var before = draggable.axisY ? (
-              drag_dims.top > this_dims.top
-            ) : (
-              drag_dims.left > this_dims.left
-            );
-          
-          this.element.insert(draggable.clone, before ? 'before' : 'after');
+          if (items.include(draggable.element)) {
+            // calculating the swapping direction
+            var drag_dims = draggable.element.dimensions();
+            var this_dims = this.element.dimensions();
+
+            var before = draggable.axisY ? (
+                drag_dims.top > this_dims.top
+              ) : (
+                drag_dims.left > this_dims.left
+              );
+
+            this.element.insert(draggable.clone, before ? 'before' : 'after');
+          }
         }
       };
       
