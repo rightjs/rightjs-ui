@@ -37,7 +37,7 @@ var Lightbox = new Class({
     boxes: [],
     
     // scans the page for auto-discoverable lighbox links
-    rescan: function() {
+    rescan: function(scope) {
       var key = Lightbox.Options.relName;
       var get_options = function(element) {
         var data = element.get('data-'+key+'-options');
@@ -45,7 +45,7 @@ var Lightbox = new Class({
       };
       
       // grabbing the singles
-      $$('a[rel='+key+']').each(function(a) {
+      ($(scope)||document).select('a[rel='+key+']').each(function(a) {
         if (!a.showLightbox) {
           var options = get_options(a);
           a.showLightbox = function(event) {

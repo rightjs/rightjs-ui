@@ -30,8 +30,8 @@ var Tabs = new Class(Observer, {
     },
     
     // scans and automatically intializes the tabs
-    rescan: function() {
-      $$('*.right-tabs').each(function(element) {
+    rescan: function(scope) {
+      ($(scope) || document).select('*.right-tabs').each(function(element) {
         if (!element._tabs) {
           new Tabs(element);
         }

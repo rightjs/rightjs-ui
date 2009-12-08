@@ -1,6 +1,6 @@
 /**
  * Document level hooks for sortables
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-document.onReady(Sortable.rescan);
+document.onReady(function() { Sortable.rescan(); });

@@ -27,11 +27,11 @@ var Autocompleter = new Class(Observer, {
     },
     
     // scans the document for autocompletion fields
-    rescan: function() {
+    rescan: function(scope) {
       var key = Autocompleter.Options.relName;
       var reg = new RegExp('^'+key+'+\\[(.*?)\\]$');
       
-      $$('input[rel^="'+key+'"]').each(function(input) {
+      ($(scope)||document).select('input[rel^="'+key+'"]').each(function(input) {
         if (!input.autocompleter) {
           var data = input.get('data-'+key+'-options');
           var options = Object.merge(eval('('+data+')'));

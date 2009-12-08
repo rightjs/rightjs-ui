@@ -4,7 +4,9 @@
  * Copyright (C) Nikolay V. Nemshilov aka St.
  */
 document.on({
-  ready:   Autocompleter.rescan,
+  ready:   function() {
+    Autocompleter.rescan();
+  },
   
   // the autocompletion list navigation
   keydown: function(event) {

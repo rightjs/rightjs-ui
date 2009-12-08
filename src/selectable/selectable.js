@@ -23,8 +23,8 @@ var Selectable = new Class(Observer, {
       refresh:    true     // a flag if it should automatically refresh the items list
     },
     
-    rescan: function() {
-      $$('*.right-selectable').each(function(element) {
+    rescan: function(scope) {
+      ($(scope)||document).select('*.right-selectable').each(function(element) {
         if (!element._selectable) {
           new Selectable(element);
         }
@@ -458,7 +458,7 @@ var Selectable = new Class(Observer, {
     event.stop();
     if (this.isSingle) {
       var dims = this.container.dimensions();
-
+      
       this.element.setStyle({
         top: (dims.top + dims.height) + 'px',
         left: dims.left + 'px',

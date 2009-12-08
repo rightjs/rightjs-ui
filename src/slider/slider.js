@@ -17,8 +17,8 @@ var Slider = new Class(Observer, {
       round:     0      // the number of symbols after the decimal pointer
     },
     
-    rescan: function() {
-      $$('div.right-slider').each(function(element) {
+    rescan: function(scope) {
+      ($(scope) || document).select('div.right-slider').each(function(element) {
         if (!element._slider) {
           new Slider(element);
         }

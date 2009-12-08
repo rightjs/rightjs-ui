@@ -1,6 +1,6 @@
 /**
  * Document onReady hook for sliders
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-document.onReady(Slider.rescan);
+document.onReady(function() { Slider.rescan(); });

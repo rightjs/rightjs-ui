@@ -21,8 +21,8 @@ var Rater = new Class(Observer, {
     },
     
     // searches and initializes rating units
-    rescan: function() {
-      $$('div.right-rater').each(function(element) {
+    rescan: function(scope) {
+      ($(scope)||document).select('div.right-rater').each(function(element) {
         if (!element._rater) new Rater(element);
       });
     }

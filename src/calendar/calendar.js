@@ -48,11 +48,11 @@ var Calendar = new Class(Observer, {
     },
     
     // scans for the auto-discoverable calendar inputs
-    rescan: function() {
+    rescan: function(scope) {
       var key       = Calendar.Options.relName;
       var rel_id_re = new RegExp(key+'\\[(.+?)\\]');
 
-      $$(Calendar.Options.checkTags+'[rel*='+key+']').each(function(element) {
+      ($(scope)||document).select(Calendar.Options.checkTags+'[rel*='+key+']').each(function(element) {
         var data     = element.get('data-'+key+'-options');
         var calendar = new Calendar(eval('('+data+')') || {});
         

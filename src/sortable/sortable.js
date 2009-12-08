@@ -25,11 +25,11 @@ var Sortable = new Class(Observer, {
     },
     
     // scans through the page for auto-discoverable sortables
-    rescan: function() {
+    rescan: function(scope) {
       var key = Sortable.Options.relName;
       var reg = new RegExp('^'+key+'\\[(.+?)\\]');
       
-      $$('ul[rel^="'+key+'"], ol[rel^="'+key+'"]').each(function(element) {
+      ($(scope) || document).select('ul[rel^="'+key+'"], ol[rel^="'+key+'"]').each(function(element) {
         if (!element._sortable) {
           var data    = element.get('data-'+key+'-options');
           var options = eval('('+data+')') || {};

@@ -3,4 +3,4 @@
  *
  * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
-document.onReady(Calendar.rescan);
+document.onReady(function() { Calendar.rescan(); });
