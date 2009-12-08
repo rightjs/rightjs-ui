@@ -59,6 +59,8 @@ div.lightbox-body-wrap {
   border-radius: .6em;
   -moz-border-radius: .6em;
   -webkit-border-radius: .6em;
+  -moz-box-shadow: #111 .1em .1em .4em;
+  -webkit-box-shadow: #111 .1em .1em .4em;
 }
 
 div.lightbox-body {
