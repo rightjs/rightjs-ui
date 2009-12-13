@@ -89,19 +89,19 @@ Calendar.include({
 
   // changes the current date according to the hash
   changeDate: function(hash) {
-    var date = new Date(this.date);
+    var date = new Date(this.date), options = this.options;
     
     for (var key in hash) {
       date['set'+key](date['get'+key]() + hash[key]);
     }
     
     // checking the date range constrains
-    if (!(
-      (this.options.minDate && this.options.minDate > date) ||
-      (this.options.maxDate && this.options.maxDate < date)
-    )) this.date = date;
-    
-    return this.update(this.date);
+    if (options.minDate && options.minDate > date) date = new Date(options.minDate);
+    if (options.maxDate && options.maxDate < date) {
+      date = new Date(options.maxDate);
+      date.setDate(date.getDate() - 1);
+    }
+    return this.update(this.date = date);
   },
   
   connectEvents: function() {
@@ -116,7 +116,7 @@ Calendar.include({
     // connecting the calendar day-cells
     this.element.select('div.right-calendar-month table tbody td').each(function(cell) {
       cell.onClick(function() {
-        if (cell.innerHTML != '') {
+        if (cell.innerHTML != '' && !cell.hasClass('right-calendar-day-disabled')) {
           var prev = this.element.first('.right-calendar-day-selected');
           if (prev) prev.removeClass('right-calendar-day-selected');
           cell.addClass('right-calendar-day-selected');

@@ -81,6 +81,7 @@ Calendar.include({
   
   updateNextPrevMonthButtons: function(date, monthes_num) {
     var options = this.options;
+    
     if (options.minDate) {
       var beginning = new Date(date.getFullYear(),0,1,0,0,0);
       var min_date = new Date(options.minDate.getFullYear(),0,1,0,0,0);
