@@ -20,6 +20,7 @@ TABS_FILES = %w{
   tabs/current
   tabs/builder
   tabs/remote
+  tabs/loop
   document
 }
 

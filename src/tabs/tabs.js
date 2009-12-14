@@ -22,6 +22,9 @@ var Tabs = new Class(Observer, {
       
       closable:       false,   // set true if you want a close icon on your tabs
       
+      loop:           false,   // put a delay in ms to make it autostart the slideshow loop
+      loopPause:      true,    // make the loop get paused when user hovers the tabs with mouse
+      
       url:            false,   // a common remote tabs url template, should have the %{id} placeholder
       cache:          false,   // marker if the remote tabs should be cached
       
