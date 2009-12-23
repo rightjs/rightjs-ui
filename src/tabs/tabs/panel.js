@@ -50,7 +50,7 @@ Tabs.Panel = new Class(Observer, {
 // protected
   
   resizing: function(callback) {
-    if (this.__working) return this.resizing.bind(this, callback).delay(20);
+    if (Tabs.__working) return this.resizing.bind(this, callback).delay(20);
     
     var controller = this.tab.controller;
     var options    = controller.options;
@@ -60,7 +60,7 @@ Tabs.Panel = new Class(Observer, {
     var loading    = this.element.first('div.right-tabs-panel-locker');
     
     if (options.resizeFx && self.Fx && prev_panel && (swapping || loading)) {
-      this.__working = true;
+      Tabs.__working = true;
       
       // calculating the visual effects durations
       var fx_name  = (options.resizeFx == 'both' && loading) ? 'slide' : options.resizeFx;
@@ -80,16 +80,15 @@ Tabs.Panel = new Class(Observer, {
       // getting the new size
       var new_panel_height  = this_panel.offsetHeight;
       
-      
       if (fx_name != 'fade' && prev_panel_height != new_panel_height) {
         // preserving the whole element size so it didn't jump when we are tossing the tabs around
         controller.element.style.height = controller.element.offsetHeight + 'px';
         
         // wrapping the element with an overflowed element to visualize the resize
-        var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'}).setHeight(prev_panel_height);
+        var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'});
         var set_back = fx_wrapper.replace.bind(fx_wrapper, this_panel);
         this_panel.wrap(fx_wrapper);
-        
+        fx_wrapper.setHeight(prev_panel_height);
         
         // in case of harmonica nicely hidding the previous panel
         if (controller.isHarmonica && swapping) {
@@ -116,7 +115,7 @@ Tabs.Panel = new Class(Observer, {
         this_panel.morph.bind(this_panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
       
       // removing the working marker
-      (function() { this.__working = false; }).bind(this).delay(duration);
+      (function() { Tabs.__working = false; }).bind(this).delay(duration);
     } else {
       callback.call(this);
     }
