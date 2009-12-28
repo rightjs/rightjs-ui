@@ -5,7 +5,7 @@
  */
 var InEdit = new Class(Observer, {
   extend: {
-    EVENTS: $w('show hide send updated'),
+    EVENTS: $w('show hide send update'),
     
     Options: {
       url:    null,    // the url address where to send the stuff
@@ -69,7 +69,7 @@ var InEdit = new Class(Observer, {
       this.field.focus();
     
     InEdit.current = this;
-    return this.fire('show');
+    return this.fire('show', this);
   },
   
   /**
@@ -101,7 +101,7 @@ var InEdit = new Class(Observer, {
       onComplete: this.update.bind(this)
     })).send(this.form);
     
-    return this.fire('send')
+    return this.fire('send', this)
   },
   
 // protected
@@ -111,13 +111,13 @@ var InEdit = new Class(Observer, {
       this.options.toggle.show();
     
     InEdit.current = null;
-    return this.fire('hide');
+    return this.fire('hide', this);
   },
 
   update: function() {
     if (this.options.update) {
       this.element.update(this.xhr.text);
-      this.fire('updated');
+      this.fire('update', this);
     }
     
     this.xhr = null;
