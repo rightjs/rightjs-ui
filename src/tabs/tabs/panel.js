@@ -54,7 +54,7 @@ Tabs.Panel = new Class(Observer, {
     
     var controller = this.tab.controller;
     var options    = controller.options;
-    var prev_panel = controller.element.subNodes().first('hasClass', 'right-tabs-panel-current');
+    var prev_panel = controller.element.first('.right-tabs-panel-current');
     var this_panel = this.element;
     var swapping   = prev_panel != this_panel;
     var loading    = this.element.first('div.right-tabs-panel-locker');
