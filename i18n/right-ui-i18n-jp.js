@@ -31,3 +31,10 @@ if (self.Lightbox) {
     NextTitle:  'Next Image'
   });
 }
+
+if (self.InEdit) {
+  $ext(InEdit.i18n, {
+    save:   "Save",
+    cancel: "Cancel"
+  });
+}

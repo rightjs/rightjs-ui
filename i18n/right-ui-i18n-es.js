@@ -27,3 +27,10 @@ if (self.Lightbox) {
     NextTitle:  'Imagen siguiente'
   });
 }
+
+if (self.InEdit) {
+  $ext(InEdit.i18n, {
+    save:   "Guardar",
+    cancel: "Borrar"
+  });
+}
