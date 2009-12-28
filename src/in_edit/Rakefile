@@ -1,0 +1,61 @@
+#
+# The module building tool
+#
+# Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+#
+
+require 'rake'
+require 'fileutils'
+require File.dirname(__FILE__) + "/../../lib/frontcompiler/init.rb"
+
+INEDIT_VERSION    = '1.0.0'
+INEDIT_BUILD_DIR  = File.dirname(__FILE__) + "/../../build"
+INEDIT_BUILD_NAME = 'right-in-edit'
+
+INEDIT_FILES = %w{
+  in_edit
+  document
+  element
+}
+
+task :default => :build
+
+desc "Builds the module"
+task :build do
+  puts "\n * Building InEdit\n"
+  
+  FileUtils.mkdir_p INEDIT_BUILD_DIR
+  
+  # removing the old versions
+  FileUtils.rm "#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}.js"     rescue nil
+  FileUtils.rm "#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}-min.js" rescue nil
+  FileUtils.rm "#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}-src.js" rescue nil
+  
+  @compiler = FrontCompiler.new
+  
+  @source   = INEDIT_FILES.collect do |filename|
+    File.open("#{filename}.js").read
+  end.join("\n\n")
+  
+  @source << "\n\n#{@compiler.inline_css(File.open('in_edit.css').read)}"
+  
+  @source.gsub! '#{version}', INEDIT_VERSION
+  
+  @header   = File.open("header.js").read
+  
+  # writting files
+  File.open("#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}.js", "w") do |file|
+    file.write @header
+    file.write @compiler.compact_js(@source).create_self_build
+  end
+  
+  File.open("#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}-min.js", "w") do |file|
+    file.write @header
+    file.write @compiler.compact_js(@source)
+  end
+  
+  File.open("#{INEDIT_BUILD_DIR}/#{INEDIT_BUILD_NAME}-src.js", "w") do |file|
+    file.write @header
+    file.write "\n#{@source}"
+  end
+end
