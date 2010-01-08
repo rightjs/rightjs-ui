@@ -87,18 +87,22 @@ Tabs.Panel = new Class(Observer, {
         // wrapping the element with an overflowed element to visualize the resize
         var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'});
         var set_back = fx_wrapper.replace.bind(fx_wrapper, this_panel);
-        this_panel.wrap(fx_wrapper);
-        fx_wrapper.setHeight(prev_panel_height);
+        fx_wrapper.style.height = prev_panel_height + 'px';
         
         // in case of harmonica nicely hidding the previous panel
         if (controller.isHarmonica && swapping) {
           prev_panel.addClass('right-tabs-panel-current');
-          var hide_wrapper = $E('div', {'class': 'right-tabs-resizer'}).setHeight(prev_panel.offsetHeight);
+          var hide_wrapper = $E('div', {'class': 'right-tabs-resizer'});
+          hide_wrapper.style.height = prev_panel.offsetHeight + 'px';
           var prev_back = function() {
             hide_wrapper.replace(prev_panel.removeClass('right-tabs-panel-current'));
           };
           prev_panel.wrap(hide_wrapper);
+          
+          fx_wrapper.style.height = '0px';
         }
+        
+        this_panel.wrap(fx_wrapper);
         
         // getting back the auto-size so we could resize it
         controller.element.style.height = 'auto';
