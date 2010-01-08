@@ -26,20 +26,17 @@ return {
    * @return Tabs this
    */
   startLoop: function(delay) {
-    if (isNumber(delay)) this.options.loop = delay;
+    if (!delay && !this.options.loop) return this;
     
     // attaching the loop pause feature
     if (this.options.loopPause) {
-      this._stopLoop  = this._stopLoop  || this.stopLoop.bind(this);
-      this._startLoop = this._startLoop || this.startLoop.bind(this);
+      this._stopLoop  = this._stopLoop  || this.stopLoop.bind(this, true);
+      this._startLoop = this._startLoop || this.startLoop.bind(this, delay);
       
-      this.element
-        .stopObserving('mouseover', this._stopLoop)
-        .stopObserving('mouseout', this._startLoop)
-        .on({
-          mouseover: this._stopLoop,
-          mouseout:  this._startLoop
-        });
+      this.forgetHovers().on({
+        mouseover: this._stopLoop,
+        mouseout:  this._startLoop
+      });
     }
     
     if (this.timer) this.timer.stop();
@@ -51,7 +48,7 @@ return {
       
       this.show(next || enabled.first());
       
-    }.bind(this).periodical(this.options.loop);
+    }.bind(this).periodical(this.options.loop || delay);
     
     return this;
   },
@@ -61,11 +58,21 @@ return {
    *
    * @return Tabs this
    */
-  stopLoop: function() {
+  stopLoop: function(event, pause) {
     if (this.timer) {
       this.timer.stop();
       this.timer = null;
     }
+    if (!pause && this._startLoop)
+      this.forgetHovers();
+  },
+  
+// private
+  forgetHovers: function() {
+    return this.element
+      .stopObserving('mouseover', this._stopLoop)
+      .stopObserving('mouseout', this._startLoop);
   }
+  
   
 }})());
