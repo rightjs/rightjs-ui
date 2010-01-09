@@ -51,15 +51,15 @@ var InEdit = new Class(Observer, {
     if (InEdit.current !== this) {
       if (InEdit.current) InEdit.current.hide();
       
-      this.spinner.hide();
-      this.submit.show();
-      
       this.oldContent = this.element.innerHTML;
       
       if (!['file', 'password'].include(this.options.type))
         this.field.value = this.oldContent;
         
       this.element.clean().insert(this.form);
+      
+      this.spinner.hide();
+      this.submit.show();
       
       if (this.options.toggle)
         this.options.toggle.hide();
