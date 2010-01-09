@@ -187,6 +187,24 @@
         .insertTo($E('p').insertTo('generated-selects'));
     // ]]>
     </script>
+    
+    <h2>Generated from selectboxes</h2>
+    <p>
+      <select class="right-selectable">
+        <option>One</option>
+        <option disabled="true">Two</option>
+        <option selected="selected">Three</option>
+        <option>Four</option>
+      </select>
+    </p>
+    <p>
+      <select class="right-selectable" multiple="false">
+        <option value="item-1">One</option>
+        <option selected="true" value="item-2">Two</option>
+        <option selected="true" value="item-3">Three</option>
+        <option disabled="true" value="item-4">Four</option>
+      </select>
+    </p>
   
     <div style="height: 10em"></div>
   </body>
