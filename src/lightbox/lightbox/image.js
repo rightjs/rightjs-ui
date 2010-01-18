@@ -1,7 +1,7 @@
 /**
  * The images displaying functionality module
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
 Lightbox.include((function() {
   var old_show = Lightbox.prototype.show;
@@ -11,6 +11,10 @@ Lightbox.include((function() {
     
     // hightjacking the links to images and image elements
     show: function(content) {
+      if (content && content.tagName == 'A' && content.get('rel').includes('[roadtrip]')) {
+        content.roadtrip = $$('a[rel="'+this.options.relName+'[roadtrip]"]');
+      }
+      
       // adjusting the element class-name
       this.element[(content && (content.tagName == 'IMG' || this.isImageUrl(content.href))) ?
         'addClass' : 'removeClass']('lightbox-image');

@@ -1,12 +1,12 @@
 /**
  * Roadtrips support module for the lightbox
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
-Lightbox.include((function() {
-  var old_show  = Lightbox.prototype.show;
-  var old_build = Lightbox.prototype.build;
-  var old_event = Lightbox.prototype.connectEvents;
+Lightbox.include((function(proto) {
+  var old_show  = proto.show;
+  var old_build = proto.build;
+  var old_event = proto.connectEvents;
   
   return {
     // highjacking a roadtrip content
@@ -72,4 +72,4 @@ Lightbox.include((function() {
       return this.roadLink && this.roadLink.roadtrip && this.roadLink.roadtrip.last() != this.roadLink;
     }
   };
-})());
+})(Lightbox.prototype));

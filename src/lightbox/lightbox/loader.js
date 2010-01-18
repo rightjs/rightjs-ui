@@ -1,11 +1,11 @@
 /**
  * Ajax loading support module
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
-Lightbox.include((function() {
-  var old_show = Lightbox.prototype.show;
-  var old_build = Lightbox.prototype.build;
+Lightbox.include((function(proto) {
+  var old_show  = proto.show;
+  var old_build = proto.build;
   
   return {
     // hightjacking the links
@@ -80,4 +80,4 @@ Lightbox.include((function() {
       return res;
     }
   };
-})());
+})(Lightbox.prototype));

@@ -3,6 +3,6 @@
  *
  * Home page: http://rightjs.org/ui/lightbox
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
-if (!RightJS || !Fx) { throw "Gimme RightJS with Fx. Please." };
+if (!RightJS) { throw "Gimme RightJS please." };
