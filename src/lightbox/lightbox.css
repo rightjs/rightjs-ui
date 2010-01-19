@@ -163,7 +163,8 @@ div.lightbox-next-link {
 
 
 /* Lightbox images displaying styles */
-div.lightbox-image div.lightbox-body-wrap {
+div.lightbox-image div.lightbox-body-wrap,
+div.lightbox-media div.lightbox-body-wrap {
   padding: 0;
   border: 1px solid #777;
   border-radius: 0px;
@@ -174,11 +175,13 @@ div.lightbox-image div.lightbox-content img {
   vertical-align: middle;
 }
 
-div.lightbox-image div.lightbox-caption {
+div.lightbox-image div.lightbox-caption,
+div.lightbox-media div.lightbox-caption {
   margin-left: .2em;
 }
 
-div.lightbox-image div.lightbox-body-wrap, div.lightbox-image div.lightbox-body-lock {
+div.lightbox-image div.lightbox-body-wrap, div.lightbox-image div.lightbox-body-lock,
+div.lightbox-media div.lightbox-body-wrap, div.lightbox-media div.lightbox-body-lock {
   background-color: #DDD;
 }
 

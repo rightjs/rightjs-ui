@@ -13,7 +13,9 @@ Lightbox.include((function(proto) {
       if (content && content.href) {
         return this.load(content.href, {
           onComplete: function(request) {
-            this.setTitle(content.title).content.update(request.responseText);
+            this.checkTheRoad(content)
+              .setTitle(content.title)
+              .content.update(request.responseText);
           }.bind(this)
         });
       } else {

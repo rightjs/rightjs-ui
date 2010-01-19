@@ -70,6 +70,16 @@ Lightbox.include((function(proto) {
     // checks if there is a next image link
     hasNext: function() {
       return this.roadLink && this.roadLink.roadtrip && this.roadLink.roadtrip.last() != this.roadLink;
+    },
+    
+    // updates the roadtrip links list
+    checkTheRoad: function(link) {
+      if (isElement(link) && link.match(this.options.roadtripRule)) {
+        link.roadtrip = $$(this.options.roadtripRule);
+      }
+      this.roadLink = link;
+      
+      return this;
     }
   };
 })(Lightbox.prototype));

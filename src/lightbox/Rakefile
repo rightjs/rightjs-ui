@@ -17,6 +17,7 @@ LIGHTBOX_FILES = %w{
   lightbox/loader
   lightbox/roadtrip
   lightbox/image
+  lightbox/media
   lightbox/static
   document
 }

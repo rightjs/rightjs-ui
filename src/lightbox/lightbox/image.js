@@ -11,17 +11,13 @@ Lightbox.include((function() {
     
     // hightjacking the links to images and image elements
     show: function(content) {
-      if (isElement(content) && content.match(this.options.roadtripRule)) {
-        content.roadtrip = $$(this.options.roadtripRule);
-      }
-      
       // adjusting the element class-name
       this.element[(content && (content.tagName == 'IMG' || this.isImageUrl(content.href))) ?
         'addClass' : 'removeClass']('lightbox-image');
       
       if (content && content.href && this.isImageUrl(content.href)) {
         return this.showingSelf(function() {
-          this.loadLock().roadLink = content;
+          this.checkTheRoad(content).loadLock();
           
           // using the iframed request to make the browser cache work
           var image = new Image();

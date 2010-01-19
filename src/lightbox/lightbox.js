@@ -18,12 +18,17 @@ var Lightbox = new Class({
     Options: {
       endOpacity:      0.8,
       fxDuration:      300,
+      
       hideOnEsc:       true,
       hideOnOutClick:  true,
       showCloseButton: true,
       blockContent:    false,
+      
       cssRule:         "a[rel^=lightbox]",             // all lightbox links css-rule
-      roadtripRule:    "a[rel='lightbox[roadtrip]']"   // roadtrip links css-rule
+      roadtripRule:    "a[rel='lightbox[roadtrip]']",   // roadtrip links css-rule
+      
+      mediaWidth:      425,  // video links default size
+      mediaHeight:     350
     },
     
     i18n: {
@@ -34,6 +39,13 @@ var Lightbox = new Class({
       NextText:   '&rsaquo;&rsaquo;&rsaquo;',
       NextTitle:  'Next Image'
     },
+    
+    // media content sources
+    Medias: [
+      [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/,       '$1/v/$2',                      'swf'],
+      [/(http:\/\/video.google.com)\/videoplay\?docid=([^&]+)/, '$1/googleplayer.swf?docId=$2', 'swf'],
+      [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/,                 '$1/moogaloop.swf?clip_id=$2',  'swf']
+    ],
     
     boxes: [],
     
