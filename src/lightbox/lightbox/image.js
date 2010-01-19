@@ -11,8 +11,8 @@ Lightbox.include((function() {
     
     // hightjacking the links to images and image elements
     show: function(content) {
-      if (content && content.tagName == 'A' && content.get('rel').includes('[roadtrip]')) {
-        content.roadtrip = $$('a[rel="'+this.options.relName+'[roadtrip]"]');
+      if (isElement(content) && content.match(this.options.roadtripRule)) {
+        content.roadtrip = $$(this.options.roadtripRule);
       }
       
       // adjusting the element class-name

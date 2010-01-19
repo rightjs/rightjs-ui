@@ -22,7 +22,8 @@ var Lightbox = new Class({
       hideOnOutClick:  true,
       showCloseButton: true,
       blockContent:    false,
-      relName:         'lightbox'
+      cssRule:         "a[rel^=lightbox]",             // all lightbox links css-rule
+      roadtripRule:    "a[rel='lightbox[roadtrip]']"   // roadtrip links css-rule
     },
     
     i18n: {
@@ -36,7 +37,7 @@ var Lightbox = new Class({
     
     boxes: [],
     
-    // DEPRECATED: we use events delegation now, there's no need to call this function now
+    // DEPRECATED: we use events delegation now, there's no need to call this function any more
     rescan: function() {}
   },
   
