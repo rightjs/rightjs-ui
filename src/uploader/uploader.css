@@ -1,0 +1,48 @@
+/**
+ * The uploader's progress-bar stylesheet
+ *
+ * Structure looks like that
+ *
+ * <div class="progress-bar">
+ *    <div class="bar"></div>
+ *    <div class="num">0 %</div>
+ * </div>
+ *
+ * Copyright (C) 2010 Nikolay V. Nemshilov
+ */
+div.progress-bar {
+  margin: 0;
+  padding: 0;
+  background: none;
+  position: relative;
+  height: 1.4em;
+  line-height: 1.4em;
+  width: 20em;
+  border: 1px solid #999;
+}
+
+div.progress-bar div.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0%;
+  height: 100%;
+  background: #CCC;
+  z-index: 1;
+}
+div.progress-bar div.num {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  text-align: center;
+}
+
+div.progress-bar, div.progress-bar div.bar {
+  -moz-border-radius: 0.25em;
+  -webkit-border-radius: 0.25em;
+}
+
+div.progress-bar.upload-failed {
+  border-color: red;
+}
