@@ -82,7 +82,7 @@ var Uploader = new Class(Observer, {
 
     this.percent = (percent * 100).round(this.options.round);
     
-    if (this.percent == 0 || !this.options.fxDuration) {
+    if (this.percent == 0 || !self.Fx || !this.options.fxDuration) {
       this.bar.style.width = this.percent + '%';
       this.num.innerHTML   = this.percent + '%';
     } else {
