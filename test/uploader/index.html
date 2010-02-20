@@ -33,7 +33,7 @@
           <input type="submit" value="Send" />
           <a href="javascript:$('form-2').send()">Send</a>
         </p>
-        <div class="progress-bar" style="width: 40em">
+        <div class="right-progress-bar" style="width: 40em">
           <div class="bar"></div>
           <div class="num">0%</div>
         </div>
@@ -43,12 +43,12 @@
     <h2>With An Empty ProgressBar</h2>
     <p>
       <form id="form-3" class="with-progress" action="http://localhost/tmp/upload.php" method="post" enctype="multipart/form-data">
+        <div class="right-progress-bar" style="width: 30em"></div>
         <p>
           <input type="file" name="file" />
           <input type="submit" value="Send" />
           <a href="javascript:$('form-3').send()">Send</a>
         </p>
-        <div class="progress-bar" style="width: 30em"></div>
       </form>
     </p>
     

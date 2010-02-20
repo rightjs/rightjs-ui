@@ -3,25 +3,32 @@
  *
  * Structure looks like that
  *
- * <div class="progress-bar">
+ * <div class="right-progress-bar">
  *    <div class="bar"></div>
  *    <div class="num">0 %</div>
  * </div>
  *
  * Copyright (C) 2010 Nikolay V. Nemshilov
  */
-div.progress-bar {
+div.right-progress-bar, div.right-progress-bar * {
   margin: 0;
   padding: 0;
+  border: none;
   background: none;
+  -moz-border-radius: 0.25em;
+  -webkit-border-radius: 0.25em;
+}
+
+div.right-progress-bar {
   position: relative;
   height: 1.4em;
   line-height: 1.4em;
   width: 20em;
   border: 1px solid #999;
+  display: none;
 }
 
-div.progress-bar div.bar {
+div.right-progress-bar div.bar {
   position: absolute;
   left: 0;
   top: 0;
@@ -30,7 +37,7 @@ div.progress-bar div.bar {
   background: #CCC;
   z-index: 1;
 }
-div.progress-bar div.num {
+div.right-progress-bar div.num {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -38,11 +45,8 @@ div.progress-bar div.num {
   text-align: center;
 }
 
-div.progress-bar, div.progress-bar div.bar {
-  -moz-border-radius: 0.25em;
-  -webkit-border-radius: 0.25em;
-}
-
-div.progress-bar.upload-failed {
+div.right-progress-bar-failed {
   border-color: red;
+  color: red;
+  background: pink;
 }
