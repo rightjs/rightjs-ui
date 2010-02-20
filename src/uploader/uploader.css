@@ -15,8 +15,6 @@ div.right-progress-bar, div.right-progress-bar * {
   padding: 0;
   border: none;
   background: none;
-  -moz-border-radius: 0.25em;
-  -webkit-border-radius: 0.25em;
 }
 
 div.right-progress-bar {
@@ -26,6 +24,11 @@ div.right-progress-bar {
   width: 20em;
   border: 1px solid #999;
   display: none;
+}
+
+div.right-progress-bar, div.right-progress-bar div.bar {
+  -moz-border-radius: 0.25em;
+  -webkit-border-radius: 0.25em;
 }
 
 div.right-progress-bar div.bar {

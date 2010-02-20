@@ -13,6 +13,7 @@ var Uploader = new Class(Observer, {
 
       timeout:     1000,
       round:       0,
+      fxDuration:  400,
 
       formCssRule: '.with-progress'
     }
@@ -80,9 +81,16 @@ var Uploader = new Class(Observer, {
     }
 
     this.percent = (percent * 100).round(this.options.round);
-
-    this.bar.style.width = this.percent + '%';
-    this.num.innerHTML   = this.percent + '%';
+    
+    if (this.percent == 0 || !this.options.fxDuration) {
+      this.bar.style.width = this.percent + '%';
+      this.num.innerHTML   = this.percent + '%';
+    } else {
+      this.bar.morph({width: this.percent + '%'}, {duration: this.options.fxDuration});
+      (function() {
+        this.num.innerHTML = this.percent + '%';
+      }).bind(this).delay(this.options.fxDuration / 2);
+    }
 
     // marking the failed uploads
     this.element[data.state == 'error' ? 'addClass' : 'removeClass']('right-progress-bar-failed');
