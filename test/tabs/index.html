@@ -210,12 +210,12 @@
     
     <h2>Carousel Simple</h2>
     <p>
-      <input type="checkbox" id="loop-switch" checked="true"
-        onchange="$('carousel-demo')._tabs[this.checked ? 'startLoop' : 'stopLoop']();" />
+      <input type="checkbox" id="loop-switch" checked="false"
+        onchange="var tabs = $('carousel-demo')._tabs; this.checked ? tabs.startLoop(2000) : tabs.stopLoop();" />
       <label for="loop-switch">Switch the slideshow on/off</label>
     </p>
     <p>
-      <div id="carousel-demo" class="right-tabs right-tabs-carousel" data-tabs-options="{loop: 4000}">
+      <div id="carousel-demo" class="right-tabs right-tabs-carousel">
         <ul>
           <li><a href="#cs-tab-1"><img src="http://rightjs.org/images/test/1-min.jpg" /></a></li>
           <li><a href="#cs-tab-2"><img src="http://rightjs.org/images/test/2-min.jpg" /></a></li>

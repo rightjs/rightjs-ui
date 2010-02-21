@@ -1,7 +1,7 @@
 /**
  * The tab panels behavior logic
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
 Tabs.Panel = new Class(Observer, {
   
@@ -33,18 +33,7 @@ Tabs.Panel = new Class(Observer, {
   
   // locks the panel with a spinner locker
   lock: function() {
-    var locker  = $E('div', {'class': 'right-tabs-panel-locker'});
-    var spinner = $E('div', {'class': 'right-tabs-panel-locker-spinner'}).insertTo(locker);
-    var dots    = '1234'.split('').map(function(i) {
-      return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
-    });
-    
-    (function() {
-      spinner.insert(dots.last(), 'top');
-      dots.unshift(dots.pop());
-    }).periodical(400);
-    
-    this.element.insert(locker, 'top');
+    this.element.insert(this.locker(), 'top');
   },
   
 // protected
@@ -119,12 +108,31 @@ Tabs.Panel = new Class(Observer, {
         this_panel.morph.bind(this_panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
       
       // removing the working marker
-      (function() { Tabs.__working = false; }).bind(this).delay(duration);
+      (function() { Tabs.__working = false; }).delay(duration + 100);
     } else {
       callback.call(this);
     }
     
     return this;
+  },
+  
+  // builds the locker element
+  locker: function() {
+    if (!this._locker) {
+      var locker  = $E('div', {'class': 'right-tabs-panel-locker'});
+      var spinner = $E('div', {'class': 'right-tabs-panel-locker-spinner'}).insertTo(locker);
+      var dots    = '1234'.split('').map(function(i) {
+        return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
+      });
+
+      (function() {
+        spinner.insert(dots.last(), 'top');
+        dots.unshift(dots.pop());
+      }).periodical(400);
+      
+      this._locker = locker;
+    }
+    return this._locker;
   }
   
 });

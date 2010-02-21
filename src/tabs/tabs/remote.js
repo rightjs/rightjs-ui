@@ -1,7 +1,7 @@
 /**
  * This module contains the remote tabs loading logic
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
  */
 Tabs.Tab.include((function() {
   var old_show = Tabs.Tab.prototype.show;
@@ -10,6 +10,8 @@ return {
   
   // wrapping the show mehtod, to catch the remote requests
   show: function() {
+    if (Tabs.__working) return this;
+    
     var result  = old_show.apply(this, arguments);
     var url     = this.link.href;
     var options = this.controller.options;
