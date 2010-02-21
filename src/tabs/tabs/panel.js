@@ -20,9 +20,15 @@ Tabs.Panel = new Class(Observer, {
   
   // updates the panel content
   update: function(content) {
-    return this.resizing(function() {
+    var current_panel = this.tab.controller.element.first('.right-tabs-panel-current');
+    if (current_panel == this.element) {
+      return this.resizing(function() {
+        this.element.update(content||'');
+      });
+    } else {
       this.element.update(content||'');
-    });
+      return this;
+    }
   },
   
   // removes the pannel

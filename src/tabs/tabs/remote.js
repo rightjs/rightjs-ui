@@ -10,8 +10,6 @@ return {
   
   // wrapping the show mehtod, to catch the remote requests
   show: function() {
-    if (Tabs.__working) return this;
-    
     var result  = old_show.apply(this, arguments);
     var url     = this.link.href;
     var options = this.controller.options;
