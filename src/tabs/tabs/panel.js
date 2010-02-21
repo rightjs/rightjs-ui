@@ -14,21 +14,26 @@ Tabs.Panel = new Class(Observer, {
   // shows the panel
   show: function() {
     return this.resizing(function() {
-      this.element.radioClass('right-tabs-panel-current');
+      this.tab.controller.tabs.each(function(tab) {
+        var element = tab.panel.element;
+        element[element == this.element ?
+          'addClass' : 'removeClass']('right-tabs-panel-current');
+      }, this);
     });
   },
   
   // updates the panel content
   update: function(content) {
-    var current_panel = this.tab.controller.element.first('.right-tabs-panel-current');
-    if (current_panel == this.element) {
-      return this.resizing(function() {
+    // don't use resize if it's some other hidden tab was loaded asynch
+    if (this.tab.current()) {
+      this.resizing(function() {
         this.element.update(content||'');
       });
     } else {
       this.element.update(content||'');
-      return this;
     }
+    
+    return this;
   },
   
   // removes the pannel
@@ -45,17 +50,22 @@ Tabs.Panel = new Class(Observer, {
 // protected
   
   resizing: function(callback) {
-    if (Tabs.__working) return this.resizing.bind(this, callback).delay(20);
-    
     var controller = this.tab.controller;
+    
+    if (controller.__working) return this.resizing.bind(this, callback).delay(100);
+    
     var options    = controller.options;
     var prev_panel = controller.element.first('.right-tabs-panel-current');
     var this_panel = this.element;
     var swapping   = prev_panel != this_panel;
     var loading    = this.element.first('div.right-tabs-panel-locker');
     
+    // sometimes it looses the parent on remote tabs
+    if (this_panel.parentNode.hasClass('right-tabs-resizer')) this_panel.insertTo(prev_panel.parentNode);
+    
     if (options.resizeFx && self.Fx && prev_panel && (swapping || loading)) {
-      Tabs.__working = true;
+      controller.__working = true;
+      var unlock = function() { controller.__working = false; };
       
       // calculating the visual effects durations
       var fx_name  = (options.resizeFx == 'both' && loading) ? 'slide' : options.resizeFx;
@@ -74,15 +84,17 @@ Tabs.Panel = new Class(Observer, {
       
       // getting the new size
       var new_panel_height  = this_panel.offsetHeight;
+      var fx_wrapper = null;
       
       if (fx_name != 'fade' && prev_panel_height != new_panel_height) {
         // preserving the whole element size so it didn't jump when we are tossing the tabs around
         controller.element.style.height = controller.element.offsetHeight + 'px';
         
         // wrapping the element with an overflowed element to visualize the resize
-        var fx_wrapper = $E('div', {'class': 'right-tabs-resizer'});
-        var set_back = fx_wrapper.replace.bind(fx_wrapper, this_panel);
-        fx_wrapper.style.height = prev_panel_height + 'px';
+        fx_wrapper = $E('div', {
+          'class': 'right-tabs-resizer',
+          'style': 'height: '+ prev_panel_height + 'px'
+        });
         
         // in case of harmonica nicely hidding the previous panel
         if (controller.isHarmonica && swapping) {
@@ -102,19 +114,40 @@ Tabs.Panel = new Class(Observer, {
         // getting back the auto-size so we could resize it
         controller.element.style.height = 'auto';
         
-        if (hide_wrapper) hide_wrapper.morph({height: '0px'}, {duration: resize_duration, onFinish: prev_back});
-        fx_wrapper.morph({height: new_panel_height + 'px'}, {duration: resize_duration, onFinish: set_back });
       } else {
         // removing the resize duration out of the equasion
         rezise_duration = 0;
         duration = fade_duration;
       }
       
-      if (fx_name != 'slide')
-        this_panel.morph.bind(this_panel, {opacity: 1}, {duration: fade_duration}).delay(resize_duration);
+      var counter = 0;
+      var set_back = function() {
+        if (fx_wrapper) {
+          if (fx_name == 'both' && !counter)
+            return counter ++;
+            
+          fx_wrapper.replace(this_panel);
+        }
+        
+        unlock();
+      };
       
-      // removing the working marker
-      (function() { Tabs.__working = false; }).delay(duration + 100);
+      if (hide_wrapper)
+        hide_wrapper.morph({height: '0px'}, 
+          {duration: resize_duration, onFinish: prev_back});
+      
+      if (fx_wrapper)
+        fx_wrapper.morph({height: new_panel_height + 'px'},
+          {duration: resize_duration, onFinish: set_back});
+      
+      if (fx_name != 'slide')
+        this_panel.morph.bind(this_panel, {opacity: 1},
+          {duration: fade_duration, onFinish: set_back}
+            ).delay(resize_duration);
+            
+      if (!fx_wrapper && fx_name == 'slide')
+        set_back();
+        
     } else {
       callback.call(this);
     }
