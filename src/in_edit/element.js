@@ -1,9 +1,9 @@
 /**
  * The element level inline editor extension
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-Element.addMethods({
+Element.include({
   /**
    * Triggers an inline-editor feature on the element
    *
