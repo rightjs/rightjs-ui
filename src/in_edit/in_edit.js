@@ -62,7 +62,7 @@ var InEdit = new Class(Observer, {
       this.submit.show();
       
       if (this.options.toggle)
-        this.options.toggle.hide();
+        $(this.options.toggle).hide();
     }
     
     if (this.options.type != 'file')
@@ -140,8 +140,8 @@ var InEdit = new Class(Observer, {
   buildField: function() {
     return (this.options.type == 'textarea' ? $E('textarea') : 
       $E('input', {type: this.options.type}))
-      .addClass('right-in-edit-field')
-      .set('name', this.options.name);
+        .addClass('right-in-edit-field')
+        .set('name', this.options.name);
   },
   
   buildSpinner: function() {
@@ -151,7 +151,9 @@ var InEdit = new Class(Observer, {
     });
     
     (function() {
-      spinner.insertBefore(spinner.lastChild, spinner.firstChild)
+      if (spinner.firstChild) {
+        spinner.insertBefore(spinner.lastChild, spinner.firstChild);
+      }
     }).periodical(400);
     
     return spinner;
