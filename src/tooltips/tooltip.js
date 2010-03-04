@@ -45,22 +45,35 @@ var Tooltip = new Class({
     rescan: function(scope) { }
   },
   
+  /**
+   * Constructor
+   *
+   * @param Element associated element
+   * @param Object options
+   */
   initialize: function(element, options) {
-    this.element   = $E('div', {'class': 'right-tooltip'}).hide().insertTo(document.body);
-    this.container = $E('div', {'class': 'right-tooltip-container'}).insertTo(this.element);
+    this.associate = element = $(element);
+    this.element   = $E('div', {
+      'class': 'right-tooltip',
+      'html':  '<div class="right-tooltip-arrow"></div>'+
+        '<div class="right-tooltip-container">'+
+          (element.get('title') || element.get('alt'))+
+        '</div>'
+    }).hide().insertTo(document.body);
     
-    this.setOptions(options).assignTo(element);
+    this.setOptions(options || eval('('+element.get('data-tooltips-options')+')'));
+    
+    element.set({ title: '', alt: ''});
+    
+    if (element.id)
+      this.element.id = element.id + this.options.idSuffix;
   },
   
-  setText: function(text) {
-    this.container.update(text);
-    return this;
-  },
-  
-  getText: function() {
-    return this.container.innerHTML;
-  },
-  
+  /**
+   * Hides the tooltip
+   *
+   * @return Tooltip this
+   */
   hide: function() {
     this.cancelTimer();
     this.element.hide(this.options.fxName, {
@@ -74,23 +87,33 @@ var Tooltip = new Class({
     return this;
   },
   
-  show: function() {
-    this.element.stop().show(this.options.fxName, {duration: this.options.fxDuration});
-
-    return Tooltip.current = this;
-  },
-  
-  showDelayed: function() {
+  /**
+   * Shows the tooltip with a dealy
+   *
+   * @param Boolean if true will show tooltip immediately
+   * @return Tooltip this
+   */
+  show: function(immediately) {
     // hidding all the others
     Tooltip.instances.each(function(tip) {
       if (tip && tip !== this) tip.hide();
     }, this);
     
-    Tooltip.current = this;
+    // show the tooltip with a delay
+    this.timer = (function() {
+      this.element.stop().show(this.options.fxName, {duration: this.options.fxDuration});
+      
+      Tooltip.current = this;
+    }).bind(this).delay(this.options.delay);
     
-    this.timer = this.show.bind(this).delay(this.options.delay);
+    return Tooltip.current = this;
   },
   
+  /**
+   * Moves the tooltip where the event happened
+   *
+   * @return Tooltip this
+   */
   moveTo: function(event) {
     this.element.style.left = event.pageX + 'px';
     this.element.style.top  = event.pageY + 'px';
@@ -100,23 +123,11 @@ var Tooltip = new Class({
   
 // protected
   
+  // cancels a show timeout
   cancelTimer: function() {
     if (this.timer) {
       this.timer.cancel(); 
       this.timer = null;
     }
-  },
-  
-  assignTo: function(element) {
-    this.setText(element.get('title') || element.get('alt'));
-    
-    // removing the element native title and alt
-    element.set({ title: '', alt: ''});
-    
-    if (element.id) this.element.id = element.id + this.options.idSuffix;
-    
-    this.associate = element;
-    
-    return this;
   }
 });
