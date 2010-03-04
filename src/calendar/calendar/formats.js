@@ -23,7 +23,7 @@
  *   %S - Second of the minute (00..60)
  *   %% - Literal ``%'' character
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Calendar.include({
 
