@@ -1,9 +1,8 @@
 /**
  * The native tooltips feature for RithJS
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-
 var Tooltip = new Class({
   include: Options,
   
@@ -59,7 +58,7 @@ var Tooltip = new Class({
         '<div class="right-tooltip-container">'+
           (element.get('title') || element.get('alt'))+
         '</div>'
-    }).hide().insertTo(document.body);
+    }).insertTo(document.body);
     
     this.setOptions(options || eval('('+element.get('data-tooltips-options')+')'));
     

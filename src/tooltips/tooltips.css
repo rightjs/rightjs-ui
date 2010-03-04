@@ -2,31 +2,38 @@
  * Right Tooltips basic stylesheet
  *
  * <div class="right-tooltip">
+ *   <div class="right-tooltip-arrow"></div>
  *   <div class="right-tooltip-container"></div>
  * </div>
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 
 div.right-tooltip {
+  display: none;
   position: absolute;
+  z-index: 999999;
+  font-size: 90%;
   margin-top: 16pt;
-  margin-left: 2pt;
-  border: 1px solid #DDD;
-  background-color: #FFF8EE;
-  color: #666;
-  font-size: 80%;
-  cursor: default;
+  margin-left: 5pt;
+  
+  color: #FFF;
+  text-shadow: 0 0 .2em #000;
+  border: .3em solid rgba(255,255,255,0.2);
+  background-color: rgba(25,25,25,0.92);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#000));
+  
+  *background-color: #000;
+  *border: .3em solid #444;
+  
   border-radius: .4em;
   -moz-border-radius: .4em;
   -webkit-border-radius: .4em;
-  box-shadow: .4em .4em .4em #AAA;
-  -moz-box-shadow: .4em .4em .4em #AAA;
-  -webkit-box-shadow: .4em .4em .4em #AAA;
+  box-shadow: 0 0 .4em #555;
+  -moz-box-shadow: 0 0 .4em #555;
+  -webkit-box-shadow: 0 0 .4em #555;
 }
 
 div.right-tooltip-container {
-  margin: .6em;
-  border-left: 2px solid brown;
-  padding-left: .5em;
+  margin: .4em .6em;
 }
