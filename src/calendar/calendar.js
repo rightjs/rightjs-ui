@@ -1,7 +1,6 @@
 /**
  * The calendar widget for RightJS
  *
- *
  * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 var Calendar = new Class(Observer, {
@@ -19,10 +18,15 @@ var Calendar = new Class(Observer, {
       fxDuration:     200,
       numberOfMonths: 1,      // a number or [x, y] greed definition
       timePeriod:     1,      // the timepicker minimal periods (in minutes, might be bigger than 60)
-      checkTags:      '*',
-      relName:        'calendar',
+      
       twentyFourHour: null,   // null for automatic, or true|false to enforce
-      listYears:      false   // show/hide the years listing buttons
+      listYears:      false,  // show/hide the years listing buttons
+      
+      cssRule:        '[rel^=calendar]', // css rule for calendar related elements
+      
+      // deprecated
+      checkTags:      '*',
+      relName:        'calendar'
     },
     
     Formats: {
@@ -38,7 +42,7 @@ var Calendar = new Class(Observer, {
       Next:           'Next Month',
       Prev:           'Previous Month',
       NextYear:       'Next Year',
-      PrevYear:       'Prev Year',
+      PrevYear:       'Previous Year',
       
       dayNames:        $w('Sunday Monday Tuesday Wednesday Thursday Friday Saturday'),
       dayNamesShort:   $w('Sun Mon Tue Wed Thu Fri Sat'),
@@ -47,26 +51,30 @@ var Calendar = new Class(Observer, {
       monthNamesShort: $w('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec')
     },
     
-    // scans for the auto-discoverable calendar inputs
-    rescan: function(scope) {
-      var key       = Calendar.Options.relName;
-      var rel_id_re = new RegExp(key+'\\[(.+?)\\]');
-
-      ($(scope)||document).select(Calendar.Options.checkTags+'[rel*='+key+']').each(function(element) {
-        var data     = element.get('data-'+key+'-options');
-        var calendar = new Calendar(eval('('+data+')') || {});
+    current: null, // marker to the currently visible calendar
+    instances: {}, // list of registered instances
+    
+    // finds and/or instanciates a Calendar related to the event target
+    find: function(event) {
+      var element = event.target, rule = Calendar.Options.cssRule;
+      
+      if (isElement(element) && element.match(rule)) {
+        var uid      = $uid(element);
+        var calendar = Calendar.instances[uid];
         
-        var rel_id   = element.get('rel').match(rel_id_re);
-        if (rel_id) {
-          var input = $(rel_id[1]);
-          if (input) {
-            calendar.assignTo(input, element);
-          }
-        } else {
-          calendar.assignTo(element);
+        
+        if (!calendar) {
+          var key       = rule.split('=').last().split(']').first();
+          var data      = element.get('data-'+key+'-options');
+          var calendar  = new Calendar(eval('('+data+')') || {});
         }
-      });
-    }
+        
+        return Calendar.instances[uid] = calendar;
+      }
+    },
+    
+    // DEPRECATED scans for the auto-discoverable calendar inputs
+    rescan: function(scope) { }
   },
   
   /**
@@ -181,8 +189,7 @@ var Calendar = new Class(Observer, {
    */
   show: function(position) {
     this.element.show(this.options.fxName, {duration: this.options.fxDuration});
-    Calendar.current = this;
-    return this;
+    return Calendar.current = this;
   },
   
   /**

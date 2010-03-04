@@ -28,15 +28,19 @@ Calendar.include({
     } else {
       input.on({
         focus: this.showAt.bind(this, input),
-        click: function(e) { e.stop(); if (this.element.hidden()) this.showAt(input); }.bind(this),
+        
+        click: function(e) {
+          e.stop();
+          if (this.element.hidden())
+            this.showAt(input);
+        }.bind(this),
+        
         keyDown: function(e) {
           if (e.keyCode == 9 && this.element.visible())
             this.hide();
         }.bind(this)
       });
     }
-    
-    document.onClick(this.hide.bind(this));
     
     return this;
   },

@@ -2,34 +2,7 @@
  * This module handles the events connection
  *
  * Copyright (C) 2009-2010 Nikolay V. Nemshilov
- */
- 
-// the document keybindings hookup
-document.onKeydown(function(event) {
- if (Calendar.current) {
-   var name;
-
-   switch(event.keyCode) {
-     case 27: name = 'hide';      break;
-     case 37: name = 'prevDay';   break;
-     case 39: name = 'nextDay';   break;
-     case 38: name = 'prevWeek';  break;
-     case 40: name = 'nextWeek';  break;
-     case 34: name = 'nextMonth'; break;
-     case 33: name = 'prevMonth'; break;
-     case 13:
-        Calendar.current.select(Calendar.current.date);
-        name = 'done';
-        break;
-   }
-
-   if (name) {
-     Calendar.current[name]();
-     event.stop();
-   }
- }
-});
- 
+ */ 
 Calendar.include({
   /**
    * Initiates the 'select' event on the object
