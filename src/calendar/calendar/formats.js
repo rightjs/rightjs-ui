@@ -89,7 +89,7 @@ Calendar.include({
       date = new Date();
     }
     
-    return date;
+    return isNaN(date.getTime()) ? new Date : date;
   },  
   
   /**
