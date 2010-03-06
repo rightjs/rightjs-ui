@@ -70,13 +70,10 @@ var Lightbox = new Class({
    * @param mixed string or element or somethin'
    * @return Lighbox self
    */
-  setTitle: function(txt) {
-    this.caption.fade('out', {
-      duration: this.options.fxDuration/2,
-      onFinish: function() {
-        this.caption.update(txt).fade('in', {duration: this.options.fxDuration/2});
-      }.bind(this)
-    });
+  setTitle: function(text) {
+    (function() {
+      this.caption.update(text)
+    }).bind(this).delay(this.options.fxDuration);
     
     return this;
   },
@@ -211,22 +208,13 @@ var Lightbox = new Class({
     Lightbox.boxes.without(this).each('hide');
     
     if (this.element.hidden()) {
-      this.locker.setStyle('opacity:0');
-      this.dialog.setStyle('opacity:0');
-      
       this.element.insertTo(document.body).show();
       
       this.boxResize();
-      
-      var options = {duration: this.options.fxDuration};
-      
-      this.locker.morph({opacity: this.options.endOpacity}, options);
-      this.dialog.morph({opacity: 1},                       options);
-      
-      callback.delay(this.options.fxDuration);
-    } else {
-      callback();
     }
+    
+    callback();
+    
     return this;
   },
   
@@ -298,17 +286,17 @@ var Lightbox = new Class({
     var dialog_end_top     = dialog_style.top.toInt();
     var dialog_start_width = this.dialog.sizes().x;
     var dialog_end_width   = (dialog_style.width || '0').toInt();
-    var body   = this.body;
-    var dialog = this.dialog;
+    var body_style         = this.body.style;
+    var dialog_style       = this.dialog.style;
     
     $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
       render: function(delta) {
-        body.style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
-        body.style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
-        dialog.style.top  = (dialog_start_top  + (dialog_end_top  - dialog_start_top)  * delta) + 'px';
+        body_style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
+        body_style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
+        dialog_style.top  = (dialog_start_top  + (dialog_end_top  - dialog_start_top)  * delta) + 'px';
         
         if (Browser.IE6) {
-          dialog.style.width  = (dialog_start_width  + (dialog_end_width  - dialog_start_width)  * delta) + 'px';
+          dialog_style.width  = (dialog_start_width  + (dialog_end_width  - dialog_start_width)  * delta) + 'px';
         }
       }
     }).onFinish(this.resizeUnlock.bind(this)).start();
