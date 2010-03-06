@@ -1,10 +1,10 @@
 /**
  * The document events hooking
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 document.on({
-  ready:   function() {
+  ready: function() {
     Autocompleter.rescan();
   },
   
