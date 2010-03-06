@@ -4,12 +4,9 @@
  * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 document.on({
-  ready: function() {
-    Autocompleter.rescan();
-  },
-  
   // the autocompletion list navigation
   keydown: function(event) {
+    // if there is an active options list, hijacking the navigation buttons
     if (Autocompleter.current) {
       var name;
 
@@ -26,6 +23,11 @@ document.on({
         Autocompleter.current[name]();
         event.stop();
       }
+    }
+    
+    // otherwise trying to find/instanciate an autocompliter
+    else {
+      Autocompleter.find(event);
     }
   }
 });

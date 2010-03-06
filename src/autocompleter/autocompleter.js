@@ -23,35 +23,27 @@ var Autocompleter = new Class(Observer, {
       
       spinner:    'native',
       
+      cssRule:    '[rel^=autocompleter]',
+      
+      // DEPRECATED
       relName:    'autocompleter'
     },
     
-    // scans the document for autocompletion fields
-    rescan: function(scope) {
-      var key = Autocompleter.Options.relName;
-      var reg = new RegExp('^'+key+'+\\[(.*?)\\]$');
-      
-      ($(scope)||document).select('input[rel^="'+key+'"]').each(function(input) {
-        if (!input.autocompleter) {
-          var data = input.get('data-'+key+'-options');
-          var options = Object.merge(eval('('+data+')'));
-          var match = input.get('rel').match(reg);
-          
-          if (match) {
-            var url = match[1];
-
-            // if looks like a list of local options
-            if (url.match(/^['"].*?['"]$/)) {
-              options.local = eval('['+url+']');
-            } else if (!url.blank()) {
-              options.url = url;
-            }
-          }
-          
-          new Autocompleter(input, options);
-        }
-      });
-    }
+    current: null, // reference to the currently active options list
+    instances: {}, // the input <-> instance map
+    
+    // finds/instances an autocompleter for the event
+    find: function(event) {
+      var input = event.target;
+      if (input.match(Autocompleter.Options.cssRule)) {
+        var uid = $uid(input);
+        if (!Autocompleter.instances[uid])
+          new Autocompleter(input);
+      }
+    },
+    
+    // DEPRECATED scans the document for autocompletion fields
+    rescan: function(scope) { }
   },
   
   /**
@@ -61,16 +53,17 @@ var Autocompleter = new Class(Observer, {
    * @param Object options
    */
   initialize: function(input, options) {
+    this.input = $(input); // don't low it down!
     this.$super(options);
     
     // storing the callbacks so we could detach them later
     this._watch = this.watch.bind(this);
     this._hide  = this.hide.bind(this);
     
-    this.input     = $(input).onKeyup(this._watch).onBlur(this._hide);
+    this.input.onKeyup(this._watch).onBlur(this._hide);
     this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.input, 'after');
     
-    this.input.autocompleter = this;
+    this.input.autocompleter = Autocompleter.instances[$uid(input)] = this;
   },
   
   // kills the autocompleter
@@ -82,7 +75,7 @@ var Autocompleter = new Class(Observer, {
   
   // catching up with some additonal options
   setOptions: function(options) {
-    this.$super(options);
+    this.$super(this.grabOptions(options));
     
     // building the correct url template with a placeholder
     if (!this.options.url.includes('%{search}')) {
@@ -142,6 +135,28 @@ var Autocompleter = new Class(Observer, {
   
 // protected
 
+  // trying to extract the input element options
+  grabOptions: function(options) {
+    var input = this.input;
+    var options = options || eval('('+input.get('data-autocompleter-options')+')') || {};
+    var keys = Autocompleter.Options.cssRule.split('[').last().split(']')[0].split('^='),
+        key = keys[1], value = input.get(keys[0]), match;
+        
+    // trying to extract options
+    if (value && (match = value.match(new RegExp('^'+ key +'+\\[(.*?)\\]$')))) {
+      match = match[1];
+      
+      // deciding whether it's a list of local options or an url
+      if (match.match(/^['"].*?['"]$/)) {
+        options.local = eval('['+ match +']');
+      } else if (!match.blank()) {
+        options.url = match;
+      }
+    }
+    
+    return options;
+  },
+
   // works with the 'prev' and 'next' methods
   select: function(what, fallback) {
     var current = this.container.first('li.current');
@@ -154,7 +169,7 @@ var Autocompleter = new Class(Observer, {
 
   // receives the keyboard events out of the input element
   watch: function(event) {
-    // skip the overlaping key codes that are already watched in the hooker.js
+    // skip the overlaping key codes that are already watched in the document.js
     if ([27,37,38,39,40,13].include(event.keyCode)) return;
     
     if (this.input.value.length >= this.options.minLength) {
