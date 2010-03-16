@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: French module
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -10,7 +10,7 @@ if (self.Calendar) {
     Next:            "Mois prochain",
     Prev:            "Mois précédent",
     NextYear:        "L'année prochain",
-    PrevYear:        "L'année précédent",
+    PrevYear:        "L'année précédente",
 
     dayNames:        $w('Dimanche Lundi Mardi Mercredi Jeudi Vendredi Samedi'),
     dayNamesShort:   $w('Dim Lun Mar Mer Jeu Ven Sam'),
@@ -22,9 +22,9 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: 'Fin',
+    CloseTitle: 'Fermer',
     PrevTitle:  'Image précédente',
-    NextTitle:  'Prochaine image'
+    NextTitle:  'Image suivante'
   });
 }
 
