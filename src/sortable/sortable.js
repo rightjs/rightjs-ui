@@ -20,29 +20,15 @@ var Sortable = new Class(Observer, {
       idParam:    'id',       // the id value name
       posParam:   'position', // the position value name
       parseId:    true,       // if the id attribute should be converted into an integer before sending
-                  
+      
+      cssRule:    '[rel^=sortable]', // css-rule for automatically processable sortables
+      
+      // DEPRECATED use the cssRule option instead
       relName:    'sortable'  // the auto-discovery feature key
     },
     
-    // scans through the page for auto-discoverable sortables
-    rescan: function(scope) {
-      var key = Sortable.Options.relName;
-      var reg = new RegExp('^'+key+'\\[(.+?)\\]');
-      
-      ($(scope) || document).select('ul[rel^="'+key+'"], ol[rel^="'+key+'"]').each(function(element) {
-        if (!element._sortable) {
-          var data    = element.get('data-'+key+'-options');
-          var options = eval('('+data+')') || {};
-          
-          var url  = element.get('rel').match(reg);
-          if (url) {
-            options.url = url[1];
-          }
-          
-          new Sortable(element, options);
-        }
-      });
-    }
+    // DEPRECATED: scans through the page for auto-discoverable sortables
+    rescan: function(scope) { }
   },
   
   /**
@@ -53,6 +39,14 @@ var Sortable = new Class(Observer, {
    */
   initialize: function(element, options) {
     this.element = $(element);
+    
+    // grabbing the options out of the element
+    options = Object.merge(options, eval('('+this.element.get('data-sortable-options')+')'));
+    
+    // trying to get the embedded Xhr url address
+    var rel = this.element.get('rel'); url = rel ? rel.match(/^sortable\[(.+?)\]/) : null;
+    if (url) options.url = url[1];
+    
     this.$super(options);
     
     this.element._sortable = this.init().onUpdate('tryXhr');
