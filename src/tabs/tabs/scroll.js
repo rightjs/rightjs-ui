@@ -6,7 +6,7 @@
  *       any tab. But the carousel tabs scrolls to the next/previous
  *       tabs on the list.
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Tabs.include((function() {
   var old_init = Tabs.prototype.init;

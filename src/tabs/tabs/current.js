@@ -1,7 +1,7 @@
 /**
  * This module handles the current tab state saving/restoring processes
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Tabs.include((function() {
   var old_initialize = Tabs.prototype.initialize;

@@ -1,7 +1,7 @@
 /**
  * This module handles the slide-show loop feature for the Tabs
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Tabs.include((function() {
   var old_initialize = Tabs.prototype.initialize;

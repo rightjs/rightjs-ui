@@ -1,7 +1,7 @@
 /**
  * This module handles the tabs cration and removing processes   
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Tabs.include({
   /**

@@ -1,7 +1,7 @@
 /**
  * Selectable unit main script
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov
  */
 var Selectable = new Class(Observer, {
   extend: {

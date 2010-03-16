@@ -1,7 +1,7 @@
 /**
  * This module contains the remote tabs loading logic
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Tabs.Tab.include((function() {
   var old_show = Tabs.Tab.prototype.show;

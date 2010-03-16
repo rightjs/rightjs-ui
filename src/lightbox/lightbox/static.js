@@ -1,7 +1,7 @@
 /**
  * The class level interface
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009 Nikolay V. Nemshilov
  */
 Lightbox.extend({
   hide: function() {

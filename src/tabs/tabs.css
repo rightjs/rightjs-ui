@@ -1,3 +1,8 @@
+/**
+ * Tabs main stylesheet
+ *
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+
 /* RESET */
 .right-tabs, .right-tabs .right-tabs-list, .right-tabs .right-tabs-tab, .right-tabs .right-tabs-panel,
 .right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body, .right-tabs-panel-locker, .right-tabs-resizer {

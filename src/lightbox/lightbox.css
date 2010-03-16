@@ -1,28 +1,29 @@
-/*
-  The RightJS Lightbox Stylesheets
-  
-  The elements have the following structure
-  
-  <div class="lightbox">
-    <div class="lightbox-locker"></div>
-    <div class="lightbox-dialog">
-      <div class="lightbox-caption"></div>
-      <div class="lightbox-body-wrap">
-        <div class="lightbox-body">
-          <div class="lightbox-body-content"></div>
-          <div class="lightbox-body-lock">
-            <div class="lightbox-body-lock-spinner"></div>
-          </div>
-        </div>
-      </div>
-      <div class="lightbox-close-button"></div>
-      <div class="lightbox-prev-link"></div>
-      <div class="lightbox-next-link"></div>
-    </div>
-  </div>
-  
-*/
-
+/**
+ * The RightJS Lightbox Stylesheets
+ * 
+ * The elements have the following structure
+ * 
+ * <div class="lightbox">
+ *   <div class="lightbox-locker"></div>
+ *   <div class="lightbox-dialog">
+ *     <div class="lightbox-caption"></div>
+ *     <div class="lightbox-body-wrap">
+ *       <div class="lightbox-body">
+ *         <div class="lightbox-body-content"></div>
+ *         <div class="lightbox-body-lock">
+ *           <div class="lightbox-body-lock-spinner"></div>
+ *         </div>
+ *       </div>
+ *     </div>
+ *     <div class="lightbox-close-button"></div>
+ *     <div class="lightbox-prev-link"></div>
+ *     <div class="lightbox-next-link"></div>
+ *   </div>
+ * </div>
+ * 
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * 
+ */
 div.lightbox {
   position: fixed;
   top: 0px;

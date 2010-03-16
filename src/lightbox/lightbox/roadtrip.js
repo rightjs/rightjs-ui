@@ -1,7 +1,7 @@
 /**
  * Roadtrips support module for the lightbox
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Lightbox.include((function(proto) {
   var old_show  = proto.show;

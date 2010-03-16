@@ -6,7 +6,7 @@
  *    -- http://www.huddletogether.com/projects/lightbox2/ 
  *      Copyright (C) Lokesh Dhakar
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Browser.IE6 = navigator.userAgent.indexOf("MSIE 6") != -1;
 var Lightbox = new Class({

@@ -1,7 +1,7 @@
 /**
  * document on-load rescan
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 $(document.documentElement).onClick(function(event) {
   var target = $(event.target);

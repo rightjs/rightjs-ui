@@ -1,7 +1,7 @@
 /**
  * RightJS UI Slider unit
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov
  */
 var Slider = new Class(Observer, {
   extend: {
