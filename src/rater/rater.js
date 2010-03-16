@@ -19,13 +19,9 @@ var Rater = new Class(Observer, {
       param:         'rate', // the value param name 
       Xhr:           null    // additional Xhr options
     },
-    
-    // searches and initializes rating units
-    rescan: function(scope) {
-      ($(scope)||document).select('div.right-rater').each(function(element) {
-        if (!element._rater) new Rater(element);
-      });
-    }
+        
+    // DEPRECATED: searches and initializes rating units
+    rescan: function(scope) {}
   },
   
   /**
@@ -41,6 +37,9 @@ var Rater = new Class(Observer, {
     this.$super(isHash(args.last()) ? args.last() : this.element ? eval('('+this.element.get('data-rater-options')+')') : null);
     
     if (!this.element) this.element = this.build();
+    
+    if (!this.options.value)
+      this.options.value = this.element.select('.right-rater-glow').length;
     
     this.element._rater = this.init();
   },

@@ -22,9 +22,11 @@ div.right-rater, div.right-rater div {
 }
 div.right-rater {
   width: 6em;
+  height: 1em;
   vertical-align: middle;
 }
 div.right-rater div {
+  float: left;
   width: 1em;
   height: 1em;
   line-height: 1em;
