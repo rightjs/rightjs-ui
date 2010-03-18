@@ -11,8 +11,6 @@
     var calendar = Calendar.find(Event.ext(event));
     
     if (calendar) {
-      event.stop();
-      
       var input   = event.target;
       
       if (input.tagName !== 'INPUT') {
@@ -22,24 +20,31 @@
         if (rel_id) {
           input = $(rel_id[1]);
         }
+        
+        event.stop();
       }
       
-      return calendar.showAt(input);
+      calendar.showAt(input);
     }
   };
   
   // on-click handler
   var on_mousedown = function(event) {
     show_calendar(event);
+    
+    var target = event.target;
+    if ([target].concat(target.parents()).first('hasClass', 'right-calendar')) event.stop();
   };
   
   var on_click = function(event) {
-    if (Calendar.find(event))
-      event.stop();
-    else if (Calendar.current) {
-      var target = event.target, element = [target].concat(target.parents()).first('hasClass', 'right-calendar');
-      
-      if (!element) Calendar.current.hide();
+    var target = event.target;
+    
+    if (Calendar.find(event)) {
+      if (target.tagName == 'A')
+        event.stop();
+    } else if (Calendar.current) {
+      if (![target].concat(target.parents()).first('hasClass', 'right-calendar'))
+        Calendar.current.hide();
     }
   };
   
