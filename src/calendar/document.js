@@ -30,13 +30,17 @@
   
   // on-click handler
   var on_mousedown = function(event) {
-    if (!show_calendar(event) && Calendar.current)
-      Calendar.current.hide();
+    show_calendar(event);
   };
   
   var on_click = function(event) {
     if (Calendar.find(event))
       event.stop();
+    else if (Calendar.current) {
+      var target = event.target, element = [target].concat(target.parents()).first('hasClass', 'right-calendar');
+      
+      if (!element) Calendar.current.hide();
+    }
   };
   
   // on-focus handler
