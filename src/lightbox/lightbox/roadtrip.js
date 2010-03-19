@@ -74,8 +74,15 @@ Lightbox.include((function(proto) {
     
     // updates the roadtrip links list
     checkTheRoad: function(link) {
-      if (isElement(link) && link.match(this.options.roadtripRule)) {
-        link.roadtrip = $$(this.options.roadtripRule);
+      if (isElement(link)) {
+        var rule = this.options.cssRule.split('[').last(),
+            value = link.get(rule.split('^=').first()) || '',
+            match = value.match(/\[(.+?)\]/);
+        
+        if (match) {
+          var marker = rule.split('^=').last().split(']').first();
+          link.roadtrip = $$(this.options.cssRule.replace(marker, "'"+marker+"["+match[1]+"]'"));
+        }
       }
       this.roadLink = link;
       
