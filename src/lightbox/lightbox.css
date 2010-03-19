@@ -63,8 +63,6 @@ div.lightbox-body-wrap {
   border-radius: .6em;
   -moz-border-radius: .6em;
   -webkit-border-radius: .6em;
-  -moz-box-shadow: #111 .1em .1em .4em;
-  -webkit-box-shadow: #111 .1em .1em .4em;
 }
 
 div.lightbox-body {
@@ -132,7 +130,6 @@ div.lightbox-caption {
   font-weight: bold;
   font-size: 1.6em;
   font-family: Helvetica;
-  text-shadow: black 2px 2px 2px;
 }
 
 div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {

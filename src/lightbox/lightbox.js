@@ -25,7 +25,6 @@ var Lightbox = new Class({
       blockContent:    false,
       
       cssRule:         "a[rel^=lightbox]",             // all lightbox links css-rule
-      roadtripRule:    "a[rel='lightbox[roadtrip]']",   // roadtrip links css-rule
       
       mediaWidth:      425,  // video links default size
       mediaHeight:     350
@@ -289,7 +288,7 @@ var Lightbox = new Class({
     var body_style         = this.body.style;
     var dialog_style       = this.dialog.style;
     
-    $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
+    $ext(new Fx(this.dialog, {duration: this.options.fxDuration, transition: 'Log'}), {
       render: function(delta) {
         body_style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
         body_style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
