@@ -16,11 +16,7 @@ var Tooltip = new Class({
       
       move:       true,             // if it should be moved with the mouse
       
-      idSuffix:   '-tooltip',       // ID prefix for tooltips with ID
-      
-      // deprecated options
-      relName:    'tooltip',
-      checkTags:  '*'
+      idSuffix:   '-tooltip'        // ID prefix for tooltips with ID
     },
     
     current: null, // currently active tooltip reference

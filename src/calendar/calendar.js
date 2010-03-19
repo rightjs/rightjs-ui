@@ -22,11 +22,7 @@ var Calendar = new Class(Observer, {
       twentyFourHour: null,   // null for automatic, or true|false to enforce
       listYears:      false,  // show/hide the years listing buttons
       
-      cssRule:        '[rel^=calendar]', // css rule for calendar related elements
-      
-      // deprecated
-      checkTags:      '*',
-      relName:        'calendar'
+      cssRule:        '[rel^=calendar]' // css rule for calendar related elements
     },
     
     Formats: {
@@ -56,20 +52,12 @@ var Calendar = new Class(Observer, {
     
     // finds and/or instanciates a Calendar related to the event target
     find: function(event) {
-      var element = event.target, rule = Calendar.Options.cssRule;
+      var element = event.target;
       
-      if (isElement(element) && element.match(rule)) {
+      if (isElement(element) && element.match(Calendar.Options.cssRule)) {
         var uid      = $uid(element);
-        var calendar = Calendar.instances[uid];
-        
-        
-        if (!calendar) {
-          var key       = rule.split('=').last().split(']').first();
-          var data      = element.get('data-'+key+'-options');
-          var calendar  = new Calendar(eval('('+data+')') || {});
-        }
-        
-        return Calendar.instances[uid] = calendar;
+        return Calendar.instances[uid] = Calendar.instances[uid] ||
+          new Calendar(eval('('+element.get('data-calendar-options')+')'));
       }
     },
     

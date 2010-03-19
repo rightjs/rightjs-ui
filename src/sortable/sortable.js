@@ -21,10 +21,7 @@ var Sortable = new Class(Observer, {
       posParam:   'position', // the position value name
       parseId:    true,       // if the id attribute should be converted into an integer before sending
       
-      cssRule:    '[rel^=sortable]', // css-rule for automatically processable sortables
-      
-      // DEPRECATED use the cssRule option instead
-      relName:    'sortable'  // the auto-discovery feature key
+      cssRule:    '[rel^=sortable]' // css-rule for automatically processable sortables
     },
     
     // DEPRECATED: scans through the page for auto-discoverable sortables
@@ -39,15 +36,14 @@ var Sortable = new Class(Observer, {
    */
   initialize: function(element, options) {
     this.element = $(element);
-    
-    // grabbing the options out of the element
-    options = Object.merge(options, eval('('+this.element.get('data-sortable-options')+')'));
+    this.$super(Object.merge(options, eval('('+this.element.get('data-sortable-options')+')')));
     
     // trying to get the embedded Xhr url address
-    var rel = this.element.get('rel'); url = rel ? rel.match(/^sortable\[(.+?)\]/) : null;
-    if (url) options.url = url[1];
-    
-    this.$super(options);
+    var rule = this.options.cssRule.split('[').last(),
+        attr = this.element.get(rule.split('^=').first()) || '',
+        url  = attr.match(/\[(.+?)\]/);
+        
+    if (url) this.options.url = url[1];
     
     this.element._sortable = this.init().onUpdate('tryXhr');
   },

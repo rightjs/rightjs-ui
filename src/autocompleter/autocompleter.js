@@ -18,15 +18,12 @@ var Autocompleter = new Class(Observer, {
       cache:      true,      // the use the results cache
       local:      null,      // an optional local search results list
       
-      fxName:     'slide',
-      fxDuration: 'short',
+      fxName:     'slide',   // list appearance fx name
+      fxDuration: 'short',   // list appearance fx duration
       
-      spinner:    'native',
+      spinner:    'native',  // spinner element reference
       
-      cssRule:    '[rel^=autocompleter]',
-      
-      // DEPRECATED
-      relName:    'autocompleter'
+      cssRule:    '[rel^=autocompleter]'
     },
     
     current: null, // reference to the currently active options list
