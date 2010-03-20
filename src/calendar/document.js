@@ -11,16 +11,14 @@
     var calendar = Calendar.find(Event.ext(event));
     
     if (calendar) {
-      var input   = event.target;
+      var input     = event.target;
+      var rule      = Calendar.Options.cssRule.split('[').last();
+      var key       = rule.split('=').last().split(']').first();
+      var rel_id_re = new RegExp(key+'\\[(.+?)\\]');
+      var rel_id    = input.get(rule.split('^=')[0]);
       
-      if (input.tagName !== 'INPUT') {
-        var key       = Calendar.Options.cssRule.split('=').last().split(']').first();
-        var rel_id_re = new RegExp('calendar\\[(.+?)\\]');
-        var rel_id    = input.get('rel').match(rel_id_re);
-        if (rel_id) {
-          input = $(rel_id[1]);
-        }
-        
+      if (rel_id && (rel_id = rel_id.match(rel_id_re))) {
+        input = $(rel_id[1]);
         event.stop();
       }
       
