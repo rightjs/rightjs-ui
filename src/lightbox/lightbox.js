@@ -17,7 +17,7 @@ var Lightbox = new Class({
     
     Options: {
       endOpacity:      0.8,
-      fxDuration:      300,
+      fxDuration:      200,
       
       hideOnEsc:       true,
       hideOnOutClick:  true,
@@ -288,7 +288,7 @@ var Lightbox = new Class({
     var body_style         = this.body.style;
     var dialog_style       = this.dialog.style;
     
-    $ext(new Fx(this.dialog, {duration: this.options.fxDuration, transition: 'Log'}), {
+    $ext(new Fx(this.dialog, {duration: this.options.fxDuration}), {
       render: function(delta) {
         body_style.width  = (body_start_width  + (body_end_width  - body_start_width)  * delta) + 'px';
         body_style.height = (body_start_height + (body_end_height - body_start_height) * delta) + 'px';
