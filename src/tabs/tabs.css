@@ -4,8 +4,9 @@
  * Copyright (C) 2009-2010 Nikolay V. Nemshilov
 
 /* RESET */
-.right-tabs, .right-tabs .right-tabs-list, .right-tabs .right-tabs-tab, .right-tabs .right-tabs-panel,
-.right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body, .right-tabs-panel-locker, .right-tabs-resizer {
+.right-tabs, .right-tabs-list, .right-tabs-tab, .right-tabs-panel,
+.right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body,
+.right-tabs-panel-locker, .right-tabs-resizer {
   margin: 0;
   padding: 0;
   background: none;
@@ -15,7 +16,6 @@
   width: auto;
   height: auto;
 }
-
 .right-tabs {
   border-bottom: 1px solid #CCC;
 }
@@ -42,7 +42,7 @@
   border-color: #CCC;
   background: #EEE;
 }
-.right-tabs .right-tabs-list .right-tabs-current a, dl.right-tabs dt.right-tabs-current a  {
+.right-tabs-tab.right-tabs-current a  {
   font-weight: bold;
   color: #000;
   background: #FFF;
@@ -52,11 +52,11 @@
   opacity: .6;
   filter: alpha(opacity=60);
 }
-.right-tabs-tab a:hover img, .right-tabs .right-tabs-list .right-tabs-current a img {
+.right-tabs-tab a:hover img, .right-tabs-tab.right-tabs-current a img {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-.right-tabs-disabled, .right-tabs-disabled a, .right-tabs-disabled a:hover {
+.right-tabs-disabled a, .right-tabs-disabled a:hover {
   background: #EEE;
   border-color: #DDD;
   color: #AAA;
@@ -66,7 +66,6 @@
   opacity: .5;
   filter: alpha(opacity=50);
 }
-
 .right-tabs-tab-close-icon {
   display: inline-block;
 * display: inline;
@@ -85,13 +84,13 @@
 }
 
 /* the panels and locker styles */
-.right-tabs .right-tabs-panel {
+.right-tabs-panel {
   display: none;
   position: relative;
   min-height: 4em;
   padding: .5em 0;
 }
-.right-tabs .right-tabs-panel-current {
+.right-tabs-panel-current {
   display: block;
 }
 
@@ -127,15 +126,13 @@
   margin-top: -0.1em;
 }
 
-
 /* the tabs scroller style */
-.right-tabs .right-tabs-scroller {
+.right-tabs-scroller {
   padding: 0 1.4em;
   position: relative;
   margin-bottom: .5em;
 }
-.right-tabs .right-tabs-scroller .right-tabs-scroll-left,
-.right-tabs .right-tabs-scroller .right-tabs-scroll-right {
+.right-tabs-scroll-left, .right-tabs-scroll-right {
   width: 1.1em;
   text-align: center;
   background: #EEE;
@@ -149,13 +146,12 @@
   left: 0px;
   z-index: 100;
 }
-.right-tabs .right-tabs-scroller .right-tabs-scroll-left:hover,
-.right-tabs .right-tabs-scroller .right-tabs-scroll-right:hover {
+div.right-tabs-scroll-left:hover, div.right-tabs-scroll-right:hover {
   color: #000;
   background: #DDD;
   border-color: #AAA;
 }
-.right-tabs .right-tabs-scroller .right-tabs-scroll-right {
+.right-tabs-scroll-right {
   left: auto;
   right: 0px;
 }
@@ -166,18 +162,17 @@
   border-color: #DDD;
   color: #AAA;
 }
-.right-tabs .right-tabs-scroller .right-tabs-scroll-body {
+.right-tabs-scroll-body {
   width: 100%;
   overflow: hidden;
   position: relative;
   z-index: 50;
 }
-.right-tabs .right-tabs-scroller .right-tabs-list {
+.right-tabs-scroller .right-tabs-list {
   position: relative;
   width: 999em;
   margin: 0;
 }
-
 
 /* simple tabs style */
 .right-tabs-simple .right-tabs-list {
@@ -199,15 +194,15 @@
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-bottom-right-radius: 0;
 }
-.right-tabs-simple .right-tabs-list .right-tabs-current a {
+.right-tabs-simple .right-tabs-tab.right-tabs-current a {
   line-height: 2em;
   margin-top: 1px;
 }
 .right-tabs-simple .right-tabs-scroller {
   border-bottom: 1px solid #CCC;
 }
-.right-tabs-simple .right-tabs-scroller .right-tabs-scroll-left,
-.right-tabs-simple .right-tabs-scroller .right-tabs-scroll-right {
+.right-tabs-simple .right-tabs-scroll-left,
+.right-tabs-simple .right-tabs-scroll-right {
   line-height: 1.8em;
   top: .2em;
   -moz-border-radius-bottomleft: 0;
@@ -215,11 +210,11 @@
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-bottom-right-radius: 0;
 }
-.right-tabs-simple .right-tabs-scroller .right-tabs-scroll-body {
+.right-tabs-simple .right-tabs-scroll-body {
   position: relative;
   top: 1px;
 }
-.right-tabs-simple .right-tabs-scroller .right-tabs-scroll-body .right-tabs-list {
+.right-tabs-simple .right-tabs-list {
   padding: 0;
 }
 
@@ -239,7 +234,6 @@
   margin: .4em;
   padding: 0;
 }
-
 
 /* harmonica styles */
 dl.right-tabs {
