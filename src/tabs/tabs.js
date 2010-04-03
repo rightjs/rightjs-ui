@@ -120,7 +120,9 @@ var Tabs = new Class(Observer, {
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.tabsList = this.isHarmonica ? this.element : $(this.options.tabsElement) || this.element.first('UL').addClass('right-tabs-list');
+    this.tabsList = this.isHarmonica ? this.element :
+      $(this.options.tabsElement) || this.element.first('.right-tabs-list') ||
+        this.element.first('UL').addClass('right-tabs-list');
     
     this.tabs = this.tabsList.subNodes(this.isHarmonica ? 'dt' : null).map(function(node) {
       return new Tabs.Tab(node, this);

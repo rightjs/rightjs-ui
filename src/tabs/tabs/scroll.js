@@ -64,14 +64,20 @@ return {
 
   // builds the tabs scroller block
   buildScroller: function() {
-    if (!this.element.first('right-tabs-scroller')) {
-      this.prevButton = $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'}).onClick(this.scrollLeft.bind(this));
-      this.nextButton = $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'}).onClick(this.scrollRight.bind(this));
+    if (this.element.first('.right-tabs-scroller')) {
+      this.prevButton = this.element.first('.right-tabs-scroll-left');
+      this.nextButton = this.element.first('.right-tabs-scroll-right');
+    } else {
+      this.prevButton = $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'});
+      this.nextButton = $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'});
       
       this.element.insert($E('div', {'class': 'right-tabs-scroller'}).insert([
         this.prevButton, this.nextButton, $E('div', {'class': 'right-tabs-scroll-body'}).insert(this.tabsList)
       ]), 'top');
     }
+    
+    this.prevButton.onClick(this.scrollLeft.bind(this));
+    this.nextButton.onClick(this.scrollRight.bind(this));
   },
 
   // picks the next/prev non-disabled available tab
