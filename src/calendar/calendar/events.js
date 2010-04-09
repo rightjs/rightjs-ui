@@ -11,8 +11,12 @@ Calendar.include({
    * @return Calendar this
    */
   select: function(date) {
-    this.date = date;
-    return this.fire('select', date);
+    this.fire('select', this.date = date);
+    
+    if (this.options.hideOnPick)
+      this.done();
+    
+    return this;
   },
   
   /**
@@ -21,7 +25,7 @@ Calendar.include({
    * @return Calendar this
    */
   done: function() {
-    if (!this.element.hasClass('right-calendar-inline'))
+    if (!this.inlined())
       this.hide();
     return this.fire('done', this.date);
   },
@@ -100,10 +104,10 @@ Calendar.include({
     
     // connecting the time picker events
     if (this.hours) {
-      this.hours.on('change', this.setTime.bind(this));
-      this.minutes.on('change', this.setTime.bind(this));
+      this.hours.onChange(this.setTime.bind(this));
+      this.minutes.onChange(this.setTime.bind(this));
       if (!this.options.twentyFourHour) {
-        this.meridian.on('change', this.setTime.bind(this));
+        this.meridian.onChange(this.setTime.bind(this));
       }
     }
     

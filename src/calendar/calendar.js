@@ -22,6 +22,8 @@ var Calendar = new Class(Observer, {
       twentyFourHour: null,   // null for automatic, or true|false to enforce
       listYears:      false,  // show/hide the years listing buttons
       
+      hideOnPick:     false,  // hides the popup when the user changes a day
+      
       cssRule:        '[rel^=calendar]' // css rule for calendar related elements
     },
     
@@ -190,5 +192,14 @@ var Calendar = new Class(Observer, {
   insertTo: function(element, position) {
     this.element.addClass('right-calendar-inline').insertTo(element, position);
     return this;
+  },
+  
+  /**
+   * Checks if the calendar is inlined
+   *
+   * @return boolean check
+   */
+  inlined: function() {
+    return this.element.hasClass('right-calendar-inline');
   }
 });
