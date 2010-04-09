@@ -114,7 +114,14 @@ Calendar.include({
     }
     
     // blocking all the events from the element
-    this.element.onClick(function(e) {e.stop();});
+    this.element.onMousedown(function(e) { e.stopPropagation(); })
+      .onClick(function(event) {
+        event.stop();
+        if (this.timer) {
+          this.timer.cancel();
+          this.timer = null;
+        }
+      }.bind(this));
     
     return this;
   },

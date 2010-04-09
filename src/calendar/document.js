@@ -10,7 +10,7 @@
   var show_calendar = function(event) {
     var calendar = Calendar.find(Event.ext(event));
     
-    if (calendar) {
+    if (calendar && Calendar.current != calendar) {
       var input     = event.target;
       var rule      = Calendar.Options.cssRule.split('[').last();
       var key       = rule.split('=').last().split(']').first();
@@ -29,20 +29,17 @@
   // on-click handler
   var on_mousedown = function(event) {
     show_calendar(event);
-    
-    var target = event.target;
-    if ([target].concat(target.parents()).first('hasClass', 'right-calendar')) event.stop();
   };
   
   var on_click = function(event) {
     var target = event.target;
-    
     if (Calendar.find(event)) {
       if (target.tagName == 'A')
         event.stop();
     } else if (Calendar.current) {
-      if (![target].concat(target.parents()).first('hasClass', 'right-calendar'))
+      if (![target].concat(target.parents()).first('hasClass', 'right-calendar')) {
         Calendar.current.hide();
+      }
     }
   };
   
@@ -55,8 +52,13 @@
   var on_blur = function(event) {
     var calendar = Calendar.find(Event.ext(event));
     
-    if (calendar)
-      calendar.hide();
+    if (calendar) {
+      // We delay hiding of the calendar block to give calendar's onclick handler
+      // a chance to cancel hiding by killing the timer, as a workaround for IE issues
+      calendar.timer = (
+        function() { this.hide(); }.bind(calendar)
+      ).delay(200);
+    }
   };
   
   var on_keydown = function(event) {

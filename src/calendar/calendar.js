@@ -73,7 +73,7 @@ var Calendar = new Class(Observer, {
   initialize: function(options) {
     this.$super(options);
     
-    this.element = $E('div', {'class': 'right-calendar'});
+    this.element = $E('div', {'class': 'right-calendar', calendar: this});
     this.build().connectEvents().setDate(new Date());
   },
   
