@@ -1,8 +1,8 @@
 /**
  * RightJS UI Internationalization: Hungarian module
  *
- * Copyright (C) Arnold Mészáros aka netangel
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) Arnold Mészáros
+ * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {

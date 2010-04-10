@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Japanese module
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.Options, {
@@ -26,15 +26,15 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: 'Close',
-    PrevTitle:  'Previous Image',
-    NextTitle:  'Next Image'
+    CloseTitle: '閉じる',
+    PrevTitle:  '前の画像',
+    NextTitle:  '次の画像'
   });
 }
 
 if (self.InEdit) {
   $ext(InEdit.i18n, {
-    save:   "Save",
-    cancel: "Cancel"
+    save:   "保存",
+    cancel: "キャンセル"
   });
 }

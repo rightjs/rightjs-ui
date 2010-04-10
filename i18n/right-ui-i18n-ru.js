@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Russian module
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -15,7 +15,7 @@ if (self.Calendar) {
     dayNames:        $w('Воскресенье Понедельник Вторник Среда Четверг Пятница Суббота'),
     dayNamesShort:   $w('Вск Пнд Втр Срд Чтв Птн Сбт'),
     dayNamesMin:     $w('Вс Пн Вт Ср Чт Пт Сб'),
-    monthNames:      $w('Январь Февраль Март Аперль Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь'),
+    monthNames:      $w('Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь'),
     monthNamesShort: $w('Янв Фев Мар Апр Май Инь Иль Авг Сен Окт Ноя Дек')
   });
 }

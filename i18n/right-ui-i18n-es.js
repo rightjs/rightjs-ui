@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Spanish module
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
