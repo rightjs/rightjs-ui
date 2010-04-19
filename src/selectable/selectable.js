@@ -210,27 +210,27 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   select: function(keys) {
-    var items = this.mapEnabled(keys), values_queue = this._vq || [], selected_class = this.selectedClass;
+    var items = this.mapEnabled(keys), selected_class = this.selectedClass;
     
     if (this.isSingle && items) {
       this.items.each('removeClass', selected_class);
       items = [items[0]];
     }
     
+    // applying the selection limit if ncessary
+    if (!this.isSingle && this.options.limit) {
+      var selected = this.items.filter('hasClass', selected_class), clean = [];
+      while (items.length && (selected.length + clean.length) < this.options.limit) {
+        var item = items.shift();
+        if (!selected.include(item))
+          clean.push(item);
+      }
+      items = clean;
+    }
+    
     items.each(function(item) {
       this.fire('select', item.addClass(selected_class));
     }, this);
-    
-    // applying the selection limit if ncessary
-    if (!this.isSingle && this.options.limit) {
-      values_queue = values_queue.merge(this.getValue());
-      
-      // removing the overvalues
-      while (values_queue.length > this.options.limit)
-        this.mapEnabled(values_queue.shift()).each('removeClass', selected_class);
-      
-      this._vq = values_queue;
-    }
     
     return this;
   },
@@ -244,9 +244,6 @@ var Selectable = new Class(Observer, {
   unselect: function(keys) {
     this.mapEnabled(keys).each(function(item) {
       this.fire('unselect', item.removeClass(this.selectedClass));
-      
-      // removing the value out of the queue in case of limited selections
-      if (this._vq) this._vq = this._vq.without(this.itemValue(item));
     }, this);
     return this;
   },
@@ -520,7 +517,7 @@ var Selectable = new Class(Observer, {
       options.disabled = [];
       
       $A(box.getElementsByTagName('OPTION')).each(function(option, index) {
-        options.options[option.get('value') || option.innerHTML] = option.innerHTML;
+        options.options[$(option).get('value') || option.innerHTML] = option.innerHTML;
         
         if (option.selected) options.selected.push(index);
         if (option.disabled) options.disabled.push(index);
