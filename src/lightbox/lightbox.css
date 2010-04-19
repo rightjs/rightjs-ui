@@ -33,6 +33,10 @@ div.lightbox {
   z-index: 9999;
 }
 
+div.ligthbox div.right-calendar {
+  z-index: 99999;
+}
+
 div.lightbox div {
   line-height: normal;
 }
