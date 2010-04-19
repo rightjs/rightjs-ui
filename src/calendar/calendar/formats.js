@@ -36,10 +36,7 @@ Calendar.include({
   parse: function(string) {
     var date;
     
-    if (string instanceof Date || Date.parse(string)) {
-      date = new Date(string);
-      
-    } else if (isString(string) && string) {
+    if (isString(string) && string) {
       var tpl = RegExp.escape(this.options.format);
       var holders = tpl.match(/%[a-z]/ig).map('match', /[a-z]$/i).map('first').without('%');
       var re  = new RegExp('^'+tpl.replace(/%p/i, '(pm|PM|am|AM)').replace(/(%[a-z])/ig, '(.+?)')+'$');
@@ -85,11 +82,11 @@ Calendar.include({
         
         date = new Date(year, month, date, hour, minute, second);
       }
-    } else {
-      date = new Date();
+    } else if (string instanceof Date || Date.parse(string)) {
+      date = new Date(string);
     }
     
-    return isNaN(date.getTime()) ? new Date : date;
+    return (!date || isNaN(date.getTime())) ? new Date : date;
   },  
   
   /**
