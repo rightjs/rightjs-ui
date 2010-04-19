@@ -1,7 +1,7 @@
 /**
  * Selectable unit main script
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 var Selectable = new Class(Observer, {
   extend: {
@@ -19,6 +19,8 @@ var Selectable = new Class(Observer, {
       
       update:     null,    // a field to be assigned to
       parseIds:   false,   // if it should parse integer ids out of the keys
+      
+      limit:      null,    // put some number if you'd like to limit the number of selected items
       
       hCont  :   '&bull;', // single-selectable handle content
       
@@ -208,16 +210,27 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   select: function(keys) {
-    var items = this.mapEnabled(keys);
+    var items = this.mapEnabled(keys), values_queue = this._vq || [], selected_class = this.selectedClass;
     
     if (this.isSingle && items) {
-      this.items.each('removeClass', this.selectedClass);
+      this.items.each('removeClass', selected_class);
       items = [items[0]];
     }
     
     items.each(function(item) {
-      this.fire('select', item.addClass(this.selectedClass));
+      this.fire('select', item.addClass(selected_class));
     }, this);
+    
+    // applying the selection limit if ncessary
+    if (!this.isSingle && this.options.limit) {
+      values_queue = values_queue.merge(this.getValue());
+      
+      // removing the overvalues
+      while (values_queue.length > this.options.limit)
+        this.mapEnabled(values_queue.shift()).each('removeClass', selected_class);
+      
+      this._vq = values_queue;
+    }
     
     return this;
   },
@@ -231,6 +244,9 @@ var Selectable = new Class(Observer, {
   unselect: function(keys) {
     this.mapEnabled(keys).each(function(item) {
       this.fire('unselect', item.removeClass(this.selectedClass));
+      
+      // removing the value out of the queue in case of limited selections
+      if (this._vq) this._vq = this._vq.without(this.itemValue(item));
     }, this);
     return this;
   },
@@ -351,7 +367,7 @@ var Selectable = new Class(Observer, {
   
   // returns matching items or all of them if there's no key
   mapOrAll: function(keys) {
-    return keys ? this.map(keys) : this.items;
+    return defined(keys) ? this.map(keys) : this.items;
   },
   
   // maps and filters only enabled items
