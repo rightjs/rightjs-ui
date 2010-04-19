@@ -48,21 +48,24 @@ var Selectable = new Class(Observer, {
    * @param Object options hash
    */
   initialize: function() {
-    var args = $A(arguments);
+    var args = $A(arguments), selectbox;
     
     if (args[0] && !isHash(args[0])) this.element = $(args[0]);
     this.$super(isHash(args.last()) ? args.last() : this.element ?
       eval('('+this.element.get('data-selectable-options')+')') : null);
-      
+    
     if (!this.element)
       this.element = this.build();
-    else if (this.element.tagName == 'SELECT') {
+    else if ((selectbox = this.element.tagName == 'SELECT')) {
       this.selectbox = this.harvestOptions(this.element);
       this.element   = this.build().insertTo(this.selectbox, 'before');
-      this.assignTo(this.hideOriginal(this.selectbox));
+      
     }
     
     this.element._selectable = this.init();
+    
+    if (selectbox)
+      this.assignTo(this.hideOriginal(this.selectbox));
   },
   
   // standard descructor
@@ -91,11 +94,7 @@ var Selectable = new Class(Observer, {
     // resetting the selections
     this.items.each('removeClass', this.selectedClass);
     
-    // selecting the value
-    var items = this.mapEnabled(value).each('addClass', this.selectedClass);
-    if (this.isSingle) this.showItem(items[0]);
-    
-    return this.calcValue();
+    return this.select(value);
   },
   
   /**
@@ -104,7 +103,14 @@ var Selectable = new Class(Observer, {
    * @return Array of selectees
    */
   getValue: function() {
-    return this.value;
+    if (this.isSingle) {
+      var item  = this.items.first('hasClass', this.selectedClass);
+      return item ? this.itemValue(item) : null;
+    } else {
+      return this.items.filter('hasClass', this.selectedClass).map(function(item) {
+        return this.itemValue(item);
+      }, this);
+    }
   },
   
   /**
@@ -144,11 +150,11 @@ var Selectable = new Class(Observer, {
     }.curry(element);
     
     if ($(element)) {
-      assign(this.value);
+      assign(this.getValue());
       connect(this);
     } else {
       document.onReady(function() {
-        assign(this.value);
+        assign(this.getValue());
         connect(this);
       }.bind(this));
     }
@@ -278,7 +284,16 @@ var Selectable = new Class(Observer, {
     this.onClick     = this.click.bind(this);
     
     this.value = null;
-    this.refresh().onSelect('calcValue').onUnselect('calcValue');
+    
+    var on_change = function() {
+      var value = this.getValue();
+      if (value != this.value) {
+        this.value = value;
+        this.fire('change', value, this);
+      }
+    }.bind(this);
+    
+    this.refresh().onSelect(on_change).onUnselect(on_change);
     
     if (this.isSingle)         this.onSelect('showItem');
     if (this.options.disabled) this.disable(this.options.disabled);
@@ -297,25 +312,6 @@ var Selectable = new Class(Observer, {
         this.refresh();
         return result;
       }.bind(this);
-    }
-    
-    return this;
-  },
-  
-  // calculates the value out of the selected items
-  calcValue: function() {
-    if (this.isSingle) {
-      var item  = this.items.first('hasClass', this.selectedClass);
-      var value = item ? this.itemValue(item) : null;
-    } else {
-      var value = this.items.filter('hasClass', this.selectedClass).map(function(item) {
-        return this.itemValue(item);
-      }, this);
-    }
-    
-    if (value != this.value) {
-      this.value = value;
-      this.fire('change', value, this);
     }
     
     return this;
