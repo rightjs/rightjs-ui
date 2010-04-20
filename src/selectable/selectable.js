@@ -467,17 +467,25 @@ var Selectable = new Class(Observer, {
       ])
       .insertTo(this.element, 'instead')
       .insert(this.element)
-      .onClick(this.showList.bind(this));
+      .onClick(this.toggleList.bind(this));
       
     document.onClick(this.hideList.bind(this));
     
     return this;
   },
   
+  // toggles the single-selects list
+  toggleList: function(event) {
+    event.stop();
+    return this.element.visible() ? this.hideList() : this.showList(event);
+  },
+  
   // shows list for the single-selects
   showList: function(event) {
     event.stop();
     if (this.isSingle) {
+      $$('.right-selectable-single').without(this.element).each('hide');
+      
       var dims = this.container.dimensions(), pos = this.container.position();
       
       this.element.setStyle({
