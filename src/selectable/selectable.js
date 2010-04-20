@@ -123,8 +123,7 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   insertTo: function(element, position) {
-    this.element.insertTo(element, position);
-    if (this.isSingle) this.container.insertTo(this.element, 'before');
+    this[this.isSingle ? 'container' : 'element'].insertTo(element, position);
     return this;
   },
   
@@ -462,8 +461,12 @@ var Selectable = new Class(Observer, {
   // builds a container for a single-select
   buildSingle: function() {
     this.container = $E('div', {'class': this.containerClass})
-      .insert([$E('div', {'html': this.options.hCont, 'class': 'right-selectable-handle'}), $E('ul')])
-      .insertTo(this.element, 'before')
+      .insert([
+        $E('div', {'html': this.options.hCont, 'class': 'right-selectable-handle'}),
+        $E('ul', {'class': 'right-selectable-display'})
+      ])
+      .insertTo(this.element, 'instead')
+      .insert(this.element)
       .onClick(this.showList.bind(this));
       
     document.onClick(this.hideList.bind(this));
@@ -475,11 +478,11 @@ var Selectable = new Class(Observer, {
   showList: function(event) {
     event.stop();
     if (this.isSingle) {
-      var dims = this.container.dimensions();
+      var dims = this.container.dimensions(), pos = this.container.position();
       
       this.element.setStyle({
-        top: (dims.top + dims.height) + 'px',
-        left: dims.left + 'px',
+        top: (dims.top + dims.height - pos.y) + 'px',
+        left: (dims.left - pos.x) + 'px',
         width: dims.width + 'px'
       }).show(this.options.fxName, {
         duration: this.options.fxDuration,

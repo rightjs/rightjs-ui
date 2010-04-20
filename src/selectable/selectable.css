@@ -6,7 +6,8 @@
 /** RESET */
 *.right-selectable, *.right-selectable li,
 *.right-selectable dt, *.right-selectable dd, *.right-selectable ul,
-div.right-selectable-container ul, div.right-selectable-container ul li {
+div.right-selectable-container ul.right-selectable-display,
+div.right-selectable-container ul.right-selectable-display li {
   margin:  0;
   padding: 0;
   border: none;
@@ -66,6 +67,7 @@ dl.right-selectable dd li{
   display: none;
   position: absolute;
   background: #FFF;
+  z-index: 99999;
 }
 div.right-selectable-container {
   border: 1px solid #CCC;
@@ -79,6 +81,7 @@ div.right-selectable-container {
   min-width: 10em;
   cursor: pointer;
   height: 1.6em;
+  position: relative;
 }
 div.right-selectable-container div.right-selectable-handle {
   font-family: Arial;
@@ -92,16 +95,16 @@ div.right-selectable-container div.right-selectable-handle {
   color: #888;
   border-left: 1px solid #CCC;
 }
-div.right-selectable-container:hover div {
+div.right-selectable-container:hover div.right-selectable-handle {
   color: #666;
 }
-div.right-selectable-container ul {
+div.right-selectable-container ul.right-selectable-display {
   display: block;
   width: auto;
   margin-right: 2em;
   overflow: hidden;
 }
-div.right-selectable-container ul li {
+div.right-selectable-container ul.right-selectable-display li {
   line-height: 1.6em;
   padding: 0 .5em;
 }
