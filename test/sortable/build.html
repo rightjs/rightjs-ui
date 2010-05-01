@@ -1,39 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>RightJS Sortables Build Test</title>
+    <title>RightJS UI: Sortable: Build Test</title>
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../lib/right-dnd.js" type="text/javascript"></script>
-    <script src="../../build/right-sortable-min.js" type="text/javascript"></script>
-    <style>
-    html, body {
-      font-family: Verdana, sans-serif;
-      font-size: 10pt;
-    }
-    ul.sortable-test {
-      width: 20em;
-    }
-    ul.sortable-test li {
-      list-style: none;
-      padding: .2em .5em;
-      margin: .2em;
-      background: pink;
-      cursor: move;
-    }
-    ul.sortable-test li.dragging {
-      opacity: 0.7;
-    }
+    <script src="../../lib/initializer.js" type="text/javascript"></script>
+    <style type="text/css">
+      ul.sortable-test {
+        width: 20em;
+        padding: 0;
+        margin: 0;
+      }
+      ul.sortable-test li {
+        list-style: none;
+        padding: .2em .5em;
+        margin: .2em;
+        background: #CCB;
+        cursor: move;
+        -moz-border-radius: .2em;
+        -webkit-border-radius: .2em;
+      }
+      ul.sortable-test li.dragging {
+        opacity: 0.7;
+      }
     
-    ul.horizontal {
-      width: 30em;
-    }
-    ul.horizontal li {
-      float: left;
-    }
+      ul.horizontal {
+        width: 30em;
+      }
+      ul.horizontal li {
+        float: left;
+      }
     </style>
   </head>
   <body>
-    <h1>RightJS Sortables Build Test</h1>
+    <h1>RightJS Sortable Build Test</h1>
     
     <h2>Simple sortable</h2>
     <p>
