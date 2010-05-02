@@ -1,0 +1,118 @@
+/**
+ * Resizable unit stylesheet
+ *
+ * <div class="right-resizable">
+ *   // the content goes in here
+ *   <div class="right-resizable-handle"></div>
+ * </div>
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+
+/** RESET */
+.right-resizable,
+.right-resizable-top,
+.right-resizable-left,
+.right-resizable-right,
+.right-resizable-bottom,
+.right-resizable-content
+.right-resizable-handle {
+  margin: 0;
+  padding: 0;
+  overflow: none;
+  border: none;
+  background: none;
+  width: auto;
+  height: auto;
+  min-width: none;
+  max-width: none;
+  min-height: none;
+  max-height: none;
+}
+
+/** Resizable block basic styles */
+.right-resizable,
+.right-resizable-top,
+.right-resizable-left,
+.right-resizable-right,
+.right-resizable-bottom {
+  position: relative;
+  min-width:  8em;
+  min-height: 8em;
+  border: 1px solid #DDD;
+}
+
+.right-resizable-content {
+  overflow: auto;
+  padding: .5em;
+}
+
+.right-resizable-handle {
+  position: absolute;
+  background-image: url(../../img/resizable.png);
+  background-repeat: no-repeat;
+  background-color: #DDD;
+  cursor: move;
+}
+
+/** Bidirectional resizable */
+.right-resizable .right-resizable-handle {
+  right: 0;
+  bottom: 0;
+  background-position: -2px -2px;
+  background-color: transparent;
+  width: 16px;
+  height: 16px;
+}
+
+/** Vertical resizables */
+.right-resizable-top .right-resizable-handle,
+.right-resizable-bottom .right-resizable-handle {
+  height: 8px;
+  width: 100%;
+  background-position: center -26px;
+  cursor: row-resize;
+}
+
+/** Horizontal resizeables */
+.right-resizable-left .right-resizable-handle,
+.right-resizable-right .right-resizable-handle {
+  top: 0px;
+  width: 8px;
+  height: 100%;
+  background-position: -26px center;
+  cursor: col-resize;
+}
+
+/** Top resizable */
+.right-resizable-top .right-resizable-content {
+  padding-top: 1em;
+}
+.right-resizable-top .right-resizable-handle {
+  top: 0;
+}
+
+/** Bottom resizable */
+.right-resizable-bottom .right-resizable-content {
+  padding-bottom: 1em;
+}
+.right-resizable-bottom .right-resizable-handle {
+  bottom: 0;
+}
+
+/** Left version */
+.right-resizable-left .right-resizable-content {
+  padding-left: 1em;
+}
+.right-resizable-left .right-resizable-handle {
+  left: 0;
+}
+
+/** Right version */
+.right-resizable-right .right-resizable-content {
+  padding-right: 1em;
+}
+.right-resizable-right .right-resizable-handle {
+  right: 0;
+}
+
