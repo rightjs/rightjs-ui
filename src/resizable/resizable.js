@@ -86,11 +86,6 @@ var Resizable = new Class(Observer, {
         options.direction = direction;
     }, this);
     
-    // trying to recognize the boundaries
-    $w('minWidth maxWidth minHeight maxHeight').each(function(dimension) {
-      options[dimension] = options[dimension] || this.findDim(dimension);
-    }, this);
-    
     return this.$super(options);
   },
   
@@ -103,6 +98,11 @@ var Resizable = new Class(Observer, {
     this.prevSizes = this.element.sizes();
     this.prevEvPos = event.position();
     
+    // trying to recognize the boundaries
+    $w('minWidth maxWidth minHeight maxHeight').each(function(dimension) {
+      this[dimension] = this.options[dimension] || this.findDim(dimension);
+    }, this);
+    
     return Resizable.current = this;
   },
   
@@ -113,33 +113,43 @@ var Resizable = new Class(Observer, {
    */
   track: function(event) {
     var event_pos = event.position(), prev_pos = this.prevEvPos,
+        handle    = this.handle.dimensions(),
         prev_size = this.prevSizes, width = prev_size.x, height = prev_size.y,
         x_diff    = prev_pos.x - event_pos.x,
         y_diff    = prev_pos.y - event_pos.y,
+        min_x     = this.minWidth,
+        max_x     = this.maxWidth,
+        min_y     = this.minHeight,
+        max_y     = this.maxHeight,
         options   = this.options,
         direction = options.direction;
   
     // calculating the new size
     width  += (direction == 'left' ? 1 : -1) * x_diff;
     height += (direction == 'top'  ? 1 : -1) * y_diff;
-
-    // checking the boundaries
-    if (options.minWidth  && width  < options.minWidth)  width  = options.minWidth;
-    if (options.minHeight && height < options.minHeight) height = options.minHeight;
-    if (options.maxWidth  && width  > options.maxWidth)  width  = options.maxWidth;
-    if (options.maxHeight && height > options.maxHeight) height = options.maxHeight;
-
+    
+    // applying the boundaries
+    if (width  < min_x) width  = min_x;
+    if (width  > max_x) width  = max_x;
+    if (height < min_y) height = min_y;
+    if (height > max_y) height = max_y;
+    
     // applying the sizes
-    if (direction != 'left' && direction != 'right') {
-      this.setHeight(height);
-    }
-    if (direction != 'top' && direction != 'bottom') {
+    if (prev_size.x != width && direction != 'top' && direction != 'bottom') {
       this.setWidth(width);
     }
-      
-    // updating the previous state
-    this.prevSizes = this.element.sizes();
+    if (prev_size.y != height && direction != 'left' && direction != 'right') {
+      this.setHeight(height);
+    }
+    
+    // adjusting the previous cursor position so that it didn't had a shift
+    if (width == min_x || width == max_x)
+      event_pos.x = handle.left + handle.width / 2;
+    if (height == min_y || height == max_y)
+      event_pos.y = handle.top + handle.height / 2;
+    
     this.prevEvPos = event_pos;
+    this.prevSizes = this.element.sizes();
   },
   
   /**
@@ -224,10 +234,14 @@ var Resizable = new Class(Observer, {
     var style = this.element.getStyle(dimension);
     
     if (style && /\d+/.test(style) && style.toFloat() > 0) {
-      var dummy = this.dummy || (this.dummy = $E('div', {style: 'position:absolute; top:0; left: 0; z-index: -1'}));
-      dummy.setStyle(dimension.include('Width') ? 'width' : 'height', style);
-      dummy.insertTo(this.element, 'before');
-      var size = dummy['offset' + (dimension.include('Width') ? 'Width' : 'Height')];
+      var what  = dimension.include('Width') ? 'width' : 'height',
+          dummy = (this.dummy || (this.dummy = $E('div', {
+            style: 'visibility:hidden;z-index:-1'
+          })))
+          .setStyle(what, style)
+          .insertTo(this.element, 'before');
+          
+      var size = dummy['offset' + what.capitalize()];
       dummy.remove();
       
       return size;
