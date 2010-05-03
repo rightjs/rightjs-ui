@@ -23,7 +23,7 @@ document.on({
   mouseup: function(event) {
     var resizable = Resizable.current;
     if (resizable) {
-      Resizable.current = null;
+      resizable.release();
     }
   }
 });
@@ -31,6 +31,6 @@ document.on({
 window.on('blur', function() {
   var resizable = Resizable.current;
   if (resizable) {
-    Resizable.current = null;
+    resizable.release();
   }
 });

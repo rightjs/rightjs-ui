@@ -5,7 +5,7 @@
  */
 var Resizable = new Class(Observer, {
   extend: {
-    EVENTS: $('resize initialize destroy'),
+    EVENTS: $('resize initialize destroy start release'),
     
     Options: {
       direction:  null, // 'top', 'left', 'right', 'bottom', null for bidrectional
@@ -103,7 +103,7 @@ var Resizable = new Class(Observer, {
       this[dimension] = this.options[dimension] || this.findDim(dimension);
     }, this);
     
-    return Resizable.current = this;
+    return Resizable.current = this.fire('start');
   },
   
   /**
@@ -191,6 +191,16 @@ var Resizable = new Class(Observer, {
   },
   
   /**
+   * Marks it the end of the action
+   *
+   * @return Resizable this
+   */
+  release: function() {
+    Resizable.current = null;
+    return this.fire('release');
+  },
+  
+  /**
    * Overloading the standard method so that it was sending
    * current instance as an argument
    *
@@ -198,7 +208,7 @@ var Resizable = new Class(Observer, {
    * @return Resizable this
    */
   fire: function(event) {
-    this.$super(event, this);
+    return this.$super(event, this);
   },
   
 // protected
