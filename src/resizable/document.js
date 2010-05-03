@@ -23,14 +23,14 @@ document.on({
   mouseup: function(event) {
     var resizable = Resizable.current;
     if (resizable) {
-      resizable.release();
+      resizable.release(event);
     }
   }
 });
 
-window.on('blur', function() {
+window.on('blur', function(event) {
   var resizable = Resizable.current;
   if (resizable) {
-    resizable.release();
+    resizable.release(event);
   }
 });

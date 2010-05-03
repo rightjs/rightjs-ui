@@ -103,7 +103,7 @@ var Resizable = new Class(Observer, {
       this[dimension] = this.findDim(dimension);
     }, this);
     
-    return Resizable.current = this.fire('start');
+    return Resizable.current = this.fire('start', event);
   },
   
   /**
@@ -150,6 +150,8 @@ var Resizable = new Class(Observer, {
     
     this.prevEvPos = event_pos;
     this.prevSizes = this.element.sizes();
+    
+    this.fire('resize', event);
   },
   
   /**
@@ -195,9 +197,9 @@ var Resizable = new Class(Observer, {
    *
    * @return Resizable this
    */
-  release: function() {
+  release: function(event) {
     Resizable.current = null;
-    return this.fire('release');
+    return this.fire('release', event);
   },
   
   /**
@@ -207,8 +209,8 @@ var Resizable = new Class(Observer, {
    * @param String event name
    * @return Resizable this
    */
-  fire: function(event) {
-    return this.$super(event, this);
+  fire: function(event, dom_event) {
+    return this.$super(event, this, dom_event);
   },
   
 // protected
