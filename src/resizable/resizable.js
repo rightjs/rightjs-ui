@@ -100,7 +100,7 @@ var Resizable = new Class(Observer, {
     
     // trying to recognize the boundaries
     $w('minWidth maxWidth minHeight maxHeight').each(function(dimension) {
-      this[dimension] = this.options[dimension] || this.findDim(dimension);
+      this[dimension] = this.findDim(dimension);
     }, this);
     
     return Resizable.current = this.fire('start');
@@ -241,7 +241,7 @@ var Resizable = new Class(Observer, {
   
   // finds dimensions of the element
   findDim: function(dimension) {
-    var style = this.element.getStyle(dimension);
+    var style = this.options[dimension] || this.element.getStyle(dimension);
     
     if (style && /\d+/.test(style) && style.toFloat() > 0) {
       var what  = dimension.include('Width') ? 'width' : 'height',
