@@ -195,11 +195,24 @@
       </select>
     </p>
     <p>
-      <select class="right-selectable" multiple="false">
+      <select class="right-selectable" multiple="multiple">
         <option value="item-1">One</option>
         <option selected="true" value="item-2">Two</option>
         <option selected="true" value="item-3">Three</option>
         <option disabled="true" value="item-4">Four</option>
+      </select>
+    </p>
+    <p>
+      With duplications
+    </p>
+    <p>
+      <select class="right-selectable" multiple="true">
+        <option value="same">Same</option>
+        <option value="thing" selected="true">Thing</option>
+        <option value="same"  selected="true">Same</option>
+        <option value="thing" selected="true">Thing</option>
+        <option value="same">Same</option>
+        <option value="thing">Thing</option>
       </select>
     </p>
   

@@ -331,7 +331,8 @@ var Selectable = new Class(Observer, {
   
   // finds out the value for the item
   itemValue: function(item) {
-    return item.id ? this.options.parseIds ? item.id.match(/\d+/) : item.id : this.items.indexOf(item);
+    var value = item.id || item.val;
+    return value ? this.options.parseIds ? value.match(/\d+/) : value : this.items.indexOf(item);
   },
   
   // wrapping the events trigger to feed it with some more options
@@ -354,7 +355,7 @@ var Selectable = new Class(Observer, {
       if (isNumber(index)) {
         item = this.items[index];
       } else if(isString(key)) {
-        item = this.items.first(function(i) { return i.id == key; });
+        item = this.items.first(function(i) { return i.id == key || i.val == key; });
       }
       
       return item;
@@ -443,17 +444,21 @@ var Selectable = new Class(Observer, {
   
   // builds the widget programmatically
   build: function() {
-    var element = $E('ul'), options = this.options.options;
+    var element = $E('ul'), options = this.options.options, items = [];
     
     if (isArray(options)) {
       options.each(function(option) {
-        element.insert($E('li', {html: option}));
+        items.push(isArray(option) ? option : [option, option]);
       });
     } else {
       for (var key in options) {
-        element.insert($E('li', {id: key, html: options[key]}));
+        items.push([options[key], key]);
       }
     }
+
+    items.each(function(option) {
+      element.insert($E('li', {val: option[1], html: option[0]}));
+    });
     
     return element;
   },
@@ -523,12 +528,12 @@ var Selectable = new Class(Observer, {
     var options = this.options;
     if (box) {
       options.multiple = box.has('multiple');
-      options.options  = {};
+      options.options  = [];
       options.selected = [];
       options.disabled = [];
       
       $A(box.getElementsByTagName('OPTION')).each(function(option, index) {
-        options.options[$(option).get('value') || option.innerHTML] = option.innerHTML;
+        options.options.push([option.innerHTML, $(option).get('value') || option.innerHTML]);
         
         if (option.selected) options.selected.push(index);
         if (option.disabled) options.disabled.push(index);
