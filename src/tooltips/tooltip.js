@@ -62,6 +62,14 @@ var Tooltip = new Class({
     
     if (element.id)
       this.element.id = element.id + this.options.idSuffix;
+    
+    // prevents the false hidding when the mouse gets over the tooltip
+    this.element
+      .onMouseout('stopEvent')
+      .onMouseover(function(event) {
+        event.stop();
+        this.cancelTimer();
+      }.bind(this));
   },
   
   /**
@@ -71,13 +79,16 @@ var Tooltip = new Class({
    */
   hide: function() {
     this.cancelTimer();
-    this.element.hide(this.options.fxName, {
-      duration: this.options.fxDuration,
-      onFinish: function() {
-        if (Tooltip.current === this)
-          Tooltip.current = null;
-      }.bind(this)
-    });
+    
+    this.timer = (function() {
+      this.element.hide(this.options.fxName, {
+        duration: this.options.fxDuration,
+        onFinish: function() {
+          if (Tooltip.current === this)
+            Tooltip.current = null;
+        }.bind(this)
+      });
+    }).bind(this).delay(100);
     
     return this;
   },
