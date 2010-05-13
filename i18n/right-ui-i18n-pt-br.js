@@ -34,3 +34,10 @@ if (self.InEdit) {
     cancel: "Cancelar"
   });
 }
+
+if (self.Colorpicker) {
+  $ext(Colorpicker.i18n, {
+    Done: 'Feito'
+  });
+}
+

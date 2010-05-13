@@ -1,0 +1,176 @@
+/**
+ * The colorpicker widget stylesheet
+ *
+ *    <div class="right-colorpicker">
+ *      <div class="field">
+ *        <div class="field-pointer"></div>
+ *      </div>
+ *      <div class="colors">
+ *        <div class="field-pointer"></div>
+ *      </div>
+ *      <div class="preview"></div>
+ *      <input type="text" class="hash-view" />
+ *    </div>
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+ 
+/** RESET */
+div.right-colorpicker,
+div.right-colorpicker * {
+  border: none;
+  background: none;
+  width: auto;
+  height: auto;
+  position: static;
+  float: none;
+  top: none;
+  left: none;
+  right: none;
+  bottom: none;
+  margin: 0;
+  padding: 0;
+}
+
+/** The box styles */
+div.right-colorpicker {
+  position: absolute;
+  padding: .6em;
+  background: #EEE;
+  border: 1px solid #CCC;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  -moz-box-shadow: #AAA .3em .3em .4em;
+  -webkit-box-shadow: #AAA .3em .3em .4em;
+}
+
+div.right-colorpicker div.field,
+div.right-colorpicker div.field-pointer,
+div.right-colorpicker div.colors,
+div.right-colorpicker div.colors-pointer {
+  background: url(../../img/colorpicker.png) no-repeat 0 0;
+}
+
+div.right-colorpicker div.field,
+div.right-colorpicker div.colors,
+div.right-colorpicker div.controls {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: relative;
+  vertical-align: top;
+  height: 150px;
+}
+
+div.right-colorpicker div.field-pointer,
+div.right-colorpicker div.colors-pointer {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+}
+
+div.right-colorpicker input.display,
+div.right-colorpicker div.preview,
+div.right-colorpicker div.rgb-display,
+div.right-colorpicker input.button {
+  font-size: 100%;
+  display: block;
+  width: auto;
+  padding: 0 .2em;
+}
+
+
+div.right-colorpicker input.display,
+div.right-colorpicker div.preview,
+div.right-colorpicker div.rgb-display input,
+div.right-colorpicker input.button {
+  border: 1px solid #AAA;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+}
+
+
+/** The field styles */
+div.right-colorpicker div.field {
+  width: 150px;
+  background-color: red;
+  cursor: crosshair;
+  margin-right: 1.2em;
+}
+
+div.right-colorpicker div.field-pointer {
+  background-position: -170px 0;
+  margin-left: -2px;
+  margin-top: -2px;
+}
+
+/** The colors bar styles */
+div.right-colorpicker div.colors {
+  width: 16px;
+  background-position: -150px 0;
+  border-color: #EEE;
+  cursor: pointer;
+  margin-right: .6em;
+}
+
+div.right-colorpicker div.colors-pointer {
+  cursor: default;
+  background-position: -170px -20px;
+  margin-left: -8px;
+  margin-top: -3px;
+}
+
+/** The controls block */
+div.right-colorpicker div.controls {
+  width: 5em;
+}
+
+div.right-colorpicker div.preview {
+  height: 2em;
+  background: white;
+  border-color: #BBB;
+}
+
+div.right-colorpicker input.display {
+  margin-top: .5em;
+  background: #FFF;
+  width: 4.5em;
+}
+
+div.right-colorpicker div.rgb-display {
+  padding: 0;
+  text-align: right;
+  margin-top: .5em;
+}
+div.right-colorpicker div.rgb-display input {
+  vertical-align: top;
+  font-size: 100%;
+  width: 2em;
+  text-align: right;
+  margin-left: .2em;
+  padding: 0 .2em;
+  background: #FFF;
+  margin-bottom: 1px;
+}
+
+/** The bottom button */
+div.right-colorpicker input.button {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  width: 5em;
+  background: #CCC;
+}
+
+
+/** The inlined colorpicker */
+div.right-colorpicker-inline {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: relative;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}

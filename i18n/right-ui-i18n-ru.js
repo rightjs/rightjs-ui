@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Russian module
  *
- * Copyright (C) Nikolay V. Nemshilov
+ * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -34,3 +34,10 @@ if (self.InEdit) {
     cancel: "Отмена"
   });
 }
+
+if (self.Colorpicker) {
+  $ext(Colorpicker.i18n, {
+    Done: 'Готово'
+  });
+}
+

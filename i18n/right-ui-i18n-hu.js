@@ -2,7 +2,6 @@
  * RightJS UI Internationalization: Hungarian module
  *
  * Copyright (C) Arnold Mészáros
- * Copyright (C) Nikolay V. Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -40,5 +39,11 @@ if (self.InEdit) {
   $ext(InEdit.i18n, {
     save:   "Save",
     cancel: "Cancel"
+  });
+}
+
+if (self.Colorpicker) {
+  $ext(Colorpicker.i18n, {
+    Done: 'Kész'
   });
 }

@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Spanish module
  *
- * Copyright (C) Nikolay V. Nemshilov
+ * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -32,5 +32,11 @@ if (self.InEdit) {
   $ext(InEdit.i18n, {
     save:   "Guardar",
     cancel: "Borrar"
+  });
+}
+
+if (self.Colorpicker) {
+  $ext(Colorpicker.i18n, {
+    Done: 'Hecho'
   });
 }

@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: German module
  *
- * Copyright (C) Nikolay V. Nemshilov
+ * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
@@ -32,5 +32,11 @@ if (self.InEdit) {
   $ext(InEdit.i18n, {
     save:   "Speichern",
     cancel: "Abbruch"
+  });
+}
+
+if (self.Colorpicker) {
+  $ext(Colorpicker.i18n, {
+    Done: 'Erledigt'
   });
 }
