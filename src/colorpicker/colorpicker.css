@@ -39,6 +39,8 @@ div.right-colorpicker * {
   margin: 0;
   padding: 0;
   display: block;
+  font-weight: normal;
+  vertical-align: center;
 }
 
 /** The box styles */
