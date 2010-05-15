@@ -1,15 +1,23 @@
 /**
  * The colorpicker widget stylesheet
  *
- *    <div class="right-colorpicker">
+ *    <div class="right-colorpicker right-ui-panel">
  *      <div class="field">
  *        <div class="field-pointer"></div>
  *      </div>
  *      <div class="colors">
  *        <div class="field-pointer"></div>
  *      </div>
- *      <div class="preview"></div>
- *      <input type="text" class="hash-view" />
+ *      <div class="controls">
+ *        <div class="preview"></div>
+ *        <input type="text" class="display" />
+ *        <div class="rgb-display">
+ *          <div><label>R:</label><input type="text" /></div>
+ *          <div><label>G:</label><input type="text" /></div>
+ *          <div><label>B:</label><input type="text" /></div>
+ *        </div>
+ *        <input type="button" class="right-ui-button" />
+ *      </div>
  *    </div>
  *
  * Copyright (C) 2010 Nikolay Nemshilov
@@ -30,6 +38,7 @@ div.right-colorpicker * {
   bottom: none;
   margin: 0;
   padding: 0;
+  display: block;
 }
 
 /** The box styles */
@@ -74,7 +83,7 @@ div.right-colorpicker div.colors-pointer {
 div.right-colorpicker input.display,
 div.right-colorpicker div.preview,
 div.right-colorpicker div.rgb-display,
-div.right-colorpicker input.button {
+div.right-colorpicker input.right-ui-button {
   font-size: 100%;
   display: block;
   width: auto;
@@ -85,7 +94,7 @@ div.right-colorpicker input.button {
 div.right-colorpicker input.display,
 div.right-colorpicker div.preview,
 div.right-colorpicker div.rgb-display input,
-div.right-colorpicker input.button {
+div.right-colorpicker input.right-ui-button {
   border: 1px solid #AAA;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
@@ -144,6 +153,9 @@ div.right-colorpicker div.rgb-display {
   text-align: right;
   margin-top: .5em;
 }
+div.right-colorpicker div.rgb-display label {
+  display: inline;
+}
 div.right-colorpicker div.rgb-display input {
   vertical-align: top;
   font-size: 100%;
@@ -153,10 +165,11 @@ div.right-colorpicker div.rgb-display input {
   padding: 0 .2em;
   background: #FFF;
   margin-bottom: 1px;
+  display: inline;
 }
 
 /** The bottom button */
-div.right-colorpicker input.button {
+div.right-colorpicker input.right-ui-button {
   cursor: pointer;
   position: absolute;
   bottom: 0;

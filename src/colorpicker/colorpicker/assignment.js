@@ -17,6 +17,8 @@ Colorpicker.include({
       this.element.hide(this.options.fxName, {
         duration: this.options.fxDuration
       });
+      
+      this.fire('hide');
     }
     
     return this;
@@ -52,6 +54,8 @@ Colorpicker.include({
       this.element.show(this.options.fxName, {
         duration: this.options.fxDuration
       });
+      
+      this.fire('show');
     }
     
     if (this.target) {
@@ -127,9 +131,11 @@ Colorpicker.include({
 // protected
 
   cancelTimer: function() {
-    if (this.timer) {
-      this.timer.cancel();
-      this.timer = null;
-    }
+    (function() { // IE has a lack of sync in here
+      if (this.timer) {
+        this.timer.cancel();
+        this.timer = null;
+      }
+    }).bind(this).delay(10);
   }
 });

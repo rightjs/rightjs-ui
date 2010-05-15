@@ -130,7 +130,7 @@ var Colorpicker = new Class(Observer, {
     this.element.onMousedown(function(event) {
       if (event.target.tagName !== 'INPUT') {
         event.stop();
-        this.cancelTimer.bind(this).delay(10);
+        this.cancelTimer();
       }
     }.bind(this));
     
@@ -162,7 +162,7 @@ var Colorpicker = new Class(Observer, {
   
   // builds the widget
   build: function() {
-    var base = this.element = $E('div', {'class': 'right-colorpicker'});
+    var base = this.element = $E('div', {'class': 'right-colorpicker right-ui-panel'});
     
     // the field block
     this.field = $E('div', {'class': 'field'}).insertTo(base);
@@ -181,7 +181,7 @@ var Colorpicker = new Class(Observer, {
         $E('div').insert([$E('label', {html: 'G:'}), this.gDisplay = $E('input', {maxlength: 3, cIndex: 1})]),
         $E('div').insert([$E('label', {html: 'B:'}), this.bDisplay = $E('input', {maxlength: 3, cIndex: 2})])
       ]),
-      this.button  = $E('input', {'type': 'button', 'class': 'button', value: Colorpicker.i18n.Done})
+      this.button  = $E('input', {'type': 'button', 'class': 'right-ui-button', value: Colorpicker.i18n.Done})
     ]).insertTo(base);
   },
   
@@ -256,7 +256,7 @@ var Colorpicker = new Class(Observer, {
   startTrack: function(event) {
     event.stop();
     this.stopTrack();
-    this.cancelTimer.bind(this).delay(10);
+    this.cancelTimer();
     Colorpicker.tracking = this;
     event.target.tracking = true;
     this.trackMove(event); // jumping over there
