@@ -53,6 +53,7 @@ div.right-colorpicker {
   -webkit-border-radius: .2em;
   -moz-box-shadow: #AAA .3em .3em .4em;
   -webkit-box-shadow: #AAA .3em .3em .4em;
+  z-index: 9999;
 }
 
 div.right-colorpicker div.field,
@@ -188,4 +189,5 @@ div.right-colorpicker-inline {
   position: relative;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
+  z-index: auto;
 }
