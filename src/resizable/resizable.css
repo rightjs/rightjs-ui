@@ -45,6 +45,7 @@
 .right-resizable-content {
   overflow: auto;
   padding: .5em;
+  position: relative;
 }
 
 .right-resizable-handle {
