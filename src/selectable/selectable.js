@@ -61,7 +61,6 @@ var Selectable = new Class(Observer, {
     else if ((selectbox = this.element.tagName == 'SELECT')) {
       this.selectbox = this.harvestOptions(this.element);
       this.element   = this.build().insertTo(this.selectbox, 'before');
-      
     }
     
     this.element._selectable = this.init();
@@ -470,9 +469,13 @@ var Selectable = new Class(Observer, {
         $E('div', {'html': this.options.hCont, 'class': 'right-selectable-handle'}),
         $E('ul', {'class': 'right-selectable-display'})
       ])
-      .insertTo(this.element, 'instead')
-      .insert(this.element)
       .onClick(this.toggleList.bind(this));
+    
+    if (this.element.parentNode) {
+      this.container.insertTo(this.element, 'instead');
+    }
+    
+    this.container.insert(this.element);
       
     document.onClick(this.hideList.bind(this));
     
