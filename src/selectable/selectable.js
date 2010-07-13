@@ -523,7 +523,7 @@ var Selectable = new Class(Observer, {
   
   // shows the item in the main view of a single-selector
   showItem: function(item) {
-    this.container.first('ul').update(item ? item.cloneNode(true) : '<li>&nbsp;</li>');
+    this.container.first('ul').update(item ? $E('li', {html: item.innerHTML}) : '<li>&nbsp;</li>');
   },
   
   // harvests options from a selectbox element
