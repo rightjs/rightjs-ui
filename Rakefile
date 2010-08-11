@@ -1,61 +1,123 @@
 #
-# Just runs all the rake files of the submodules
-#
-# Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+# The modules building task
 #
 
 require 'rake'
+require 'fileutils'
 require 'front_compiler'
+require 'util/build/rutil'
 
-BUILD_DIR = 'build'
+BUILD_DIR    = 'build'
+BUILD_PREFIX = 'right'
 
-task :default => :build
-
-desc "All the submodules building"
-task :build do
-  @comp = FrontCompiler.new
-  
-  puts "Deleting the old builds"
-  
-  FileUtils.rm_rf BUILD_DIR
-  FileUtils.mkdir_p BUILD_DIR
-  
-  puts "Building the modules\n\n"
-  modules = ENV['MODULES'] ? ENV['MODULES'].split(',') : FileList['src/*'].collect{|e| e.gsub('src/', '') }
-  modules.each do |package|
-    puts " * #{package.capitalize}"
-    
-    # collecting the javascript files
-    filenames = File.read("src/#{package}/init.js").match(/\[(.+?)\]/im)[1].scan(/('|")(.+?)\1/).collect{|e| e.last }
-    
-    # collecting the javascript sources
-    source = filenames.collect do |name|
-      File.read("src/#{package}/#{name}.js")
-    end.join("\n\n")
-    
-    # adding the stylesheet file
-    source << @comp.inline_css(File.read("src/#{package}/#{package}.css")) rescue nil
-    
-    # reading the header
-    header = File.read("src/#{package}/header.js")
-    
-    # creating the builds
-    minified = @comp.compact_js(source)
-    packed   = minified.create_self_build
-    
-    # writting the builds
-    [
-      ['',     packed],
-      ['-min', minified],
-      ['-src', source]
-      
-    ].each do |entry|
-      File.open("#{BUILD_DIR}/right-#{package.gsub('_', '-')}#{entry[0]}.js", "w") do |f|
-        f.write header
-        f.write entry[1]
-      end
-    end
-  end
-  
-  puts "\n"
+$widgets = FileList['dist/*'].collect do |dirname|
+  dirname.gsub('dist/', '')
 end
+
+options = ((ENV['OPTIONS'] || '').split('=').last || '').strip.split(/\s*,\s*/)
+
+unless options.empty?
+  $widgets.reject! do |name|
+    !options.include?(name)
+  end
+end
+
+$rutils = {};
+
+######################################################################
+#  Cleaning up the build directory
+######################################################################
+desc "Cleans up the build directory"
+task :clean do
+  puts ' * Nuking the build dir'
+  FileUtils.rm_rf BUILD_DIR
+  Dir.mkdir BUILD_DIR
+end
+
+######################################################################
+#  Packs the widgets into source files
+######################################################################
+desc "Packs the widgets into source files"
+task :pack do
+  Rake::Task['clean'].invoke
+  
+  puts " * Packing the source code files"
+  $widgets.each do |widget|
+    puts "   - #{widget}"
+    
+    # parsing the init script of the list of files
+    init  = File.read("src/#{widget}/__init__.js")
+    files = ["lib/widget.js"]
+    css   = []
+    
+    # parsing out the shared javascript files list
+    init.gsub!(/include_shared_js\(([^\)]+)\)(;*)/m) do |match|
+      $1.dup.scan(/('|")([\w\d\_\-\/]+)\1/).each do |m|
+        files << "lib/#{m[1]}.js"
+      end
+      ''
+    end
+    
+    # parsing out the shared css-files list
+    init.gsub!(/include_shared_css\(([^\)]+)\)(;*)/m) do |match|
+      $1.dup.scan(/('|")([\w\d\_\-\/]+)\1/).each do |m|
+        css << "lib/css/#{m[1]}.css"
+      end
+      ''
+    end
+    
+    # parsing out the list of widget own files
+    files += init.scan(/('|")([\w\d\_\-\/]+)\1/).collect do |match|
+      "src/#{widget}/#{match[1]}.js"
+    end
+    
+    rutil = RUtil.new("dist/#{widget}/header.js", "dist/#{widget}/layout.js")
+    rutil.pack(files) do |source|
+      # inserting the initialization script
+      id = source.index('*/')
+      
+      source = source[0,id+2] +
+        "\n\n#{init.gsub(/include_module_files\([^\)]+\)(;*)/m, '')}" +
+      source[id+2, source.size]
+      
+      # adding the inlined-css entry
+      source + "\n\n" + FrontCompiler.new.inline_css(
+        (css + ["src/#{widget}/#{widget}.css"]).collect do |filename|
+          File.read(filename)
+        end.join("\n")
+      )
+    end
+    rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget}.js")
+    
+    $rutils[widget] = rutil
+  end
+end
+
+######################################################################
+#  Checks the source-code with jslint
+######################################################################
+desc "Checks the source-code with jslint"
+task :check do
+  Rake::Task['pack'].invoke
+  puts " * Running the jslint check"
+  
+  $rutils.each do |widget, rutil|
+    puts "   - #{widget}"
+    rutil.check "dist/#{widget}/lint.js"
+  end
+end
+
+######################################################################
+#  Builds the widgets into minified files
+######################################################################
+desc "Builds the widgets into minified files"
+task :build do
+  Rake::Task['pack'].invoke
+  puts " * Minifying the source code"
+  
+  $rutils.each do |widget, rutil|
+    puts "   - #{widget}"
+    rutil.compile
+  end
+end
+
