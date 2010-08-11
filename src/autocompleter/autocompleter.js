@@ -1,9 +1,9 @@
 /**
  * The RightJS UI Autocompleter unit base class
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Autocompleter = new Class(Observer, {
+var Autocompleter = new Widget({
   extend: {
     EVENTS: $w('show hide update load select done'),
     
@@ -15,7 +15,7 @@ var Autocompleter = new Class(Observer, {
       minLength:  1,         // the minimal length when it starts work
       threshold:  200,       // the typing pause threshold
       
-      cache:      true,      // the use the results cache
+      cache:      true,      // use the results cache
       local:      null,      // an optional local search results list
       
       fxName:     'slide',   // list appearance fx name
@@ -23,24 +23,8 @@ var Autocompleter = new Class(Observer, {
       
       spinner:    'native',  // spinner element reference
       
-      cssRule:    '[rel^=autocompleter]'
-    },
-    
-    current: null, // reference to the currently active options list
-    instances: {}, // the input <-> instance map
-    
-    // finds/instances an autocompleter for the event
-    find: function(event) {
-      var input = event.target;
-      if (input.match(Autocompleter.Options.cssRule)) {
-        var uid = $uid(input);
-        if (!Autocompleter.instances[uid])
-          new Autocompleter(input);
-      }
-    },
-    
-    // DEPRECATED scans the document for autocompletion fields
-    rescan: function(scope) { }
+      cssRule:    'input[data-autocompleter]' // the auto-initialization css-rule
+    }
   },
   
   /**
@@ -50,132 +34,139 @@ var Autocompleter = new Class(Observer, {
    * @param Object options
    */
   initialize: function(input, options) {
-    this.input = $(input); // don't low it down!
-    this.$super(options);
+    this.input = $(input); // KEEP IT before the super call
     
-    // storing the callbacks so we could detach them later
-    this._watch = this.watch.bind(this);
-    this._hide  = this.hide.bind(this);
+    this
+      .$super('autocompleter', options)
+      .insert(this.list = $E('ul', {'class': 'right-dd-menu'}))
+      .insertTo(this.input, 'after')
+      .onMousedown(this.clicked);
     
-    this.input.onKeyup(this._watch).onBlur(this._hide);
-    
-    this.holder    = $E('div', {'class': 'right-autocompleter'}).insertTo(this.input, 'after');
-    this.container = $E('div', {'class': 'autocompleter'}).insertTo(this.holder);
-    
-    this.input.autocompleter = Autocompleter.instances[$uid(input)] = this;
+    this.input.autocompleter = this;
   },
   
-  // kills the autocompleter
+  /**
+   * Destructor
+   *
+   * @return Autocompleter this
+   */
   destroy: function() {
-    this.input.stopObserving('keyup', this._watch).stopObserving('blur', this._hide);
     delete(this.input.autocompleter);
     return this;
   },
   
-  // catching up with some additonal options
-  setOptions: function(options) {
-    this.$super(this.grabOptions(options));
-    
-    // building the correct url template with a placeholder
-    if (!this.options.url.includes('%{search}')) {
-      this.options.url += (this.options.url.includes('?') ? '&' : '?') + this.options.param + '=%{search}';
-    }
-  },
-  
-  // handles the list appearance
-  show: function() {
-    if (this.container.hidden()) {
-      var dims = this.input.dimensions(), pos = this.holder.position();
+  /**
+   * displays the list
+   *
+   * @param String fx-name
+   * @param Object fx-options
+   * @return Autocompleter this
+   */
+  show: function(fx_name, fx_options) {
+    if (this.hidden()) {
+      var dims = this.input.dimensions(), pos = this.position();
       
-      this.container.setStyle({
-        top: (dims.top + dims.height - pos.y) + 'px',
+      this.list.setStyle({
+        top:  (dims.top  - pos.y  + dims.height) + 'px',
         left: (dims.left - pos.x) + 'px',
         width: dims.width + 'px'
-      }).show(this.options.fxName, {
-        duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'show')
       });
     }
     
-    return Autocompleter.current = this;
+    return toggler.call(this, this.list, 'show', fx_name, fx_options);
   },
   
-  // handles the list hidding
-  hide: function() {
-    if (this.container.visible()) {
-      this.container.hide();
-      this.fire.bind(this, 'hide');
-    }
-    
-    Autocompleter.current = null;
-    
-    return this;
+  /**
+   * displays the list
+   *
+   * @param String fx-name
+   * @param Object fx-options
+   * @return Autocompleter this
+   */
+  hide: function(fx_name, fx_options) {
+    return toggler.call(this, this.list, 'hide', fx_name || null, fx_options);
   },
   
-  // selects the next item on the list
+  /**
+   * picks the next item on the list
+   *
+   * @return Autocompleter this
+   */
   prev: function() {
-    return this.select('prev', this.container.select('li').last());
+    return this.pick('prev');
   },
   
-  // selects the next item on the list
+  /**
+   * picks the next item on the list
+   *
+   * @return Autocompleter this
+   */
   next: function() {
-    return this.select('next', this.container.first('li'));
+    return this.pick('next');
   },
   
-  // marks it done
+  /**
+   * triggers the done event, sets up the value and closes the list
+   *
+   * @return Autocompleter this
+   */
   done: function(current) {
-    var current = current || this.container.first('li.current');
+    current = current || this.list.first('li.current');
+    
     if (current) {
-      this.input.value = current.innerHTML.stripTags();
+      this.input.setValue(R(current.html()).stripTags());
+      this.fire('done');
     }
     
-    return this.fire('done').hide();
+    return this.hide();
   },
+  
+  // delegating the 'visible' and 'hidden' methods to the internal list
+  visible: function() { return this.list.visible(); },
+  hidden:  function() { return this.list.hidden();  },
   
 // protected
 
-  // trying to extract the input element options
-  grabOptions: function(options) {
-    var input = this.input;
-    var options = options || eval('('+input.get('data-autocompleter-options')+')') || {};
-    var keys = Autocompleter.Options.cssRule.split('[').last().split(']')[0].split('^='),
-        key = keys[1], value = input.get(keys[0]), match;
-        
-    // trying to extract options
-    if (value && (match = value.match(new RegExp('^'+ key +'+\\[(.*?)\\]$')))) {
-      match = match[1];
-      
-      // deciding whether it's a list of local options or an url
-      if (match.match(/^['"].*?['"]$/)) {
-        options.local = eval('['+ match +']');
-      } else if (!match.blank()) {
-        options.url = match;
-      }
-    }
+  // preprocessing the urls a bit
+  setOptions: function(options) {
+    this.$super(options, this.input);
     
-    return options;
+    options = this.options;
+    
+    // building the correct url template with a placeholder
+    if (!R(options.url).includes('%{search}')) {
+      options.url += (R(options.url).includes('?') ? '&' : '?') + options.param + '=%{search}';
+    }
   },
 
   // works with the 'prev' and 'next' methods
-  select: function(what, fallback) {
-    var current = this.container.first('li.current');
-    if (current) {
-      current = current[what]('li') || current;
+  pick: function(which_one) {
+    var items   = this.list.subNodes(),
+        current = items.first('hasClass', 'current'),
+        index   = items.indexOf(current);
+    
+    if (which_one == 'prev') {
+      current = index < 1 ? items.last() : items[index < 0 ? 0 : (index-1)];
+    } else if (which_one == 'next') {
+      current = index < 0 || index == (items.length - 1) ?
+        items.first() : items[index + 1];
     }
     
-    return this.fire('select', (current || fallback).radioClass('current'));
+    return this.fire('select', current.radioClass('current'));
   },
-
-  // receives the keyboard events out of the input element
-  watch: function(event) {
-    // skip the overlaping key codes that are already watched in the document.js
-    if ([27,37,38,39,40,13].include(event.keyCode)) return;
-    
-    if (this.input.value.length >= this.options.minLength) {
+  
+  // handles mouse clicks on the list element
+  clicked: function(event) {
+    this.done(event.find('ul.right-dd-menu > li'));
+  },
+  
+  // handles the key-press events
+  keypressed: function(event) {
+    if (this.input.value().length >= this.options.minLength) {
       if (this.timeout) {
         this.timeout.cancel();
       }
-      this.timeout = this.trigger.bind(this).delay(this.options.threshold);
+      this.timeout = R(this.trigger).bind(this).delay(this.options.threshold);
     } else {
       return this.hide();
     }
@@ -186,91 +177,71 @@ var Autocompleter = new Class(Observer, {
     this.timeout = null;
     
     this.cache = this.cache || {};
-    var search = this.input.value;
+    var search = this.input.value(), options = this.options;
     
-    if (search.length < this.options.minLength) return this.hide();
+    if (search.length < options.minLength) { return this.hide(); }
     
     if (this.cache[search]) {
       this.suggest(this.cache[search], search);
-    } else if (this.options.local) {
+    } else if (isArray(options.local)) {
       this.suggest(this.findLocal(search), search);
     } else {
-      this.request = Xhr.load(this.options.url.replace('%{search}', encodeURIComponent(search)), {
-        method:  this.options.method,
+      this.request = Xhr.load(options.url.replace('%{search}', encodeURIComponent(search)), {
+        method:  options.method,
         spinner: this.getSpinner(),
-        onComplete: function(response) {
-          this.fire('load').suggest(response.responseText, search);
-        }.bind(this)
+        onComplete: R(function(response) {
+          this.fire('load').suggest(response.text, search);
+        }).bind(this)
       });
     }
   },
   
   // updates the suggestions list
-  suggest: function(result, search) {
-    this.container.update(result).select('li').each(function(li) {
-      // we reassiging the events each time so the were no doublecalls
-      li.onmouseover = function() { li.radioClass('current'); };
-      li.onmousedown = function() { this.done(li); }.bind(this);
-    }, this);
-    
+  suggest: function(result_text, search) {
     // saving the result in cache
     if (this.options.cache) {
-      this.cache[search] = result;
+      this.cache[search] = result_text;
     }
+    
+    this.list.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
     
     return this.fire('update').show();
   },
   
   // performs the locals search
   findLocal: function(search) {
-    var regexp = new RegExp("("+RegExp.escape(search)+")", 'ig');
-    return $E('ul').insert(
-      this.options.local.map(function(option) {
-        if (regexp.test(option)) {
-          return $E('li', {html:
-            option.replace(regexp, '<strong>$1</strong>')
-          });
-        }
-      }).compact()
-    );
+    var regexp  = new RegExp("("+RegExp.escape(search)+")", 'ig');
+    
+    return R(this.options.local).map(function(option) {
+      if (regexp.test(option)) {
+        return '<li>'+ option.replace(regexp, '<strong>$1</strong>') +'</li>';
+      }
+    }).compact().join('');
   },
   
   // builds a native textual spinner if necessary
   getSpinner: function() {
-    this._spinner = this._spinner || this.options.spinner;
+    var options = this.options, spinner = options.spinner;
     
-    // building the native spinner
-    if (this._spinner == 'native') {
-      this._spinner = $E('div', {
-        'class': 'autocompleter-spinner'
-      }).insertTo(this.holder);
-      
-      var dots = '123'.split('').map(function(i) {
-        return $E('div', {'class': 'dot-'+i, html: '&raquo;'});
-      });
-      
-      (function() {
-        var dot = dots.shift();
-        dots.push(dot);
-        this._spinner.update(dot);
-      }.bind(this)).periodical(400);
+    if (spinner == 'native') {
+      spinner = options.spinner = new Spinner(3).insertTo(this);
     }
     
-    // repositioning the native spinner
-    if (this.options.spinner == 'native') {
-      var dims = this.input.dimensions(), pos = this.holder.position();
+    // positioning the native spinner
+    if (spinner instanceof Spinner) {
+      var dims = this.input.dimensions(), pos = this.position(),
+          border_size = R(this.input.getStyle('borderTopWidth')).toInt();
       
-      this._spinner.setStyle('visiblity: hidden').show();
-      
-      this._spinner.setStyle({
-        visibility: 'visible',
-        top: (dims.top + 1 - pos.y) + 'px',
-        height: (dims.height - 2) + 'px',
-        lineHeight: (dims.height - 2) + 'px',
-        left: (dims.left + dims.width - this._spinner.offsetWidth - 1 - pos.x) + 'px'
-      }).hide();
+      spinner
+        .setStyle('visibility:hidden').show()
+        .setStyle({
+          visibility: 'visible',
+          top:  (dims.top  - pos.y + border_size * 2) + 'px',
+          left: (dims.left + dims.width - spinner.sizes().x - pos.x - border_size * 2) + 'px',
+          height: (dims.height - border_size * 4) + 'px'
+        }).hide();
     }
     
-    return this._spinner;
+    return spinner;
   }
 });

@@ -1,0 +1,46 @@
+/**
+ * The textual spinners shared stylesheet
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+
+/** RESET **/
+div.right-spinner, div.right-spinner div {
+  margin:  0;
+  padding: 0;
+  border: none;
+  background: none;
+  list-style: none;
+  font-weight: normal;
+  float: none;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  -moz-border-radius: .12em;
+  -webkit-border-radius: .12em;
+}
+
+div.right-spinner {
+  position: absolute;
+  z-index: 9999;
+  background: #EEE;
+  border: 1px solid #DDD;
+  height: 1.2em;
+  padding: 0 .2em;
+}
+
+div.right-spinner div {
+  width: .45em;
+  height: 80%;
+  background: #BBB;
+  vertical-align: baseline;
+  margin-top: 2.5%;
+  margin-left: 1px;
+}
+div.right-spinner div:first-child {
+  margin-left: 0;
+}
+
+div.right-spinner div.glowing {
+  background: #777;
+}

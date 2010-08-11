@@ -1,0 +1,42 @@
+/**
+ * RightJS UI Shared CSS module for drop-down menus
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+/** RESET */
+ul.right-dd-menu, ul.right-dd-menu li {
+  margin:  0;
+  padding: 0;
+  border: none;
+  background: none;
+  list-style: none;
+  font-weight: normal;
+  float: none;
+}
+
+
+ul.right-dd-menu {
+  display: none;
+  position: absolute;
+  z-index: 99999;
+  background: white;
+  -moz-box-shadow: #BBB .2em .2em .4em;
+  -webkit-box-shadow: #BBB .2em .2em .4em;
+  overflow: hidden;
+}
+
+ul.right-dd-menu li {
+  padding: .2em .4em;
+  border: 1px solid #CCC;
+  border-top: none;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+ul.right-dd-menu li.current {
+  background: #DDD;
+}
+
+ul.right-dd-menu li:hover {
+  background: #EEE;
+}
