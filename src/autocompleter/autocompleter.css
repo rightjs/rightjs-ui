@@ -24,7 +24,7 @@ div.right-autocompleter {
   background: none;
   border: none;
   float: none;
-  position: relative;
+  position: absolute;
 }
 
 div.right-autocompleter div.right-spinner {
