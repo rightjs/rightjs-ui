@@ -9,6 +9,13 @@
       load_ui_modules('autocompleter');
     // ]]>
     </script>
+    <style type="text/css">
+    /* <![CDATA[ */
+      p.auto-test input {
+        border-width: 4px;
+      }
+    /* ]]> */
+    </style>
   </head>
   <body>
     <h2>Simple Completer (asdf)</h2>
@@ -36,12 +43,12 @@
     </p>
     
     <h2>Auto-Discovered Completer With Url</h2>
-    <p>
+    <p class="auto-test">
       <input type="text" data-autocompleter="{url: './autocompleter/%{search}.html', fxDuration: 1000, fxName: 'fade'}" />
     </p>
     
     <h2>Auto-Discovered Completer With Local Options</h2>
-    <p>
+    <p class="auto-test">
       <input type="text" data-autocompleter="{local: ['mommy','daddy','sonny','doggy','kitty']}" />
     </p>
     

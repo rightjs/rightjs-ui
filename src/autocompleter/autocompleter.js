@@ -64,13 +64,14 @@ var Autocompleter = new Widget({
    */
   show: function(fx_name, fx_options) {
     if (this.hidden()) {
-      var dims = this.input.dimensions(), pos = this.position();
-      
+      var dims = this.input.dimensions(), pos = this.position(),
+          border_size = R(this.input.getStyle('borderBottomWidth')).toInt();
+
       this.list.setStyle({
-        top:  (dims.top  - pos.y  + dims.height) + 'px',
-        left: (dims.left - pos.x) + 'px',
-        width: dims.width + 'px'
-      });
+        top:   (dims.top  - pos.y  + dims.height - border_size - 1) + 'px',
+        left:  (dims.left - pos.x + border_size) + 'px',
+        visibility: 'hidden'
+      }).show().setWidth(dims.width - border_size*2).hide().setStyle('visibility:visible');
     }
     
     return toggler.call(this, this.list, 'show', fx_name, fx_options);
@@ -203,9 +204,14 @@ var Autocompleter = new Widget({
       this.cache[search] = result_text;
     }
     
-    this.list.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
+    if (!(result_text).blank()) {
+      this.list.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
+      this.fire('update').show();
+    } else {
+      this.list.hide();
+    }
     
-    return this.fire('update').show();
+    return this;
   },
   
   // performs the locals search
@@ -213,7 +219,7 @@ var Autocompleter = new Widget({
     var regexp  = new RegExp("("+RegExp.escape(search)+")", 'ig');
     
     return R(this.options.local).map(function(option) {
-      if (regexp.test(option)) {
+      if (option.match(regexp)) {
         return '<li>'+ option.replace(regexp, '<strong>$1</strong>') +'</li>';
       }
     }).compact().join('');
@@ -230,15 +236,16 @@ var Autocompleter = new Widget({
     // positioning the native spinner
     if (spinner instanceof Spinner) {
       var dims = this.input.dimensions(), pos = this.position(),
-          border_size = R(this.input.getStyle('borderTopWidth')).toInt();
+          border_size = R(this.input.getStyle('borderRightWidth')).toInt();
       
       spinner
         .setStyle('visibility:hidden').show()
         .setStyle({
           visibility: 'visible',
-          top:  (dims.top  - pos.y + border_size * 2) + 'px',
-          left: (dims.left + dims.width - spinner.sizes().x - pos.x - border_size * 2) + 'px',
-          height: (dims.height - border_size * 4) + 'px'
+          top:  (dims.top  - pos.y + border_size) + 'px',
+          left: (dims.left + dims.width - spinner.sizes().x - pos.x - border_size) + 'px',
+          lineHeight: (dims.height - border_size * 2) + 'px',
+          height: (dims.height - border_size * 2) + 'px'
         }).hide();
     }
     

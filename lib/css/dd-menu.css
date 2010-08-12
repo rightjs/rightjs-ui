@@ -18,16 +18,19 @@ ul.right-dd-menu, ul.right-dd-menu li {
 ul.right-dd-menu {
   display: none;
   position: absolute;
-  z-index: 99999;
+  z-index: 9999;
   background: white;
-  -moz-box-shadow: #BBB .2em .2em .4em;
-  -webkit-box-shadow: #BBB .2em .2em .4em;
-  overflow: hidden;
+  border: 1px solid #BBB;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  box-shadow: #DDD .2em .2em .4em;
+  -moz-box-shadow: #DDD .2em .2em .4em;
+  -webkit-box-shadow: #DDD .2em .2em .4em;
 }
 
 ul.right-dd-menu li {
   padding: .2em .4em;
-  border: 1px solid #CCC;
   border-top: none;
   border-bottom: none;
   cursor: pointer;

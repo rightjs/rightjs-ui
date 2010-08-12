@@ -30,7 +30,15 @@ div.right-autocompleter {
 div.right-autocompleter div.right-spinner {
   border: none;
   background: none;
+  margin-left: -0.1em;
 }
-div.right-autocompleter div.right-spinner div {
-  margin-top: 3%;
+
+div.right-autocompleter ul.right-dd-menu {
+  border-top-color: #DDD;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-topleft: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
 }
