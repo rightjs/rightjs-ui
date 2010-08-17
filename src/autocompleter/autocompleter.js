@@ -3,7 +3,9 @@
  *
  * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Autocompleter = new Widget({
+var Autocompleter = new Widget('UL', {
+  include: Toggler,
+  
   extend: {
     EVENTS: $w('show hide update load select done'),
     
@@ -38,8 +40,7 @@ var Autocompleter = new Widget({
     
     this
       .$super('autocompleter', options)
-      .insert(this.list = $E('ul', {'class': 'rui-dd-menu'}))
-      .insertTo(this.input, 'after')
+      .addClass('rui-dd-menu')
       .onMousedown(this.clicked);
     
     this.input.autocompleter = this;
@@ -53,39 +54,6 @@ var Autocompleter = new Widget({
   destroy: function() {
     delete(this.input.autocompleter);
     return this;
-  },
-  
-  /**
-   * displays the list
-   *
-   * @param String fx-name
-   * @param Object fx-options
-   * @return Autocompleter this
-   */
-  show: function(fx_name, fx_options) {
-    if (this.hidden()) {
-      var dims = this.input.dimensions(), pos = this.position(),
-          border_size = R(this.input.getStyle('borderBottomWidth')).toInt();
-
-      this.list.setStyle({
-        top:   (dims.top  - pos.y  + dims.height - border_size - 1) + 'px',
-        left:  (dims.left - pos.x + border_size) + 'px',
-        visibility: 'hidden'
-      }).show().setWidth(dims.width - border_size*2).hide().setStyle('visibility:visible');
-    }
-    
-    return toggler.call(this, this.list, 'show', fx_name, fx_options);
-  },
-  
-  /**
-   * displays the list
-   *
-   * @param String fx-name
-   * @param Object fx-options
-   * @return Autocompleter this
-   */
-  hide: function(fx_name, fx_options) {
-    return toggler.call(this, this.list, 'hide', fx_name || null, fx_options);
   },
   
   /**
@@ -112,7 +80,7 @@ var Autocompleter = new Widget({
    * @return Autocompleter this
    */
   done: function(current) {
-    current = current || this.list.first('li.current');
+    current = current || this.first('li.current');
     
     if (current) {
       this.input.setValue(R(current.html()).stripTags());
@@ -121,10 +89,6 @@ var Autocompleter = new Widget({
     
     return this.hide();
   },
-  
-  // delegating the 'visible' and 'hidden' methods to the internal list
-  visible: function() { return this.list.visible(); },
-  hidden:  function() { return this.list.hidden();  },
   
 // protected
 
@@ -142,7 +106,7 @@ var Autocompleter = new Widget({
 
   // works with the 'prev' and 'next' methods
   pick: function(which_one) {
-    var items   = this.list.subNodes(),
+    var items   = this.subNodes(),
         current = items.first('hasClass', 'current'),
         index   = items.indexOf(current);
     
@@ -158,7 +122,7 @@ var Autocompleter = new Widget({
   
   // handles mouse clicks on the list element
   clicked: function(event) {
-    this.done(event.find('ul.rui-dd-menu > li'));
+    this.done(event.find('li'));
   },
   
   // handles the key-press events
@@ -205,10 +169,10 @@ var Autocompleter = new Widget({
     }
     
     if (!(result_text).blank()) {
-      this.list.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
-      this.fire('update').show();
+      this.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
+      this.fire('update').showAt(this.input, 'bottom', 'resize');
     } else {
-      this.list.hide();
+      this.hide();
     }
     
     return this;
@@ -231,22 +195,12 @@ var Autocompleter = new Widget({
     
     if (spinner == 'native') {
       spinner = options.spinner = new Spinner(3).insertTo(this);
+      spinner.addClass('rui-autocompleter-spinner');
     }
     
     // positioning the native spinner
     if (spinner instanceof Spinner) {
-      var dims = this.input.dimensions(), pos = this.position(),
-          border_size = R(this.input.getStyle('borderRightWidth')).toInt();
-      
-      spinner
-        .setStyle('visibility:hidden').show()
-        .setStyle({
-          visibility: 'visible',
-          top:  (dims.top  - pos.y + border_size) + 'px',
-          left: (dims.left + dims.width - spinner.sizes().x - pos.x - border_size) + 'px',
-          lineHeight: (dims.height - border_size * 2) + 'px',
-          height: (dims.height - border_size * 2) + 'px'
-        }).hide();
+      re_position.call(spinner, this.input, 'right', 'resize');
     }
     
     return spinner;

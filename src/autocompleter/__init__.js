@@ -18,7 +18,8 @@ include_shared_js(
 
 include_shared_css(
   'dd-menu',
-  'spinner'
+  'spinner',
+  'anchor'
 );
 
 include_module_files(

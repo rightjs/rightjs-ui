@@ -3,42 +3,33 @@
  *
  * The elements structure is simple
  *
- *   <div class="rui-autocompleter">
- *     <ul class="rui-dd-menu">
- *       <li>boo</li>
- *       <li>boo</li>
- *       <li>boo</li>
- *     </ul>
+ *   <ul class="rui-autocompleter rui-dd-menu">
+ *     <li>boo</li>
+ *     <li>boo</li>
+ *     <li>boo</li>
+ *   </ul>
+ *
+ *   <div class="rui-autocompleter-spinner rui-spinner">
+ *     .....
  *   </div>
  *
  *
  * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 
-/* This element works as a simple relatively positioned anchor
-   so we could correctly position the spinner and the dd-menu */
-div.rui-autocompleter {
-  margin: 0;
-  padding: 0;
-  display: inline;
-  background: none;
-  border: none;
-  float: none;
-  position: absolute;
+.rui-autocompleter {
+  border-top-color: #DDD !important;
+  border-top-left-radius: 0 !important;
+  border-top-rui-radius: 0 !important;
+  -moz-border-radius-topleft: 0 !important;
+  -moz-border-radius-topright: 0 !important;
+  -webkit-border-top-left-radius: 0 !important;
+  -webkit-border-top-right-radius: 0 !important;
 }
 
-div.rui-autocompleter div.rui-spinner {
-  border: none;
-  background: none;
-  margin-left: -0.1em;
+.rui-autocompleter-spinner {
+  border: none !important;
+  background: none !important;
+  margin-left: -0.1 !important;
 }
 
-div.rui-autocompleter ul.rui-dd-menu {
-  border-top-color: #DDD;
-  border-top-left-radius: 0;
-  border-top-rui-radius: 0;
-  -moz-border-radius-topleft: 0;
-  -moz-border-radius-topright: 0;
-  -webkit-border-top-left-radius: 0;
-  -webkit-border-top-right-radius: 0;
-}
