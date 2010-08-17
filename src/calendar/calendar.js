@@ -1,21 +1,27 @@
 /**
  * The calendar widget for RightJS
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Calendar = new Class(Observer, {
+var Calendar = new Widget({
+  include: [Toggler, Assignable],
+  
   extend: {
-    EVENTS: $w('show hide select done'),
+    EVENTS: $w('show hide change done'),
     
     Options: {
       format:         'ISO',  // a key out of the predefined formats or a format string
+      
       showTime:       null,   // null for automatic, or true|false to enforce
-      showButtons:    false,
-      minDate:        null,
-      maxDate:        null,
+      showButtons:    false,  // show the bottom buttons
+      
+      minDate:        false,  // the minimal date available
+      maxDate:        false,  // the maximal date available
+      
+      fxName:         'fade',  // set to null if you don't wanna any fx
+      fxDuration:     'short', // the fx-duration
+      
       firstDay:       1,      // 1 for Monday, 0 for Sunday
-      fxName:         'fade', // set to null if you don't wanna any fx
-      fxDuration:     200,
       numberOfMonths: 1,      // a number or [x, y] greed definition
       timePeriod:     1,      // the timepicker minimal periods (in minutes, might be bigger than 60)
       
@@ -24,7 +30,10 @@ var Calendar = new Class(Observer, {
       
       hideOnPick:     false,  // hides the popup when the user changes a day
       
-      cssRule:        '[rel^=calendar]' // css rule for calendar related elements
+      update:         null,   // a reference to an input element to assign to
+      trigger:        null,   // a reference to a trigger element that would be paired too
+      
+      cssRule:        '*[data-calendar]' // css rule for calendar related elements
     },
     
     Formats: {
@@ -37,8 +46,8 @@ var Calendar = new Class(Observer, {
     i18n: {
       Done:           'Done',
       Now:            'Now',
-      Next:           'Next Month',
-      Prev:           'Previous Month',
+      NextMonth:      'Next Month',
+      PrevMonth:      'Previous Month',
       NextYear:       'Next Year',
       PrevYear:       'Previous Year',
       
@@ -49,22 +58,16 @@ var Calendar = new Class(Observer, {
       monthNamesShort: $w('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec')
     },
     
-    current: null, // marker to the currently visible calendar
-    instances: {}, // list of registered instances
+    current:   null,
     
-    // finds and/or instanciates a Calendar related to the event target
-    find: function(event) {
-      var element = event.target;
-      
-      if (isElement(element) && element.match(Calendar.Options.cssRule)) {
-        var uid      = $uid(element);
-        return Calendar.instances[uid] = Calendar.instances[uid] ||
-          new Calendar(eval('('+element.get('data-calendar-options')+')'));
-      }
-    },
-    
-    // DEPRECATED scans for the auto-discoverable calendar inputs
-    rescan: function(scope) { }
+    // hides all the popup calendars
+    hideAll: function(that_one) {
+      $$('div.right-calendar').each(function(element) {
+        if (element instanceof Calendar && element !== that_one && element.visible() && !element.inlined()) {
+          element.hide();
+        }
+      });
+    }
   },
   
   /**
@@ -73,82 +76,70 @@ var Calendar = new Class(Observer, {
    * @param Object options
    */
   initialize: function(options) {
-    this.$super(options);
+    this.$super('calendar', options);
+    this.addClass('right-panel');
     
-    this.element = $E('div', {'class': 'right-calendar', calendar: this});
-    this.build().connectEvents().setDate(new Date());
-  },
-  
-  /**
-   * additional options processing
-   *
-   * @param Object options
-   * @return Calendar this
-   */
-  setOptions: function(user_options) {
-    this.$super(user_options);
+    options = this.options;
     
-    var klass   = this.constructor;
-    var options = this.options;
+    this.insert([
+      this.swaps = new Swaps(options),
+      this.greed = new Greed(options)
+    ]);
     
-    with (this.options) {
-      // merging the i18n tables
-      options.i18n = {};
-
-      for (var key in klass.i18n) {
-        i18n[key] = isArray(klass.i18n[key]) ? klass.i18n[key].clone() : klass.i18n[key];
-      }
-      $ext(i18n, (user_options || {}).i18n);
-      
-      // defining the current days sequence
-      options.dayNames = i18n.dayNamesMin;
-      if (firstDay) {
-        dayNames.push(dayNames.shift());
-      }
-      
-      // the monthes table cleaning up
-      if (!isArray(numberOfMonths)) {
-        numberOfMonths = [numberOfMonths, 1];
-      }
-      
-      // min/max dates preprocessing
-      if (minDate) minDate = this.parse(minDate);
-      if (maxDate) {
-        maxDate = this.parse(maxDate);
-        maxDate.setDate(maxDate.getDate() + 1);
-      }
-      
-      // format catching up
-      format = (klass.Formats[format] || format).trim();
-      
-      // setting up the showTime option
-      if (showTime === null) {
-        showTime = format.search(/%[HkIl]/) > -1;
-      }
-      
-      // setting up the 24-hours format
-      if (twentyFourHour === null) {
-        twentyFourHour = format.search(/%[Il]/) < 0;
-      }
-      
-      // enforcing the 24 hours format if the time threshold is some weird number
-      if (timePeriod > 60 && 12 % (timePeriod/60).ceil()) {
-        twentyFourHour = true;
-      }
+    if (options.showTime) {
+      this.insert(this.timepicker = new Timepicker(options));
     }
-
-    return this;
+    
+    if (options.showButtons) {
+      this.insert(this.buttons = new Buttons(options));
+    }
+    
+    this.setDate(new Date()).initEvents();
   },
   
   /**
    * Sets the date on the calendar
    *
+   * NOTE: if it's `true` then it will change the date but
+   *       won't shift the months greed (used in the days picking)
+   *
    * @param Date date or String date
+   * @param Boolean no-shifting mode
    * @return Calendar this
    */
-  setDate: function(date) {
-    this.date = this.prevDate = this.parse(date);
-    return this.update();
+  setDate: function(date, no_shift) {
+    if ((date = this.parse(date))) {
+      var options = this.options;
+
+      // checking the date range constrains
+      if (options.minDate && options.minDate > date) {
+        date = new Date(options.minDate);
+      }
+      if (options.maxDate && options.maxDate < date) {
+        date = new Date(options.maxDate);
+        date.setDate(date.getDate() - 1);
+      }
+
+      // setting the dates greed
+      this._date = no_shift ? new Date(this._date || this.date) : null;
+      this.greed.setDate(this._date || date, date);
+
+      // updating the shifters state
+      if (options.minDate || options.maxDate) {
+        this.swaps.setDate(date);
+      }
+
+      // updating the time-picker
+      if (this.timepicker && !no_shift) {
+        this.timepicker.setDate(date);
+      }
+
+      if (date != this.date) {
+        this.fire('change', this.date = date);
+      }
+    }
+    
+    return this;
   },
   
   /**
@@ -161,27 +152,25 @@ var Calendar = new Class(Observer, {
   },
   
   /**
-   * Hides the calendar
+   * Sets the value as a string
    *
+   * @param String value
    * @return Calendar this
    */
-  hide: function() {
-    this.element.hide(this.options.fxName, {duration: this.options.fxDuration});
-    Calendar.current = null;
-    return this;
+  setValue: function(value) {
+    return this.setDate(value);
   },
   
   /**
-   * Shows the calendar
+   * Returns the value as a string
    *
-   * @param Object {x,y} optional position
-   * @return Calendar this
+   * @param String optional format
+   * @return String formatted date
    */
-  show: function(position) {
-    this.element.show(this.options.fxName, {duration: this.options.fxDuration});
-    return Calendar.current = this;
+  getValue: function(format) {
+    return this.format(format);
   },
-  
+    
   /**
    * Inserts the calendar into the element making it inlined
    *
@@ -190,8 +179,21 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   insertTo: function(element, position) {
-    this.element.addClass('right-calendar-inline').insertTo(element, position);
-    return this;
+    this.addClass('right-calendar-inline');
+    return this.$super(element, position);
+  },
+  
+  /**
+   * Marks it done
+   *
+   * @return Calendar this
+   */
+  done: function() {
+    if (!this.inlined()) {
+      this.hide();
+    }
+    
+    this.fire('done', this.date);
   },
   
   /**
@@ -200,6 +202,83 @@ var Calendar = new Class(Observer, {
    * @return boolean check
    */
   inlined: function() {
-    return this.element.hasClass('right-calendar-inline');
+    return this.hasClass('right-calendar-inline');
+  },
+  
+// protected
+  
+  /**
+   * additional options processing
+   *
+   * @param Object options
+   * @return Calendar this
+   */
+  setOptions: function(user_options) {
+    user_options = user_options || {};
+    this.$super(user_options, $(user_options.trigger || user_options.update));
+    
+    var klass   = this.constructor, options = this.options;
+    
+    // merging the i18n tables
+    options.i18n = {};
+    
+    for (var key in klass.i18n) {
+      options.i18n[key] = isArray(klass.i18n[key]) ? klass.i18n[key].clone() : klass.i18n[key];
+    }
+    $ext(options.i18n, user_options.i18n);
+    
+    // defining the current days sequence
+    options.dayNames = options.i18n.dayNamesMin;
+    if (options.firstDay) {
+      options.dayNames.push(options.dayNames.shift());
+    }
+    
+    // the monthes table cleaning up
+    if (!isArray(options.numberOfMonths)) {
+      options.numberOfMonths = [options.numberOfMonths, 1];
+    }
+    
+    // min/max dates preprocessing
+    if (options.minDate) {
+      options.minDate = this.parse(options.minDate);
+    }
+    if (options.maxDate) {
+      options.maxDate = this.parse(options.maxDate);
+      options.maxDate.setDate(options.maxDate.getDate() + 1);
+    }
+    
+    // format catching up
+    options.format = R(klass.Formats[options.format] || options.format).trim();
+    
+    // setting up the showTime option
+    if (options.showTime === null) {
+      options.showTime = options.format.search(/%[HkIl]/) > -1;
+    }
+    
+    // setting up the 24-hours format
+    if (options.twentyFourHour === null) {
+      options.twentyFourHour = options.format.search(/%[Il]/) < 0;
+    }
+    
+    // enforcing the 24 hours format if the time threshold is some weird number
+    if (options.timePeriod > 60 && 12 % Math.ceil(options.timePeriod/60)) {
+      options.twentyFourHour = true;
+    }
+    
+    if (options.update) {
+      this.assignTo(options.update, options.trigger);
+    }
+
+    return this;
+  },
+  
+  /**
+   * hides all the other calendars on the page
+   *
+   * @return Calendar this
+   */
+  hideOthers: function() {
+    Calendar.hideAll(this);
+    return this;
   }
 });

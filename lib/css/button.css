@@ -1,0 +1,35 @@
+/**
+ * Various buttons shared stylesheet
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+*.right-button {
+  display: inline-block;
+* display: inline;
+* zoom: 1;
+  height: 1em;
+  line-height: 1em;
+  margin: 0;
+  padding: .2em .5em;
+  text-align: center;
+  border: 1px solid #CCC;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  cursor: pointer;
+  color: #333;
+  background-color: #FFF;
+}
+*.right-button:hover {
+  color: #000;
+  border-color: #999;
+  background-color: #DDD;
+}
+
+/** disabled buttons */
+*.right-button-disabled, *.right-button-disabled:hover {
+  color: #888;
+  background: #DDD;
+  border-color: #CCC;
+  cursor: default;
+}

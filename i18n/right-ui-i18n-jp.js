@@ -11,8 +11,8 @@ if (self.Calendar) {
   $ext(Calendar.i18n, {
     Done:           'Done',
     Now:            '今日',
-    Next:           '翌月',
-    Prev:           '前の月',
+    NextMonth:      '翌月',
+    PrevMonth:      '前の月',
     NextYear:       '翌年',
     PrevYear:       '前年',
 

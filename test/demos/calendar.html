@@ -1,8 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <script src="../../lib/right.js" type="text/javascript"></script>
-    <script src="../../lib/initializer.js" type="text/javascript"></script>
+    <title>RightJS UI: Calendar</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('calendar');
+    // ]]>
+    </script>
   </head>
   <body>
     <h2>Single</h2>
@@ -118,15 +124,15 @@
     
     <h2>With Auto Discovery Fields</h2>
     <p>
-      <input type="text" rel="calendar" data-calendar-options="{format:'US'}" />
+      <input type="text" rel="calendar" data-calendar="{format:'US'}" />
       <input type="text" id="input-with-rel" />
-      <a href="" rel="calendar[input-with-rel]">Click me!</a>
+      <a href="" data-calendar="{update:'input-with-rel'}">Click me!</a>
     </p>
     
     <h2>Auto Discovery Fields With Time And Buttons</h2>
     <p>
-      <input type="text" rel="calendar" data-calendar-options="{showTime: true}" />
-      <input type="text" rel="calendar" data-calendar-options="{showButtons: true}" />
+      <input type="text" data-calendar="{showTime: true}" />
+      <input type="text" data-calendar="{showButtons: true}" />
     </p>
     
     <h2>With Some Fancy Formatting</h2>
@@ -210,6 +216,7 @@
       </script>
     </p>
     
+    <p class="white-space"></p>
     <p class="white-space"></p>
   </body>
 </html>

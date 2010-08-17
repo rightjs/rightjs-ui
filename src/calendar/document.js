@@ -1,108 +1,91 @@
 /**
- * Calendar fields autodiscovery via the rel="calendar" attribute
+ * Document level event listeners for navigation and lazy initialization
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-
-
-(function() {
-  // shows a calendar by an event
-  var show_calendar = function(event) {
-    var calendar = Calendar.find(Event.ext(event));
+$(document).on({
+  /**
+   * Watches the focus events and dispalys the calendar
+   * popups when there is a related input element
+   *
+   * @param Event focus-event
+   * @return void
+   */
+  focus: function(event) {
+    var target = event.target instanceof Input ? event.target : null;
     
-    if (calendar && Calendar.current != calendar) {
-      var input     = event.target;
-      var rule      = Calendar.Options.cssRule.split('[').last();
-      var key       = rule.split('=').last().split(']').first();
-      var rel_id_re = new RegExp(key+'\\[(.+?)\\]');
-      var rel_id    = input.get(rule.split('^=')[0]);
-      
-      if (rel_id && (rel_id = rel_id.match(rel_id_re))) {
-        input = $(rel_id[1]);
-        event.stop();
-      }
-      
-      calendar.showAt(input);
+    Calendar.hideAll();
+    
+    if (target && (target.calendar || target.match(Calendar.Options.cssRule))) {
+      (target.calendar || new Calendar({update: target}))
+        .setValue(target.value()).showAt(target);
     }
-  };
+  },
   
-  // on-click handler
-  var on_mousedown = function(event) {
-    show_calendar(event);
-  };
-  
-  var on_click = function(event) {
-    var target = event.target;
-    if (Calendar.find(event)) {
-      if (target.tagName == 'A')
-        event.stop();
-    } else if (Calendar.current) {
-      if (![target].concat(target.parents()).first('hasClass', 'right-calendar')) {
-        Calendar.current.hide();
-      }
-    }
-  };
-  
-  // on-focus handler
-  var on_focus = function(event) {
-    show_calendar(event);
-  };
-  
-  // on-blur handler
-  var on_blur = function(event) {
-    var calendar = Calendar.find(Event.ext(event));
+  /**
+   * Watches the input elements blur events
+   * and hides shown popups
+   *
+   * @param Event blur-event
+   * @return void
+   */
+  blur: function(event) {
+    var target = event.target, calendar = target.calendar;
     
     if (calendar) {
-      // We delay hiding of the calendar block to give calendar's onclick handler
-      // a chance to cancel hiding by killing the timer, as a workaround for IE issues
-      calendar.timer = (
-        function() { this.hide(); }.bind(calendar)
-      ).delay(200);
+      // we use the delay so it didn't get hidden when the user clicks the calendar itself
+      calendar._hide_delay = R(function() {
+        calendar.hide();
+      }).delay(200);
     }
-  };
+  },
   
-  var on_keydown = function(event) {
-    if (Calendar.current) {
-      var name;
-
-      switch(event.keyCode) {
-        case 27: name = 'hide';      break;
-        case 37: name = 'prevDay';   break;
-        case 39: name = 'nextDay';   break;
-        case 38: name = 'prevWeek';  break;
-        case 40: name = 'nextWeek';  break;
-        case 34: name = 'nextMonth'; break;
-        case 33: name = 'prevMonth'; break;
-        case 13:
-           Calendar.current.select(Calendar.current.date);
-           name = 'done';
-           break;
-      }
-
-      if (name) {
-        Calendar.current[name]();
+  /**
+   * Catches clicks on trigger elements
+   *
+   * @param Event click
+   * @return void
+   */
+  click: function(event) {
+    var target = (event.target instanceof Element) ? event.target : null;
+    
+    if (target && (target.calendar || target.match(Calendar.Options.cssRule))) {
+      if (!(target instanceof Input)) {
         event.stop();
+        (target.calendar || new Calendar({trigger: target}))
+          .hide(null).toggleAt(target.assignedInput);
+      }
+    } else if (!event.find('div.right-calendar')){
+      Calendar.hideAll();
+    }
+  },
+  
+  /**
+   * Catching the key-downs to navigate in the currently
+   * opened Calendar hover
+   *
+   * @param Event event
+   * @return void
+   */
+  keydown: function(event) {
+    var calendar = Calendar.current, name = ({
+      27: 'hide',        // Escape
+      37: 'prev-day',    // Left  Arrow
+      39: 'next-day',    // Right Arrow
+      38: 'prev-week',   // Up Arrow
+      40: 'next-week',   // Down Arrow
+      33: 'prev-month',  // Page Up
+      34: 'next-month',  // Page Down
+      13: 'done'         // Enter
+    })[event.keyCode];
+    
+    if (name && calendar && calendar.visible()) {
+      event.stop();
+      if (isFunction(calendar[name])) {
+        calendar[name]();
+      } else {
+        calendar.fire(name);
       }
     }
-  };
-  
-  
-  document.on({
-    mousedown: on_mousedown,
-    click:     on_click,
-    keydown:   on_keydown
-  });
-  
-  // the focus and blur events need some extra care
-  if (Browser.IE) {
-    // IE version
-    document.attachEvent('onfocusin', on_focus);
-    document.attachEvent('onfocusout', on_blur);
-  } else {
-    // W3C version
-    document.addEventListener('focus', on_focus, true);
-    document.addEventListener('blur',  on_blur,  true);
   }
-})();
-
-
+});

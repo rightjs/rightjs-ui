@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: US English module
  *
- * Copyright (C) Nikolay V. Nemshilov
+ * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
   $ext(Calendar.Options, {

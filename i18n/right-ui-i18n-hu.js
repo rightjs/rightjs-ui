@@ -7,8 +7,8 @@ if (self.Calendar) {
   $ext(Calendar.i18n, {
     Done:            'Kész',
     Now:             'Most',
-    Next:            'Következő hónap',
-    Prev:            'Előző hónap',
+    NextMonth:       'Következő hónap',
+    PrevMonth:       'Előző hónap',
     NextYear:        'Következő év',
     PrevYear:        'Előző év',
 

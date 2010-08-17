@@ -38,15 +38,15 @@ Calendar.include({
     
     if (isString(string) && string) {
       var tpl = RegExp.escape(this.options.format);
-      var holders = tpl.match(/%[a-z]/ig).map('match', /[a-z]$/i).map('first').without('%');
+      var holders = R(tpl.match(/%[a-z]/ig)).map('match', /[a-z]$/i).map('first').without('%');
       var re  = new RegExp('^'+tpl.replace(/%p/i, '(pm|PM|am|AM)').replace(/(%[a-z])/ig, '(.+?)')+'$');
       
-      var match = string.trim().match(re);
+      var match = R(string).trim().match(re);
       
       if (match) {
         match.shift();
         
-        var year = null, month = null, date = null, hour = null, minute = null, second = null, meridian;
+        var year = null, month = null, hour = null, minute = null, second = null, meridian;
         
         while (match.length) {
           var value = match.shift();
@@ -57,7 +57,7 @@ Calendar.include({
           } else if (key.toLowerCase() == 'p') {
             meridian = value.toLowerCase();
           } else {
-            value = value.toInt();
+            value = parseInt(value);
             switch(key) {
               case 'd': 
               case 'e': date   = value; break;
@@ -86,7 +86,7 @@ Calendar.include({
       date = new Date(string);
     }
     
-    return (!date || isNaN(date.getTime())) ? new Date : date;
+    return (!date || isNaN(date.getTime())) ? null : date;
   },  
   
   /**
@@ -112,19 +112,19 @@ Calendar.include({
       A: i18n.dayNames[day],
       b: i18n.monthNamesShort[month],
       B: i18n.monthNames[month],
-      d: (date < 10 ? '0' : '') + date,
+      d: zerofy(date),
       e: ''+date,
       m: (month < 9 ? '0' : '') + (month+1),
       y: (''+year).substring(2,4),
       Y: ''+year,
-      H: (hour < 10 ? '0' : '')+ hour,
+      H: zerofy(hour),
       k: '' + hour,
       I: (hour > 0 && (hour < 10 || (hour > 12 && hour < 22)) ? '0' : '') + hour_ampm,
       l: '' + hour_ampm,
       p: hour < 12 ? 'AM' : 'PM',
       P: hour < 12 ? 'am' : 'pm',
-      M: (minute < 10 ? '0':'')+minute,
-      S: (second < 10 ? '0':'')+second,
+      M: zerofy(minute),
+      S: zerofy(second),
       '%': '%'
     };
     

@@ -7,8 +7,8 @@ if (self.Calendar) {
   $ext(Calendar.i18n, {
     Done:           'Feito',
     Now:            'Agora',
-    Next:           'Próximo Mês',
-    Prev:           'Mês Anterior',
+    NextMonth:      'Próximo Mês',
+    PrevMonth:      'Mês Anterior',
     NextYear:       'Próximo ano',
     PrevYear:       'Ano anterior',
 
