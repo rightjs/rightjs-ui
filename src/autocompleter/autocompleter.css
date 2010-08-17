@@ -3,8 +3,8 @@
  *
  * The elements structure is simple
  *
- *   <div class="right-autocompleter">
- *     <ul class="right-dd-menu">
+ *   <div class="rui-autocompleter">
+ *     <ul class="rui-dd-menu">
  *       <li>boo</li>
  *       <li>boo</li>
  *       <li>boo</li>
@@ -17,7 +17,7 @@
 
 /* This element works as a simple relatively positioned anchor
    so we could correctly position the spinner and the dd-menu */
-div.right-autocompleter {
+div.rui-autocompleter {
   margin: 0;
   padding: 0;
   display: inline;
@@ -27,16 +27,16 @@ div.right-autocompleter {
   position: absolute;
 }
 
-div.right-autocompleter div.right-spinner {
+div.rui-autocompleter div.rui-spinner {
   border: none;
   background: none;
   margin-left: -0.1em;
 }
 
-div.right-autocompleter ul.right-dd-menu {
+div.rui-autocompleter ul.rui-dd-menu {
   border-top-color: #DDD;
   border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-rui-radius: 0;
   -moz-border-radius-topleft: 0;
   -moz-border-radius-topright: 0;
   -webkit-border-top-left-radius: 0;

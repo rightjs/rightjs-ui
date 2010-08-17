@@ -55,7 +55,7 @@ $(document).on({
         (target.calendar || new Calendar({trigger: target}))
           .hide(null).toggleAt(target.assignedInput);
       }
-    } else if (!event.find('div.right-calendar')){
+    } else if (!event.find('div.rui-calendar')){
       Calendar.hideAll();
     }
   },

@@ -3,10 +3,10 @@
  *
  * Elements have the following structure:
  *
- * <div class="right-calendar right-panel">
+ * <div class="rui-calendar rui-panel">
  *   <div class="swaps">
- *     <div class="right-button next-month">&lsaquo;</div>
- *     <div class="right-button prev-month">&rsaquo:</div>
+ *     <div class="rui-button next-month">&lsaquo;</div>
+ *     <div class="rui-button prev-month">&rsaquo:</div>
  *   </div>
  *
  *   <table class="greed">
@@ -35,8 +35,8 @@
  *   </div>
  *
  *   <div class="buttons">
- *     <div class="right-button">Now</div>
- *     <div class="right-button">Done</div>
+ *     <div class="rui-button">Now</div>
+ *     <div class="rui-button">Done</div>
  *   </div>
  *
  * </div>
@@ -46,17 +46,17 @@
  */
 
 /* RESET */
-div.right-calendar .swaps,
-div.right-calendar .greed,
-div.right-calendar .timepicker,
-div.right-calendar .buttons,
-div.right-calendar table,
-div.right-calendar table tr,
-div.right-calendar table th,
-div.right-calendar table td,
-div.right-calendar table tbody,
-div.right-calendar table thead,
-div.right-calendar table caption {
+div.rui-calendar .swaps,
+div.rui-calendar .greed,
+div.rui-calendar .timepicker,
+div.rui-calendar .buttons,
+div.rui-calendar table,
+div.rui-calendar table tr,
+div.rui-calendar table th,
+div.rui-calendar table td,
+div.rui-calendar table tbody,
+div.rui-calendar table thead,
+div.rui-calendar table caption {
   background: none;
   border: none;
   width: auto;
@@ -66,7 +66,7 @@ div.right-calendar table caption {
 }
 
 /** The inlined version styles */
-div.right-calendar-inline {
+div.rui-calendar-inline {
   position: relative;
   display: inline-block;
   * display: inline;
@@ -77,55 +77,55 @@ div.right-calendar-inline {
 }
 
 /** the month/year swapping buttons block */
-div.right-calendar .swaps {
+div.rui-calendar .swaps {
   position: relative;
 }
-div.right-calendar .swaps .right-button {
+div.rui-calendar .swaps .rui-button {
   position: absolute;
   float: left;
   width: 1em;
   padding: .15em .4em;
 }
-div.right-calendar .swaps .next-month {
+div.rui-calendar .swaps .next-month {
   right: 0em;
   _right: .5em;
 }
-div.right-calendar .swaps .prev-year {
+div.rui-calendar .swaps .prev-year {
   left: 2.05em;
 }
-div.right-calendar .swaps .next-year {
+div.rui-calendar .swaps .next-year {
   right: 2.05em;
   _right: 2.52em;
 }
 
 /** the months greed styles */
-div.right-calendar .greed {
+div.rui-calendar .greed {
   border-spacing: 0px;
   border-collapse: collapse;
   border-size: 0;
 }
-div.right-calendar .greed td {
+div.rui-calendar .greed td {
   vertical-align: top;
   padding-left: .4em;
 }
-div.right-calendar .greed > tbody > tr > td:first-child {
+div.rui-calendar .greed > tbody > tr > td:first-child {
   padding: 0;
 }
 
 /** a single month block styles */
-div.right-calendar .month {
+div.rui-calendar .month {
   margin-top: .2em;
   border-spacing: 1px;
   border-collapse: separate;
 }
-div.right-calendar .month caption {
+div.rui-calendar .month caption {
   text-align: center;
 }
-div.right-calendar .month th {
+div.rui-calendar .month th {
   color: #666;
   text-align: center;
 }
-div.right-calendar .month td {
+div.rui-calendar .month td {
   text-align: right;
   padding: .1em .3em;
   background-color: #FFF;
@@ -136,24 +136,24 @@ div.right-calendar .month td {
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
 }
-div.right-calendar .month td:hover {
+div.rui-calendar .month td:hover {
   background-color: #CCC;
   border-color: #AAA;
   color: #000;
 }
-div.right-calendar .month td.blank {
+div.rui-calendar .month td.blank {
   background: transparent;
   cursor: default;
   border: none;
 }
-div.right-calendar .month td.selected {
+div.rui-calendar .month td.selected {
   background-color: #BBB;
   border-color: #AAA;
   color: #222;
   font-weight: bold;
   padding: .1em .2em;
 }
-div.right-calendar .month td.disabled {
+div.rui-calendar .month td.disabled {
   color: #888;
   background: #EEE;
   border-color: #CCC;
@@ -161,25 +161,25 @@ div.right-calendar .month td.disabled {
 }
 
 /** the timepicker block */
-div.right-calendar .timepicker {
+div.rui-calendar .timepicker {
   border-top: 1px solid #ccc;
   margin-top: .3em;
   padding-top: .5em;
   text-align: center;
 }
-div.right-calendar .timepicker select {
+div.rui-calendar .timepicker select {
   margin: 0 .4em;
 }
 
 /** the bottom buttons block */
-div.right-calendar .buttons {
+div.rui-calendar .buttons {
   position: relative;
   margin-top: .5em;
 }
-div.right-calendar .buttons div.right-button {
+div.rui-calendar .buttons div.rui-button {
   width: 3.2em;
 }
-div.right-calendar .buttons .done {
+div.rui-calendar .buttons .done {
   position: absolute;
   right: .5em;
   top: 0;

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-*.right-button {
+*.rui-button {
   display: inline-block;
 * display: inline;
 * zoom: 1;
@@ -20,14 +20,14 @@
   color: #333;
   background-color: #FFF;
 }
-*.right-button:hover {
+*.rui-button:hover {
   color: #000;
   border-color: #999;
   background-color: #DDD;
 }
 
 /** disabled buttons */
-*.right-button-disabled, *.right-button-disabled:hover {
+*.rui-button-disabled, *.rui-button-disabled:hover {
   color: #888;
   background: #DDD;
   border-color: #CCC;

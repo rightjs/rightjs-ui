@@ -38,7 +38,7 @@ var Autocompleter = new Widget({
     
     this
       .$super('autocompleter', options)
-      .insert(this.list = $E('ul', {'class': 'right-dd-menu'}))
+      .insert(this.list = $E('ul', {'class': 'rui-dd-menu'}))
       .insertTo(this.input, 'after')
       .onMousedown(this.clicked);
     
@@ -158,7 +158,7 @@ var Autocompleter = new Widget({
   
   // handles mouse clicks on the list element
   clicked: function(event) {
-    this.done(event.find('ul.right-dd-menu > li'));
+    this.done(event.find('ul.rui-dd-menu > li'));
   },
   
   // handles the key-press events

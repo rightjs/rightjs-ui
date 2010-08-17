@@ -62,7 +62,7 @@ var Calendar = new Widget({
     
     // hides all the popup calendars
     hideAll: function(that_one) {
-      $$('div.right-calendar').each(function(element) {
+      $$('div.rui-calendar').each(function(element) {
         if (element instanceof Calendar && element !== that_one && element.visible() && !element.inlined()) {
           element.hide();
         }
@@ -77,7 +77,7 @@ var Calendar = new Widget({
    */
   initialize: function(options) {
     this.$super('calendar', options);
-    this.addClass('right-panel');
+    this.addClass('rui-panel');
     
     options = this.options;
     
@@ -179,7 +179,7 @@ var Calendar = new Widget({
    * @return Calendar this
    */
   insertTo: function(element, position) {
-    this.addClass('right-calendar-inline');
+    this.addClass('rui-calendar-inline');
     return this.$super(element, position);
   },
   
@@ -202,7 +202,7 @@ var Calendar = new Widget({
    * @return boolean check
    */
   inlined: function() {
-    return this.hasClass('right-calendar-inline');
+    return this.hasClass('rui-calendar-inline');
   },
   
 // protected
