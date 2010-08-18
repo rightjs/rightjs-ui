@@ -12,4 +12,5 @@ div.rui-re-anchor {
   float: none;
   display: inline;
   position: absolute;
+  z-index: 9999;
 }

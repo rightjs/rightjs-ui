@@ -5,7 +5,8 @@
  */
 load('util/test/rightly_check.js');
 
-rightly_check('build/right-autocompleter-src.js', [
+rightly_check('build/right-colorpicker-src.js', [
   "Do not use 'new' for side effects.",
-  "Missing radix parameter."
+  "Missing radix parameter.",
+  "Use '===' to compare with '0'."
 ]);

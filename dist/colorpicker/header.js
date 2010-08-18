@@ -5,4 +5,3 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-if (!self.RightJS) throw "Gimme RightJS";
