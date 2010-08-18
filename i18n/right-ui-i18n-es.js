@@ -30,8 +30,8 @@ if (self.Lightbox) {
 
 if (self.InEdit) {
   $ext(InEdit.i18n, {
-    save:   "Guardar",
-    cancel: "Borrar"
+    Save:   "Guardar",
+    Cancel: "Borrar"
   });
 }
 

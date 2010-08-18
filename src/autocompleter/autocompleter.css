@@ -30,6 +30,11 @@
 .rui-autocompleter-spinner {
   border: none !important;
   background: none !important;
-  margin-left: -0.1 !important;
+  position: absolute;
+  z-index: 9999;
 }
 
+.rui-autocompleter-spinner div {
+  margin-top: .2em !important;
+  *margin-top: 0.1em !important;
+}

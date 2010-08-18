@@ -37,8 +37,8 @@ if (self.Lightbox) {
 
 if (self.InEdit) {
   $ext(InEdit.i18n, {
-    save:   "Save",
-    cancel: "Cancel"
+    Save:   "Save",
+    Cancel: "Cancel"
   });
 }
 

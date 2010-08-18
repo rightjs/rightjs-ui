@@ -22,13 +22,12 @@ div.rui-spinner, div.rui-spinner div {
 }
 
 div.rui-spinner {
+  text-align: center;
   white-space: nowrap;
-  position: absolute;
-  z-index: 9999;
   background: #EEE;
   border: 1px solid #DDD;
   height: 1.2em;
-  padding: .1em .2em;
+  padding: 0 .2em;
 }
 
 div.rui-spinner div {

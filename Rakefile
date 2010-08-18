@@ -87,7 +87,7 @@ task :pack do
         end.join("\n")
       )
     end
-    rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget}.js")
+    rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget.gsub('_', '-')}.js")
     
     $rutils[widget] = rutil
   end
