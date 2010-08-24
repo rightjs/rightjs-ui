@@ -106,7 +106,7 @@ var Autocompleter = new Widget('UL', {
 
   // works with the 'prev' and 'next' methods
   pick: function(which_one) {
-    var items   = this.subNodes(),
+    var items   = this.children(),
         current = items.first('hasClass', 'current'),
         index   = items.indexOf(current);
     

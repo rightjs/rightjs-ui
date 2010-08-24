@@ -200,7 +200,7 @@ var Rater = new Class(Observer, {
 
   // initializes the script
   init: function() {
-    this.stars = this.element.subNodes();
+    this.stars = this.element.children();
     
     this.stars.each(function(element, index) {
       element.onMouseover(this.hovered.bind(this, index))

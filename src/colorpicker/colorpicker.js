@@ -179,7 +179,7 @@ var Colorpicker = new Widget({
     
     // adjusting the field pointer position
     var pointer = this.field.pointer._.style,
-      field = this.field.sizes(),
+      field = this.field.size(),
       top  = field.y - this.bright * field.y - 2,
       left = this.satur * field.x - 2;
     
@@ -188,7 +188,7 @@ var Colorpicker = new Widget({
     
     // adjusting the ting pointer position
     var tint = this.tint, position;
-    field = this.colors.sizes();
+    field = this.colors.size();
   
     if (tint[1] == 0) { // the red-blue section
       position = tint[0] == 1 ? tint[2] : (2 - tint[0]);

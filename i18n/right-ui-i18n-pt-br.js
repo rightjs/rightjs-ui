@@ -22,9 +22,9 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: 'Fechar',
-    PrevTitle:  'Anterior',
-    NextTitle:  'Próxima'
+    Close: 'Fechar',
+    Prev:  'Anterior',
+    Next:  'Próxima'
   });
 }
 

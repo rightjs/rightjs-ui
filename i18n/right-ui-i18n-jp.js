@@ -26,9 +26,9 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: '閉じる',
-    PrevTitle:  '前の画像',
-    NextTitle:  '次の画像'
+    Close: '閉じる',
+    Prev:  '前の画像',
+    Next:  '次の画像'
   });
 }
 

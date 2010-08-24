@@ -29,9 +29,9 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: 'Bezár',
-    PrevTitle:  'Előző kép',
-    NextTitle:  'Következő kép'
+    Close: 'Bezár',
+    Prev:  'Előző kép',
+    Next:  'Következő kép'
   });
 }
 

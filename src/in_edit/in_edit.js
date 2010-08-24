@@ -109,7 +109,7 @@ var InEdit = new Widget('FORM', {
   send: function(event) {
     if (event) { event.stop(); }
     
-    this.spinner.show().resize(this.submit.sizes());
+    this.spinner.show().resize(this.submit.size());
     this.submit.hide();
     
     this.xhr = new Xhr(this.options.url, Object.merge(this.options.Xhr, {

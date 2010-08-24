@@ -3,200 +3,184 @@
  * 
  * The elements have the following structure
  * 
- * <div class="lightbox">
- *   <div class="lightbox-locker"></div>
- *   <div class="lightbox-dialog">
- *     <div class="lightbox-caption"></div>
- *     <div class="lightbox-body-wrap">
- *       <div class="lightbox-body">
- *         <div class="lightbox-body-content"></div>
- *         <div class="lightbox-body-lock">
- *           <div class="lightbox-body-lock-spinner"></div>
+ * <div class="rui-lightbox">
+ *   <div class="rui-lightbox-locker"></div>
+ *
+ *   <div class="rui-lightbox-dialog">
+ *     <div class="rui-lightbox-title"></div>
+ *
+ *     <div class="rui-lightbox-body">
+ *       <div class="rui-lightbox-body-inner">
+ *         <div class="rui-lightbox-body-locker">
+ *           <div class="rui-spinner"></div>
+ *         </div>
+ *         <div class="rui-lightbox-scroller">
+ *           <div class="rui-lightbox-content">
+ *             Your content in here
+ *           </div>
  *         </div>
  *       </div>
  *     </div>
- *     <div class="lightbox-close-button"></div>
- *     <div class="lightbox-prev-link"></div>
- *     <div class="lightbox-next-link"></div>
+ *     
+ *     <div class="rui-lightbox-nav">
+ *       <div class="close">&times;</div>
+ *       <div class="prev">&larrow;</div>
+ *       <div class="next">&rarrow;</div>
+ *     </div>
  *   </div>
  * </div>
  * 
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  * 
  */
-div.lightbox {
+
+div.rui-lightbox {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  text-align: center;
+  top: 0;
+  left: 0;
   z-index: 9999;
+  float: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: center;
 }
 
-div.ligthbox div.right-calendar {
-  z-index: 99999;
-}
-
-div.lightbox div {
-  line-height: normal;
-}
-
-div.lightbox-locker {
+div.rui-lightbox-locker {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
   background-color: #000;
-  opacity: 0.84;
-  filter: alpha(opacity=84);
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  cursor: default;
 }
 
-div.lightbox-dialog {
+/** the dialog block basic styles */
+div.rui-lightbox-dialog {
   display: inline-block;
   * display: inline;
   * zoom: 1;
   position: relative;
   text-align: left;
-  padding-bottom: 1.6em;
 }
 
-div.lightbox-body-wrap {
-  background-color: white;
-  padding: 1em;
-  border-radius: .6em;
-  -moz-border-radius: .6em;
-  -webkit-border-radius: .6em;
-}
-
-div.lightbox-body {
-  position: relative;
-  height: 10em;
-  width: 10em;
-  min-height: 10em;
-  min-width: 10em;
-  overflow: hidden;
-  *background-color: white;
-}
-
-div.lightbox-content {
-  position: absolute;
-  *background-color: white;
-}
-
-div.lightbox-body-lock {
-  background-color: white;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
-
-div.lightbox-body-lock-spinner {
-  display: none;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-div.lightbox-body-lock-spinner div {
-  float: left;
-  width: .5em;
-  height: .9em;
-  background: #AAA;
-  margin-left: .1em;
-  -moz-border-radius: .15em;
-  -webkit-border-radius: .15em;
-}
-div.lightbox-body-lock-spinner div.glow {
-  background: #666;
-  height: 1em;
-  margin-top: -0.05em;
-}
-
-div.lightbox-body-lock-loading div.lightbox-body-lock-spinner {
-  display: inline-block;
-  * display: inline;
-  * zoom: 1;
-}
-
-div.lightbox-body-lock-transparent {
-  background: none;
-}
-
-div.lightbox-caption {
+div.rui-lightbox-title {
   height: 1.2em;
-  margin: 0 .7em;
   margin-bottom: .1em;
   white-space: nowrap;
   color: #DDD;
   font-weight: bold;
   font-size: 1.6em;
   font-family: Helvetica;
+  text-shadow: #000 .05em .1em .2em;
 }
 
-div.lightbox-close-button, div.lightbox-prev-link, div.lightbox-next-link  {
-  position: absolute;
-  bottom: 0;
-  color: #888;
-  cursor: pointer;
-  font-size: 150%;
-  font-weight: bold;
-  font-family: Arial;
+/** the dialog body-block */
+div.rui-lightbox-body {
+  background-color: white;
+  padding: 1em;
+  border-radius: .5em;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  box-shadow: #000 .1em .2em 1.5em;
+  -moz-box-shadow: #000 .1em .2em 1.5em;
+  -webkit-box-shadow: #000 .1em .2em 1.5em;
 }
-div.lightbox-close-button:hover, div.lightbox-prev-link:hover, div.lightbox-next-link:hover {
+div.rui-lightbox-body-inner {
+  position: relative;
+}
+div.rui-lightbox-scroller {
+  overflow: hidden;
+}
+div.rui-lightbox-content {
+  display: inline-block;
+  * display: inline;
+  * zoom: 1;
+  min-height: 10em;
+  min-width:  10em;
+  _height: 10em;
+  _width:  10em;
+}
+
+/** The dialog inner locker */
+div.rui-lightbox-body-locker {
+  background-color: white;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+div.rui-lightbox-body-locker div.rui-spinner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border: none;
+  background: none;
+  font-size: 150%;
+}
+
+/** the navigation units */
+div.rui-lightbox-navigation {
+  color: #888;
+  font-size: 150%;
+  font-family: Arial;
+  height: 1em;
+  user-select:none;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+div.rui-lightbox-navigation div {
+  cursor: pointer;
+  position: absolute;
+}
+div.rui-lightbox-navigation div:hover {
   color: white;
 }
-
-div.lightbox-close-button {
-  right: .5em;
-}
-
-div.lightbox-prev-link, div.lightbox-next-link {
-  padding: 0 .2em;
-  bottom: 2px;
-}
-div.lightbox-prev-link {
-  left: .2em;
-}
-
-div.lightbox-next-link {
+div.rui-lightbox-navigation div.next {
   left: 2em;
 }
+div.rui-lightbox-navigation div.close {
+  right: 0;
+}
 
 
-/* Lightbox images displaying styles */
-div.lightbox-image div.lightbox-body-wrap,
-div.lightbox-media div.lightbox-body-wrap {
+/** Various media-types dialog styles */
+div.rui-lightbox-image div.rui-lightbox-body,
+div.rui-lightbox-media div.rui-lightbox-body {
   padding: 0;
   border: 1px solid #777;
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
 }
-div.lightbox-image div.lightbox-content img {
+div.rui-lightbox-image div.rui-lightbox-content,
+div.rui-lightbox-media div.rui-lightbox-content {
+  min-height: 12em;
+  min-width:  12em;
+  _height: 12em;
+  _width:  12em;
+}
+div.rui-lightbox-image div.rui-lightbox-content img {
   vertical-align: middle;
 }
 
-div.lightbox-image div.lightbox-caption,
-div.lightbox-media div.lightbox-caption {
-  margin-left: .2em;
-}
-
-div.lightbox-image div.lightbox-body-wrap, div.lightbox-image div.lightbox-body-lock,
-div.lightbox-media div.lightbox-body-wrap, div.lightbox-media div.lightbox-body-lock {
+div.rui-lightbox-image div.rui-lightbox-body, div.rui-lightbox-image div.rui-lightbox-body-locker,
+div.rui-lightbox-media div.rui-lightbox-body, div.rui-lightbox-media div.rui-lightbox-body-locker {
   background-color: #DDD;
 }
 
-div.lightbox-image div.lightbox-body-lock-spinner {
-  bottom: 1em;
-  right: 1em;
-}
-
-div.lightbox-image div.lightbox-close-button {
-  right: .2em;
-}
-div.lightbox-image div.lightbox-prev-link {
-  left: 0;
+div.rui-lightbox-image div.rui-lightbox-body-locker div.rui-spinner,
+div.rui-lightbox-media div.rui-lightbox-body-locker div.rui-spinner {
+  bottom: .5em;
+  right:  .5em;
 }

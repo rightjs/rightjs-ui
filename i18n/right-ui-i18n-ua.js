@@ -27,9 +27,9 @@ if (self.Calendar) {
 
 if (self.Lightbox) {
   $ext(Lightbox.i18n, {
-    CloseTitle: 'Сховати',
-    PrevTitle:  'Попереднє зображення',
-    NextTitle:  'Наступне зображення'
+    Close: 'Сховати',
+    Prev:  'Попереднє зображення',
+    Next:  'Наступне зображення'
   });
 }
 
