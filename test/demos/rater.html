@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS UI: Rater</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('rater');
+    // ]]>
+    </script>
+  </head>
+  <body>
+    <h2>Simple Rater</h2>
+    <p>
+      Just some simple raters for styles check
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div class="active">&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      <div class="rui-rater">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+      </div>
+    </p>
+    
+    <h2>Disabled Rater</h2>
+    <p>
+      <div class="rui-rater" data-rater="{disabled:true}">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    <p>
+      This one gets disabled once you select something
+      <div class="rui-rater" data-rater="{disableOnVote:true}">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    
+    <h2>Assigned To A Field</h2>
+    <p>
+      <div class="rui-rater" data-rater="{update:'the-field'}">
+        <div class="active">&#9733;</div>
+        <div class="active">&#9733;</div>
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+      <input type="text" id="the-field" size="1" value="2" />
+    </p>
+    
+    <h2>Remote Rater</h2>
+    <p>
+      <div class="rui-rater" data-rater="{url:'rater/xhr.html', Xhr: {method:'get',onComplete:function(){RightJS(this.text).evalScripts()}}}">
+        <div class="active">&#9733;</div>
+        <div>&#9733;</div><div>&#9733;</div><div>&#9733;</div><div>&#9733;</div>
+      </div>
+    </p>
+    
+    <h2>Auto-Generated</h2>
+    <div id="auto-generated"></div>
+    <script type="text/javascript">
+    // <![CDATA[
+      RightJS(6).times(function(i) {
+        new Rater({
+          halfs: true, value: i
+        }).insertTo(RightJS.$E('p').insertTo('auto-generated'));
+      });
+    // ]]>
+    </script>
+    
+    <p class="white-space"></p>
+  </body>
+</html>

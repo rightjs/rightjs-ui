@@ -1,13 +1,15 @@
 /**
  * The Rating widget
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Rater = new Class(Observer, {
+var Rater = new Widget({
   extend: {
     EVENTS: $w('change hover send'),
     
     Options: {
+      html:          '&#9733;', // the dot html code
+      
       size:          5,      // number of stars in the line
       value:         null,   // default value
       update:        null,   // an element to update
@@ -18,10 +20,7 @@ var Rater = new Class(Observer, {
       url:           null,   // an url to send results with AJAX
       param:         'rate', // the value param name 
       Xhr:           null    // additional Xhr options
-    },
-        
-    // DEPRECATED: searches and initializes rating units
-    rescan: function(scope) {}
+    }
   },
   
   /**
@@ -30,18 +29,36 @@ var Rater = new Class(Observer, {
    * @param mixed element reference or an options hash
    * @param Object options hash
    */
-  initialize: function() {
-    var args = $A(arguments);
+  initialize: function(options) {
+    this
+      .$super('rater', options)
+      .on({
+        click:      this._clicked,
+        mouseover:  this._hovered,
+        mouseout:   this._left
+      });
     
-    this.element = (args[0] && !isHash(args[0])) ? $(args[0]) : null;
-    this.$super(isHash(args.last()) ? args.last() : this.element ? eval('('+this.element.get('data-rater-options')+')') : null);
+    if (this.empty()) {
+      for (var i=0; i < this.options.size; i++) {
+        this.insert('<div>'+ this.options.html + '</div>');
+      }
+    }
     
-    if (!this.element) this.element = this.build();
+    options = this.options;
     
-    if (!this.options.value)
-      this.options.value = this.element.select('.right-rater-glow').length;
+    if (options.value === null) {
+      options.value = this.find('.active').length;
+    }
     
-    this.element._rater = this.init();
+    this.setValue(options.value);
+    
+    if (options.disabled) {
+      this.disable();
+    }
+    
+    if (options.update) {
+      this.assignTo(options.update);
+    }
   },
   
   /**
@@ -53,13 +70,14 @@ var Rater = new Class(Observer, {
   setValue: function(value) {
     if (!this.disabled()) {
       // converting the type and rounding the value
-      value = isString(value) ? value.toInt() : value;
-      value = isNumber(value) ? value.round() : 0;
+      value = isString(value) ? R(value).toInt() : value;
+      value = isNumber(value) ? R(value).round() : 0;
       
       // checking constraints
-      if (value > this.options.size) value = this.options.size;
-      else if (value < 0) value = 0;
+      value = R(value).max(this.options.size);
+      value = R(value).min(0);
       
+      // highlighting the value
       this.highlight(value);
       
       if (this.value != value) {
@@ -80,48 +98,35 @@ var Rater = new Class(Observer, {
   },
   
   /**
-   * Inserts the rater into the given element
-   *
-   * @param mixed element reference
-   * @param String optional position
-   * @return Rater this
-   */
-  insertTo: function(element, position) {
-    this.element.insertTo(element, position);
-    return this;
-  },
-  
-  /**
    * Assigns the unit to work with an input element
    *
    * @param mixed element reference
    * @return Rater this
    */
   assignTo: function(element) {
-    var assign  = function(element, value) {
-      if (element = $(element)) {
-        if (value === undefined || value === null) value = '';
-        element[element.setValue ? 'setValue' : 'update'](''+value);
+    var assign  = R(function(element, event) {
+      if ((element = $(element))) {
+        element[element.setValue ? 'setValue' : 'update'](''+event.target.value);
       }
-    }.curry(element);
+    }).curry(element);
     
-    var connect = function(element, object) {
-      var element = $(element);
+    var connect = R(function(element, object) {
+      element = $(element);
       if (element && element.onChange) {
-        element.onChange(function() {
-          this.setValue(element.value);
-        }.bind(object));
+        element.onChange(R(function() {
+          this.setValue(element.value());
+        }).bind(object));
       }
-    }.curry(element);
+    }).curry(element);
     
     if ($(element)) {
-      assign(this.value);
+      assign({target: this});
       connect(this);
     } else {
-      document.onReady(function() {
-        assign(this.value);
+      $(document).onReady(R(function() {
+        assign({target: this});
         connect(this);
-      }.bind(this));
+      }.bind(this)));
     }
     
     return this.onChange(assign);
@@ -134,7 +139,8 @@ var Rater = new Class(Observer, {
    */
   send: function() {
     if (this.options.url) {
-      new Xhr(this.options.url, this.options.Xhr).send(this.options.param+"="+this.value);
+      this.request = new Xhr(this.options.url, this.options.Xhr)
+        .send(this.options.param+"="+this.value);
       this.fire('send', this.value, this);
     }
     return this;
@@ -146,8 +152,7 @@ var Rater = new Class(Observer, {
    * @return Rater this
    */
   disable: function() {
-    this.element.addClass('right-rater-disabled');
-    return this;
+    return this.addClass('rui-rater-disabled');
   },
   
   /**
@@ -156,8 +161,7 @@ var Rater = new Class(Observer, {
    * @return Rater this
    */
   enable: function() {
-    this.element.removeClass('right-rater-disabled');
-    return this;
+    return this.removeClass('rui-rater-disabled');
   },
   
   /**
@@ -166,64 +170,41 @@ var Rater = new Class(Observer, {
    * @return boolean
    */
   disabled: function() {
-    return this.element.hasClass('right-rater-disabled');
+    return this.hasClass('rui-rater-disabled');
   },
   
 // protected
 
   // callback for 'hover' event
-  hovered: function(index) {
-    if (!this.disabled()) {
+  _hovered: function(event) {
+    var index = this.children().indexOf(event.target);
+    if (!this.disabled() && index > -1) {
       this.highlight(index + 1);
       this.fire('hover', index + 1, this);
     }
   },
   
   // callback for user-click
-  clicked: function(index) {
-    this.setValue(index + 1);
-    if (this.options.disableOnVote) this.disable();
-    this.send();
+  _clicked: function(event) {
+    var index = this.children().indexOf(event.target);
+    if (!this.disabled() && index > -1) {
+      this.setValue(index + 1);
+      if (this.options.disableOnVote) {
+        this.disable();
+      }
+      this.send();
+    }
   },
   
   // callback when user moves the mouse out
-  leaved: function() {
+  _left: function() {
     this.setValue(this.value);
   },
   
-  // highlights the stars
-  highlight: function(number) {
-    this.stars.each(function(element, i) {
-      element[number - 1 < i ? 'removeClass' : 'addClass']('right-rater-glow');
+  // visually highlights the value
+  highlight: function(value) {
+    this.children().each(function(element, i) {
+      element[value - 1 < i ? 'removeClass' : 'addClass']('active');
     });
-  },
-
-  // initializes the script
-  init: function() {
-    this.stars = this.element.children();
-    
-    this.stars.each(function(element, index) {
-      element.onMouseover(this.hovered.bind(this, index))
-        .onClick(this.clicked.bind(this, index));
-    }, this);
-    
-    this.element.onMouseout(this.leaved.bind(this));
-    this.setValue(this.options.value);
-    
-    if (this.options.disabled) this.disable();
-    if (this.options.update)   this.assignTo(this.options.update);
-    
-    return this;
-  },
-  
-  // builds the elements structure
-  build: function() {
-    var element = $E('div', {'class': 'right-rater'});
-    
-    this.options.size.times(function() {
-      element.insert($E('div', {html: '&#9733;'}));
-    });
-    
-    return element;
   }
 });

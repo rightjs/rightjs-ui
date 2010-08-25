@@ -1,7 +1,7 @@
 /**
  * The rating widget stylesheet
  *
- * <div class="right-rater">
+ * <div class="rui-rater">
  *   <div>&#9733;</div>
  *   <div>&#9734;</div>
  *   ...
@@ -9,7 +9,7 @@
  *
  * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-div.right-rater, div.right-rater div {
+div.rui-rater, div.rui-rater div {
   margin: 0;
   padding: 0;
   background: none;
@@ -20,12 +20,12 @@ div.right-rater, div.right-rater div {
   font-family: Arial;
   font-size: 110%;
 }
-div.right-rater {
+div.rui-rater {
   width: 6em;
   height: 1em;
   vertical-align: middle;
 }
-div.right-rater div {
+div.rui-rater div {
   float: left;
   width: 1em;
   height: 1em;
@@ -34,12 +34,12 @@ div.right-rater div {
   cursor: pointer;
   color: #888;
 }
-div.right-rater div.right-rater-glow {
+div.rui-rater div.active {
   color: brown;
   text-shadow: #666 .05em .05em .15em;
 }
 
 /* disabled rater styles */
-div.right-rater-disabled div {
+div.rui-rater-disabled div {
   cursor: default;
 }
