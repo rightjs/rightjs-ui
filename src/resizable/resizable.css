@@ -1,22 +1,24 @@
 /**
  * Resizable unit stylesheet
  *
- * <div class="right-resizable">
- *   // the content goes in here
- *   <div class="right-resizable-handle"></div>
+ * <div class="rui-resizable">
+ *   <div class="rui-resizable-content">
+ *      // the content goes in here
+ *   </div>
+ *   <div class="rui-resizable-handle"></div>
  * </div>
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 
 /** RESET */
-.right-resizable,
-.right-resizable-top,
-.right-resizable-left,
-.right-resizable-right,
-.right-resizable-bottom,
-.right-resizable-content
-.right-resizable-handle {
+.rui-resizable,
+.rui-resizable-top,
+.rui-resizable-left,
+.rui-resizable-right,
+.rui-resizable-bottom,
+.rui-resizable-content
+.rui-resizable-handle {
   margin: 0;
   padding: 0;
   overflow: none;
@@ -31,24 +33,24 @@
 }
 
 /** Resizable block basic styles */
-.right-resizable,
-.right-resizable-top,
-.right-resizable-left,
-.right-resizable-right,
-.right-resizable-bottom {
+.rui-resizable,
+.rui-resizable-top,
+.rui-resizable-left,
+.rui-resizable-right,
+.rui-resizable-bottom {
   position: relative;
   min-width:  8em;
   min-height: 8em;
   border: 1px solid #DDD;
 }
 
-.right-resizable-content {
+.rui-resizable-content {
   overflow: auto;
   padding: .5em;
   position: relative;
 }
 
-.right-resizable-handle {
+.rui-resizable-handle {
   position: absolute;
   background-image: url(../../img/resizable.png);
   background-repeat: no-repeat;
@@ -57,7 +59,7 @@
 }
 
 /** Bidirectional resizable */
-.right-resizable .right-resizable-handle {
+.rui-resizable .rui-resizable-handle {
   right: 0;
   bottom: 0;
   background-position: -2px -2px;
@@ -67,8 +69,8 @@
 }
 
 /** Vertical resizables */
-.right-resizable-top .right-resizable-handle,
-.right-resizable-bottom .right-resizable-handle {
+.rui-resizable-top .rui-resizable-handle,
+.rui-resizable-bottom .rui-resizable-handle {
   height: 8px;
   width: 100%;
   background-position: center -26px;
@@ -76,8 +78,8 @@
 }
 
 /** Horizontal resizeables */
-.right-resizable-left .right-resizable-handle,
-.right-resizable-right .right-resizable-handle {
+.rui-resizable-left .rui-resizable-handle,
+.rui-resizable-right .rui-resizable-handle {
   top: 0px;
   width: 8px;
   height: 100%;
@@ -86,34 +88,34 @@
 }
 
 /** Top resizable */
-.right-resizable-top .right-resizable-content {
+.rui-resizable-top .rui-resizable-content {
   padding-top: 1em;
 }
-.right-resizable-top .right-resizable-handle {
+.rui-resizable-top .rui-resizable-handle {
   top: 0;
 }
 
 /** Bottom resizable */
-.right-resizable-bottom .right-resizable-content {
+.rui-resizable-bottom .rui-resizable-content {
   padding-bottom: 1em;
 }
-.right-resizable-bottom .right-resizable-handle {
+.rui-resizable-bottom .rui-resizable-handle {
   bottom: 0;
 }
 
 /** Left version */
-.right-resizable-left .right-resizable-content {
+.rui-resizable-left .rui-resizable-content {
   padding-left: 1em;
 }
-.right-resizable-left .right-resizable-handle {
+.rui-resizable-left .rui-resizable-handle {
   left: 0;
 }
 
 /** Right version */
-.right-resizable-right .right-resizable-content {
+.rui-resizable-right .rui-resizable-content {
   padding-right: 1em;
 }
-.right-resizable-right .right-resizable-handle {
+.rui-resizable-right .rui-resizable-handle {
   right: 0;
 }
 

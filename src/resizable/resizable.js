@@ -3,9 +3,9 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-var Resizable = new Class(Observer, {
+var Resizable = new Widget({
   extend: {
-    EVENTS: $('resize initialize destroy start release'),
+    EVENTS: $w('resize start release'),
     
     Options: {
       direction:  null, // 'top', 'left', 'right', 'bottom', null for bidrectional
@@ -14,23 +14,6 @@ var Resizable = new Class(Observer, {
       maxWidth:   null,
       minHeight:  null,
       maxHeight:  null
-    },
-    
-    instances: [],
-    
-    /**
-     * Tries to find or instanciate the resizable unit
-     * by the mouse event
-     *
-     * @param Event mouse event
-     * @return Resizable instance or null
-     */
-    findBy: function(event) {
-      var target = event.target, element;
-      if (target.hasClass('right-resizable-handle')) {
-        element = target.parent();
-        return Resizable.instances[$uid(element)] || new Resizable(element);
-      }
     }
   },
   
@@ -39,15 +22,24 @@ var Resizable = new Class(Observer, {
    *
    * @param Element reference
    * @param Object options
+   * @return void
    */
   initialize: function(element, options) {
-    this.element = $(element);
-    this.$super(Object.merge(options,
-      eval('('+ this.element.get('data-resizable-options') +')')
-    ));
+    this
+      .$super('resizable', this.old_inst = $(element))
+      .setOptions(options);
+      
+    if (this.options.direction) {
+      this.addClass('rui-resizable-'+ this.options.direction);
+    } else {
+      this.addClass('rui-resizable');
+    }
     
-    Resizable.instances[$uid(this.element)] = this.init();
-    this.fire('initialize');
+    // initializing the inner structure
+    this.content = this.first('.rui-resizable-content') ||
+      $E('div', {'class': 'rui-resizable-content'}).insert(this._.childNodes).insertTo(this);
+    this.handle  = this.first('.rui-resizable-handle')  ||
+      $E('div', {'class': 'rui-resizable-handle'}).insertTo(this);
   },
   
   /**
@@ -56,20 +48,23 @@ var Resizable = new Class(Observer, {
    * @return Resizable this
    */
   destroy: function() {
-    this.element
-      .removeClass('right-resizable')
-      .removeClass('right-resizable-top')
-      .removeClass('right-resizable-left')
-      .removeClass('right-resizable-right')
-      .removeClass('right-resizable-bottom')
-      .insert(this.content.childNodes);
+    this
+      .removeClass('rui-resizable')
+      .removeClass('rui-resizable-top')
+      .removeClass('rui-resizable-left')
+      .removeClass('rui-resizable-right')
+      .removeClass('rui-resizable-bottom')
+      .insert(this.content._.childNodes);
       
     this.content.remove();
     this.handle.remove();
     
-    Resizable.instances = Resizable.instances.without($uid(this.element));
+    // swapping the old element back
+    if (this.old_inst) {
+      Wrapper.Cache[$uid(this._)] = this.old_inst;
+    }
     
-    this.fire('destroy');
+    return this;
   },
   
   /**
@@ -79,14 +74,17 @@ var Resizable = new Class(Observer, {
    * @param Object options
    * @return Resizable this
    */
-  setOptions: function(options) {
+  setOptions: function(options, context) {
+    options = options || {};
+    
     // trying to recognize the direction
     $w('top left right bottom').each(function(direction) {
-      if (this.element.hasClass('right-resizable-'+direction))
+      if (this.hasClass('rui-resizable-'+ direction)) {
         options.direction = direction;
+      }
     }, this);
     
-    return this.$super(options);
+    return this.$super(options, context);
   },
   
   /**
@@ -95,15 +93,19 @@ var Resizable = new Class(Observer, {
    * @param Event mouse event
    */
   start: function(event) {
-    this.prevSizes = this.element.sizes();
+    this.prevSizes = this.size();
     this.prevEvPos = event.position();
+    
+    // used later during the resize process
+    this.contXDiff = this.size().x - this.content.size().x;
+    this.contYDiff = this.size().y - this.content.size().y;
     
     // trying to recognize the boundaries
     $w('minWidth maxWidth minHeight maxHeight').each(function(dimension) {
       this[dimension] = this.findDim(dimension);
     }, this);
     
-    return Resizable.current = this.fire('start', event);
+    return this.fire('start', event);
   },
   
   /**
@@ -123,51 +125,37 @@ var Resizable = new Class(Observer, {
         max_y     = this.maxHeight,
         options   = this.options,
         direction = options.direction;
-  
+    
     // calculating the new size
-    width  += (direction == 'left' ? 1 : -1) * x_diff;
-    height += (direction == 'top'  ? 1 : -1) * y_diff;
+    width  += (direction === 'left' ? 1 : -1) * x_diff;
+    height += (direction === 'top'  ? 1 : -1) * y_diff;
     
     // applying the boundaries
-    if (width  < min_x) width  = min_x;
-    if (width  > max_x) width  = max_x;
-    if (height < min_y) height = min_y;
-    if (height > max_y) height = max_y;
+    if (width  < min_x) { width  = min_x; }
+    if (width  > max_x) { width  = max_x; }
+    if (height < min_y) { height = min_y; }
+    if (height > max_y) { height = max_y; }
     
     // applying the sizes
-    if (prev_size.x != width && direction != 'top' && direction != 'bottom') {
+    if (prev_size.x !== width && direction !== 'top' && direction !== 'bottom') {
       this.setWidth(width);
     }
-    if (prev_size.y != height && direction != 'left' && direction != 'right') {
+    if (prev_size.y !== height && direction !== 'left' && direction !== 'right') {
       this.setHeight(height);
     }
     
     // adjusting the previous cursor position so that it didn't had a shift
-    if (width == min_x || width == max_x)
+    if (width == min_x || width == max_x) {
       event_pos.x = handle.left + handle.width / 2;
-    if (height == min_y || height == max_y)
+    }
+    if (height == min_y || height == max_y) {
       event_pos.y = handle.top + handle.height / 2;
+    }
     
     this.prevEvPos = event_pos;
-    this.prevSizes = this.element.sizes();
+    this.prevSizes = this.size();
     
     this.fire('resize', event);
-  },
-  
-  /**
-   * Sets the widget size
-   *
-   * @param Number width or Object {x:NN, y:NN}
-   * @param Number height
-   * @return Resizable this
-   */
-  setSize: function(in_width, in_height) {
-    var width = in_width, height = in_height;
-    if (isHash(in_width)) {
-      width  = in_width.x;
-      height = in_width.y;
-    }
-    return this.setWidth(width).setHeight(height);
   },
   
   /**
@@ -177,8 +165,8 @@ var Resizable = new Class(Observer, {
    * @return Resizable this
    */
   setWidth: function(width) {
-    this.element.setWidth(width);
     this.content.setWidth(width - this.contXDiff);
+    return this.$super(width);
   },
   
   /**
@@ -188,8 +176,8 @@ var Resizable = new Class(Observer, {
    * @return Resizable this
    */
   setHeight: function(height) {
-    this.element.setHeight(height);
     this.content.setHeight(height - this.contYDiff);
+    return this.$super(height);
   },
   
   /**
@@ -198,7 +186,6 @@ var Resizable = new Class(Observer, {
    * @return Resizable this
    */
   release: function(event) {
-    Resizable.current = null;
     return this.fire('release', event);
   },
   
@@ -215,45 +202,19 @@ var Resizable = new Class(Observer, {
   
 // protected
 
-  init: function() {
-    var class_name         = 'right-resizable',
-        handle_class_name  = 'right-resizable-handle',
-        content_class_name = 'right-resizable-content';
-    
-    // assigning the main element class
-    if (this.options.direction) class_name += '-'+ this.options.direction;
-    this.element.addClass(class_name);
-    
-    // checking for the content block
-    this.content = this.element.first('*.'+ content_class_name) || $E('div', {
-      'class': content_class_name
-    }).insert(this.element.childNodes).insertTo(this.element);
-    
-    // checking for the handle element
-    this.handle = (this.element.first('*.'+ handle_class_name) || $E('div', {
-      'class': handle_class_name
-    })).insertTo(this.element);
-    
-    // used later during the resize process
-    this.contXDiff = this.element.offsetWidth  - this.content.offsetWidth;
-    this.contYDiff = this.element.offsetHeight - this.content.offsetHeight;
-    
-    return this;
-  },
-  
   // finds dimensions of the element
   findDim: function(dimension) {
-    var style = this.options[dimension] || this.element.getStyle(dimension);
+    var style = this.options[dimension] || this.getStyle(dimension);
     
-    if (style && /\d+/.test(style) && style.toFloat() > 0) {
-      var what  = dimension.include('Width') ? 'width' : 'height',
-          dummy = (this.dummy || (this.dummy = $E('div', {
+    if (style && /\d+/.test(style) && parseFloat(style) > 0) {
+      var what  = R(dimension).include('Width') ? 'width' : 'height',
+          dummy = (this._dummy || (this._dummy = $E('div', {
             style: 'visibility:hidden;z-index:-1'
           })))
           .setStyle(what, style)
-          .insertTo(this.element, 'before');
+          .insertTo(this, 'before');
           
-      var size = dummy['offset' + what.capitalize()];
+      var size = dummy._['offset' + R(what).capitalize()];
       dummy.remove();
       
       return size;

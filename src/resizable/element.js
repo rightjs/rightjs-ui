@@ -21,8 +21,9 @@ Element.include({
    * @return Element this
    */
   undoResizable: function() {
-    var resizable = Resizable.instances[$uid(this)];
-    if (resizable) resizable.destroy();
+    if (this instanceof Resizable) {
+      this.destroy();
+    }
     return this;
   }
 });
