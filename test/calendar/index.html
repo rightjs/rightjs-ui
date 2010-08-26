@@ -3,6 +3,11 @@
   <head>
     <script src="../../lib/right.js" type="text/javascript"></script>
     <script src="../../lib/initializer.js" type="text/javascript"></script>
+    <style type="text/css">
+      div.right-calendar {
+        margin-right: 1em;
+      }
+    </style>
   </head>
   <body>
     <h2>Single</h2>
@@ -89,6 +94,28 @@
         max_date.setFullYear(max_date.getFullYear() + 2);
         
         new Calendar({minDate: min_date, maxDate: max_date, listYears: true}).insertTo('with-years-listing');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>With Dates Range That Out Of the Current Date</h2>
+    <p>
+      <div id="with-out-of-range-date"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var min_date1 = new Date();
+        var max_date1 = new Date();
+        var min_date2 = new Date();
+        var max_date2 = new Date();
+        
+        min_date1.setMonth(min_date.getMonth() - 3);
+        max_date1.setMonth(max_date.getMonth() - 1);
+        
+        min_date2.setMonth(min_date.getMonth() + 1);
+        max_date2.setMonth(max_date.getMonth() + 3);
+        
+        new Calendar({minDate: min_date1, maxDate: max_date1}).insertTo('with-out-of-range-date');
+        new Calendar({minDate: min_date2, maxDate: max_date2}).insertTo('with-out-of-range-date');
       // ]]>
       </script>
     </p>

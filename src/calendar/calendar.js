@@ -147,7 +147,13 @@ var Calendar = new Class(Observer, {
    * @return Calendar this
    */
   setDate: function(date) {
-    this.date = this.prevDate = this.parse(date);
+    date = this.parse(date);
+    
+    var options = this.options;
+    if (options.minDate && options.minDate > date) date = options.minDate;
+    if (options.maxDate && options.maxDate < date) date = options.maxDate;
+    
+    this.date = this.prevDate = date;
     return this.update();
   },
   
