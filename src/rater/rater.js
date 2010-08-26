@@ -4,6 +4,8 @@
  * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 var Rater = new Widget({
+  include: Updater,
+  
   extend: {
     EVENTS: $w('change hover send'),
     
@@ -95,41 +97,6 @@ var Rater = new Widget({
    */
   getValue: function() {
     return this.value;
-  },
-  
-  /**
-   * Assigns the unit to work with an input element
-   *
-   * @param mixed element reference
-   * @return Rater this
-   */
-  assignTo: function(element) {
-    var assign  = R(function(element, event) {
-      if ((element = $(element))) {
-        element[element.setValue ? 'setValue' : 'update'](''+event.target.value);
-      }
-    }).curry(element);
-    
-    var connect = R(function(element, object) {
-      element = $(element);
-      if (element && element.onChange) {
-        element.onChange(R(function() {
-          this.setValue(element.value());
-        }).bind(object));
-      }
-    }).curry(element);
-    
-    if ($(element)) {
-      assign({target: this});
-      connect(this);
-    } else {
-      $(document).onReady(R(function() {
-        assign({target: this});
-        connect(this);
-      }.bind(this)));
-    }
-    
-    return this.onChange(assign);
   },
   
   /**
