@@ -1,13 +1,13 @@
 /**
  * The Selectable unit styles
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 /** RESET */
-*.right-selectable, *.right-selectable li,
-*.right-selectable dt, *.right-selectable dd, *.right-selectable ul,
-div.right-selectable-container ul.right-selectable-display,
-div.right-selectable-container ul.right-selectable-display li {
+*.rui-selectable, *.rui-selectable li,
+*.rui-selectable dt, *.rui-selectable dd, *.rui-selectable ul,
+div.rui-selectable-container ul.rui-selectable-display,
+div.rui-selectable-container ul.rui-selectable-display li {
   margin:  0;
   padding: 0;
   border: none;
@@ -16,7 +16,7 @@ div.right-selectable-container ul.right-selectable-display li {
 }
 
 /* Basic styles */
-*.right-selectable {
+*.rui-selectable {
   border: 1px solid #CCC;
   border-bottom: none;
   display: inline-block;
@@ -25,21 +25,24 @@ div.right-selectable-container ul.right-selectable-display li {
   min-width: 10em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
+  user-select:none;
+  -moz-user-select:none;
+  -webkit-user-select:none;
 }
-*.right-selectable li {
+*.rui-selectable li {
   padding: .3em 1em;
   cursor: pointer;
   border-bottom: 1px solid #CCC;
 }
-*.right-selectable li:hover {
+*.rui-selectable li:hover {
   background: #EEE;
 }
-*.right-selectable li.right-selectable-selected {
+*.rui-selectable li.rui-selectable-selected {
   font-weight: bold;
   background: #DDD;
 }
-*.right-selectable li.right-selectable-disabled,
-*.right-selectable li.right-selectable-disabled:hover {
+*.rui-selectable li.rui-selectable-disabled,
+*.rui-selectable li.rui-selectable-disabled:hover {
   background: #CCC;
   color: #777;
   cursor: default;
@@ -47,7 +50,7 @@ div.right-selectable-container ul.right-selectable-display li {
 
 
 /* Groups styles */
-dl.right-selectable dt {
+dl.rui-selectable dt {
   padding: .3em .5em;
   cursor: default;
   font-weight: bold;
@@ -56,20 +59,16 @@ dl.right-selectable dt {
   background: #EEE;
   border-bottom: 1px solid #CCC;
 }
-dl.right-selectable dd li{
+dl.rui-selectable dd li{
   padding-left: 1.5em;
 }
 
 /* Single Selects */
-*.right-selectable-single {
-  -moz-box-shadow: #AAA .2em .2em .5em;
-  -webkit-box-shadow: #AAA .2em .2em .5em;
-  display: none;
-  position: absolute;
+*.rui-selectable-single {
   background: #FFF;
-  z-index: 99999;
+  display: none;
 }
-div.right-selectable-container {
+div.rui-selectable-container {
   border: 1px solid #CCC;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
@@ -83,7 +82,7 @@ div.right-selectable-container {
   height: 1.6em;
   position: relative;
 }
-div.right-selectable-container div.right-selectable-handle {
+div.rui-selectable-container div.rui-selectable-handle {
   font-family: Arial;
   float: right;
   width: 0.8em;
@@ -95,16 +94,16 @@ div.right-selectable-container div.right-selectable-handle {
   color: #888;
   border-left: 1px solid #CCC;
 }
-div.right-selectable-container:hover div.right-selectable-handle {
+div.rui-selectable-container:hover div.rui-selectable-handle {
   color: #666;
 }
-div.right-selectable-container ul.right-selectable-display {
+div.rui-selectable-container ul.rui-selectable-display {
   display: block;
   width: auto;
   margin-right: 2em;
   overflow: hidden;
 }
-div.right-selectable-container ul.right-selectable-display li {
+div.rui-selectable-container ul.rui-selectable-display li {
   line-height: 1.6em;
   padding: 0 .5em;
 }

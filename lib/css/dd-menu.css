@@ -4,7 +4,7 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 /** RESET */
-ul.rui-dd-menu, ul.rui-dd-menu li {
+*.rui-dd-menu, *.rui-dd-menu li {
   margin:  0;
   padding: 0;
   border: none;
@@ -15,7 +15,7 @@ ul.rui-dd-menu, ul.rui-dd-menu li {
 }
 
 
-ul.rui-dd-menu {
+*.rui-dd-menu {
   display: none;
   position: absolute;
   z-index: 9999;
@@ -29,17 +29,29 @@ ul.rui-dd-menu {
   -webkit-box-shadow: #DDD .2em .2em .4em;
 }
 
-ul.rui-dd-menu li {
+*.rui-dd-menu li {
   padding: .2em .4em;
   border-top: none;
   border-bottom: none;
   cursor: pointer;
 }
 
-ul.rui-dd-menu li.current {
+*.rui-dd-menu li.current {
   background: #DDD;
 }
 
-ul.rui-dd-menu li:hover {
+*.rui-dd-menu li:hover {
   background: #EEE;
+}
+
+dl.rui-dd-menu dt {
+  padding: .3em .5em;
+  cursor: default;
+  font-weight: bold;
+  font-style: italic;
+  color: #444;
+  background: #EEE;
+}
+dl.rui-dd-menu dd li{
+  padding-left: 1.5em;
 }
