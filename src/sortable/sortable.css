@@ -1,0 +1,10 @@
+/**
+ * Disabling selections on w3c browsers
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+.rui-sortable {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}

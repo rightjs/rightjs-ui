@@ -1,16 +1,36 @@
 /**
  * Document level hooks for sortables
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-document.onMousedown(function(event) {
-  var target = event.target, element = [target].concat(target.parents()).first('match', Sortable.Options.cssRule);
+$(document).on({
+  mousedown: function(event) {
+    var element = event.find(Sortable.Options.cssRule);
   
-  if (element) {
-    var sortable = element._srotable || new Sortable(element);
+    if (element) {
+      if (!(element instanceof Sortable)) {
+        element = new Sortable(element);
+      }
     
-    if (target._draggable) {
-      target._draggable.dragStart(event);
+      element.startDrag(event);
     }
-  };
+  },
+  
+  mousemove: function(event) {
+    if (Sortable.current) {
+      Sortable.current.moveItem(event);
+    }
+  },
+  
+  mouseup: function() {
+    if (Sortable.current) {
+      Sortable.current.finishDrag();
+    }
+  }
+});
+
+$(window).onBlur(function() {
+  if (Sortable.current) {
+    Sortable.current.finishDrag();
+  }
 });
