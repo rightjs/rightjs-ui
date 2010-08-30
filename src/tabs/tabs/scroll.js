@@ -6,13 +6,9 @@
  *       any tab. But the carousel tabs scrolls to the next/previous
  *       tabs on the list.
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Tabs.include((function() {
-  var old_init = Tabs.prototype.init;
-  
-return {
-  
+Tabs.include({
   /**
    * Shows the next tab
    *
@@ -37,7 +33,10 @@ return {
    * @return Tabs this
    */
   scrollLeft: function() {
-    return this[this.isCarousel ? 'prev' : 'justScroll'](+0.6);
+    if (!this.prevButton.hasClass('rui-tabs-scroller-disabled')) {
+      this[this.isCarousel ? 'prev' : 'justScroll'](+0.6);
+    }
+    return this;
   },
 
   /**
@@ -46,16 +45,17 @@ return {
    * @return Tabs this
    */
   scrollRight: function() {
-    return this[this.isCarousel ? 'next' : 'justScroll'](-0.6);
+    if (!this.nextButton.hasClass('rui-tabs-scroller-disabled')) {
+      this[this.isCarousel ? 'next' : 'justScroll'](-0.6);
+    }
+    return this;
   },
 
 // protected
 
   // overloading the init script to add the scrollbar support
-  init: function() {
-    old_init.call(this);
-
-    if (this.scrollable = (this.options.scrollTabs || this.isCarousel)) {
+  initScrolls: function() {
+    if ((this.scrollable = (this.options.scrollTabs || this.isCarousel))) {
       this.buildScroller();
     }
 
@@ -64,54 +64,61 @@ return {
 
   // builds the tabs scroller block
   buildScroller: function() {
-    if (this.element.first('.right-tabs-scroller')) {
-      this.prevButton = this.element.first('.right-tabs-scroll-left');
-      this.nextButton = this.element.first('.right-tabs-scroll-right');
-    } else {
-      this.prevButton = $E('div', {'class': 'right-tabs-scroll-left',  'html': '&laquo;'});
-      this.nextButton = $E('div', {'class': 'right-tabs-scroll-right', 'html': '&raquo;'});
+    if (!(
+      (this.prevButton = this.first('.rui-tabs-scroller-prev')) &&
+      (this.nextButton = this.first('.rui-tabs-scroller-next'))
+    )) {
+      this.prevButton = $E('div', {'class': 'rui-tabs-scroller-prev', 'html': '&laquo;'});
+      this.nextButton = $E('div', {'class': 'rui-tabs-scroller-next', 'html': '&raquo;'});
       
-      this.element.insert($E('div', {'class': 'right-tabs-scroller'}).insert([
-        this.prevButton, this.nextButton, $E('div', {'class': 'right-tabs-scroll-body'}).insert(this.tabsList)
-      ]), 'top');
+      // using a dummy element to insert the scroller in place of the tabs list
+      $E('div').insertTo(this.tabsList, 'before')
+        .replace(
+          $E('div', {'class': 'rui-tabs-scroller'}).insert([
+            this.prevButton, this.nextButton, this.scroller = $E('div', {
+              'class': 'rui-tabs-scroller-body'
+            }).insert(this.tabsList)
+          ])
+        ).remove();
     }
     
-    this.prevButton.onClick(this.scrollLeft.bind(this));
-    this.nextButton.onClick(this.scrollRight.bind(this));
+    this.prevButton.onClick(R(this.scrollLeft).bind(this));
+    this.nextButton.onClick(R(this.scrollRight).bind(this));
   },
 
   // picks the next/prev non-disabled available tab
   pickTab: function(pos) {
-    var current = this.tabs.first('current');
+    var current = this.current();
     if (current && current.enabled()) {
-      var enabled_tabs = this.tabs.filter('enabled');
+      var enabled_tabs = this.enabled();
       var tab = enabled_tabs[enabled_tabs.indexOf(current) + pos];
-      if (tab) tab.show();
+      if (tab) { tab.select(); }
     }
   },
   
   // scrolls the tabs line to make the tab visible
   scrollToTab: function(tab) {
-    if (this.scrollable) {
+    if (this.scroller) {
       // calculating the previous tabs widths
       var tabs_width      = 0;
       for (var i=0; i < this.tabs.length; i++) {
         tabs_width += this.tabs[i].width();
-        if (this.tabs[i] == tab) break;
+        if (this.tabs[i] === tab) { break; }
       }
       
       // calculating the scroll (the carousel tabs should be centralized)
-      var available_width = this.tabsList.parentNode.offsetWidth;
+      var available_width = this.scroller.size().x;
       var scroll = (this.isCarousel ? (available_width/2 + tab.width()/2) : available_width) - tabs_width;
       
       // check if the tab doesn't need to be scrolled
       if (!this.isCarousel) {
-        var current_scroll  = this.tabsList.getStyle('left').toInt() || 0;
+        var current_scroll  = parseInt(this.tabsList.getStyle('left') || 0, 10);
         
-        if (scroll >= current_scroll && scroll < (current_scroll + available_width - tab.width()))
+        if (scroll >= current_scroll && scroll < (current_scroll + available_width - tab.width())) {
           scroll = current_scroll;
-        else if (current_scroll > -tabs_width && current_scroll <= (tab.width() - tabs_width))
+        } else if (current_scroll > -tabs_width && current_scroll <= (tab.width() - tabs_width)) {
           scroll = tab.width() - tabs_width;
+        }
       }
       
       this.scrollTo(scroll);
@@ -120,8 +127,9 @@ return {
   
   // just scrolls the scrollable area onto the given number of scrollable area widths
   justScroll: function(size) {
-    var current_scroll  = this.tabsList.getStyle('left').toInt() || 0;
-    var available_width = this.tabsList.parentNode.offsetWidth;
+    if (!this.scroller) { return this; }
+    var current_scroll  = parseInt(this.tabsList.getStyle('left') || 0, 10);
+    var available_width = this.scroller.size().x;
     
     this.scrollTo(current_scroll + available_width * size);
   },
@@ -129,35 +137,26 @@ return {
   // scrolls the tabs list to the position
   scrollTo: function(scroll) {
     // checking the constraints
-    var current_scroll  = this.tabsList.getStyle('left').toInt() || 0;
-    var available_width = this.tabsList.parentNode.offsetWidth;
-    var overall_width   = 0;
-    for (var i=0; i < this.tabs.length; i++) {
-      overall_width += this.tabs[i].width();
-    }
+    var available_width = this.scroller.size().x;
+    var overall_width   = this.tabs.map('width').sum();
     
-    if (scroll < (available_width - overall_width))
+    if (scroll < (available_width - overall_width)) {
       scroll = available_width - overall_width;
-    if (scroll > 0) scroll = 0;
+    }
+    if (scroll > 0) { scroll = 0; }
     
     // applying the scroll
-    var style = {left: scroll + 'px'};
-    
-    if (this.options.scrollDuration && self.Fx && current_scroll != scroll) {
-      this.tabsList.morph(style, {duration: this.options.scrollDuration});
-    } else {
-      this.tabsList.setStyle(style);
-    }
+    this.tabsList.morph({left: scroll+'px'}, {duration: this.options.scrollDuration});
     
     this.checkScrollButtons(overall_width, available_width, scroll);
   },
   
   // checks the scroll buttons
   checkScrollButtons: function(overall_width, available_width, scroll) {
-    var has_prev = has_next = false;
+    var has_prev = false, has_next = false;
     
     if (this.isCarousel) {
-      var enabled = this.tabs.filter('enabled');
+      var enabled = this.enabled();
       var current = enabled.first('current');
       
       if (current) {
@@ -167,12 +166,12 @@ return {
         has_next = index < enabled.length - 1;
       }
     } else {
-      has_prev = scroll != 0;
+      has_prev = scroll !== 0;
       has_next = scroll > (available_width - overall_width);
     }
     
-    this.prevButton[has_prev ? 'removeClass' : 'addClass']('right-tabs-scroll-disabled');
-    this.nextButton[has_next ? 'removeClass' : 'addClass']('right-tabs-scroll-disabled');
+    this.prevButton[has_prev ? 'removeClass' : 'addClass']('rui-tabs-scroller-disabled');
+    this.nextButton[has_next ? 'removeClass' : 'addClass']('rui-tabs-scroller-disabled');
   }
   
-}})());
+});

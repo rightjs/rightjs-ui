@@ -1,15 +1,15 @@
 /**
  * The basic tabs handling engine
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Tabs = new Class(Observer, {
+var Tabs = new Widget('UL', {
   extend: {
-    EVENTS: $w('show hide click load disable enable add remove move'),
+    EVENTS: $w('select hide load disable enable add remove move'),
     
     Options: {
       idPrefix:       '',      // the tab-body elements id prefix
-      tabsElement:    null,    // the tabs list element reference, in case it situated somewhere else
+      tabsElement:    null,    // the tabs list element reference, in case it's situated somewhere else
       
       resizeFx:       'both',  // 'slide', 'fade', 'both' or null for no fx
       resizeDuration: 400,     // the tab panels resize fx duration
@@ -18,7 +18,7 @@ var Tabs = new Class(Observer, {
       scrollDuration: 400,     // the tabs scrolling fx duration
       
       selected:       null,    // the index of the currently opened tab, by default will check url, cookies or set 0
-      disabled:       [],      // list of disabled tab indexes
+      disabled:       null,    // list of disabled tab indexes
       
       closable:       false,   // set true if you want a close icon on your tabs
       
@@ -34,10 +34,8 @@ var Tabs = new Class(Observer, {
     
     // scans and automatically intializes the tabs
     rescan: function(scope) {
-      ($(scope) || document).select('*.right-tabs').each(function(element) {
-        if (!element._tabs) {
-          new Tabs(element);
-        }
+      $(scope || document).find('.rui-tabs,*[data-tabs]').each(function(element) {
+        element = element instanceof Tabs ? element : new Tabs(element);
       });
     }
   },
@@ -49,19 +47,28 @@ var Tabs = new Class(Observer, {
    * @param Object options
    */
   initialize: function(element, options) {
-    this.element = $(element);
-    this.$super(options || eval('('+this.element.get('data-tabs-options')+')'));
+    this
+      .$super('tabs', element)
+      .setOptions(options)
+      .addClass('rui-tabs');
     
-    this.element._tabs = this.init();
-  },
-  
-  /**
-   * destructor
-   *
-   * @return Tabs this
-   */
-  destroy: function() {
-    delete(this.element._tabs);
+    this.isHarmonica = this._.tagName === 'DL';
+    this.isCarousel  = this.hasClass('rui-tabs-carousel');
+    this.isSimple    = !this.isHarmonica && !this.isCarousel;
+    
+    this
+      .findTabs()
+      .initScrolls()
+      .findCurrent()
+      .setStyle('visibility:visible');
+    
+    if (this.options.disabled) {
+      this.disable(this.options.disabled);
+    }
+    
+    if (this.options.loop) {
+      this.startLoop();
+    }
   },
   
   /**
@@ -70,8 +77,8 @@ var Tabs = new Class(Observer, {
    * @param integer tab index or a Tabs.Tab instance
    * @return Tabs this
    */
-  show: function(tab) {
-    return this.callTab(tab, 'show');
+  select: function(tab) {
+    return this.callTab(tab, 'select');
   },
   
   /**
@@ -94,52 +101,55 @@ var Tabs = new Class(Observer, {
     return this.callTab(tab, 'enable');
   },
   
+  /**
+   * Returns the reference to the currently opened tab
+   *
+   * @return Tab tab or undefined
+   */
+  current: function() {
+    return this.tabs.first('current');
+  },
+  
+  /**
+   * Returns the list of enabled tabs
+   *
+   * @return Array of enabled tabs
+   */
+  enabled: function() {
+    return this.tabs.filter('enabled');
+  },
+  
 // protected
   
   // calls the tab (or tabs) method
-  callTab: function(tab, method) {
-    if (isArray(tab)) tab.each(this[method], this);
-    else if (tab = isNumber(tab) ? this.tabs[tab] : tab) tab[method]();
+  callTab: function(tabs, method) {
+    R(isArray(tabs) ? tabs : [tabs]).each(function(tab) {
+      if (isNumber(tab)) { tab = this.tabs[tab]; }
+      if (tab && tab instanceof Tab) {
+        tab[method]();
+      }
+    }, this);
+    
     return this;
-  },
-  
-  // initializes the tabs unit
-  init: function() {
-    this.isHarmonica = this.element.tagName == 'DL';
-    this.isCarousel  = this.element.hasClass('right-tabs-carousel');
-    this.isSimple    = !this.isHarmonica && !this.isCarousel;
-    
-    this.findTabs();
-    
-    this.element.addClass('right-tabs');
-    if (this.isSimple)
-      this.element.addClass('right-tabs-simple');
-    
-    return this.disable(this.options.disabled);
   },
   
   // finds and interconnects the tabs
   findTabs: function() {
-    this.tabsList = this.isHarmonica ? this.element :
-      $(this.options.tabsElement) || this.element.first('.right-tabs-list') ||
-        this.element.first('UL').addClass('right-tabs-list');
+    this.tabsList = this.isHarmonica ? this :
+      $(this.options.tabsElement) || this.first('.rui-tabs-list') ||
+        (this.first('UL') || $E('UL').insertTo(this)).addClass('rui-tabs-list');
     
-    this.tabs = this.tabsList.subNodes(this.isHarmonica ? 'dt' : null).map(function(node) {
-      return new Tabs.Tab(node, this);
+    this.tabs = R([]);
+    
+    this.tabsList.children(this.isHarmonica ? 'dt' : null).map(function(node) {
+      this.tabs.push(new Tab(node, this));
     }, this);
-  },
-  
-  // searches/builds a panel for the tab
-  findPanel: function(tab) {
-    var panel_id = this.options.idPrefix + tab.id, panel;
     
-    if (this.isHarmonica) {
-      var next = tab.element.next();
-      panel = (next && next.tagName == 'DD') ? next : $E('DD').insertTo(tab.element, 'after');
-    } else {
-      panel = $(panel_id) || $E(this.element.tagName == 'UL' ? 'LI' : 'DIV').insertTo(this.element);
+    // removing the whitespaces so the didn't screw with the margins
+    for (var i=0, list = this.tabsList.get('childNodes'); i < list.length; i++) {
+      if (list[i].nodeType == 3) { this.tabsList._.removeChild(list[i]); }
     }
-      
-    return panel.set('id', panel_id);
+    
+    return this;
   }
 });

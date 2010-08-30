@@ -1,15 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <script src="../../lib/right.js" type="text/javascript"></script>
-    <script src="../../lib/initializer.js" type="text/javascript"></script>
+    <title>RightJS UI: Sortable</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('tabs');
+    // ]]>
+    </script>
   </head>
   <body>
     <h2>Basic version</h2>
     <p>
-      <div class="right-tabs">
+      <div class="rui-tabs">
         <ul>
-          <li class="right-tabs-current"><a href="#tab-1">Tab 1</a></li>
+          <li class="rui-tabs-current"><a href="#tab-1">Tab 1</a></li>
           <li><a href="#tab-2">Tab 2</a></li>
           <li><a href="#tab-3">Tab 3</a></li>
           <li><a href="#tab-4">Tab 4</a></li>
@@ -24,10 +30,10 @@
     
     <h2>UL version with options, id-prefix and close icons</h2>
     <p>
-      <ul class="right-tabs" data-tabs-options="{idPrefix: 'pre-', closable: true}">
+      <ul data-tabs="{idPrefix: 'pre-', closable: true}">
         <ul>
           <li><a href="#ul-tab-1">Tab 1</a></li>
-          <li class="right-tabs-current"><a href="#ul-tab-2">Tab 2</a></li>
+          <li class="rui-tabs-current"><a href="#ul-tab-2">Tab 2</a></li>
           <li><a href="#ul-tab-3">Tab 3</a></li>
           <li><a href="#ul-tab-4">Tab 4</a></li>
         </ul>
@@ -41,12 +47,12 @@
     
     <h2>Disabled Tabs</h2>
     <p>
-      <div class="right-tabs">
+      <div class="rui-tabs">
         <ul>
-          <li class="right-tabs-current"><a href="#d-tab-1">Tab 1</a></li>
+          <li class="rui-tabs-current"><a href="#d-tab-1">Tab 1</a></li>
           <li><a href="#d-tab-2">Tab 2</a></li>
           <li><a href="#d-tab-3">Tab 3</a></li>
-          <li class="right-tabs-disabled"><a href="#d-tab-4">Tab 4</a></li>
+          <li class="rui-tabs-disabled"><a href="#d-tab-4">Tab 4</a></li>
         </ul>
         
         <div id="d-tab-1">tab body 1</div>
@@ -58,9 +64,9 @@
     
     <h2>Tabs Saved in Cookies</h2>
     <p>
-      <div class="right-tabs" data-tabs-options="{Cookie:{duration:1}}">
+      <div class="rui-tabs" data-tabs="{Cookie:{duration:1}}">
         <ul>
-          <li class="right-tabs-current"><a href="#c-tab-1">Tab 1</a></li>
+          <li class="rui-tabs-current"><a href="#c-tab-1">Tab 1</a></li>
           <li><a href="#c-tab-2">Tab 2</a></li>
           <li><a href="#c-tab-3">Tab 3</a></li>
           <li><a href="#c-tab-4">Tab 4</a></li>
@@ -75,19 +81,19 @@
     
     <h2>Direct Remote Tabs</h2>
     <p>
-      <div class="right-tabs">
+      <div class="rui-tabs">
         <ul>
-          <li><a href="content/tab-1.html">Tab 1</a></li>
-          <li><a href="content/tab-2.html">Tab 2</a></li>
-          <li><a href="content/tab-3.html">Tab 3</a></li>
-          <li><a href="content/tab-4.html">Tab 4</a></li>
+          <li><a href="tabs/tab-1.html">Tab 1</a></li>
+          <li><a href="tabs/tab-2.html">Tab 2</a></li>
+          <li><a href="tabs/tab-3.html">Tab 3</a></li>
+          <li><a href="tabs/tab-4.html">Tab 4</a></li>
         </ul>
       </div>
     </p>
     
     <h2>Remote Tabs With A Common Address</h2>
     <p>
-      <div class="right-tabs" data-tabs-options="{idPrefix:'cr-', url: 'content/%{id}.html'}">
+      <div class="rui-tabs" data-tabs="{idPrefix:'cr-', url: 'tabs/%{id}.html'}">
         <ul>
           <li><a href="#tab-1">Tab 1</a></li>
           <li><a href="#tab-2">Tab 2</a></li>
@@ -97,11 +103,9 @@
       </div>
     </p>
     
-    <h2>Automatically Generated Tabs</h2>
+    <h2>Programmatically Generated Tabs</h2>
     <p>
-      <div id="auto-tabs">
-        <ul></ul>
-      </div>
+      <div id="auto-tabs"></div>
       <script type="text/javascript">
       // <![CDATA[
         var tabs = new Tabs('auto-tabs', {idPrefix: 'auto-'});
@@ -111,48 +115,44 @@
         tabs.add('Tab 4', 'Content 4');
         tabs.add('Tab 3', 'Content 3', {position: 2});
         
-        tabs.show(0);
+        tabs.select(0);
       // ]]>
       </script>
     </p>
     <p>
-      <div id="auto-tabs-with-url">
-        <ul></ul>
-      </div>
+      <div id="auto-tabs-with-url"></div>
       <script type="text/javascript">
       // <![CDATA[
         var tabs = new Tabs('auto-tabs-with-url', {idPrefix: 'auto-with-url'});
         
-        tabs.add('Tab 1', null, {url: 'content/tab-1.html'});
-        tabs.add('Tab 2', null, {url: 'content/tab-2.html'});
-        tabs.add('Tab 4', null, {url: 'content/tab-4.html'});
-        tabs.add('Tab 3', null, {url: 'content/tab-3.html', position: 2});
+        tabs.add('Tab 1', null, {url: 'tabs/tab-1.html'});
+        tabs.add('Tab 2', null, {url: 'tabs/tab-2.html'});
+        tabs.add('Tab 4', null, {url: 'tabs/tab-4.html'});
+        tabs.add('Tab 3', null, {url: 'tabs/tab-3.html', position: 2});
         
-        tabs.show(0);
+        tabs.select(0);
       // ]]>
       </script>
     </p>
     <p>
-      <div id="auto-tabs-with-ids">
-        <ul></ul>
-      </div>
+      <div id="auto-tabs-with-ids"></div>
       <script type="text/javascript">
       // <![CDATA[
-        var tabs = new Tabs('auto-tabs-with-ids', {idPrefix: 'auto-with-ids', url: 'content/%{id}.html'});
+        var tabs = new Tabs('auto-tabs-with-ids', {idPrefix: 'auto-with-ids', url: 'tabs/%{id}.html'});
         
         tabs.add('Tab 1', null, {id: 'tab-1'});
         tabs.add('Tab 2', null, {id: 'tab-2'});
         tabs.add('Tab 4', null, {id: 'tab-4'});
         tabs.add('Tab 3', null, {id: 'tab-3', position: 2});
         
-        tabs.show(0);
+        tabs.select(0);
       // ]]>
       </script>
     </p>
     
     <h2>Tabs with scrolling</h2>
     <p>
-      <div class="right-tabs" data-tabs-options="{scrollTabs:true}">
+      <div class="rui-tabs" data-tabs="{scrollTabs:true}">
         <ul>
           <li><a href="#r-tab-1">Tab 1</a></li>
           <li><a href="#r-tab-2">Tab 2</a></li>
@@ -163,17 +163,17 @@
           <li><a href="#r-tab-7">Tab 7</a></li>
           <li><a href="#r-tab-8">Tab 8</a></li>
           <li><a href="#r-tab-9">Tab 9</a></li>
-          <li><a href="#r-tab-0">Tab 0</a></li>
-          <li><a href="#r-tab-1">Tab 1</a></li>
-          <li class="right-tabs-current"><a href="#r-tab-2">Tab 2</a></li>
-          <li><a href="#r-tab-3">Tab 3</a></li>
-          <li><a href="#r-tab-4">Tab 4</a></li>
-          <li><a href="#r-tab-5">Tab 5</a></li>
-          <li><a href="#r-tab-6">Tab 6</a></li>
-          <li><a href="#r-tab-7">Tab 7</a></li>
-          <li><a href="#r-tab-8">Tab 8</a></li>
-          <li><a href="#r-tab-9">Tab 9</a></li>
-          <li><a href="#r-tab-0">Tab 0</a></li>
+          <li><a href="#r-tab-10">Tab 10</a></li>
+          <li><a href="#r-tab-11">Tab 11</a></li>
+          <li><a href="#r-tab-12">Tab 12</a></li>
+          <li><a href="#r-tab-13">Tab 13</a></li>
+          <li><a href="#r-tab-14">Tab 14</a></li>
+          <li class="rui-tabs-current"><a href="#r-tab-15">Tab 15</a></li>
+          <li><a href="#r-tab-16">Tab 16</a></li>
+          <li><a href="#r-tab-17">Tab 17</a></li>
+          <li><a href="#r-tab-18">Tab 18</a></li>
+          <li><a href="#r-tab-19">Tab 19</a></li>
+          <li><a href="#r-tab-20">Tab 20</a></li>
         </ul>
         
         <div id="r-tab-1">tab body 1</div>
@@ -185,22 +185,32 @@
         <div id="r-tab-7">tab body 7</div>
         <div id="r-tab-8">tab body 8</div>
         <div id="r-tab-9">tab body 9</div>
-        <div id="r-tab-0">tab body 0</div>
+        <div id="r-tab-10">tab body 10</div>
+        <div id="r-tab-11">tab body 11</div>
+        <div id="r-tab-12">tab body 12</div>
+        <div id="r-tab-13">tab body 13</div>
+        <div id="r-tab-14">tab body 14</div>
+        <div id="r-tab-15">tab body 15</div>
+        <div id="r-tab-16">tab body 16</div>
+        <div id="r-tab-17">tab body 17</div>
+        <div id="r-tab-18">tab body 18</div>
+        <div id="r-tab-19">tab body 19</div>
+        <div id="r-tab-20">tab body 20</div>
       </div>
     </p>
     
     <h2>Carousel Simple</h2>
     <p>
       <input type="checkbox" id="loop-switch" checked="false"
-        onchange="var tabs = $('carousel-demo')._tabs; this.checked ? tabs.startLoop(2000) : tabs.stopLoop();" />
+        onchange="var tabs = $('carousel-demo'); this.checked ? tabs.startLoop(2000) : tabs.stopLoop();" />
       <label for="loop-switch">Switch the slideshow on/off</label>
     </p>
     <p>
-      <div id="carousel-demo" class="right-tabs right-tabs-carousel">
+      <div id="carousel-demo" class="rui-tabs rui-tabs-carousel">
         <ul>
           <li><a href="#cs-tab-1"><img src="http://rightjs.org/images/test/1-min.jpg" /></a></li>
           <li><a href="#cs-tab-2"><img src="http://rightjs.org/images/test/2-min.jpg" /></a></li>
-          <li class="right-tabs-current"><a href="#cs-tab-3"><img src="http://rightjs.org/images/test/3-min.jpg" /></a></li>
+          <li class="rui-tabs-current"><a href="#cs-tab-3"><img src="http://rightjs.org/images/test/3-min.jpg" /></a></li>
           <li><a href="#cs-tab-4"><img src="http://rightjs.org/images/test/4-min.jpg" /></a></li>
           <li><a href="#cs-tab-7"><img src="http://rightjs.org/images/test/1-min.jpg" /></a></li>
           <li><a href="#cs-tab-8"><img src="http://rightjs.org/images/test/2-min.jpg" /></a></li>
@@ -221,7 +231,7 @@
     
     <h2>Simple Harmonica</h2>
     <p>
-      <dl class="right-tabs">
+      <dl class="rui-tabs">
         <dt><a href="#">Tab 1</a></dt>
         <dd>tab body 1</dd>
         <dt><a href="#">Tab 2</a></dt>
@@ -235,11 +245,11 @@
     
     <h2>Remote Harmonica</h2>
     <p>
-      <dl class="right-tabs">
-        <dt><a href="content/tab-1.html">Tab 1</a></dt>
-        <dt><a href="content/tab-2.html">Tab 2</a></dt>
-        <dt><a href="content/tab-3.html">Tab 3</a></dt>
-        <dt><a href="content/tab-4.html">Tab 4</a></dt>
+      <dl class="rui-tabs">
+        <dt><a href="tabs/tab-1.html">Tab 1</a></dt>
+        <dt><a href="tabs/tab-2.html">Tab 2</a></dt>
+        <dt><a href="tabs/tab-3.html">Tab 3</a></dt>
+        <dt><a href="tabs/tab-4.html">Tab 4</a></dt>
       </dl>
     </p>
     

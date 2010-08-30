@@ -1,23 +1,9 @@
 /**
  * This module handles the slide-show loop feature for the Tabs
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Tabs.include((function() {
-  var old_initialize = Tabs.prototype.initialize;
-  
-return {
-  /**
-   * Overloading the constructor to start the slideshow loop automatically
-   *
-   */
-  initialize: function() {
-    old_initialize.apply(this, arguments);
-    
-    if (this.options.loop) {
-      this.startLoop();
-    }
-  },
+Tabs.include({
   
   /**
    * Starts the slideshow loop
@@ -26,12 +12,12 @@ return {
    * @return Tabs this
    */
   startLoop: function(delay) {
-    if (!delay && !this.options.loop) return this;
+    if (!delay && !this.options.loop) { return this; }
     
     // attaching the loop pause feature
     if (this.options.loopPause) {
-      this._stopLoop  = this._stopLoop  || this.stopLoop.bind(this, true);
-      this._startLoop = this._startLoop || this.startLoop.bind(this, delay);
+      this._stopLoop  = this._stopLoop  || R(this.stopLoop).bind(this, true);
+      this._startLoop = this._startLoop || R(this.startLoop).bind(this, delay);
       
       this.forgetHovers().on({
         mouseover: this._stopLoop,
@@ -39,16 +25,16 @@ return {
       });
     }
     
-    if (this.timer) this.timer.stop();
+    if (this.timer) { this.timer.stop(); }
     
-    this.timer = function() {
-      var enabled = this.tabs.filter('enabled');
-      var current = this.tabs.first('current');
+    this.timer = R(function() {
+      var enabled = this.enabled();
+      var current = this.current();
       var next    = enabled[enabled.indexOf(current)+1];
       
-      this.show(next || enabled.first());
+      this.select(next || enabled.first());
       
-    }.bind(this).periodical(this.options.loop || delay);
+    }).bind(this).periodical(this.options.loop || delay);
     
     return this;
   },
@@ -63,16 +49,17 @@ return {
       this.timer.stop();
       this.timer = null;
     }
-    if (!pause && this._startLoop)
+    if (!pause && this._startLoop) {
       this.forgetHovers();
+    }
   },
   
 // private
   forgetHovers: function() {
-    return this.element
+    return this
       .stopObserving('mouseover', this._stopLoop)
       .stopObserving('mouseout', this._startLoop);
   }
   
   
-}})());
+});

@@ -85,7 +85,7 @@ task :pack do
         (css + ["src/#{widget}/#{widget}.css"]).collect do |filename|
           File.read(filename)
         end.join("\n")
-      )
+      ).gsub(/([^\s])\*/, '\1 *')
     end
     rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget.gsub('_', '-')}.js")
     

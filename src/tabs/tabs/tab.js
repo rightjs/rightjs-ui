@@ -1,59 +1,64 @@
 /**
  * A single tab handling object
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Tabs.Tab = new Class({
+var Tab = Tabs.Tab = new Wrapper(Element, {
   extend: {
     autoId: 0
   },
   
-  initialize: function(element, controller) {
-    this.element    = element.addClass('right-tabs-tab');
-    this.controller = controller;
+  /**
+   * Constructor
+   *
+   * @param Element the tab's element
+   * @param Tabs the main element
+   * @return void
+   */
+  initialize: function(element, main) {
+    this.$super(element._);
+    this.addClass('rui-tabs-tab');
     
-    this.element.onMousedown(this.click.bind(this)).onClick('stopEvent');
+    this.main  = main;
+    this.link  = this.first('a');
+    this.id    = this.link.get('href').split('#')[1] || Tab.autoId++;
+    this.panel = new Panel(this.findPanel(), this);
     
-    this.findLink();
-      
-    this.panel = new Tabs.Panel(controller.findPanel(this), this);
+    if (this.current()) {
+      this.select();
+    }
     
-    // adding the 'close' icon onto the tab
-    if (controller.options.closable) {
+    // adding the 'close' icon onto the tab if needed
+    if (main.options.closable) {
       this.link.insert($E('div', {
-        'class': 'right-tabs-tab-close-icon', 'html': '&times;'
-      }).onMousedown(this.remove.bind(this)).onClick('stopEvent'));
-    }
-  },
-  
-  click: function(event) {
-    event.stop();
-    return this.fire('click').show();
-  },
-  
-  show: function() {
-    if (this.enabled()) {
-      var prev_tab = this.controller.tabs.first('current');
-      if (prev_tab)  prev_tab.fire('hide');
-      
-      this.element.radioClass('right-tabs-current');
-      this.controller.scrollToTab(this);
-      this.panel.show();
-      
-      this.fire('show');
+        'class': 'rui-tabs-tab-close-icon', 'html': '&times;'
+      }).onClick(R(this.remove).bind(this)));
     }
     
-    return this;
+    this.onClick(this._clicked);
+  },
+  
+  select: function() {
+    if (this.enabled()) {
+      var prev_tab = this.main.current();
+      if (prev_tab) {
+        prev_tab.removeClass('rui-tabs-current').fire('hide');
+      }
+      
+      this.addClass('rui-tabs-current');
+      this.main.scrollToTab(this);
+      this.panel.show();
+    }
+    
+    return this.fire('select');
   },
   
   disable: function() {
-    this.element.addClass('right-tabs-disabled');
-    return this.fire('disable');
+    return this.addClass('rui-tabs-disabled').fire('disable');
   },
   
   enable: function() {
-    this.element.removeClass('right-tabs-disabled');
-    return this.fire('enable');
+    return this.removeClass('rui-tabs-disabled').fire('enable');
   },
   
   disabled: function() {
@@ -61,49 +66,64 @@ Tabs.Tab = new Class({
   },
   
   enabled: function() {
-    return !this.element.hasClass('right-tabs-disabled');
+    return !this.hasClass('rui-tabs-disabled');
   },
   
   current: function() {
-    return this.element.hasClass('right-tabs-current');
+    return this.hasClass('rui-tabs-current');
   },
   
   remove: function(event) {
-    if (event) event.stop();
+    if (event) { event.stop(); }
     
     // switching to the next available sibling
     if (this.current()) {
-      var enabled = this.controller.tabs.filter('enabled');
+      var enabled = this.main.enabled();
       var sibling = enabled[enabled.indexOf(this) + 1] || enabled[enabled.indexOf(this)-1];
       
       if (sibling) {
-        sibling.show();
+        sibling.select();
       }
     }
     
     // removing the tab out of the list
-    this.controller.tabs.splice(this.controller.tabs.indexOf(this), 1);
-    this.element.remove();
+    this.main.tabs.splice(this.main.tabs.indexOf(this), 1);
     this.panel.remove();
     
-    return this;
+    return this.$super().fire('remove');
   },
   
 // protected
-  // returns the tab width, used for the scrolling calculations
-  width: function() {
-    return this.element.offsetWidth + this.element.getStyle('marginRight').toInt();
+
+  // handles the clicks on the tabs
+  _clicked: function(event) {
+    event.stop();
+    return this.select();
   },
 
-  // the events firing wrapper
-  fire: function(event) {
-    this.controller.fire(event, this);
-    return this;
+  // searches for a panel for the tab
+  findPanel: function() {
+    var main = this.main, panel_id = main.options.idPrefix + this.id, panel;
+    
+    if (main.isHarmonica) {
+      var next = this.next();
+      panel = (next && next._.tagName === 'DD') ? next : $E('DD').insertTo(this, 'after');
+    } else {
+      panel = $(panel_id) || $E(main._.tagName === 'UL' ? 'LI' : 'DIV').insertTo(main);
+    }
+      
+    return panel.set('id', panel_id);
   },
   
-  // generates the automaticall id for the tab
-  findLink: function() {
-    this.link = this.element.first('a');
-    this.id = this.link.href.split('#')[1] || (this.controller.options.idPrefix + (Tabs.Tab.autoId++));
+  // returns the tab width, used for the scrolling calculations
+  width: function() {
+    var next = this.next();
+    
+    if (next) {
+      return next.position().x - this.position().x;
+    } else {
+      return this.size().x + 1;
+    }
   }
+
 });

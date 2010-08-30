@@ -1,50 +1,45 @@
 /**
  * This module handles the current tab state saving/restoring processes
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Tabs.include((function() {
-  var old_initialize = Tabs.prototype.initialize;
-  
-  var get_cookie_indexes = function() {
-    return self.Cookie ? (Cookie.get('right-tabs-indexes') || '').split(',') : [];
-  };
-  
-  var save_tab_in_cookies = function(options, tabs, tab) {
-    if (self.Cookie) {
-      var indexes = get_cookie_indexes();
-      indexes = indexes.without.apply(indexes, tabs.map('id'));
-      indexes.push(tab.id);
-      Cookie.set('right-tabs-indexes', indexes.uniq().join(','), options);
-    }
-  };
+function get_cookie_indexes() {
+  return R(RightJS.Cookie ? (Cookie.get('right-tabs-indexes') || '').split(',') : []);
+}
 
-return {
-  
-  // overloading the constructor to catch up the current tab properly
-  initialize: function() {
-    old_initialize.apply(this, arguments);
-    
-    this.findCurrent();
-    
-    // initializing the cookies storage if set
-    if (this.options.Cookie)
-      this.onShow(save_tab_in_cookies.curry(this.options.Cookie, this.tabs));
-  },
-  
+function save_tab_in_cookies(options, tabs, event) {
+  if (RightJS.Cookie) {
+    var indexes = get_cookie_indexes();
+    indexes = indexes.without.apply(indexes, tabs.map('id'));
+    indexes.push(event.target.id);
+    Cookie.set('right-tabs-indexes', indexes.uniq().join(','), options);
+  }
+}
+
+Tabs.include({
   
 // protected
   
   // searches and activates the current tab
   findCurrent: function() {
     var current;
-    if (this.options.selected !== null)
+    if (this.options.selected !== null) {
       current = this.options.selected;
-    else {
-      var enabled = this.tabs.filter('enabled');
+    } else {
+      var enabled = this.enabled();
       current = enabled[this.urlIndex()] || enabled[this.cookieIndex()] || enabled.first('current') || enabled[0];
     }
-    if (current) current.show();
+    
+    if (current) {
+      current.select();
+    }
+    
+    // initializing the cookies storage if set
+    if (this.options.Cookie) {
+      this.onSelect(R(save_tab_in_cookies).curry(this.options.Cookie, this.tabs));
+    }
+    
+    return this;
   },
   
   // tries to find the current tab index in the url hash
@@ -80,4 +75,4 @@ return {
     return index;
   }
   
-}})());
+});
