@@ -107,3 +107,8 @@ div.rui-selectable-container ul.rui-selectable-display li {
   line-height: 1.6em;
   padding: 0 .5em;
 }
+
+/** hidding the native selectboxes by default */
+select.rui-selectable {
+  visibility: hidden;
+}
