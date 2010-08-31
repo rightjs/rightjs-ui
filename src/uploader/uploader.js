@@ -1,9 +1,9 @@
 /**
  * The uploading progress feature
  *
- * Copyright (C) 2010 Nikolay V. Nemshilov
+ * Copyright (C) 2010 Nikolay Nemshilov
  */
-var Uploader = new Class(Observer, {
+var Uploader = new Widget({
   extend: {
     EVENTS: $w('start update finish error'),
 
@@ -15,7 +15,7 @@ var Uploader = new Class(Observer, {
       round:       0,
       fxDuration:  400,
 
-      formCssRule: '.with-progress'
+      cssRule:     '[data-uploader]'
     }
   },
 
@@ -26,16 +26,23 @@ var Uploader = new Class(Observer, {
    * @param Object options
    */
   initialize: function(form, options) {
-    this.form = $(form);
+    this.form = form = $(form);
+    
+    // trying to find an existing progress-bar
+    var element = form.first('.rui-uploader');
 
-    this.$super(options || eval('('+this.form.get('data-uploader-options')+')'));
-
-    this.element = this.find_or_build();
-
-    this.bar = this.element.first('.bar');
-    this.num = this.element.first('.num');
-
-    this.form._uploader = this;
+    this
+      .$super('uploader', element)
+      .setOptions(options, this.form)
+      .addClass('rui-progress-bar')
+      .insert([
+        this.bar = this.first('.bar') || $E('div', {'class': 'bar'}),
+        this.num = this.first('.num') || $E('div', {'class': 'num'})
+      ]);
+    
+    if (!element) {
+      this.insertTo(form);
+    }
   },
 
   /**
@@ -45,25 +52,25 @@ var Uploader = new Class(Observer, {
    */
   start: function() {
     var data = {state: 'starting'};
-    return this.paint(data).prepare().request().fire('start', data);
+    return this.paint(data).prepare().request().fire('start', {data: data});
   },
 
 // protected
 
   // updates uploading bar progress
   update: function(data) {
-    this.paint(data).fire('update', data);
+    this.paint(data).fire('update', {data: data});
 
     switch (data.state) {
       case 'starting':
       case 'uploading':
-        this.request.bind(this).delay(this.options.timeout);
+        R(this.request).bind(this).delay(this.options.timeout);
         break;
       case 'done':
-        this.fire('finish', data);
+        this.fire('finish', {data: data});
         break;
       case 'error':
-        this.fire('error', data);
+        this.fire('error', {data: data});
         break;
     }
 
@@ -75,25 +82,25 @@ var Uploader = new Class(Observer, {
     var percent = (this.percent || 0)/100;
 
     switch (data.state) {
-      case 'starting':  percent = 0;   break;
+      case 'starting':  percent = 0; break;
       case 'done':      percent = 1; break;
       case 'uploading': percent = data.received / (data.size||1); break;
     }
 
-    this.percent = (percent * 100).round(this.options.round);
+    this.percent = R(percent * 100).round(this.options.round);
     
-    if (this.percent == 0 || !self.Fx || !this.options.fxDuration) {
-      this.bar.style.width = this.percent + '%';
-      this.num.innerHTML   = this.percent + '%';
+    if (this.percent === 0 || !RightJS.Fx || !this.options.fxDuration) {
+      this.bar._.style.width = this.percent + '%';
+      this.num._.innerHTML   = this.percent + '%';
     } else {
       this.bar.morph({width: this.percent + '%'}, {duration: this.options.fxDuration});
-      (function() {
-        this.num.innerHTML = this.percent + '%';
+      R(function() {
+        this.num._.innerHTML = this.percent + '%';
       }).bind(this).delay(this.options.fxDuration / 2);
     }
 
     // marking the failed uploads
-    this.element[data.state == 'error' ? 'addClass' : 'removeClass']('right-progress-bar-failed');
+    this[data.state === 'error' ? 'addClass' : 'removeClass']('rui-progress-bar-failed');
 
     return this;
   },
@@ -102,9 +109,9 @@ var Uploader = new Class(Observer, {
   request: function() {
     Xhr.load(this.options.url + "?" + this.options.param + "=" + this.uid, {
       evalJSON: false,
-      onSuccess: function(xhr) {
+      onSuccess: R(function(xhr) {
         this.update(eval('('+xhr.text+')'));
-      }.bind(this)
+      }).bind(this)
     });
 
     return this;
@@ -116,22 +123,12 @@ var Uploader = new Class(Observer, {
     for (i = 0; i < 32; i++) { this.uid += Math.random(0, 15).toString(16); }
     
     var param = this.options.param;
-    var url = this.form.action.replace(new RegExp('(\\?|&)'+RegExp.escape(param) + '=[^&]*', 'i'), '');
-    this.form.action = (url.includes('?') ? '&' : '?') + param + '=' + this.uid;
+    var url = this.form.get('action').replace(new RegExp('(\\?|&)'+RegExp.escape(param) + '=[^&]*', 'i'), '');
+    this.form.set('action', (R(url).includes('?') ? '&' : '?') + param + '=' + this.uid);
     
-    this.element.show();
+    this.show();
     
     return this;
-  },
-
-  // finds or builds the progress-bar element
-  find_or_build: function() {
-    var element = this.form.first('div.right-progress-bar') || $E('div').insertTo(this.form);
-
-    if (element.innerHTML.blank())
-      element.innerHTML = '<div class="bar"></div><div class="num"></div>';
-
-    return element.addClass('right-progress-bar');
   }
 
 });
