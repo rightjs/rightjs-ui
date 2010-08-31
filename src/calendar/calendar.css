@@ -177,10 +177,11 @@ div.rui-calendar .buttons {
   margin-top: .5em;
 }
 div.rui-calendar .buttons div.rui-button {
-  width: 3.2em;
+  width: 4em;
+  padding: .25em .5em
 }
 div.rui-calendar .buttons .done {
   position: absolute;
-  right: .5em;
+  right: 0em;
   top: 0;
 }
