@@ -122,7 +122,7 @@ var Autocompleter = new Widget('UL', {
   
   // handles mouse clicks on the list element
   clicked: function(event) {
-    this.done(event.find('li'));
+    this.done(event.stop().find('li'));
   },
   
   // handles the key-press events
