@@ -1,18 +1,18 @@
 /**
  * Right Tooltips basic stylesheet
  *
- * <div class="right-tooltip">
- *   <div class="right-tooltip-arrow"></div>
- *   <div class="right-tooltip-container"></div>
+ * <div class="rui-tooltip">
+ *   <div class="rui-tooltip-arrow"></div>
+ *   <div class="rui-tooltip-container"></div>
  * </div>
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 
-div.right-tooltip {
+div.rui-tooltip {
   display: none;
   position: absolute;
-  z-index: 999999;
+  z-index: 99999;
   font-size: 90%;
   margin-top: 16pt;
   margin-left: 5pt;
@@ -35,6 +35,6 @@ div.right-tooltip {
   -webkit-box-shadow: 0 0 .4em #555;
 }
 
-div.right-tooltip-container {
+div.rui-tooltip-container {
   margin: .4em .6em;
 }
