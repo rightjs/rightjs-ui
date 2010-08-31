@@ -1,5 +1,4 @@
-var Uploader = (function(RightJS) {
-
+var Uploader = RightJS.Uploader = (function(RightJS) {
 %{source_code}
 
 return Uploader;

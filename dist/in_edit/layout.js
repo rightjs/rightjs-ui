@@ -1,4 +1,4 @@
-var InEdit = (function(document, RightJS) {
+var InEdit = RightJS.InEdit = (function(document, RightJS) {
 %{source_code}
 
 return InEdit;

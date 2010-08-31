@@ -1,5 +1,4 @@
-var Tabs = (function(document, parseInt, RightJS) {
-
+var Tabs = RightJS.Tabs = (function(document, parseInt, RightJS) {
 %{source_code}
 
 return Tabs;

@@ -1,4 +1,4 @@
-var Calendar = (function(document, parseInt, RightJS) {
+var Calendar = RightJS.Calendar = (function(document, parseInt, RightJS) {
 %{source_code}
 
 return Calendar;

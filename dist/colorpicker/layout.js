@@ -1,4 +1,4 @@
-var Colorpicker = (function(document, Math, parseInt, RightJS) {
+var Colorpicker = RightJS.Colorpicker = (function(document, Math, parseInt, RightJS) {
 %{source_code}
 
 return Colorpicker;

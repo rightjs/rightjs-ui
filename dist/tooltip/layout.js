@@ -1,6 +1,5 @@
-var Tooltips = (function(document, RightJS) {
-
+var Tooltip = RightJS.Tooltip = (function(document, RightJS) {
 %{source_code}
 
-return Tooltips;
+return Tooltip;
 })(document, RightJS);

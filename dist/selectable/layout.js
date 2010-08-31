@@ -1,4 +1,4 @@
-var Selectable = (function(document, RightJS) {
+var Selectable = RightJS.Selectable = (function(document, RightJS) {
 %{source_code}
 
 return Selectable;
