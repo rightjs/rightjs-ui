@@ -5,6 +5,8 @@
  */
 var InEdit = new Widget('FORM', {
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('show hide send update'),
     
     Options: {

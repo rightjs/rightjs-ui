@@ -5,6 +5,8 @@
  */
 var Sortable = new Widget('UL', {
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('change'),
     
     Options: {

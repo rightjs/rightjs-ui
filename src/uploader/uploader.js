@@ -5,6 +5,8 @@
  */
 var Uploader = new Widget({
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('start update finish error'),
 
     Options: {

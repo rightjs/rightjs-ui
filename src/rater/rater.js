@@ -7,6 +7,8 @@ var Rater = new Widget({
   include: Updater,
   
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('change hover send'),
     
     Options: {

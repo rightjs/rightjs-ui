@@ -5,6 +5,8 @@
  */
 var Tooltip = new Widget({
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('show hide'),
     
     Options: {

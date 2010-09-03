@@ -7,6 +7,8 @@ var Slider = new Widget({
   include: Updater,
   
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('change'),
     
     Options: {

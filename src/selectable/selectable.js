@@ -7,6 +7,8 @@ var Selectable = new Widget('UL', {
   include: Updater,
   
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('change select unselect disable enable hover leave show hide'),
     
     Options: {

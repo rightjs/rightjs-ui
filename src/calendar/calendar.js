@@ -7,6 +7,8 @@ var Calendar = new Widget({
   include: [Toggler, Assignable],
   
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('show hide change done'),
     
     Options: {

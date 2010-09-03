@@ -7,6 +7,8 @@ var Colorpicker = new Widget({
   include: [Toggler, Assignable],
   
   extend: {
+    version: '2.0.0',
+    
     EVENTS: $w('change show hide done'),
     
     Options: {
