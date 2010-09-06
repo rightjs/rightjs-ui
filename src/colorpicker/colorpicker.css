@@ -149,6 +149,9 @@ div.rui-colorpicker div.rgb-display {
 div.rui-colorpicker div.rgb-display label {
   display: inline;
 }
+div.rui-colorpicker div.rgb-display label:after { /** preventing CSS2 stars */
+  content: none;
+}
 div.rui-colorpicker div.rgb-display input {
   vertical-align: top;
   font-size: 100%;
