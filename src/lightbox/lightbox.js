@@ -12,7 +12,7 @@ var Lightbox = new Widget({
     
     Options: {
       fxName:          'fade',
-      fxDuration:      200,
+      fxDuration:      100,
       
       group:           null, // a group marker
       
