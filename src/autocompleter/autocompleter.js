@@ -84,7 +84,7 @@ var Autocompleter = new Class(Observer, {
   
   // handles the list appearance
   show: function() {
-    if (this.container.hidden()) {
+    if (!this.container.visible()) {
       var dims = this.input.dimensions(), pos = this.holder.position();
       
       this.container.setStyle({

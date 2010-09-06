@@ -15,7 +15,7 @@ document.on({
     
     if (this_tip) {
       if (prev_tip && prev_tip !== this_tip) prev_tip.hide();
-      if (this_tip.element.hidden()) this_tip.show();
+      if (!this_tip.element.visible()) this_tip.show();
       
       this_tip.moveTo(event);
     }

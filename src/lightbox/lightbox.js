@@ -206,7 +206,7 @@ var Lightbox = new Class({
   showingSelf: function(callback) {
     Lightbox.boxes.without(this).each('hide');
     
-    if (this.element.hidden()) {
+    if (!this.element.visible()) {
       this.element.insertTo(document.body).show();
       
       this.boxResize();

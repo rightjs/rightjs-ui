@@ -31,7 +31,7 @@ Calendar.include({
         
         click: function(e) {
           e.stop();
-          if (this.element.hidden())
+          if (!this.element.visible())
             this.showAt(input);
         }.bind(this),
         
