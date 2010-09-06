@@ -92,6 +92,11 @@ var Colorpicker = new Widget({
       
       this.color = color;
       this.color2tint().update();
+      
+      // reupdating the popup-state a bit later when we have the sizes
+      if (!this.colors.size().y) {
+        this.update.bind(this).delay(20);
+      }
     }
     return this;
   },
