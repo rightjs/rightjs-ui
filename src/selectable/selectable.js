@@ -226,7 +226,7 @@ var Selectable = new Class(Observer, {
       items = clean;
     }
     
-    items.each(function(item) {
+    items.compact().each(function(item) {
       this.fire('select', item.addClass(selected_class));
     }, this);
     
@@ -485,7 +485,7 @@ var Selectable = new Class(Observer, {
   // toggles the single-selects list
   toggleList: function(event) {
     event.stop();
-    return this.element.visible() ? this.hideList() : this.showList(event);
+    return this.element.getStyle('display') !== 'none' ? this.hideList() : this.showList(event);
   },
   
   // shows list for the single-selects
@@ -511,7 +511,7 @@ var Selectable = new Class(Observer, {
   
   // hides the list for the single-selects
   hideList: function() {
-    if (this.isSingle && this.element.visible()) {
+    if (this.isSingle && this.element.getStyle('display') !== 'none') {
       this.element.hide(this.options.fxName, {
         duration: this.options.fxDuration,
         onFinish: this.fire.bind(this, 'hide', this)
