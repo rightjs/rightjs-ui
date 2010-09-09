@@ -4,15 +4,13 @@
  * Copyright (C) 2010 Nikolay V. Nemshilov
  */
 Lightbox.include((function(proto) {
-  var old_show = proto.show;
-  
-  var media_types = {
-    swf: [
-      'D27CDB6E-AE6D-11cf-96B8-444553540000',
-  		'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
-  		'application/x-shockwave-flash'
-    ]
-  };
+  var old_show = proto.show,
+      one = "D27CDB6E-AE6D-11cf-96B8-444553540000",
+      two = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0",
+      thr = "application/x-shockwave-flash",
+      media_types = {
+        swf: [one, two, thr]
+      };
   
   // builds the actual embedded tag
   function build_embedded(addr, type) {
