@@ -490,8 +490,8 @@ var Selectable = new Widget('UL', {
     $A(selectbox._.getElementsByTagName('OPTION')).each(function(option, index) {
       options.options.push([option.innerHTML, $(option).get('value') || option.innerHTML]);
       
-      if (option.selected) { options.selected.push(index); }
-      if (option.disabled) { options.disabled.push(index); }
+      if (option.selected && !selectbox._.disabled) { options.selected.push(index); }
+      if (option.disabled ||  selectbox._.disabled) { options.disabled.push(index); }
     });
     
     if (options.selected.empty()) { options.selected = 0; }
