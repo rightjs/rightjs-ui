@@ -35,18 +35,18 @@ include_shared_css(
 
 include_module_files(
   'calendar',
-  
+
   // sub-units
   'calendar/swaps',
   'calendar/month',
   'calendar/greed',
   'calendar/timepicker',
   'calendar/buttons',
-  
+
   // domain logic
   'calendar/formats',
   'calendar/events',
-  
+
   // document hooks
   'document'
 );

@@ -25,7 +25,7 @@ var Loader = new Class({
       }).send();
     }
   },
-  
+
   /**
    * Cancels the request
    *
@@ -40,7 +40,7 @@ var Loader = new Class({
   },
 
 // protected
-  
+
   // tries to initialize it as an image loading
   isImage: function(url, on_finish) {
     if (url.match(Lightbox.Images)) {
@@ -52,20 +52,20 @@ var Loader = new Class({
       return true;
     }
   },
-  
+
   // tries to initialize it as a flash-element
   isMedia: function(url, on_finish) {
     var media = R(Lightbox.Medias).map(function(desc) {
       return url.match(desc[0]) ? this.buildEmbed(
         url.replace(desc[0], desc[1]), desc[2]) : null;
     }, this).compact()[0];
-    
+
     if (media) {
       on_finish(media, true);
       return true;
     }
   },
-  
+
   // builds an embedded media block
   buildEmbed: function(url, type) {
     var media_types = {
@@ -84,5 +84,5 @@ var Loader = new Class({
       '<embed src="'+ url +'" type="'+ media_types[type][2]+'"'+ sizes + ' />' +
     '</object>';
   }
-  
+
 });

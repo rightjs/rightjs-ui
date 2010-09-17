@@ -13,15 +13,15 @@ $(document).on({
    */
   focus: function(event) {
     var target = event.target instanceof Input ? event.target : null;
-    
+
     Calendar.hideAll();
-    
+
     if (target && (target.calendar || target.match(Calendar.Options.cssRule))) {
       (target.calendar || new Calendar({update: target}))
         .setValue(target.value()).showAt(target);
     }
   },
-  
+
   /**
    * Watches the input elements blur events
    * and hides shown popups
@@ -31,7 +31,7 @@ $(document).on({
    */
   blur: function(event) {
     var target = event.target, calendar = target.calendar;
-    
+
     if (calendar) {
       // we use the delay so it didn't get hidden when the user clicks the calendar itself
       calendar._hide_delay = R(function() {
@@ -39,7 +39,7 @@ $(document).on({
       }).delay(200);
     }
   },
-  
+
   /**
    * Catches clicks on trigger elements
    *
@@ -48,7 +48,7 @@ $(document).on({
    */
   click: function(event) {
     var target = (event.target instanceof Element) ? event.target : null;
-    
+
     if (target && (target.calendar || target.match(Calendar.Options.cssRule))) {
       if (!(target instanceof Input)) {
         event.stop();
@@ -59,7 +59,7 @@ $(document).on({
       Calendar.hideAll();
     }
   },
-  
+
   /**
    * Catching the key-downs to navigate in the currently
    * opened Calendar hover
@@ -78,7 +78,7 @@ $(document).on({
       34: 'next-month',  // Page Down
       13: 'done'         // Enter
     })[event.keyCode];
-    
+
     if (name && calendar && calendar.visible()) {
       event.stop();
       if (isFunction(calendar[name])) {

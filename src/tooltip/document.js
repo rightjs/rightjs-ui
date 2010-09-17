@@ -15,11 +15,11 @@ $(document).on({
     if (this_tip) {
       if (prev_tip && prev_tip !== this_tip) { prev_tip.hide(); }
       if (this_tip.hidden()) { this_tip.show(); }
-      
+
       this_tip.moveToEvent(event);
     }
   },
-  
+
   /**
    * Catches the mouseout events and hides tooltips when needed
    *
@@ -27,12 +27,12 @@ $(document).on({
    */
   mouseout: function(event) {
     var curr_tip = Tooltip.current, this_tip = Tooltip.find(event);
-    
+
     if (curr_tip && (!this_tip || this_tip === curr_tip)) {
       curr_tip.hide();
     }
   },
-  
+
   /**
    * Moves tooltips when active
    *

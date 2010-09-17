@@ -9,11 +9,11 @@ Lightbox.extend({
       Lightbox.current.hide();
     }
   },
-  
+
   show: function() {
     return this.inst('show', arguments);
   },
-  
+
   load: function() {
     return this.inst('load', arguments);
   },

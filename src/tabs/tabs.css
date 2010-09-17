@@ -9,7 +9,7 @@
  *       <li class="rui-tabs-tab"><a href="#">Tab 1</a></li>
  *       <li class="rui-tabs-tab"><a href="#">Tab 1</a></li>
  *     </ul>
- *     
+ *
  *     <li class="rui-tabs-panel rui-tabs-current">Content 1</li>
  *     <li class="rui-tabs-panel">Content 1</li>
  *     <li class="rui-tabs-panel">Content 1</li>
@@ -21,12 +21,12 @@
  *     <div class="rui-tabs-scroller">
  *       <div class="rui-tabs-scroller-prev">&laquo;</div>
  *       <div class="rui-tabs-scroller-next">&raquo;</div>
- *       
+ *
  *       <ul class="rui-tabs-list">
  *         ..........
  *       </ul>
  *     </div>
- *     
+ *
  *     ............
  *   </ul>
  *

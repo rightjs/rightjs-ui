@@ -6,19 +6,19 @@
 var Resizable = new Widget({
   extend: {
     version: '2.0.0',
-    
+
     EVENTS: $w('resize start release'),
-    
+
     Options: {
       direction:  null, // 'top', 'left', 'right', 'bottom', null for bidrectional
-      
+
       minWidth:   null,
       maxWidth:   null,
       minHeight:  null,
       maxHeight:  null
     }
   },
-  
+
   /**
    * Basic constructor
    *
@@ -30,20 +30,20 @@ var Resizable = new Widget({
     this
       .$super('resizable', this.old_inst = $(element))
       .setOptions(options);
-      
+
     if (this.options.direction) {
       this.addClass('rui-resizable-'+ this.options.direction);
     } else {
       this.addClass('rui-resizable');
     }
-    
+
     // initializing the inner structure
     this.content = this.first('.rui-resizable-content') ||
       $E('div', {'class': 'rui-resizable-content'}).insert(this._.childNodes).insertTo(this);
     this.handle  = this.first('.rui-resizable-handle')  ||
       $E('div', {'class': 'rui-resizable-handle'}).insertTo(this);
   },
-  
+
   /**
    * destructor
    *
@@ -57,18 +57,18 @@ var Resizable = new Widget({
       .removeClass('rui-resizable-right')
       .removeClass('rui-resizable-bottom')
       .insert(this.content._.childNodes);
-      
+
     this.content.remove();
     this.handle.remove();
-    
+
     // swapping the old element back
     if (this.old_inst) {
       Wrapper.Cache[$uid(this._)] = this.old_inst;
     }
-    
+
     return this;
   },
-  
+
   /**
    * Overriding the method to recognize the direction
    * option from the element class-name
@@ -78,17 +78,17 @@ var Resizable = new Widget({
    */
   setOptions: function(options, context) {
     options = options || {};
-    
+
     // trying to recognize the direction
     $w('top left right bottom').each(function(direction) {
       if (this.hasClass('rui-resizable-'+ direction)) {
         options.direction = direction;
       }
     }, this);
-    
+
     return this.$super(options, context);
   },
-  
+
   /**
    * Starts the resizing process
    *
@@ -97,19 +97,19 @@ var Resizable = new Widget({
   start: function(event) {
     this.prevSizes = this.size();
     this.prevEvPos = event.position();
-    
+
     // used later during the resize process
     this.contXDiff = this.size().x - this.content.size().x;
     this.contYDiff = this.size().y - this.content.size().y;
-    
+
     // trying to recognize the boundaries
     $w('minWidth maxWidth minHeight maxHeight').each(function(dimension) {
       this[dimension] = this.findDim(dimension);
     }, this);
-    
+
     return this.fire('start', event);
   },
-  
+
   /**
    * Tracks the event during the resize process
    *
@@ -127,17 +127,17 @@ var Resizable = new Widget({
         max_y     = this.maxHeight,
         options   = this.options,
         direction = options.direction;
-    
+
     // calculating the new size
     width  += (direction === 'left' ? 1 : -1) * x_diff;
     height += (direction === 'top'  ? 1 : -1) * y_diff;
-    
+
     // applying the boundaries
     if (width  < min_x) { width  = min_x; }
     if (width  > max_x) { width  = max_x; }
     if (height < min_y) { height = min_y; }
     if (height > max_y) { height = max_y; }
-    
+
     // applying the sizes
     if (prev_size.x !== width && direction !== 'top' && direction !== 'bottom') {
       this.setWidth(width);
@@ -145,7 +145,7 @@ var Resizable = new Widget({
     if (prev_size.y !== height && direction !== 'left' && direction !== 'right') {
       this.setHeight(height);
     }
-    
+
     // adjusting the previous cursor position so that it didn't had a shift
     if (width == min_x || width == max_x) {
       event_pos.x = handle.left + handle.width / 2;
@@ -153,13 +153,13 @@ var Resizable = new Widget({
     if (height == min_y || height == max_y) {
       event_pos.y = handle.top + handle.height / 2;
     }
-    
+
     this.prevEvPos = event_pos;
     this.prevSizes = this.size();
-    
+
     this.fire('resize', event);
   },
-  
+
   /**
    * Sets the width of the widget
    *
@@ -170,7 +170,7 @@ var Resizable = new Widget({
     this.content.setWidth(width - this.contXDiff);
     return this.$super(width);
   },
-  
+
   /**
    * Sets the height of the widget
    *
@@ -181,7 +181,7 @@ var Resizable = new Widget({
     this.content.setHeight(height - this.contYDiff);
     return this.$super(height);
   },
-  
+
   /**
    * Marks it the end of the action
    *
@@ -190,7 +190,7 @@ var Resizable = new Widget({
   release: function(event) {
     return this.fire('release', event);
   },
-  
+
   /**
    * Overloading the standard method so that it was sending
    * current instance as an argument
@@ -201,13 +201,13 @@ var Resizable = new Widget({
   fire: function(event, dom_event) {
     return this.$super(event, this, dom_event);
   },
-  
+
 // protected
 
   // finds dimensions of the element
   findDim: function(dimension) {
     var style = this.options[dimension] || this.getStyle(dimension);
-    
+
     if (style && /\d+/.test(style) && parseFloat(style) > 0) {
       var what  = R(dimension).include('Width') ? 'width' : 'height',
           dummy = (this._dummy || (this._dummy = $E('div', {
@@ -215,10 +215,10 @@ var Resizable = new Widget({
           })))
           .setStyle(what, style)
           .insertTo(this, 'before');
-          
+
       var size = dummy._['offset' + R(what).capitalize()];
       dummy.remove();
-      
+
       return size;
     }
   }

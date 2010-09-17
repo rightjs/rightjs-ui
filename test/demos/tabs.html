@@ -20,14 +20,14 @@
           <li><a href="#tab-3">Tab 3</a></li>
           <li><a href="#tab-4">Tab 4</a></li>
         </ul>
-        
+
         <div id="tab-1">tab body 1</div>
         <div id="tab-2">tab body 2</div>
         <div id="tab-3">tab body 3</div>
         <div id="tab-4">tab body 4</div>
       </div>
     </p>
-    
+
     <h2>UL version with options, id-prefix and close icons</h2>
     <p>
       <ul data-tabs="{idPrefix: 'pre-', closable: true}">
@@ -37,14 +37,14 @@
           <li><a href="#ul-tab-3">Tab 3</a></li>
           <li><a href="#ul-tab-4">Tab 4</a></li>
         </ul>
-        
+
         <li id="pre-ul-tab-1">tab body 1</li>
         <li id="pre-ul-tab-2">tab body 2</li>
         <li id="pre-ul-tab-3">tab body 3</li>
         <li id="pre-ul-tab-4">tab body 4</li>
       </ul>
     </p>
-    
+
     <h2>Disabled Tabs</h2>
     <p>
       <div class="rui-tabs">
@@ -54,14 +54,14 @@
           <li><a href="#d-tab-3">Tab 3</a></li>
           <li class="rui-tabs-disabled"><a href="#d-tab-4">Tab 4</a></li>
         </ul>
-        
+
         <div id="d-tab-1">tab body 1</div>
         <div id="d-tab-2">tab body 2</div>
         <div id="d-tab-3">tab body 3</div>
         <div id="d-tab-4">tab body 4</div>
       </div>
     </p>
-    
+
     <h2>Tabs Saved in Cookies</h2>
     <p>
       <div class="rui-tabs" data-tabs="{Cookie:{duration:1}}">
@@ -71,14 +71,14 @@
           <li><a href="#c-tab-3">Tab 3</a></li>
           <li><a href="#c-tab-4">Tab 4</a></li>
         </ul>
-        
+
         <div id="c-tab-1">tab body 1</div>
         <div id="c-tab-2">tab body 2</div>
         <div id="c-tab-3">tab body 3</div>
         <div id="c-tab-4">tab body 4</div>
       </div>
     </p>
-    
+
     <h2>Direct Remote Tabs</h2>
     <p>
       <div class="rui-tabs">
@@ -90,7 +90,7 @@
         </ul>
       </div>
     </p>
-    
+
     <h2>Remote Tabs With A Common Address</h2>
     <p>
       <div class="rui-tabs" data-tabs="{idPrefix:'cr-', url: 'tabs/%{id}.html'}">
@@ -102,19 +102,19 @@
         </ul>
       </div>
     </p>
-    
+
     <h2>Programmatically Generated Tabs</h2>
     <p>
       <div id="auto-tabs"></div>
       <script type="text/javascript">
       // <![CDATA[
         var tabs = new Tabs('auto-tabs', {idPrefix: 'auto-'});
-        
+
         tabs.add('Tab 1', 'Content 1');
         tabs.add('Tab 2', 'Content 2');
         tabs.add('Tab 4', 'Content 4');
         tabs.add('Tab 3', 'Content 3', {position: 2});
-        
+
         tabs.select(0);
       // ]]>
       </script>
@@ -124,12 +124,12 @@
       <script type="text/javascript">
       // <![CDATA[
         var tabs = new Tabs('auto-tabs-with-url', {idPrefix: 'auto-with-url'});
-        
+
         tabs.add('Tab 1', null, {url: 'tabs/tab-1.html'});
         tabs.add('Tab 2', null, {url: 'tabs/tab-2.html'});
         tabs.add('Tab 4', null, {url: 'tabs/tab-4.html'});
         tabs.add('Tab 3', null, {url: 'tabs/tab-3.html', position: 2});
-        
+
         tabs.select(0);
       // ]]>
       </script>
@@ -139,17 +139,17 @@
       <script type="text/javascript">
       // <![CDATA[
         var tabs = new Tabs('auto-tabs-with-ids', {idPrefix: 'auto-with-ids', url: 'tabs/%{id}.html'});
-        
+
         tabs.add('Tab 1', null, {id: 'tab-1'});
         tabs.add('Tab 2', null, {id: 'tab-2'});
         tabs.add('Tab 4', null, {id: 'tab-4'});
         tabs.add('Tab 3', null, {id: 'tab-3', position: 2});
-        
+
         tabs.select(0);
       // ]]>
       </script>
     </p>
-    
+
     <h2>Tabs with scrolling</h2>
     <p>
       <div class="rui-tabs" data-tabs="{scrollTabs:true}">
@@ -175,7 +175,7 @@
           <li><a href="#r-tab-19">Tab 19</a></li>
           <li><a href="#r-tab-20">Tab 20</a></li>
         </ul>
-        
+
         <div id="r-tab-1">tab body 1</div>
         <div id="r-tab-2">tab body 2</div>
         <div id="r-tab-3">tab body 3</div>
@@ -198,7 +198,7 @@
         <div id="r-tab-20">tab body 20</div>
       </div>
     </p>
-    
+
     <h2>Carousel Simple</h2>
     <p>
       <input type="checkbox" id="loop-switch" checked="false"
@@ -217,7 +217,7 @@
           <li><a href="#cs-tab-10"><img src="http://rightjs.org/images/test/3-min.jpg" /></a></li>
           <li><a href="#cs-tab-11"><img src="http://rightjs.org/images/test/4-min.jpg" /></a></li>
         </ul>
-        
+
         <div id="cs-tab-1"><img src="http://rightjs.org/images/test/1.jpg" /></div>
         <div id="cs-tab-2"><img src="http://rightjs.org/images/test/2.jpg" /></div>
         <div id="cs-tab-3"><img src="http://rightjs.org/images/test/3.jpg" /></div>
@@ -228,7 +228,7 @@
         <div id="cs-tab-11"><img src="http://rightjs.org/images/test/5.jpg" /></div>
       </div>
     </p>
-    
+
     <h2>Simple Harmonica</h2>
     <p>
       <dl class="rui-tabs">
@@ -242,7 +242,7 @@
         <dd>tab body 4</dd>
       </dl>
     </p>
-    
+
     <h2>Remote Harmonica</h2>
     <p>
       <dl class="rui-tabs">
@@ -252,7 +252,7 @@
         <dt><a href="tabs/tab-4.html">Tab 4</a></dt>
       </dl>
     </p>
-    
+
     <p class="white-space"></p>
   </body>
 </html>

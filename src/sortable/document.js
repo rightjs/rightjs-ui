@@ -6,22 +6,22 @@
 $(document).on({
   mousedown: function(event) {
     var element = event.find(Sortable.Options.cssRule);
-  
+
     if (element) {
       if (!(element instanceof Sortable)) {
         element = new Sortable(element);
       }
-    
+
       element.startDrag(event);
     }
   },
-  
+
   mousemove: function(event) {
     if (Sortable.current) {
       Sortable.current.moveItem(event);
     }
   },
-  
+
   mouseup: function() {
     if (Sortable.current) {
       Sortable.current.finishDrag();

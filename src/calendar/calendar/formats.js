@@ -35,23 +35,23 @@ Calendar.include({
    */
   parse: function(string) {
     var date;
-    
+
     if (isString(string) && string) {
       var tpl = RegExp.escape(this.options.format);
       var holders = R(tpl.match(/%[a-z]/ig)).map('match', /[a-z]$/i).map('first').without('%');
       var re  = new RegExp('^'+tpl.replace(/%p/i, '(pm|PM|am|AM)').replace(/(%[a-z])/ig, '(.+?)')+'$');
-      
+
       var match = R(string).trim().match(re);
-      
+
       if (match) {
         match.shift();
-        
+
         var year = null, month = null, hour = null, minute = null, second = null, meridian;
-        
+
         while (match.length) {
           var value = match.shift();
           var key   = holders.shift();
-          
+
           if (key.toLowerCase() == 'b') {
             month = this.options.i18n[key=='b' ? 'monthNamesShort' : 'monthNames'].indexOf(value);
           } else if (key.toLowerCase() == 'p') {
@@ -59,36 +59,36 @@ Calendar.include({
           } else {
             value = parseInt(value);
             switch(key) {
-              case 'd': 
+              case 'd':
               case 'e': date   = value; break;
               case 'm': month  = value-1; break;
-              case 'y': 
+              case 'y':
               case 'Y': year   = value; break;
-              case 'H': 
-              case 'k': 
-              case 'I': 
+              case 'H':
+              case 'k':
+              case 'I':
               case 'l': hour   = value; break;
               case 'M': minute = value; break;
               case 'S': second = value; break;
             }
           }
         }
-        
+
         // converting 1..12am|pm into 0..23 hours marker
         if (meridian) {
           hour = hour == 12 ? 0 : hour;
           hour = (meridian == 'pm' ? hour + 12 : hour);
         }
-        
+
         date = new Date(year, month, date, hour, minute, second);
       }
     } else if (string instanceof Date || Date.parse(string)) {
       date = new Date(string);
     }
-    
+
     return (!date || isNaN(date.getTime())) ? null : date;
-  },  
-  
+  },
+
   /**
    * Formats the current date into a string depend on the current or given format
    *
@@ -104,9 +104,9 @@ Calendar.include({
     var hour   = this.date.getHours();
     var minute = this.date.getMinutes();
     var second = this.date.getSeconds();
-    
+
     var hour_ampm = (hour == 0 ? 12 : hour < 13 ? hour : hour - 12);
-    
+
     var values    = {
       a: i18n.dayNamesShort[day],
       A: i18n.dayNames[day],
@@ -127,12 +127,12 @@ Calendar.include({
       S: zerofy(second),
       '%': '%'
     };
-    
+
     var result = format || this.options.format;
     for (var key in values) {
       result = result.replace('%'+key, values[key]);
     }
-    
+
     return result;
   }
 });

@@ -19,7 +19,7 @@ var R  = RightJS,
 
 include_shared_js('spinner');
 include_shared_css('spinner');
-  
+
 include_module_files(
   'tabs',
   'tabs/tab',

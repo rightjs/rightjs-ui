@@ -17,9 +17,9 @@ function save_tab_in_cookies(options, tabs, event) {
 }
 
 Tabs.include({
-  
+
 // protected
-  
+
   // searches and activates the current tab
   findCurrent: function() {
     var current;
@@ -29,23 +29,23 @@ Tabs.include({
       var enabled = this.enabled();
       current = enabled[this.urlIndex()] || enabled[this.cookieIndex()] || enabled.first('current') || enabled[0];
     }
-    
+
     if (current) {
       current.select();
     }
-    
+
     // initializing the cookies storage if set
     if (this.options.Cookie) {
       this.onSelect(R(save_tab_in_cookies).curry(this.options.Cookie, this.tabs));
     }
-    
+
     return this;
   },
-  
+
   // tries to find the current tab index in the url hash
   urlIndex: function() {
     var index = -1, id = document.location.href.split('#')[1];
-    
+
     if (id) {
       for (var i=0; i < this.tabs.length; i++) {
         if (this.tabs[i].id == id) {
@@ -54,14 +54,14 @@ Tabs.include({
         }
       }
     }
-    
+
     return index;
   },
-  
+
   // tries to find the current tab index in the cookies storage
   cookieIndex: function() {
     var index = -1;
-    
+
     if (this.options.Cookie) {
       var indexes = get_cookie_indexes();
       for (var i=0; i < this.tabs.length; i++) {
@@ -71,8 +71,8 @@ Tabs.include({
         }
       }
     }
-    
+
     return index;
   }
-  
+
 });

@@ -26,12 +26,12 @@
             document.location.href = document.location.href.split('?').first() + '?' + this.value();
           })
         );
-        
-        
+
+
         new Calendar().insertTo('calendar-container');
         new Calendar({showButtons: true}).insertTo('calendar-container');
         new Calendar({showButtons: true, listYears: true}).insertTo('calendar-container');
-        
+
         new Colorpicker().insertTo('colorpicker-container');
       });
     // ]]>
@@ -59,25 +59,25 @@
     <p>
       <div id="calendar-container"></div>
     </p>
-    
+
     <h2>The Colorpicker Example</h2>
     <p>
       <div id="colorpicker-container"></div>
     </p>
-    
+
     <h2>The In-Edit Example</h2>
     <p>
        <span id="test-2">bla bla bla bla bla bla</span>
        <a href="" onclick="$('test-2').inEdit({toggle:this}); return false">Edit</a>
     </p>
-    
+
     <h2>The Lightbox Examples</h2>
     <p>
       <a href="http://rightjs.org/images/test/4.jpg" rel="lightbox[roadtrip]" title="Darling Harbour"><img src="http://rightjs.org/images/test/4-thmb.jpg" /></a>
       <a href="http://rightjs.org/images/test/5.jpg" rel="lightbox[roadtrip]" title="Coogie"><img src="http://rightjs.org/images/test/5-thmb.jpg" /></a>
       <a href="http://rightjs.org/images/test/6.jpg" rel="lightbox[roadtrip]" title="Rain In St.Petersburg"><img src="http://rightjs.org/images/test/6-thmb.jpg" /></a>
     </p>
-    
+
     <p class="white-space"></p>
   </body>
 </html>

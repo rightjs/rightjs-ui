@@ -5,11 +5,11 @@
  */
 $(document).onMouseover(function(event) {
   var target = event.target, element = event.find('.rui-rater');
-  
+
   if (element) {
     if (!(element instanceof Rater)) {
       element = new Rater(element);
-      
+
       if (target.parent() === element) {
         target.fire('mouseover');
       }

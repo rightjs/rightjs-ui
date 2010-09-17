@@ -14,7 +14,7 @@ Element.include({
     new Resizable(this, options);
     return this;
   },
-  
+
   /**
    * Destroys a resizable functionality
    *

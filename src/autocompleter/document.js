@@ -19,7 +19,7 @@ $(document).on({
       }
     }
   },
-  
+
   /**
    * Hides autocompleters on-blur
    *
@@ -28,12 +28,12 @@ $(document).on({
    */
   blur: function(event) {
     var autocompleter = event.target ? event.target.autocompleter : null;
-    
+
     if (autocompleter && autocompleter.visible()) {
       autocompleter.hide();
     }
   },
-  
+
   /**
    * Catching the basic keyboard events
    * to navigate through the autocompletion list
@@ -43,7 +43,7 @@ $(document).on({
    */
   keydown: function(event) {
     var autocompleter = event.target ? event.target.autocompleter : null;
-    
+
     if (autocompleter && autocompleter.visible()) {
       var method_name = ({
         27: 'hide', // Esc
@@ -51,14 +51,14 @@ $(document).on({
         40: 'next', // Down
         13: 'done'  // Enter
       })[event.keyCode];
-      
+
       if (method_name) {
         event.stop();
         autocompleter[method_name]();
       }
     }
   },
-  
+
   /**
    * Catches the input fields keyup events
    * and tries to make the autocompleter to show some suggestions
@@ -68,7 +68,7 @@ $(document).on({
    */
   keyup: function(event) {
     var autocompleter = event.target ? event.target.autocompleter : null;
-    
+
     if (autocompleter && !R([9, 27, 37, 38, 39, 40, 13]).include(event.keyCode)) {
       autocompleter.keypressed(event);
     }

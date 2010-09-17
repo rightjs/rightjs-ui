@@ -13,13 +13,13 @@ $(document).on({
    */
   click: function(event) {
     var target = event.find(Lightbox.Options.cssRule) || event.find('a[rel^=lightbox]');
-    
+
     if (target) {
       event.stop();
       new Lightbox({}, target).load(target);
     }
   },
-  
+
   /**
    * Catches the mousewheel event and tries to scroll
    * the list of objects on the lightbox
@@ -33,7 +33,7 @@ $(document).on({
       Lightbox.current.fire((event._.detail || -event._.wheelDelta) < 0 ? 'prev' : 'next');
     }
   },
-  
+
   /**
    * Handles the navigation form a keyboard
    *
@@ -50,7 +50,7 @@ $(document).on({
       40: 'next',  // Down
       34: 'next'   // PageDown
     })[event.keyCode];
-    
+
     if (lightbox && name) {
       if (name !== 'close' || lightbox.options.hideOnEsc) {
         event.stop();
@@ -67,7 +67,7 @@ $(window).on({
       Lightbox.current.dialog.resize();
     }
   },
-  
+
   scroll: function(event) {
     if (Lightbox.current && Browser.IE6) {
       Lightbox.current.reposition();

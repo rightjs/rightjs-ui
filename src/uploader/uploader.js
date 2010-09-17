@@ -6,7 +6,7 @@
 var Uploader = new Widget({
   extend: {
     version: '2.0.0',
-    
+
     EVENTS: $w('start update finish error'),
 
     Options: {
@@ -29,7 +29,7 @@ var Uploader = new Widget({
    */
   initialize: function(form, options) {
     this.form = form = $(form);
-    
+
     // trying to find an existing progress-bar
     var element = form.first('.rui-uploader');
 
@@ -41,7 +41,7 @@ var Uploader = new Widget({
         this.bar = this.first('.bar') || $E('div', {'class': 'bar'}),
         this.num = this.first('.num') || $E('div', {'class': 'num'})
       ]);
-    
+
     if (!element) {
       this.insertTo(form);
     }
@@ -90,7 +90,7 @@ var Uploader = new Widget({
     }
 
     this.percent = R(percent * 100).round(this.options.round);
-    
+
     if (this.percent === 0 || !RightJS.Fx || !this.options.fxDuration) {
       this.bar._.style.width = this.percent + '%';
       this.num._.innerHTML   = this.percent + '%';
@@ -123,13 +123,13 @@ var Uploader = new Widget({
   prepare: function() {
     this.uid = "";
     for (i = 0; i < 32; i++) { this.uid += Math.random(0, 15).toString(16); }
-    
+
     var param = this.options.param;
     var url = this.form.get('action').replace(new RegExp('(\\?|&)'+RegExp.escape(param) + '=[^&]*', 'i'), '');
     this.form.set('action', (R(url).includes('?') ? '&' : '?') + param + '=' + this.uid);
-    
+
     this.show();
-    
+
     return this;
   }
 

@@ -10,7 +10,7 @@ var R       = RightJS,
     Xhr     = RightJS.Xhr,
     RegExp  = RightJS.RegExp,
     isArray = RightJS.isArray;
-    
+
 include_shared_js(
   'spinner',
   'toggler'

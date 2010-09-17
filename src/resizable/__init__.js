@@ -9,7 +9,7 @@ var R       = RightJS,
     $E      = RightJS.$E,
     Wrapper = RightJS.Wrapper,
     Element = RightJS.Element;
-    
+
 include_module_files(
   'resizable',
   'document',

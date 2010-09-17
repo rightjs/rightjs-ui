@@ -5,28 +5,28 @@
  */
 var Rater = new Widget({
   include: Updater,
-  
+
   extend: {
     version: '2.0.0',
-    
+
     EVENTS: $w('change hover send'),
-    
+
     Options: {
       html:          '&#9733;', // the dot html code
-      
+
       size:          5,      // number of stars in the line
       value:         null,   // default value
       update:        null,   // an element to update
-      
+
       disabled:      false,  // if it should be disabled
       disableOnVote: false,  // if it should be disabled when user clicks a value
-      
+
       url:           null,   // an url to send results with AJAX
-      param:         'rate', // the value param name 
+      param:         'rate', // the value param name
       Xhr:           null    // additional Xhr options
     }
   },
-  
+
   /**
    * basic constructor
    *
@@ -41,30 +41,30 @@ var Rater = new Widget({
         mouseover:  this._hovered,
         mouseout:   this._left
       });
-    
+
     if (this.empty()) {
       for (var i=0; i < this.options.size; i++) {
         this.insert('<div>'+ this.options.html + '</div>');
       }
     }
-    
+
     options = this.options;
-    
+
     if (options.value === null) {
       options.value = this.find('.active').length;
     }
-    
+
     this.setValue(options.value);
-    
+
     if (options.disabled) {
       this.disable();
     }
-    
+
     if (options.update) {
       this.assignTo(options.update);
     }
   },
-  
+
   /**
    * Sets the element value
    *
@@ -76,22 +76,22 @@ var Rater = new Widget({
       // converting the type and rounding the value
       value = isString(value) ? R(value).toInt() : value;
       value = isNumber(value) ? R(value).round() : 0;
-      
+
       // checking constraints
       value = R(value).max(this.options.size);
       value = R(value).min(0);
-      
+
       // highlighting the value
       this.highlight(value);
-      
+
       if (this.value != value) {
         this.fire('change', this.value = value, this);
       }
     }
-    
+
     return this;
   },
-  
+
   /**
    * Returns the current value of the rater
    *
@@ -100,7 +100,7 @@ var Rater = new Widget({
   getValue: function() {
     return this.value;
   },
-  
+
   /**
    * Sends an Xhr request with the current value to the options.url address
    *
@@ -114,7 +114,7 @@ var Rater = new Widget({
     }
     return this;
   },
-  
+
   /**
    * Disables the instance
    *
@@ -123,7 +123,7 @@ var Rater = new Widget({
   disable: function() {
     return this.addClass('rui-rater-disabled');
   },
-  
+
   /**
    * Enables this instance
    *
@@ -132,7 +132,7 @@ var Rater = new Widget({
   enable: function() {
     return this.removeClass('rui-rater-disabled');
   },
-  
+
   /**
    * Checks if the instance is disabled
    *
@@ -141,7 +141,7 @@ var Rater = new Widget({
   disabled: function() {
     return this.hasClass('rui-rater-disabled');
   },
-  
+
 // protected
 
   // callback for 'hover' event
@@ -152,7 +152,7 @@ var Rater = new Widget({
       this.fire('hover', index + 1, this);
     }
   },
-  
+
   // callback for user-click
   _clicked: function(event) {
     var index = this.children().indexOf(event.target);
@@ -164,12 +164,12 @@ var Rater = new Widget({
       this.send();
     }
   },
-  
+
   // callback when user moves the mouse out
   _left: function() {
     this.setValue(this.value);
   },
-  
+
   // visually highlights the value
   highlight: function(value) {
     this.children().each(function(element, i) {

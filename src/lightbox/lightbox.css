@@ -1,8 +1,8 @@
 /**
  * The RightJS Lightbox Stylesheets
- * 
+ *
  * The elements have the following structure
- * 
+ *
  * <div class="rui-lightbox">
  *   <div class="rui-lightbox-locker"></div>
  *
@@ -21,7 +21,7 @@
  *         </div>
  *       </div>
  *     </div>
- *     
+ *
  *     <div class="rui-lightbox-nav">
  *       <div class="close">&times;</div>
  *       <div class="prev">&larrow;</div>
@@ -29,9 +29,9 @@
  *     </div>
  *   </div>
  * </div>
- * 
+ *
  * Copyright (C) 2009-2010 Nikolay Nemshilov
- * 
+ *
  */
 
 div.rui-lightbox {

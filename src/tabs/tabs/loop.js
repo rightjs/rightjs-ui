@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 Tabs.include({
-  
+
   /**
    * Starts the slideshow loop
    *
@@ -13,32 +13,32 @@ Tabs.include({
    */
   startLoop: function(delay) {
     if (!delay && !this.options.loop) { return this; }
-    
+
     // attaching the loop pause feature
     if (this.options.loopPause) {
       this._stopLoop  = this._stopLoop  || R(this.stopLoop).bind(this, true);
       this._startLoop = this._startLoop || R(this.startLoop).bind(this, delay);
-      
+
       this.forgetHovers().on({
         mouseover: this._stopLoop,
         mouseout:  this._startLoop
       });
     }
-    
+
     if (this.timer) { this.timer.stop(); }
-    
+
     this.timer = R(function() {
       var enabled = this.enabled();
       var current = this.current();
       var next    = enabled[enabled.indexOf(current)+1];
-      
+
       this.select(next || enabled.first());
-      
+
     }).bind(this).periodical(this.options.loop || delay);
-    
+
     return this;
   },
-  
+
   /**
    * Stops the slideshow loop
    *
@@ -53,13 +53,13 @@ Tabs.include({
       this.forgetHovers();
     }
   },
-  
+
 // private
   forgetHovers: function() {
     return this
       .stopObserving('mouseover', this._stopLoop)
       .stopObserving('mouseout', this._startLoop);
   }
-  
-  
+
+
 });

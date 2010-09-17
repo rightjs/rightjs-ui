@@ -24,7 +24,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>Selectable With Groups</h2>
     <p>
       <dl class="rui-selectable">
@@ -48,7 +48,7 @@
         </dd>
       </dl>
     </p>
-    
+
     <h2>With A Single Option</h2>
     <p>
       <ul class="rui-selectable rui-selectable-single">
@@ -62,7 +62,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>With A Single Option And Groups</h2>
     <p>
       <dl class="rui-selectable rui-selectable-single">
@@ -86,7 +86,7 @@
         </dd>
       </dl>
     </p>
-    
+
     <h2>With Disabled Options</h2>
     <p>
       <ul class="rui-selectable" data-selectable="{disabled:[1,4]}">
@@ -100,7 +100,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>Assigned To An Input</h2>
     <p>
       This one works with indexes
@@ -110,7 +110,7 @@
         <li>Three</li>
         <li>Four</li>
       </ul>
-      
+
       <input type="text" id="input-1" />
     </p>
     <p>
@@ -121,7 +121,7 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-2" />
     </p>
     <p>
@@ -132,7 +132,7 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-3" />
     </p>
     <p>
@@ -143,14 +143,14 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-4" />
     </p>
-    
+
     <h2>With Limited Number of Options</h2>
     <p>
       This one allows you to select three items only
-      
+
       <ul class="rui-selectable" data-selectable="{limit: 3}">
         <li>One</li>
         <li>Two</li>
@@ -159,7 +159,7 @@
         <li>Five</li>
       </ul>
     </p>
-    
+
     <h2>Programmatically Generated</h2>
     <div id="generated-selects"></div>
     <script type="text/javascript">
@@ -170,19 +170,19 @@
         'option-3': 'Three',
         'option-4': 'Four'
       };
-      
+
       new Selectable({
         options: RightJS.Object.values(keys),
         selected: 2,
         multiple: false
       }).insertTo(RightJS.$E('p').insertTo('generated-selects'));
-      
+
       new Selectable({
         options: keys,
         selected: [0,2],
         multiple: true
       }).insertTo(RightJS.$E('p').insertTo('generated-selects'));
-      
+
       new Selectable({
         options: keys,
         selected: [0,2]
@@ -190,7 +190,7 @@
         .insertTo(RightJS.$E('p').insertTo('generated-selects'));
     // ]]>
     </script>
-    
+
     <h2>Generated from selectboxes</h2>
     <p>
       <select class="rui-selectable">
@@ -232,7 +232,7 @@
         <option disabled="true" value="item-4">Four</option>
       </select>
     </p>
-  
+
     <p class="white-space"></p>
   </body>
 </html>

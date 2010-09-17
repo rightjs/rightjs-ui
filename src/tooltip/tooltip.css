@@ -16,17 +16,17 @@ div.rui-tooltip {
   font-size: 90%;
   margin-top: 16pt;
   margin-left: 5pt;
-  
+
   color: #FFF;
   text-shadow: 0 0 .2em #000;
   border: .3em solid rgba(255,255,255,0.2);
   background-color: rgba(25,25,25,0.92);
-  
+
   *background-color: #000;
   *border: .3em solid #444;
-  
+
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#000));
-  
+
   border-radius: .4em;
   -moz-border-radius: .4em;
   -webkit-border-radius: .4em;

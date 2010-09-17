@@ -6,5 +6,5 @@
 load('util/test/rightly_check.js');
 
 rightly_check('build/right-in-edit-src.js', [
-  
+
 ]);

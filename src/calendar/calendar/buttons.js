@@ -12,7 +12,7 @@ var Buttons = new Wrapper(Element, {
    */
   initialize: function(options) {
     this.$super('div', {'class': 'buttons'});
-    
+
     this.insert([
       new Button(options.i18n.Now,  {'class': 'now'}).onClick('fire', 'now-clicked'),
       new Button(options.i18n.Done, {'class': 'done'}).onClick('fire', 'done-clicked')

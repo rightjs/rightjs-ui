@@ -4,38 +4,38 @@
  * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 var Lightbox = new Widget({
-  
+
   extend: {
     version: '2.0.0',
-    
+
     EVENTS: $w('show hide load'),
-    
+
     Options: {
       fxName:          'fade',
       fxDuration:      100,
-      
+
       group:           null, // a group marker
-      
+
       hideOnEsc:       true,
       hideOnOutClick:  true,
       showCloseButton: true,
-      
+
       cssRule:         "a[data-lightbox]", // all lightbox links css-rule
-      
+
       // video links default size
       mediaWidth:      425,
       mediaHeight:     350
     },
-    
+
     i18n: {
       Close: 'Close',
       Prev:  'Previous Image',
       Next:  'Next Image'
     },
-    
+
     // the supported image-urls regexp
     Images: /\.(jpg|jpeg|gif|png|bmp)/,
-    
+
     // media content sources
     Medias: [
       [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/,       '$1/v/$2',                      'swf'],
@@ -43,7 +43,7 @@ var Lightbox = new Widget({
       [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/,                 '$1/moogaloop.swf?clip_id=$2',  'swf']
     ]
   },
-  
+
   /**
    * basic constructor
    *
@@ -65,7 +65,7 @@ var Lightbox = new Widget({
         prev:  this._prev
       });
   },
-  
+
   /**
    * Extracting the rel="lightboux[groupname]" attributes
    *
@@ -75,17 +75,17 @@ var Lightbox = new Widget({
    */
   setOptions: function(options, context) {
     this.$super(options, context);
-    
+
     if (context) {
       var rel = context.get('rel');
       if (rel && (rel = rel.match(/lightbox\[(.+?)\]/))) {
         this.options.group = rel[1];
       }
     }
-    
+
     return this;
   },
-  
+
   /**
    * Sets the popup's title
    *
@@ -94,10 +94,10 @@ var Lightbox = new Widget({
    */
   setTitle: function(text) {
     this.dialog.setTitle(text);
-    
+
     return this;
   },
-  
+
   /**
    * Shows the lightbox
    *
@@ -109,7 +109,7 @@ var Lightbox = new Widget({
       this.dialog.show(content, !content);
     });
   },
-  
+
   /**
    * Hides the lightbox
    *
@@ -117,7 +117,7 @@ var Lightbox = new Widget({
    */
   hide: function() {
     Lightbox.current = null;
-    
+
     return this.$super(this.options.fxName, {
       duration: this.options.fxDuration/3,
       onFinish: R(function() {
@@ -126,7 +126,7 @@ var Lightbox = new Widget({
       }).bind(this)
     });
   },
-  
+
   /**
    * Loads up the data from url or a link
    *
@@ -139,7 +139,7 @@ var Lightbox = new Widget({
       this.dialog.load(link, options);
     });
   },
-  
+
   /**
    * Resizes the content block to the given size
    *
@@ -150,7 +150,7 @@ var Lightbox = new Widget({
     this.dialog.resize(size);
     return this;
   },
-  
+
 // protected
 
   // handles the 'close' event
@@ -158,30 +158,30 @@ var Lightbox = new Widget({
     event.stop();
     this.hide();
   },
-  
+
   // handles the 'prev' event
   _prev: function(event) {
     event.stop();
     Pager.prev();
   },
-  
+
   // handles the 'next' event
   _next: function(event) {
     event.stop();
     Pager.next();
   },
-  
+
   // shows the lightbox element and then calls back
   _showAnd: function(callback) {
     if (Lightbox.current !== this) {
       Lightbox.current = this;
-      
+
       // hidding all the hanging around lightboxes
       $$('div.rui-lightbox').each('remove');
-      
+
       this.insertTo(document.body);
       this.dialog.show('', true);
-      
+
       if (Browser.OLD) { // IE's get screwed by the transparency tricks
         this.reposition();
         Element.prototype.show.call(this);
@@ -199,15 +199,15 @@ var Lightbox = new Widget({
     } else {
       callback.call(this);
     }
-    
+
     return this;
   },
-  
+
   // manually repositioning under IE6 browser
   reposition: function() {
     if (Browser.IE6) {
       var win = $(window);
-      
+
       this.setStyle({
         top:      win.scrolls().y + 'px',
         width:    win.size().x    + 'px',

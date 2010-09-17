@@ -12,7 +12,7 @@ $(document).on({
       }
     });
   },
-  
+
   // initiates the slider move
   mousedown: function(event) {
     var slider = event.find('.rui-slider');
@@ -24,14 +24,14 @@ $(document).on({
       Slider.current = slider.start(event);
     }
   },
-  
+
   // handles the slider move
   mousemove: function(event) {
     if (Slider.current) {
       Slider.current.move(event);
     }
   },
-  
+
   // handles the slider release
   mouseup: function(event) {
     if (Slider.current) {

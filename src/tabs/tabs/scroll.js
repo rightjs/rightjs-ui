@@ -70,7 +70,7 @@ Tabs.include({
     )) {
       this.prevButton = $E('div', {'class': 'rui-tabs-scroller-prev', 'html': '&laquo;'});
       this.nextButton = $E('div', {'class': 'rui-tabs-scroller-next', 'html': '&raquo;'});
-      
+
       // using a dummy element to insert the scroller in place of the tabs list
       $E('div').insertTo(this.tabsList, 'before')
         .replace(
@@ -81,7 +81,7 @@ Tabs.include({
           ])
         ).remove();
     }
-    
+
     this.prevButton.onClick(R(this.scrollLeft).bind(this));
     this.nextButton.onClick(R(this.scrollRight).bind(this));
   },
@@ -95,7 +95,7 @@ Tabs.include({
       if (tab) { tab.select(); }
     }
   },
-  
+
   // scrolls the tabs line to make the tab visible
   scrollToTab: function(tab) {
     if (this.scroller) {
@@ -105,63 +105,63 @@ Tabs.include({
         tabs_width += this.tabs[i].width();
         if (this.tabs[i] === tab) { break; }
       }
-      
+
       // calculating the scroll (the carousel tabs should be centralized)
       var available_width = this.scroller.size().x;
       var scroll = (this.isCarousel ? (available_width/2 + tab.width()/2) : available_width) - tabs_width;
-      
+
       // check if the tab doesn't need to be scrolled
       if (!this.isCarousel) {
         var current_scroll  = parseInt(this.tabsList.getStyle('left') || 0, 10);
-        
+
         if (scroll >= current_scroll && scroll < (current_scroll + available_width - tab.width())) {
           scroll = current_scroll;
         } else if (current_scroll > -tabs_width && current_scroll <= (tab.width() - tabs_width)) {
           scroll = tab.width() - tabs_width;
         }
       }
-      
+
       this.scrollTo(scroll);
     }
   },
-  
+
   // just scrolls the scrollable area onto the given number of scrollable area widths
   justScroll: function(size) {
     if (!this.scroller) { return this; }
     var current_scroll  = parseInt(this.tabsList.getStyle('left') || 0, 10);
     var available_width = this.scroller.size().x;
-    
+
     this.scrollTo(current_scroll + available_width * size);
   },
-  
+
   // scrolls the tabs list to the position
   scrollTo: function(scroll) {
     // checking the constraints
     var available_width = this.scroller.size().x;
     var overall_width   = this.tabs.map('width').sum();
-    
+
     if (scroll < (available_width - overall_width)) {
       scroll = available_width - overall_width;
     }
     if (scroll > 0) { scroll = 0; }
-    
+
     // applying the scroll
     this.tabsList.morph({left: scroll+'px'}, {duration: this.options.scrollDuration});
-    
+
     this.checkScrollButtons(overall_width, available_width, scroll);
   },
-  
+
   // checks the scroll buttons
   checkScrollButtons: function(overall_width, available_width, scroll) {
     var has_prev = false, has_next = false;
-    
+
     if (this.isCarousel) {
       var enabled = this.enabled();
       var current = enabled.first('current');
-      
+
       if (current) {
         var index = enabled.indexOf(current);
-        
+
         has_prev = index > 0;
         has_next = index < enabled.length - 1;
       }
@@ -169,9 +169,9 @@ Tabs.include({
       has_prev = scroll !== 0;
       has_next = scroll > (available_width - overall_width);
     }
-    
+
     this.prevButton[has_prev ? 'removeClass' : 'addClass']('rui-tabs-scroller-disabled');
     this.nextButton[has_next ? 'removeClass' : 'addClass']('rui-tabs-scroller-disabled');
   }
-  
+
 });

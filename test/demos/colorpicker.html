@@ -31,27 +31,27 @@
       <input type="text" name="val1" value="#FF0" id="direct-assignment-test" />
       <input type="text" name="val2" value="rgb(255,255,0)" id="handled-assignment-test" />
       <a href="#" id="handled-assignment-test-handle">set</a>
-      
+
       <script type="text/javascript">
       // <![CDATA[
         new Colorpicker({
           update: 'direct-assignment-test'
         });
-        
+
         new Colorpicker({
           format: 'rgb'
         }).assignTo('handled-assignment-test', 'handled-assignment-test-handle');
       // ]]>
       </script>
     </p>
-    
+
     <h2>Automatically Discoverable</h2>
     <p>
       <input type="text" name="val3" data-colorpicker="{fxDuration: 'short'}" />
       <input type="text" name="val4" id="colorpicker-field" />
       <a href="#" data-colorpicker="{format:'rgb', update: 'colorpicker-field'}">set</a>
     </p>
-    
+
     <h2>Inlined Version</h2>
     <p>
       <div id="inline-test"></div>
@@ -61,7 +61,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Update another element bg</h2>
     <p>
       <div id="inline-test-2">
@@ -75,7 +75,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <p class="white-space"></p>
   </body>
 </html>
