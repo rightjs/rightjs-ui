@@ -1,15 +1,18 @@
 /**
- * Document on-load trigger for units auto-discovery
+ * Document level on-demand auto-initialization
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-document.onMouseover(function(event) {
-  var target = event.target, element = [target].concat(target.parents()).first('hasClass', 'right-rater');
-  
+$(document).onMouseover(function(event) {
+  var target = event.target, element = event.find('.rui-rater');
+
   if (element) {
-    var rater = element._rater || new Rater(element);
-    if (target.parentNode === element)
-      target.fire('mouseover');
+    if (!(element instanceof Rater)) {
+      element = new Rater(element);
+
+      if (target.parent() === element) {
+        target.fire('mouseover');
+      }
+    }
   }
-  
 });

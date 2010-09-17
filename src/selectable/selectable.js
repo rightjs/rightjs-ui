@@ -1,48 +1,44 @@
 /**
  * Selectable unit main script
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Selectable = new Class(Observer, {
+var Selectable = new Widget('UL', {
+  include: Updater,
+
   extend: {
+    version: '2.0.0',
+
     EVENTS: $w('change select unselect disable enable hover leave show hide'),
-    
+
     Options: {
       options:    null,    // a hash of key-value pairs
       selected:   null,    // an array of selected keys
       disabled:   null,    // an array of disabled keys
-      
+
       multiple:   true,    // a flag if it shoulde a multiselect or a single select widget
-      
+
       fxName:     'slide', // the drop-down options list fx-name null, 'slide', 'fade'
       fxDuration: 'short', // the drop-down options list fx-duration
-      
+
       update:     null,    // a field to be assigned to
       parseIds:   false,   // if it should parse integer ids out of the keys
-      
+
       limit:      null,    // put some number if you'd like to limit the number of selected items
-      
-      hCont  :   '&bull;', // single-selectable handle content
-      
-      refresh:    true     // a flag if it should automatically refresh the items list
+
+      hCont  :   '&bull;'  // single-selectable handle content
     },
-    
-    rescan: function(scope) {
-      ($(scope)||document).select('*.right-selectable').each(function(element) {
-        if (!element._selectable) {
+
+    // converting normal select boxes into selectables
+    rescan: function(context) {
+      $(context||document).find('.rui-selectable').each(function(element) {
+        if (!(element instanceof Selectable)) {
           new Selectable(element);
         }
       });
     }
   },
-  
-  // css-classes
-  baseClass:      'right-selectable',
-  singleClass:    'right-selectable-single',
-  selectedClass:  'right-selectable-selected',
-  disabledClass:  'right-selectable-disabled',
-  containerClass: 'right-selectable-container',
-  
+
   /**
    * Basic constructor
    *
@@ -50,38 +46,67 @@ var Selectable = new Class(Observer, {
    * @param Object options hash
    */
   initialize: function() {
-    var args = $A(arguments), selectbox;
-    
-    if (args[0] && !isHash(args[0])) this.element = $(args[0]);
-    this.$super(isHash(args.last()) ? args.last() : this.element ?
-      eval('('+this.element.get('data-selectable-options')+')') : null);
-    
-    if (!this.element)
-      this.element = this.build();
-    else if ((selectbox = this.element.tagName == 'SELECT')) {
-      this.selectbox = this.harvestOptions(this.element);
-      this.element   = this.build().insertTo(this.selectbox, 'before');
+    var args = $A(arguments).compact(), options = args.pop(),
+      element = args.pop(), selectbox;
+
+    // figuring out the arguments
+    if (!isHash(options) || options instanceof Element) {
+      element = $(element || options);
+      options = {};
     }
-    
-    this.element._selectable = this.init();
-    
-    if (selectbox)
-      this.assignTo(this.hideOriginal(this.selectbox));
+
+    // converting the selectboxes
+    if (element && element instanceof Input) {
+      options = this.harvestOptions(selectbox = element);
+      element = options;
+    }
+
+    // main initialization
+    this
+      .$super('selectable', element)
+      .setOptions(options)
+      .on({
+        mousedown: this._mousedown,
+        mouseover: this._mouseover,
+        mouseout:  this._mouseout,
+        mouseup:   this._mouseup,
+        click:     this._click,
+
+        select:    this._change,
+        unselect:  this._change
+      });
+
+    if (this.empty()) { this.build(); }
+
+    // applying the rest of the options
+    options = this.options;
+
+    // single-select options additional features
+    if (!options.multiple || this.hasClass('rui-selectable-single')) {
+      this.isSingle = true;
+      this.addClass('rui-selectable-single');
+      this.buildSingle();
+
+      if (options.selected === null) {
+        this.select(this.items()[0]);
+      }
+    }
+
+    if (options.disabled) { this.disable(options.disabled); }
+    if (options.selected) { this.select(options.selected);  }
+    if (options.update)   { this.assignTo(options.update);  }
+
+    // replacing the selectboxes with the selectables
+    if (selectbox) {
+      this.assignTo(selectbox).insertTo(selectbox, 'before');
+
+      // hidding it in the hidden layer so it was sent with the form
+      selectbox.wrap($E('div', {
+        style: 'position:absolute;z-index:-1;visibility:hidden;width:0;height:0;overflow:hidden'
+      }));
+    }
   },
-  
-  // standard descructor
-  destroy: function() {
-    this.items.each(function(item) {
-      item.stopObserving('click',   this.onClick)
-        .stopObserving('mouseout',  this.onMouseout)
-        .stopObserving('mouseover', this.onMouseover)
-        .stopObserving('mousedown', this.onMousedown)
-        .stopObserving('mouseup',   this.onMouseup);
-    }, this);
-    
-    delete(this.element._selectable);
-  },
-  
+
   /**
    * Sets the value
    *
@@ -90,14 +115,17 @@ var Selectable = new Class(Observer, {
    */
   setValue: function(value) {
     // parsing the value
-    if (isString(value)) value = value.split(',').map('trim').filter(function(s) { return !s.blank(); });
-    
+    if (isString(value)) {
+      value = value.split(',').map('trim')
+        .filter(function(s) { return !s.blank(); });
+    }
+
     // resetting the selections
-    this.items.each('removeClass', this.selectedClass);
-    
+    this.items().each('removeClass', 'rui-selectable-selected');
+
     return this.select(value);
   },
-  
+
   /**
    * Returns the list of selected items
    *
@@ -105,63 +133,15 @@ var Selectable = new Class(Observer, {
    */
   getValue: function() {
     if (this.isSingle) {
-      var item  = this.items.first('hasClass', this.selectedClass);
+      var item  = this.items().first('hasClass', 'rui-selectable-selected');
       return item ? this.itemValue(item) : null;
     } else {
-      return this.items.filter('hasClass', this.selectedClass).map(function(item) {
+      return this.items().filter('hasClass', 'rui-selectable-selected').map(function(item) {
         return this.itemValue(item);
       }, this);
     }
   },
-  
-  /**
-   * Inserts the widget into the element at the given position
-   *
-   * @param mixed element reference
-   * @param String optional position
-   * @return Selectable this
-   */
-  insertTo: function(element, position) {
-    this[this.isSingle ? 'container' : 'element'].insertTo(element, position);
-    return this;
-  },
-  
-  /**
-   * Assigns the widget to work in pair with the input element
-   *
-   * @param mixed an element reference
-   * @return Selectable this
-   */
-  assignTo: function(element) {
-    var assign  = function(element, value) {
-      if (element = $(element)) {
-        if (value === undefined || value === null) value = '';
-        element[element.setValue ? 'setValue' : 'update'](element.type == 'select-multiple' ? value : ''+value);
-      }
-    }.curry(element);
-    
-    var connect = function(element, object) {
-      var element = $(element);
-      if (element && element.onChange) {
-        element.onChange(function() {
-          this.setValue(element.value);
-        }.bind(object));
-      }
-    }.curry(element);
-    
-    if ($(element)) {
-      assign(this.getValue());
-      connect(this);
-    } else {
-      document.onReady(function() {
-        assign(this.getValue());
-        connect(this);
-      }.bind(this));
-    }
-    
-    return this.onChange(assign);
-  },
-  
+
   /**
    * disables the given key or keys
    * NOTE: if no keys specified, then all the items will be disabled
@@ -171,11 +151,11 @@ var Selectable = new Class(Observer, {
    */
   disable: function(keys) {
     this.mapOrAll(keys).each(function(item) {
-      this.fire('disable', item.addClass(this.disabledClass));
+      this.fire('disable', item.addClass('rui-selectable-disabled'));
     }, this);
     return this;
   },
-  
+
   /**
    * disables the given key or keys
    * NOTE: if no keys specified, then all the items will be enabled
@@ -185,11 +165,11 @@ var Selectable = new Class(Observer, {
    */
   enable: function(keys) {
     this.mapOrAll(keys).each(function(item) {
-      this.fire('enable', item.removeClass(this.disabledClass));
+      this.fire('enable', item.removeClass('rui-selectable-disabled'));
     }, this);
     return this;
   },
-  
+
   /**
    * Checks if the given key or keys are disabled
    * NOTE: if no keys specified, then will check if all the items are disabled
@@ -198,9 +178,9 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   disabled: function(keys) {
-    return this.mapOrAll(keys).every('hasClass', this.disabledClass);
+    return this.mapOrAll(keys).every('hasClass', 'rui-selectable-disabled');
   },
-  
+
   /**
    * selects item(s) that refers to the given key or keys
    *
@@ -208,31 +188,32 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   select: function(keys) {
-    var items = this.mapEnabled(keys), selected_class = this.selectedClass;
-    
+    var items = this.mapEnabled(keys), selected_class = 'rui-selectable-selected';
+
     if (this.isSingle && items) {
-      this.items.each('removeClass', selected_class);
-      items = [items[0]];
+      this.items().each('removeClass', selected_class);
+      items = R([items[0]]);
     }
-    
+
     // applying the selection limit if ncessary
     if (!this.isSingle && this.options.limit) {
-      var selected = this.items.filter('hasClass', selected_class), clean = [];
+      var selected = this.items().filter('hasClass', selected_class), clean = [];
       while (items.length && (selected.length + clean.length) < this.options.limit) {
         var item = items.shift();
-        if (!selected.include(item))
+        if (!selected.include(item)) {
           clean.push(item);
+        }
       }
       items = clean;
     }
-    
+
     items.compact().each(function(item) {
       this.fire('select', item.addClass(selected_class));
     }, this);
-    
+
     return this;
   },
-  
+
   /**
    * Unselects item(s) that refers to the given key or keys
    *
@@ -240,12 +221,15 @@ var Selectable = new Class(Observer, {
    * @return Selectable this
    */
   unselect: function(keys) {
+    var prev_value = this.getValue();
+
     this.mapEnabled(keys).each(function(item) {
-      this.fire('unselect', item.removeClass(this.selectedClass));
+      this.fire('unselect', item.removeClass('rui-selectable-selected'));
     }, this);
+
     return this;
   },
-  
+
   /**
    * Checks if item(s) are selected
    *
@@ -253,131 +237,84 @@ var Selectable = new Class(Observer, {
    * @return Boolean check result
    */
   selected: function(keys) {
-    return this.mapEnabled(keys).every('hasClass', this.selectedClass);
+    return this.mapEnabled(keys).every('hasClass', 'rui-selectable-selected');
   },
-  
+
   /**
-   * Checks for new selectees in the element and updates the internal index
+   * Overloading the method so it worked nicely with the single versions
    *
+   * @param Element target
+   * @param String optional position
    * @return Selectable this
    */
-  refresh: function() {
-    this.items = this.element.select('li').each(function(item) {
-      if (!this.items || !this.items.include(item)) {
-        item.on({
-          click:     this.onClick,
-          mouseup:   this.onMouseup,
-          mousedown: this.onMousedown,
-          mouseover: this.onMouseover,
-          mouseout:  this.onMouseout
-        });
-      }
-    }, this);
-    
+  insertTo: function(target, where) {
+    Element.prototype.insertTo.call(
+      (this.isSingle ? this.container : this), target, where
+    );
+
     return this;
   },
-  
+
 // protected
 
-  // initis the widget
-  init: function() {
-    this.element.addClass(this.baseClass);
-    
-    if (this.isSingle = !this.options.multiple || this.element.hasClass(this.singleClass)) {
-      this.buildSingle().element.addClass(this.singleClass);
-    }
-    
-    // creating static callbacks so they could be detached
-    this.onMousedown = this.mousedown.bind(this);
-    this.onMouseup   = this.mouseup.bind(this);
-    this.onMouseover = this.mouseover.bind(this);
-    this.onMouseout  = this.mouseout.bind(this);
-    this.onClick     = this.click.bind(this);
-    
-    this.value = null;
-    
-    var on_change = function() {
-      var value = this.getValue();
-      if (value != this.value) {
-        this.value = value;
-        this.fire('change', value, this);
-      }
-    }.bind(this);
-    
-    this.refresh().onSelect(on_change).onUnselect(on_change);
-    
-    if (this.isSingle)         this.onSelect('showItem');
-    if (this.options.disabled) this.disable(this.options.disabled);
-    if (this.options.selected) this.select(this.options.selected);
-    if (this.options.update)   this.assignTo(this.options.update);
-    if (this.isSingle) {
-      if (this.options.selected === null) this.select(this.items[0]);
-      this.onSelect('hideList'); // don't move it upper, it will force the hide effect
-    }
-    
-    // auto-refresh feature
-    if (this.options.refresh) {
-      var old_insert = this.element.update;
-      this.element.update = function() {
-        var result = old_insert.apply(this.element, arguments);
-        this.refresh();
-        return result;
-      }.bind(this);
-    }
-    
-    return this;
-  },
-  
-  // finds out the value for the item
-  itemValue: function(item) {
-    var value = item.id || item.val;
-    return value ? this.options.parseIds ? value.match(/\d+/) : value : this.items.indexOf(item);
-  },
-  
   // wrapping the events trigger to feed it with some more options
   fire: function(name, item) {
-    if (item && item.tagName) {
-      this.$super(name, item, this.items.indexOf(item), this);
+    if (item && item instanceof Element) {
+      this.$super(name, {item: item, index: this.items().indexOf(item)});
     } else {
       this.$super.apply(this, arguments);
     }
     return this;
   },
-  
-  // collects the item elements by the various key defs
-  map: function(keys) {
-    if (!isArray(keys)) keys = [keys];
-    
-    return keys.map(function(key) {
-      var index = (isString(key) && /^\d+$/.test(key)) ? key.toInt() : key, item = key;
-      
-      if (isNumber(index)) {
-        item = this.items[index];
-      } else if(isString(key)) {
-        item = this.items.first(function(i) { return i.id == key || i.val == key; });
-      }
-      
-      return item;
-    }, this).compact();
+
+  // finds out the value for the item
+  itemValue: function(item) {
+    var value = item.get('id') || item.get('val');
+    return value ? this.options.parseIds ? value.match(/\d+/) : value : this.items().indexOf(item);
   },
-  
+
+  // returns the list of items
+  items: function() {
+    return this.find('li');
+  },
+
   // returns matching items or all of them if there's no key
   mapOrAll: function(keys) {
-    return defined(keys) ? this.map(keys) : this.items;
+    var items = this.items();
+
+    if (defined(keys)) {
+      if (!isArray(keys)) { keys = [keys]; }
+
+      items = R(keys).map(function(key) {
+        var index = (isString(key) && /^\d+$/.test(key)) ? parseInt(key,10) : key, item = key;
+
+        if (isNumber(index)) {
+          item = items[index];
+        } else if(isString(key)) {
+          item = items.first(function(i) {
+            return i.id == key || i.val == key;
+          });
+        }
+
+        return item;
+      }, this).compact();
+    }
+
+    return items;
   },
-  
+
   // maps and filters only enabled items
   mapEnabled: function(keys) {
     return this.mapOrAll(keys).filter(function(item) {
-      return !item.hasClass(this.disabledClass);
+      return !item.hasClass('rui-selectable-disabled');
     }, this);
   },
-  
+
   // onmousedown callback
-  mousedown: function(event) {
+  _mousedown: function(event) {
     event.stop();
-    var item = event.target;
-    
+    var item = event.target, items = this.items();
+
     if (!this.disabled(item)) {
       if (this.isSingle) {  // single-selects are always select
         this.select(item);
@@ -388,40 +325,40 @@ var Selectable = new Class(Observer, {
         this.select(item);
         this._massSelect = true; // mass-selection start
       }
-      
+
       // mass-selection with a shift/meta key
       if ((event.shiftKey || event.metaKey) && this._prevItem) {
-        var index1 = this.items.indexOf(this._prevItem);
-        var index2 = this.items.indexOf(item);
-        
+        var index1 = items.indexOf(this._prevItem);
+        var index2 = items.indexOf(item);
+
         if (index1 != index2) {
           if (index1 > index2) {
             var t = index1;
             index1 = index2;
             index2 = index1;
           }
-            
+
           for (var i=index1; i < index2; i++) {
-            this[this._prevItem.hasClass(this.selectedClass) ? 'select' : 'unselect'](this.items[i]);
+            this[this._prevItem.hasClass('rui-selectable-selected') ? 'select' : 'unselect'](items[i]);
           }
         }
       }
-      
+
       this._prevItem = item;
     }
   },
-  
+
   // onmouseup callback
-  mouseup: function(event) {
+  _mouseup: function(event) {
     event.stop();
     this._massRemove = this._massSelect = false; // mass-selection stop
   },
-  
+
   // mouseover callback
-  mouseover: function(event) {
+  _mouseover: function(event) {
     var item = event.target;
     this.fire('hover', item);
-    
+
     if (!this.isSingle) {
       if (this._massSelect) {
         this.select(item);
@@ -430,21 +367,29 @@ var Selectable = new Class(Observer, {
       }
     }
   },
-  
+
   // mouseout callback
-  mouseout: function(event) {
+  _mouseout: function(event) {
     this.fire('leave', event.target);
   },
-  
+
   // mouseclick callback
-  click: function(event) {
+  _click: function(event) {
     event.stop();
   },
-  
+
+  // select/unselect listener fires the onchange events
+  _change: function() {
+    if (''+this.value != ''+this.getValue()) {
+      this.value = this.getValue();
+      this.fire('change');
+    }
+  },
+
   // builds the widget programmatically
   build: function() {
-    var element = $E('ul'), options = this.options.options, items = [];
-    
+    var options = this.options.options, items = R([]);
+
     if (isArray(options)) {
       options.each(function(option) {
         items.push(isArray(option) ? option : [option, option]);
@@ -456,100 +401,101 @@ var Selectable = new Class(Observer, {
     }
 
     items.each(function(option) {
-      element.insert($E('li', {val: option[1], html: option[0]}));
-    });
-    
-    return element;
-  },
-  
-  // builds a container for a single-select
-  buildSingle: function() {
-    this.container = $E('div', {'class': this.containerClass})
-      .insert([
-        $E('div', {'html': this.options.hCont, 'class': 'right-selectable-handle'}),
-        $E('ul', {'class': 'right-selectable-display'})
-      ])
-      .onClick(this.toggleList.bind(this));
-    
-    if (this.element.parentNode) {
-      this.container.insertTo(this.element, 'instead');
-    }
-    
-    this.container.insert(this.element);
-      
-    document.onClick(this.hideList.bind(this));
-    
+      this.insert($E('li', {val: option[1], html: option[0]}));
+    }, this);
+
     return this;
   },
-  
+
+  // builds a container for a single-select
+  buildSingle: function() {
+    this.container = $E('div', {'class': 'rui-selectable-container'})
+      .insert([
+        this.trigger = $E('div', {'html': this.options.hCont, 'class': 'rui-selectable-handle'}),
+        this.display = $E('ul', {'class': 'rui-selectable-display'})
+      ])
+      .onClick(R(this.toggleList).bind(this));
+
+    if (this.parent()) {
+      this.container.insertTo(this, 'instead');
+    }
+
+    this.container.insert(this);
+
+    $(document).onClick(R(this.hideList).bind(this));
+
+    return this
+      .onSelect('showItem')
+      .onSelect('hideList')
+      .addClass('rui-dd-menu');
+  },
+
   // toggles the single-selects list
   toggleList: function(event) {
     event.stop();
-    return this.element.getStyle('display') !== 'none' ? this.hideList() : this.showList(event);
+    return this.visible() ? this.hideList() : this.showList(event);
   },
-  
+
   // shows list for the single-selects
   showList: function(event) {
     event.stop();
-    if (this.isSingle) {
-      $$('.right-selectable-single').without(this.element).each('hide');
-      
-      var dims = this.container.dimensions(), pos = this.container.position();
-      
-      this.element.setStyle({
-        top: (dims.top + dims.height - pos.y) + 'px',
-        left: (dims.left - pos.x) + 'px',
-        width: dims.width + 'px'
-      }).show(this.options.fxName, {
-        duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'show', this)
-      });
-      
-      if (!this.options.fxName) this.fire('show', this);
+
+    $$('.rui-selectable-single').without(this).each('hide');
+
+    var dims = this.container.dimensions(), pos = this.container.position();
+
+    this.setStyle({
+      top:  (dims.top + dims.height - pos.y - 1) + 'px',
+      left: (dims.left - pos.x) + 'px',
+      width: dims.width + 'px'
+    }).show(this.options.fxName, {
+      duration: this.options.fxDuration,
+      onFinish: this.fire.bind(this, 'show', this)
+    });
+
+    if (!this.options.fxName) {
+      this.fire('show', this);
     }
   },
-  
+
   // hides the list for the single-selects
   hideList: function() {
-    if (this.isSingle && this.element.getStyle('display') !== 'none') {
-      this.element.hide(this.options.fxName, {
+    if (this.isSingle && this.visible()) {
+      this.hide(this.options.fxName, {
         duration: this.options.fxDuration,
-        onFinish: this.fire.bind(this, 'hide', this)
+        onFinish: this.fire.bind(this, 'hide')
       });
-      
-      if (!this.options.fxName) this.fire('hide', this);
+
+      if (!this.options.fxName) {
+        this.fire('hide');
+      }
     }
   },
-  
+
   // shows the item in the main view of a single-selector
-  showItem: function(item) {
-    this.container.first('ul').update(item ? $E('li', {html: item.innerHTML}) : '<li>&nbsp;</li>');
+  showItem: function() {
+    var item = this.items().first('hasClass', 'rui-selectable-selected') || this.items().first();
+    this.display.html('<li>'+(item ? item.html() : '&nbsp;')+'</li>');
   },
-  
+
   // harvests options from a selectbox element
-  harvestOptions: function(box) {
-    var options = this.options;
-    if (box) {
-      options.multiple = box.has('multiple');
-      options.options  = [];
-      options.selected = [];
-      options.disabled = [];
-      
-      $A(box.getElementsByTagName('OPTION')).each(function(option, index) {
-        options.options.push([option.innerHTML, $(option).get('value') || option.innerHTML]);
-        
-        if (option.selected && !box.disabled) options.selected.push(index);
-        if (option.disabled ||  box.disabled) options.disabled.push(index);
-      });
-      
-      if (options.selected.empty()) options.selected = 0;
-    }
-    return box;
-  },
-  
-  hideOriginal: function(element) {
-    return element.wrap($E('div', {
-      style: 'position:absolute;z-index:-1;visibility:hidden;width:0;height:0;overflow:hidden'
-    }));
+  harvestOptions: function(selectbox) {
+    var options = {};
+
+    options.multiple = selectbox.has('multiple');
+    options.options  = R([]);
+    options.selected = R([]);
+    options.disabled = R([]);
+
+    $A(selectbox._.getElementsByTagName('OPTION')).each(function(option, index) {
+      options.options.push([option.innerHTML, $(option).get('value') || option.innerHTML]);
+
+      if (option.selected && !selectbox._.disabled) { options.selected.push(index); }
+      if (option.disabled ||  selectbox._.disabled) { options.disabled.push(index); }
+    });
+
+    if (options.selected.empty()) { options.selected = 0; }
+
+    return options;
   }
 });

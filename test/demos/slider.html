@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS UI: Slider</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('slider');
+    // ]]>
+    </script>
+    <style type="text/css">
+      div.output-monitor {
+        height: 1.4em;
+      }
+      div#dynamic-sliders div.rui-slider-vertical {
+        margin-right: .5em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Simple Slider</h2>
+    <p>
+      <div id="slider-out-1" class="output-monitor"></div>
+      <div class="rui-slider" data-slider="{update:'slider-out-1'}">
+        <div class="handle"></div>
+      </div>
+    </p>
+
+    <h2>Vertical Slider</h2>
+    <p>
+      <div id="slider-out-2" class="output-monitor"></div>
+      <div class="rui-slider rui-slider-vertical" data-slider="{update:'slider-out-2'}">
+        <div class="handle"></div>
+      </div>
+    </p>
+
+    <h2>Snapping Slider</h2>
+    <p>
+      <div id="slider-out-3" class="output-monitor"></div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-3',snap:10}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-3',snap:20}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-3',snap:30}">
+          <div class="handle"></div>
+        </div>
+      </div>
+    </p>
+
+    <h2>With Shifted Ranges</h2>
+    <p>
+      <div id="slider-out-4" class="output-monitor"></div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-4',min:-100,max:0,value:-20}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-4',min:-100,max:100,value:0}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-4',min:100,max:200,value:120}">
+          <div class="handle"></div>
+        </div>
+      </div>
+    </p>
+
+    <h2>Assigned To Input</h2>
+    <p>
+      <input type="text" id="output-input" size="3" />
+      <div class="rui-slider" data-slider="{update:'output-input'}">
+        <div class="handle"></div>
+      </div>
+    </p>
+
+    <h2>With Round Settings</h2>
+    <p>
+      <div id="slider-out-5" class="output-monitor"></div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-5',round:1}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-5',round:2}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-5',round:3}">
+          <div class="handle"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rui-slider" data-slider="{update:'slider-out-5',round:4}">
+          <div class="handle"></div>
+        </div>
+      </div>
+    </p>
+
+    <h2>Dynamically Generated Sliders</h2>
+    <p>
+      <div id="slider-out-6" class="output-monitor"></div>
+      <div id="dynamic-sliders"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+      new Slider().insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({
+        min: -100,
+        max: 100,
+        value: 0
+      }).insertTo(RightJS.$E('div').insertTo('dynamic-sliders')).assignTo('slider-out-6');
+      new Slider({
+        min: -100,
+        max: 100,
+        value: 0,
+        direction: 'y'
+      }).insertTo('dynamic-sliders').assignTo('slider-out-6');
+
+
+      new Slider({value: 0, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 20, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 40, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 60, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 80, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      new Slider({value: 100, direction: 'y'}).insertTo('dynamic-sliders').assignTo('slider-out-6');
+      // ]]>
+      </script>
+
+      <div style="clear:both"></div>
+    </p>
+
+
+    <p class="white-space"></p>
+  </body>
+</html>

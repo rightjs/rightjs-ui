@@ -1,12 +1,16 @@
 /**
  * RightJS UI Slider unit
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-var Slider = new Class(Observer, {
+var Slider = new Widget({
+  include: Updater,
+
   extend: {
+    version: '2.0.0',
+
     EVENTS: $w('change'),
-    
+
     Options: {
       min:       0,     // the min value
       max:       100,   // the max value
@@ -16,16 +20,10 @@ var Slider = new Class(Observer, {
       update:    null,  // reference to an element to update
       round:     0      // the number of symbols after the decimal pointer
     },
-    
-    rescan: function(scope) {
-      ($(scope) || document).select('div.right-slider').each(function(element) {
-        if (!element._slider) {
-          new Slider(element);
-        }
-      });
-    }
+
+    current: false
   },
-  
+
   /**
    * basic constructor
    * USAGE:
@@ -36,23 +34,30 @@ var Slider = new Class(Observer, {
    * @param Object options
    */
   initialize: function() {
-    var args = $A(arguments);
-    this.element = (args[0] && !isHash(args[0])) ? $(args.shift()) : this.build();
-    
-    this.$super(isHash(args[0]) ? args[0] : eval('('+this.element.get('data-slider-options')+')'));
-    
-    if (this.options.update) this.assignTo(this.options.update);
-    
-    this.element._slider = this.init();
+    var args = $A(arguments).compact(), options = args.pop(), element = args.pop();
+
+    // figuring out the arguments
+    if (!isHash(options) || options instanceof Element) {
+      element = $(element || options);
+      options = {};
+    }
+
+    this.$super('slider', element).setOptions(options)
+      .on('selectstart', 'stopEvent'); // disable select under IE
+
+    this.level  = this.first('.level')  || $E('div', {'class': 'level'}).insertTo(this);
+    this.handle = this.first('.handle') || $E('div', {'class': 'handle'}).insertTo(this);
+
+    options = this.options;
+    this.value = options.value === null ? options.min : options.value;
+
+    if (options.update) { this.assignTo(options.update); }
+    if (options.direction === 'y') { this.addClass('rui-slider-vertical'); }
+    else if (this.hasClass('rui-slider-vertical')) { options.direction = 'y'; }
+
+    this.setValue(this.value);
   },
-  
-  // basic desctructor
-  destroy: function() {
-    this.handle.undoDraggable();
-    delete(this.element._slider);
-    return this;
-  },
-  
+
   /**
    * The value setter
    *
@@ -62,30 +67,9 @@ var Slider = new Class(Observer, {
    * @return Slider this
    */
   setValue: function(value) {
-    var value = isString(value) ? value.toFloat() : value;
-    
-    // rounding the value according to the options
-    var base = Math.pow(10, this.options.round);
-    value = (value * base).round() / base;
-    
-    // checking the value constraings
-    if (this.options.snap) {
-      var snap = this.options.snap;
-      var diff = value % snap;
-      value = diff < snap/2 ? value - diff : value - diff + snap;
-    }
-    if (value < this.options.min) value = this.options.min;
-    if (value > this.options.max) value = this.options.max;
-    
-    this.moveTo(value);
-    
-    if (value !== this.value) {
-      this.fire('change', this.value = value);
-    }
-    
-    return this;
+    return this.precalc().shiftTo(value);
   },
-  
+
   /**
    * Returns the value
    *
@@ -94,17 +78,7 @@ var Slider = new Class(Observer, {
   getValue: function() {
     return this.value;
   },
-  
-  /**
-   * Sets the minimal value and rebuilds the dimensions cache
-   *
-   * @param Number optional value to reset
-   * @return Slider this
-   */
-  reset: function(value) {
-    return this.precalc().setValue([value, this.options.value, this.options.min].compact()[0]);
-  },
-  
+
   /**
    * Inserts the widget into the element
    *
@@ -113,163 +87,73 @@ var Slider = new Class(Observer, {
    * @return Slider this
    */
   insertTo: function(element, position) {
-    this.element.insertTo(element, position);
-    return this.reset(this.value);
+    return this.$super(element, position).setValue(this.value);
   },
-  
-  /**
-   * Assigns the slider to feed an input element on change
-   *
-   * @param mixed an input element reference
-   * @return Slider this
-   */
-  assignTo: function(element) {
-    var assign  = function(element, value) {
-      if (element = $(element)) {
-        if (value === undefined || value === null) value = '';
-        element[element.setValue ? 'setValue' : 'update'](''+value);
-      }
-    }.curry(element);
-    
-    var connect = function(element, object) {
-      var element = $(element);
-      if (element && element.onChange) {
-        element.onChange(function() {
-          this.setValue(element.value);
-        }.bind(object));
-      }
-    }.curry(element);
-    
-    if ($(element)) {
-      assign(this.value);
-      connect(this);
-    } else {
-      document.onReady(function() {
-        assign(this.value);
-        connect(this);
-      }.bind(this));
-    }
-    
-    return this.onChange(assign);
-  },
-  
+
 // protected
-  
-  // inits the slider handle and resets the whole thing
-  init: function() {
-    this.handle = this.element.first('div.right-slider-handle')
-      .makeDraggable({
-        onBefore: this.prepare.bind(this),
-        onDrag: this.dragged.bind(this)
-      });
-    
-    // make it jump to the position
-    this.element.onClick(this.clicked.bind(this));
-      
-    if (this.options.direction == 'y') {
-      this.element.addClass('right-slider-vertical');
-    } else {
-      this.options.direction = this.element.hasClass('right-slider-vertical') ? 'y' : 'x';
-    }
-    
-    // fixing the manual position calculations for Konqueror
-    if (this.konqFix = (RightJS.version < '1.5.0' && !this.handle.getBoundingClientRect)) {
-      var parent = this.element;
-      var old_dims = this.handle.dimensions;
-      this.handle.dimensions = function() {
-        var dims = old_dims.call(this);
-        var subset = parent.dimensions();
-        
-        dims.top  += subset.top;
-        dims.left += subset.left;
-        
-        return dims;
-      };
-    }
-    
-      
-    return this.reset();
-  },
-  
-  // builds the slider prorgrammatically
-  build: function() {
-    return $E('div', {'class': 'right-slider'}).insert($E('div', {'class': 'right-slider-handle'}));
-  },
-  
-  // callback for the eleemnt on-click event to make the slider to jump there
-  clicked: function(event) {
-    event.stop();
-    this.precalc().moveTo(this.value);
-    
-    var position = event.position();
-    var element  = this.dimensions;
-    
-    var position = (this.horizontal ? position.x - element.left : position.y - element.top) - this.offset;
-    
-    if (position > this.space) position = this.space;
-    else if (position < 0)     position = 0;
-    
-    this.setPosition(position);
-  },
-  
-  // callback for the element dragg
-  dragged: function(draggable, event) {
-    this.setPosition(draggable.element.style[this.horizontal ? 'left' : 'top'].toFloat());
-  },
-  
-  // callback for the draggable before event
-  prepare: function(draggable) {
-    // moving the slider to the beginning position
-    this.precalc().moveTo(this.value);
-    
-    var offset    = this.offset;
-    var element   = this.dimensions;
-    var options   = draggable.options;
-    options.range = {};
-    
-    // calculating the ranges
-    if ((options.axis = this.options.direction) == 'x') {
-      options.range.x = [element.left + offset, element.left + element.width - offset];
-      if (this.konqFix) options.range.x[0] -= element.left;
-    } else {
-      options.range.y = [element.top + offset, element.top  + element.height - offset];
-      if (this.konqFix) options.range.y[0] -= element.top;
-    }
-    
-    // calculating the snapping range
-    if (this.options.snap) {
-      options.snap = this.space / (this.options.max - this.options.min) * this.options.snap;
-    }
-  },
-  
-  // sets the slider value by the handle position
-  setPosition: function(position) {
-    if (!this.horizontal)  position = this.space - position;
-    var value    = position / this.space * (this.options.max - this.options.min) + this.options.min;
-    
-    this.setValue(value);
-  },
-  
-  // moves the slider to the given position
-  moveTo: function(value) {
-    var position = this.space / (this.options.max - this.options.min) * (value - this.options.min);
-    
-    if (!this.horizontal) position = this.space - position;
-    
-    this.handle.style[this.horizontal ? 'left' : 'top'] = position + 'px';
-    
-    return this;
-  },
-  
+
   // precalculates dimensions, direction and offset for further use
   precalc: function() {
-    var handle      = this.handle.setStyle({left:'0', top:'0'}).dimensions();
-    
-    this.dimensions = this.element.dimensions();
-    this.horizontal = this.options.direction == 'x';
-    this.offset     = this.horizontal ? handle.left - this.dimensions.left : handle.top - this.dimensions.top;
-    this.space      = (this.horizontal ? this.dimensions.width - handle.width : this.dimensions.height - handle.height) - this.offset * 2;
-    
+    var horizontal  = this.options.direction === 'x',
+        handle      = this.handle.setStyle(horizontal ? {left: 0} : {bottom: 0}).dimensions(),
+        handle_size = this.hSize = horizontal ? handle.width : handle.height,
+        dims        = this.dims  = this.dimensions();
+
+    this.offset = horizontal ? handle.left - dims.left : dims.top + dims.height - handle.top - handle_size;
+    this.space  = (horizontal ? dims.width - handle_size - this.offset * 2 : dims.height - handle_size) - this.offset * 2;
+
     return this;
+  },
+
+  // initializes the slider drag
+  start: function(event) {
+    return this.precalc().e2val(event);
+  },
+
+  // processes the slider-drag
+  move: function(event) {
+    return this.e2val(event);
+  },
+
+  // shifts the slider to the value
+  shiftTo: function(value) {
+    var options = this.options, base = Math.pow(10, options.round), horizontal = options.direction === 'x';
+
+    // rounding the value up
+    value = Math.round(value * base) / base;
+
+    // checking the value constraings
+    if (value < options.min) { value = options.min; }
+    if (value > options.max) { value = options.max; }
+    if (options.snap) {
+      var snap = options.snap;
+      var diff = value % snap;
+      value = diff < snap/2 ? value - diff : value - diff + snap;
+    }
+
+    // calculating and setting the actual position
+    var position = this.space / (options.max - options.min) * (value - options.min);
+
+    this.handle._.style[horizontal ? 'left' : 'bottom'] = position + 'px';
+    this.level._.style[horizontal  ? 'width': 'height'] = ((position > 0 ? position : 0) + 2) + 'px';
+
+    // checking the change status
+    if (value !== this.value) {
+      this.value = value;
+      this.fire('change', {value: value});
+    }
+
+    return this;
+  },
+
+  // converts the event position into the actual value in terms of the slider measures
+  e2val: function(event) {
+    var options = this.options, horizontal = options.direction === 'x',
+        dims    = this.dims, offset = this.offset, space = this.space,
+        cur_pos = event.position()[horizontal ? 'x' : 'y'] - offset - this.hSize/2,
+        min_pos = horizontal ? dims.left + offset : dims.top + offset,
+        value   = (options.max - options.min) / space * (cur_pos - min_pos);
+
+    return this.shiftTo(horizontal ? options.min + value : options.max - value);
   }
 });

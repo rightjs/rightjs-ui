@@ -1,12 +1,41 @@
 /**
  * Tabs main stylesheet
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
-
+ * Basic structure looks like that:
+ *
+ *   <ul class="rui-tabs">
+ *     <ul class="rui-tabs-list">
+ *       <li class="rui-tabs-tab rui-tabs-current"><a href="#">Tab 1</a></li>
+ *       <li class="rui-tabs-tab"><a href="#">Tab 1</a></li>
+ *       <li class="rui-tabs-tab"><a href="#">Tab 1</a></li>
+ *     </ul>
+ *
+ *     <li class="rui-tabs-panel rui-tabs-current">Content 1</li>
+ *     <li class="rui-tabs-panel">Content 1</li>
+ *     <li class="rui-tabs-panel">Content 1</li>
+ *   </ul>
+ *
+ * The scrollable version looks like that
+ *
+ *   <ul class="rui-tabs">
+ *     <div class="rui-tabs-scroller">
+ *       <div class="rui-tabs-scroller-prev">&laquo;</div>
+ *       <div class="rui-tabs-scroller-next">&raquo;</div>
+ *
+ *       <ul class="rui-tabs-list">
+ *         ..........
+ *       </ul>
+ *     </div>
+ *
+ *     ............
+ *   </ul>
+ *
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
+ */
 /* RESET */
-.right-tabs, .right-tabs-list, .right-tabs-tab, .right-tabs-panel,
-.right-tabs-scroll-left, .right-tabs-scroll-right, .right-tabs-scroll-body,
-.right-tabs-panel-locker, .right-tabs-resizer {
+.rui-tabs, .rui-tabs-list, .rui-tabs-tab, .rui-tabs-panel,
+.rui-tabs-scroll-left, .rui-tabs-scroll-right, .rui-tabs-scroll-body,
+.rui-tabs-panel-locker, .rui-tabs-resizer {
   margin: 0;
   padding: 0;
   background: none;
@@ -16,57 +45,92 @@
   width: auto;
   height: auto;
 }
-.right-tabs {
+.rui-tabs {
+  display: block;
+  visibility: hidden; /** don't show it before initialization */
   border-bottom: 1px solid #CCC;
 }
-.right-tabs-resizer {
+
+.rui-tabs-resizer {
   overflow: hidden;
 }
 
-/* basic tabs styles */
-.right-tabs-tab, .right-tabs-tab a {
+/** the tabs list styles */
+.rui-tabs-list {
   display: block;
-  float: left;
-}
-.right-tabs-tab a {
   position: relative;
+  padding: 0 .5em;
+  border-bottom: 1px solid #CCC;
+  white-space: nowrap;
+}
+
+.rui-tabs-list .rui-tabs-tab, .rui-tabs-tab *, .rui-tabs-tab *:hover {
+  display: inline-block;
+ *display: inline;
+ *zoom: 1;
   cursor: pointer;
   text-decoration: none;
+  vertical-align: center;
+}
+.rui-tabs-list .rui-tabs-tab {
+  vertical-align: bottom;
+  margin-right: .1em;
+}
+.rui-tabs-tab a {
+  outline: none;
+  position: relative;
   border: 1px solid #CCC;
   background: #DDD;
   color: #444;
+  padding: .3em 1em;
+  border-radius: .3em;
   -moz-border-radius: .3em;
   -webkit-border-radius: .3em;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
 }
-.right-tabs-tab a:hover {
+.rui-tabs-tab a:hover {
   border-color: #CCC;
   background: #EEE;
 }
-.right-tabs-tab.right-tabs-current a  {
+.rui-tabs-list .rui-tabs-current a, .rui-tabs-list .rui-tabs-current a:hover {
   font-weight: bold;
   color: #000;
   background: #FFF;
+  border-bottom: 1px solid #FFF;
+  border-top-width: 2px;
+  padding-top: .34em;
+  padding-bottom: .34em;
+  top: 1px;
 }
-.right-tabs-tab a img {
+.rui-tabs-tab a img {
   border: none;
   opacity: .6;
   filter: alpha(opacity=60);
 }
-.right-tabs-tab a:hover img, .right-tabs-tab.right-tabs-current a img {
+.rui-tabs-tab a:hover img, .rui-tabs-list .rui-tabs-current a img {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-.right-tabs-disabled a, .right-tabs-disabled a:hover {
+.rui-tabs-disabled a, .rui-tabs-disabled a:hover {
   background: #EEE;
   border-color: #DDD;
   color: #AAA;
   cursor: default;
 }
-.right-tabs-disabled a img, .right-tabs-disabled a:hover img {
+.rui-tabs-disabled a img, .rui-tabs-disabled a:hover img {
   opacity: .5;
   filter: alpha(opacity=50);
 }
-.right-tabs-tab-close-icon {
+
+
+/** the tab-close icons */
+.rui-tabs-tab-close-icon {
   display: inline-block;
 * display: inline;
 * zoom: 1;
@@ -76,25 +140,83 @@
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.right-tabs-tab-close-icon:hover {
+.rui-tabs-tab-close-icon:hover {
   opacity: 1;
   filter: alpha(opacity=100);
   color: #B00;
   text-shadow: #888 .15em .15em .2em;
 }
 
-/* the panels and locker styles */
-.right-tabs-panel {
+/** The panel styles */
+.rui-tabs-panel {
   display: none;
   position: relative;
   min-height: 4em;
   padding: .5em 0;
 }
-.right-tabs-panel-current {
+
+.rui-tabs-current {
   display: block;
 }
 
-.right-tabs-panel-locker {
+
+/** The tabs scroller styles */
+.rui-tabs-scroller {
+  position: relative;
+  padding: 0 1.4em;
+}
+.rui-tabs-scroller-prev, .rui-tabs-scroller-next {
+  width: 1.1em;
+  text-align: center;
+  background: #EEE;
+  color: #666;
+  cursor: pointer;
+  border: 1px solid #CCC;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding: 0.3em 0;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+.rui-tabs-scroller-prev:hover, .rui-tabs-scroller-next:hover {
+  color: #000;
+  background: #DDD;
+  border-color: #AAA;
+}
+.rui-tabs-scroller-prev:active, .rui-tabs-scroller-next:active {
+  background:#eee;
+  border-color: #ccc;
+}
+.rui-tabs-scroller-next {
+  left: auto;
+  right: 0px;
+}
+.rui-tabs-scroller-disabled,
+.rui-tabs-scroller-disabled:hover {
+  cursor: default;
+  background: #DDD;
+  border-color: #DDD;
+  color: #AAA;
+}
+.rui-tabs-scroller-body {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+.rui-tabs-scroller .rui-tabs-list {
+  padding-left: 0;
+  padding-right: 0;
+  width: 9999em;
+  z-index: 10;
+}
+
+/** Remote calls locker styles */
+.rui-tabs-panel-locker {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -104,153 +226,95 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  line-height: 100%;
 }
-.right-tabs-panel-locker-spinner {
+.rui-tabs-panel-locker .rui-spinner {
   position: absolute;
   left: 44%;
   top: 44%;
-}
-.right-tabs-panel-locker-spinner div {
-  float: left;
-  background: #777;
-  width: .5em;
-  height: 1em;
-  margin-right: .1em;
-  -moz-border-radius: .1em;
-  -webkit-border-radius: .1em;
-}
-.right-tabs-panel-locker-spinner div.glow {
-  background: #444;
-  height: 1.2em;
-  margin-top: -0.1em;
-}
-
-/* the tabs scroller style */
-.right-tabs-scroller {
-  padding: 0 1.4em;
-  position: relative;
-  margin-bottom: .5em;
-}
-.right-tabs-scroll-left, .right-tabs-scroll-right {
-  width: 1.1em;
-  text-align: center;
-  background: #EEE;
-  color: #666;
-  cursor: pointer;
-  border: 1px solid #CCC;
-  -moz-border-radius: .2em;
-  -webkit-border-radius: .2em;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 100;
-}
-div.right-tabs-scroll-left:hover, div.right-tabs-scroll-right:hover {
-  color: #000;
-  background: #DDD;
-  border-color: #AAA;
-}
-.right-tabs-scroll-right {
-  left: auto;
-  right: 0px;
-}
-.right-tabs .right-tabs-scroller .right-tabs-scroll-disabled,
-.right-tabs .right-tabs-scroller .right-tabs-scroll-disabled:hover {
-  cursor: default;
-  background: #DDD;
-  border-color: #DDD;
-  color: #AAA;
-}
-.right-tabs-scroll-body {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  z-index: 50;
-}
-.right-tabs-scroller .right-tabs-list {
-  position: relative;
-  width: 999em;
-  margin: 0;
-}
-
-/* simple tabs style */
-.right-tabs-simple .right-tabs-list {
+  background: none;
+  border: none;
   height: 2em;
-  padding: 0 1em;
-  border-bottom: 1px solid #CCC;
 }
-.right-tabs-simple .right-tabs-tab {
-  margin-top: -1px;
-  margin-right: 1px;
+.rui-tabs-panel-locker .rui-spinner div {
+  background: #666;
+  width: .65em;
+  margin-left: .15em;
 }
-.right-tabs-simple .right-tabs-tab a {
-  line-height: 1.8em;
-  margin-top: .2em;
-  padding: 0 1em;
-  border-bottom: none;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-bottomright: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-}
-.right-tabs-simple .right-tabs-tab.right-tabs-current a {
-  line-height: 2em;
-  margin-top: 1px;
-}
-.right-tabs-simple .right-tabs-scroller {
-  border-bottom: 1px solid #CCC;
-}
-.right-tabs-simple .right-tabs-scroll-left,
-.right-tabs-simple .right-tabs-scroll-right {
-  line-height: 1.8em;
-  top: .2em;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-bottomright: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-}
-.right-tabs-simple .right-tabs-scroll-body {
-  position: relative;
-  top: 1px;
-}
-.right-tabs-simple .right-tabs-list {
-  padding: 0;
+.rui-tabs-panel-locker .rui-spinner div.glowing {
+  background: #000;
 }
 
-/* carousel styles */
-.right-tabs-carousel .right-tabs-list,
-.right-tabs-carousel .right-tabs-tab a,
-.right-tabs-carousel .right-tabs-scroller .right-tabs-scroll-left,
-.right-tabs-carousel .right-tabs-scroller .right-tabs-scroll-right {
-  height: 6em;
-  line-height: 6em;
-}
-.right-tabs-carousel .right-tabs-tab {
-  margin-right: 2px;
-}
-.right-tabs-carousel .right-tabs-tab a img {
-  border: 1px solid #CCC;
-  margin: .4em;
-  padding: 0;
-}
-
-/* harmonica styles */
-dl.right-tabs {
-  overflow: none;
+/** Carousel styles */
+.rui-tabs-carousel .rui-tabs-list {
   border: none;
 }
-dt.right-tabs-tab, dt.right-tabs-tab a {
+.rui-tabs-carousel .rui-tabs-tab a,
+.rui-tabs-carousel .rui-tabs-scroller .rui-tabs-scroller-prev,
+.rui-tabs-carousel .rui-tabs-scroller .rui-tabs-scroller-next {
+  height: 6em;
+  line-height: 6em;
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+  border-radius: .25em;
+  -moz-border-radius: .25em;
+  -webkit-border-radius: .25em;
+}
+.rui-tabs-carousel .rui-tabs-tab {
+  margin-right: 3px;
+}
+.rui-tabs-carousel .rui-tabs-tab a img {
+  border: 1px solid #CCC;
+  vertical-align: middle;
+  margin: .4em;
+  padding: 0;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+}
+.rui-tabs-carousel .rui-tabs-list .rui-tabs-current a {
+  border-width: 1px;
+  border-color: #AAA;
+  padding: 0;
+  top: auto;
+}
+.rui-tabs-carousel .rui-tabs-list .rui-tabs-current a img {
+  border-color:#bbb;
+}
+.rui-tabs-carousel .rui-tabs-panel {
+  text-align: center;
+}
+
+
+/* harmonica styles */
+dl.rui-tabs {
+  border: none;
+}
+dt.rui-tabs-tab, dt.rui-tabs-tab a, dt.rui-tabs-tab a:hover {
   display: block;
   float: none;
 }
-dt.right-tabs-tab a {
+dt.rui-tabs-tab a, dt.rui-tabs-tab a:hover {
   padding: .2em 1em;
+  border: 1px solid #ccc;
+  border-radius: .25em;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
 }
-dl.right-tabs dt.right-tabs-current a {
+dl.rui-tabs dt.rui-tabs-current a {
   background: #EEE;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   -moz-border-radius-bottomleft: 0;
   -moz-border-radius-bottomright: 0;
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-bottom-right-radius: 0;
+}
+
+dl.rui-tabs dd.rui-tabs-current + dt.rui-tabs-tab a {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-topleft: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
 }

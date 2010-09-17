@@ -1,7 +1,7 @@
 /**
- * This module handles the tabs cration and removing processes   
+ * This module handles the tabs cration and removing processes
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 Tabs.include({
   /**
@@ -22,24 +22,27 @@ Tabs.include({
    * @return Tabs this
    */
   add: function(title, content, options) {
-    var options = options || {};
-    
+    options = options || {};
+
     // creating the new tab element
     var element = $E(this.isHarmonica ? 'dt' : 'li').insert(
       $E('a', {html: title, href: options.url || '#'+(options.id||'')}
     )).insertTo(this.tabsList);
-    
+
     // creating the actual tab instance
-    var tab = new Tabs.Tab(element, this);
-    tab.panel.element.update(content||'');
+    var tab = new Tab(element, this);
+    tab.panel.update(content||'');
     this.tabs.push(tab);
-    
+    tab.fire('add');
+
     // moving the tab in place if asked
-    if (defined(options.position)) this.move(tab, options.position);
-    
-    return this.fire('add', tab);
+    if ('position' in options) {
+      this.move(tab, options.position);
+    }
+
+    return this;
   },
-  
+
   /**
    * Moves the given tab to the given position
    *
@@ -50,23 +53,27 @@ Tabs.include({
    * @return Tabs this
    */
   move: function(tab, position) {
-    var tab = this.tabs[tab] || tab;
-    
+    tab = this.tabs[tab] || tab;
+
     if (this.tabs[position] && this.tabs[position] !== tab) {
       // moving the tab element
-      this.tabs[position].element.insert(tab.element, (position == this.tabs.length-1) ? 'after' : 'before');
-      if (this.isHarmonica) tab.element.insert(tab.panel.element, 'after');
-      
+      this.tabs[position].insert(tab, (position === this.tabs.length-1) ? 'after' : 'before');
+
+      // inserting the panel after the tab if it's a harmonica
+      if (this.isHarmonica) {
+        tab.insert(tab.panel, 'after');
+      }
+
       // moving the tab in the registry
       this.tabs.splice(this.tabs.indexOf(tab), 1);
       this.tabs.splice(position, 0, tab);
-      
-      this.fire('move', tab, position);
+
+      tab.fire('move', {index: position});
     }
-    
+
     return this;
   },
-  
+
   /**
    * Removes the given tab
    *
@@ -76,5 +83,5 @@ Tabs.include({
   remove: function(tab) {
     return this.callTab(tab, 'remove');
   }
-  
+
 });

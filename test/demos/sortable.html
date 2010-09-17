@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS UI: Sortable</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('sortable');
+    // ]]>
+    </script>
+    <style type="text/css">
+      ul.sortable-test {
+        width: 20em;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+       *display: inline;
+       *zoom: 1;
+       vertical-align: top;
+      }
+      ul.sortable-test li {
+        list-style: none;
+        padding: .2em .5em;
+        margin: .2em;
+        background: #CCB;
+        cursor: move;
+        border-radius: .2em;
+        -moz-border-radius: .2em;
+        -webkit-border-radius: .2em;
+      }
+      ul.sortable-test li.dragging {
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+      }
+
+      ul.horizontal {
+        width: 30em;
+      }
+      ul.horizontal li {
+        float: left;
+      }
+
+      ul.folded {
+        width: 20em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Simple Sortable</h2>
+    <p>
+      <ul class="sortable-test" data-sortable="{}">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+      <ul class="sortable-test" data-sortable="{}" style="position:relative">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+    </p>
+
+    <h2>Horizontal Sortable</h2>
+    <p>
+      <ul class="sortable-test horizontal" data-sortable="{}">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+      </ul>
+      <div style="clear:both"></div>
+    </p>
+
+    <h2>Folded Horizontal List</h2>
+    <p>
+      <ul class="sortable-test horizontal folded" data-sortable="{}">
+        <li>Item #1</li>
+        <li>Item #2</li>
+        <li>Item #3</li>
+        <li>Item #4</li>
+        <li>Item #5</li>
+        <li>Item #6</li>
+      </ul>
+      <div style="clear:both"></div>
+    </p>
+
+    <h2>Sortable With Xhr</h2>
+    <p>
+      <ul class="sortable-test" data-sortable="{url: './sortable/%{id}.html', method: 'get', Xhr: {evalScripts: true, onComplete: 'tryScripts'}}">
+        <li id="item_1">Item #1</li>
+        <li id="item_2">Item #2</li>
+        <li id="item_3">Item #3</li>
+        <li id="item_4">Item #4</li>
+      </ul>
+    </p>
+
+    <h2>Interchangeable Sortables</h2>
+    <p>
+      <ul id="in-sort-1" class="sortable-test" data-sortable="{accept: 'in-sort-2'}">
+        <li>Item #11</li>
+        <li>Item #12</li>
+        <li>Item #13</li>
+        <li>Item #14</li>
+      </ul>
+
+      <ul id="in-sort-2" class="sortable-test" data-sortable="{accept: 'in-sort-1'}">
+        <li>Item #21</li>
+        <li>Item #22</li>
+        <li>Item #23</li>
+        <li>Item #24</li>
+      </ul>
+    </p>
+
+    <p class="white-space"></p>
+  </body>
+</body>

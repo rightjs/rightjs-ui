@@ -1,30 +1,26 @@
 /**
  * The inline editors basic style
  *
- * <form class="right-in-edit">
- *   <input class="right-in-edit-field" />
- *   <input type="submit" class="right-in-edit-submit" />
- *   <a href="" class="right-in-edit-cancel">Cancel</a>
- *   <div class="right-in-edit-spinner">
+ * <form class="rui-in-edit">
+ *   <input class="rui-in-edit-field" />
+ *   <input type="submit" class="rui-in-edit-submit" />
+ *   <a href="" class="rui-in-edit-cancel">Cancel</a>
+ *   <div class="rui-in-edit-spinner">
  *     <div class="glow"></div><div></div><div></div><div></div>
  *   </div>
  * </form>
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2010 Nikolay Nemshilov
  */
-form.right-in-edit,
-*.right-in-edit-field,
-*.right-in-edit-submit,
-*.right-in-edit-cancel,
-*.right-in-edit-spinner,
-*.right-in-edit-spinner div {
+form.rui-in-edit,
+form.rui-in-edit .cancel {
   margin: 0;
   padding: 0;
+  float: none;
+  position: static;
 }
- 
-form.right-in-edit,
-*.right-in-edit-spinner,
-*.right-in-edit-spinner div {
+
+form.rui-in-edit {
   display: inline-block;
 * display: inline;
 * zoom: 1;
@@ -32,35 +28,27 @@ form.right-in-edit,
   background: none;
 }
 
-textarea.right-in-edit-field {
+form.rui-in-edit div.rui-spinner {
+  margin-right: .2em;
+}
+form.rui-in-edit div.rui-spinner div {
+  margin-top: .2em;
+}
+
+form.rui-in-edit textarea.field {
   width: 100%;
   margin-bottom: .5em;
 }
 
-*.right-in-edit-field,
-*.right-in-edit-submit,
-*.right-in-edit-spinner {
+form.rui-in-edit .field,
+form.rui-in-edit .submit {
   margin-right: .2em;
 }
 
-*.right-in-edit-spinner {
-  background: #EEE;
-  border: 1px solid #DDD;
- -moz-border-radius: .2em;
- -webkit-border-radius: .2em;
-  text-align: center;
-  line-height: 100%;
-}
-
-*.right-in-edit-spinner div {
-  width: .3em;
-  height: .7em;
-  margin-top: .3em;
-  background: #BBB;
-  margin-right: 2px;
-  -moz-border-radius: .1em;
-  -webkit-border-radius: .1em;
-}
-*.right-in-edit-spinner div.glow {
-  background: #777;
+form.rui-in-edit,
+form.rui-in-edit .field,
+form.rui-in-edit .submit,
+form.rui-in-edit div.rui-spinner,
+form.rui-in-edit .cancel {
+  vertical-align: middle;
 }

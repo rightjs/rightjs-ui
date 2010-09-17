@@ -1,0 +1,57 @@
+/**
+ * Various buttons shared stylesheet
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+*.rui-button {
+  display: inline-block;
+* display: inline;
+* zoom: 1;
+  height: 1em;
+  line-height: 1em;
+  margin: 0;
+  padding: .2em .5em;
+  text-align: center;
+  border: 1px solid #CCC;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  cursor: pointer;
+  color: #333;
+  background-color: #FFF;
+  user-select:none;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+
+/* Mouseover effect */
+*.rui-button:hover {
+  color: #111;
+  border-color: #999;
+  background-color: #DDD;
+  box-shadow: #888 0 0 .1em;
+  -moz-box-shadow: #888 0 0 .1em;
+  -webkit-box-shadow: #888 0 0 .1em;
+}
+
+/** mousedown effect */
+*.rui-button:active {
+  color: #000;
+  border-color: #777;
+  text-indent: 1px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+/** disabled buttons */
+*.rui-button-disabled, *.rui-button-disabled:hover, *.rui-button-disabled:active {
+  color: #888;
+  background: #DDD;
+  border-color: #CCC;
+  cursor: default;
+  text-indent: 0;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}

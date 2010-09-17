@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS UI: Tooltip</title>
+    <script src="../../util/test/tools.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('tooltip');
+    // ]]>
+    </script>
+    <style type="text/css">
+      div.tooltiped {
+        border: 1px solid #eee;
+        padding: 2em;
+        margin-right: .5em;
+        cursor: default;
+      }
+      #tooltiped-tooltip div.rui-tooltip-container {
+        color: #AAF;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Some Tooltips Tests</h2>
+    <p>
+      <div title="Some block title" class="tooltiped" data-tooltip="">Some block with tooltip</div>
+    </p>
+    <p>
+      <div title="Some block title" data-tooltip="" id="tooltiped" class="tooltiped">This one should have blue tooltip</div>
+    </p>
+    <p>
+      <div title="Title &lt;b&gt;with&lt;/b&gt; &lt;u&gt;html&lt;u&gt; code" data-tooltip="" class="tooltiped">This one should have tooltip with html code</div>
+    </p>
+
+    <h2>Tooltips With Image And Alt Attribute</h2>
+    <p>
+      <img src="http://rightjs.org/images/test/1.jpg" alt="The pictue tooltip" data-tooltip="{delay: 50}" />
+    </p>
+  </body>
+</html>

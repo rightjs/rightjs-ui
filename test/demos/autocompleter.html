@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS UI: Autocompleter</title>
+    <script type="text/javascript" src="../../util/test/tools.js"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_ui_test_page();
+      load_ui_modules('autocompleter');
+    // ]]>
+    </script>
+    <style type="text/css">
+    /* <![CDATA[ */
+      p.auto-test input {
+        border-width: 4px;
+      }
+    /* ]]> */
+    </style>
+  </head>
+  <body>
+    <h2>Simple Completer (asdf)</h2>
+    <p>
+      <input type="text" id="simple-completer" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Autocompleter('simple-completer', {
+          url: './autocompleter/%{search}.html'
+        });
+      // ]]>
+      </script>
+    </p>
+
+    <h2>Local Options Completer</h2>
+    <p>
+      <input type="text" id="local-options-completer" />
+      <script type="text/javascript">
+      // <![CDATA[
+        new Autocompleter('local-options-completer', {
+          local: RightJS.$w('mommy daddy sonny doggy kitty')
+        });
+      // ]]>
+      </script>
+    </p>
+
+    <h2>Auto-Discovered Completer With Url</h2>
+    <p class="auto-test">
+      <input type="text" data-autocompleter="{url: './autocompleter/%{search}.html', fxDuration: 1000, fxName: 'fade'}" />
+    </p>
+
+    <h2>Auto-Discovered Completer With Local Options</h2>
+    <p class="auto-test">
+      <input type="text" data-autocompleter="{local: ['mommy','daddy','sonny','doggy','kitty']}" />
+    </p>
+
+    <p class="white-space"></p>
+  </body>
+</html>

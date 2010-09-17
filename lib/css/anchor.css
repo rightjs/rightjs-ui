@@ -1,0 +1,16 @@
+/**
+ * Relatively positioned anchor element stylesheet
+ * essentially just a reset
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+div.rui-re-anchor {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  float: none;
+  display: inline;
+  position: absolute;
+  z-index: 9999;
+}

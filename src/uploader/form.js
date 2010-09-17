@@ -1,21 +1,22 @@
 /**
- * The Form unit `send` method overloading
- * so that we could catch up the moment when it sent
+ * Overloading the Form#send method so we could
+ * catch up the moment when a form was sent and show the bar
  *
- * Copyright (C) 2010 Nikolay V. Nemshilov
+ * Copyright (C) 2010 Nikolay Nemshilov
  */
-Form.include((function(old_method) {
-  return {
-    send: function() {
-      // initializing the uploading handler if it supposed to be there
-      if (this.match(Uploader.Options.formCssRule)) {
-        if (!this._uploader)
-          new Uploader(this);
-          
-        this._uploader.start();
-      }
-      
-      return old_method.apply(this, arguments);
+var old_send = Form.prototype.send;
+
+Form.include({
+  send: function() {
+
+    if (!this.uploader && (this.match(Uploader.Options.cssRule) || this.first('.rui-uploader'))) {
+      this.uploader = new Uploader(this);
     }
+
+    if (this.uploader) {
+      this.uploader.start();
+    }
+
+    return old_send.apply(this, arguments);
   }
-})(Form.Methods.send));
+});

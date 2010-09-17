@@ -1,85 +1,88 @@
 /**
- * Ajax loading support module
+ * Xhr/images/medias loading module
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Lightbox.include((function(proto) {
-  var old_show  = proto.show;
-  var old_build = proto.build;
-  
-  return {
-    // hightjacking the links
-    show: function(content) {
-      if (content && content.href) {
-        return this.load(content.href, {
-          onComplete: function(request) {
-            this.checkTheRoad(content)
-              .setTitle(content.title)
-              .content.update(request.responseText);
-          }.bind(this)
-        });
-      } else {
-        return old_show.apply(this, arguments);
-      }
-    },
-    
-    /**
-     * Loads the url via an ajax request and assigns the box content wiht the response result
-     *
-     * NOTE: will perform a GET request by default
-     *
-     * NOTE: will just update the body content with
-     *       the response text if no onComplete or
-     *       onSuccess callbacks were set
-     *
-     * @param String url address
-     * @param Object Xhr options
-     * @return Lightbox self
-     */
-    load: function(url, options) {
-      var options = options || {};
-      
-      $w('onCreate onComplete').each(function(name) {
-        options[name] = options[name] ? isArray(options[name]) ? options[name] : [options[name]] : [];
-      });
-
-      // adding the selfupdate callback as default
-      if (options.onComplete.empty() && !options.onSuccess) {
-        options.onComplete.push(function(request) {
-          this.content.update(request.responseText);
-        }.bind(this));
-      }
-
-      options.onCreate.unshift(this.loadLock.bind(this));
-      options.onComplete.push(this.resize.bind(this));
-
-      options.method = options.method || 'get';
-
-      return this.showingSelf(Xhr.load.bind(Xhr, url, options));
-    },
-    
-  // protected
-    
-    // xhr requests loading specific lock
-    loadLock: function() {
-      this.loading = true;
-      this.lock().bodyLock.addClass('lightbox-body-lock-loading');
-      return this;
-    },
-    
-    build: function() {
-      var res = old_build.apply(this, arguments);
-      
-      // building a textual spinner
-      var spinner = this.E('lightbox-body-lock-spinner', this.bodyLock);
-      var dots    = '1234'.split('').map(function(i) {
-        return $E('div', {'class': i == 1 ? 'glow':null}).insertTo(spinner);
-      });
-      (function() {
-        var dot = dots.pop(); dot.insertTo(spinner, 'top'); dots.unshift(dot);
-      }).periodical(400);
-      
-      return res;
+var Loader = new Class({
+  /**
+   * Constructor
+   *
+   * @param String url address
+   * @param Object Xhr options
+   * @param Function on-finish callback
+   */
+  initialize: function(url, options, on_finish) {
+    // adjusting the dialog look for different media-types
+    if (this.isImage(url, on_finish)) {
+      Lightbox.current.addClass('rui-lightbox-image');
+    } else if (this.isMedia(url, on_finish)) {
+      Lightbox.current.addClass('rui-lightbox-media');
+    } else {
+      this.xhr = new Xhr(url,
+        Object.merge({method: 'get'}, options)
+      ).onComplete(function() {
+        on_finish(this.text);
+      }).send();
     }
-  };
-})(Lightbox.prototype));
+  },
+
+  /**
+   * Cancels the request
+   *
+   * @return Loader this
+   */
+  cancel: function() {
+    if (this.xhr) {
+      this.xhr.cancel();
+    } else if (this.img) {
+      this.img.onload = function() {};
+    }
+  },
+
+// protected
+
+  // tries to initialize it as an image loading
+  isImage: function(url, on_finish) {
+    if (url.match(Lightbox.Images)) {
+      var img = this.img = $E('img')._;
+      img.onload = function() {
+        on_finish(img);
+      };
+      img.src = url;
+      return true;
+    }
+  },
+
+  // tries to initialize it as a flash-element
+  isMedia: function(url, on_finish) {
+    var media = R(Lightbox.Medias).map(function(desc) {
+      return url.match(desc[0]) ? this.buildEmbed(
+        url.replace(desc[0], desc[1]), desc[2]) : null;
+    }, this).compact()[0];
+
+    if (media) {
+      on_finish(media, true);
+      return true;
+    }
+  },
+
+  // builds an embedded media block
+  buildEmbed: function(url, type) {
+    var media_types = {
+      swf: [
+        'D27CDB6E-AE6D-11cf-96B8-444553540000',
+        'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
+        'application/x-shockwave-flash'
+      ]
+    },
+    options = Lightbox.current ? Lightbox.current.options : Lightbox.Options,
+    sizes = ' width="'+ options.mediaWidth + '" height="'+ options.mediaHeight + '"';
+
+    return '<object classid="clsid:' + media_types[type][0] +
+      '" codebase="' + media_types[type][1] + '"'+ sizes + '>' +
+      '<param name="src" value="'+ url +'" />'+
+      '<embed src="'+ url +'" type="'+ media_types[type][2]+'"'+ sizes + ' />' +
+    '</object>';
+  }
+
+});

@@ -1,0 +1,19 @@
+/**
+ * A shared css-module to work with all sorts of panels
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+.rui-panel {
+  margin: 0;
+  padding: .5em;
+  position: relative;
+  background-color: #EEE;
+  border: 1px solid #BBB;
+  border-radius: .3em;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
+  box-shadow: .15em .3em .5em #BBB;
+  -moz-box-shadow: .15em .3em .5em #BBB;
+  -webkit-box-shadow: .15em .3em .5em #BBB;
+  cursor: default;
+}

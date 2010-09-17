@@ -1,17 +1,19 @@
 /**
  * The class level interface
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov
+ * @copyright (C) 2009 Nikolay Nemshilov
  */
 Lightbox.extend({
   hide: function() {
-    this.boxes.each('hide');
+    if (Lightbox.current) {
+      Lightbox.current.hide();
+    }
   },
-  
+
   show: function() {
     return this.inst('show', arguments);
   },
-  
+
   load: function() {
     return this.inst('load', arguments);
   },

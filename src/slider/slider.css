@@ -1,20 +1,21 @@
 /**
  * There are just basic styles for the slider unig
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
- 
+
 /* RESET */
-div.right-slider, div.right-slider-handle {
+div.rui-slider, div.rui-slider .handle div.rui-slider .level {
   margin: 0; padding: 0; border: none; background: none;
 }
 
 /* horizontal slider */
-div.right-slider {
+div.rui-slider {
   height: 0.4em;
   width: 20em;
-  border: 1px solid #CCC;
-  background: #EEE;
+  border: 1px solid #bbb;
+  background: #F8F8F8;
+  border-radius: .2em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   position: relative;
@@ -23,32 +24,56 @@ div.right-slider {
 * display: inline;
 * zoom: 1;
   vertical-align: middle;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
 }
-div.right-slider-handle {
+div.rui-slider .handle {
+  font-size: 25%; /* Stupid IE gives us a bad time, so we need to reduse the size of the font and then multiply all the sizes by four */
   position: absolute;
   left: 0;
   top: 0;
-  cursor: pointer;
   width: 4pt;
-  height: 1em;
-  margin-top: -0.4em;
-  margin-left: 0.1em;
-  background: #CCC;
-  border: 1px solid #AAA;
-  -moz-border-radius: .2em;
-  -webkit-border-radius: .2em;
+  height: 4em;
+  margin-top: -1.6em;
+  margin-left: 0.4em;
+  background: #BBB;
+  border: 1px solid #999;
+  border-radius: .8em;
+  -moz-border-radius: .8em;
+  -webkit-border-radius: .8em;
+  z-index: 20;
+}
+div.rui-slider .level {
+  font-size: 25%; /* Same trick as above */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #ddd;
+  z-index: 1;
 }
 
 /* vertical slider */
-div.right-slider-vertical {
+div.rui-slider-vertical {
   height: 10em;
   width: 0.4em;
   margin: 0 .3em;
 }
-div.right-slider-vertical div.right-slider-handle {
+div.rui-slider-vertical .handle {
+  top: auto;
+  bottom: 0;
   margin: 0;
-  margin-left: -0.4em;
-  margin-top: 0.1em;
+  margin-left: -1.6em;
+  margin-bottom: 0.4em;
   height: 4pt;
-  width: 1em;
+  width: 4em;
+}
+div.rui-slider-vertical .level {
+  height: 0;
+  width: 100%;
+  top: auto;
+  bottom: 0;
 }

@@ -14,15 +14,16 @@ Element.include({
     new Resizable(this, options);
     return this;
   },
-  
+
   /**
    * Destroys a resizable functionality
    *
    * @return Element this
    */
   undoResizable: function() {
-    var resizable = Resizable.instances[$uid(this)];
-    if (resizable) resizable.destroy();
+    if (this instanceof Resizable) {
+      this.destroy();
+    }
     return this;
   }
 });

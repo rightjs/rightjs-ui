@@ -1,12 +1,12 @@
 /**
  * The colorpicker widget stylesheet
  *
- *    <div class="right-colorpicker right-ui-panel">
+ *    <div class="rui-colorpicker rui-panel">
  *      <div class="field">
- *        <div class="field-pointer"></div>
+ *        <div class="pointer"></div>
  *      </div>
  *      <div class="colors">
- *        <div class="field-pointer"></div>
+ *        <div class="pointer"></div>
  *      </div>
  *      <div class="controls">
  *        <div class="preview"></div>
@@ -16,16 +16,18 @@
  *          <div><label>G:</label><input type="text" /></div>
  *          <div><label>B:</label><input type="text" /></div>
  *        </div>
- *        <input type="button" class="right-ui-button" />
+ *        <input type="button" class="rui-button" />
  *      </div>
  *    </div>
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
- 
+
 /** RESET */
-div.right-colorpicker,
-div.right-colorpicker * {
+div.rui-colorpicker .field,
+div.rui-colorpicker .field *,
+div.rui-colorpicker .colors,
+div.rui-colorpicker .colors * {
   border: none;
   background: none;
   width: auto;
@@ -44,28 +46,16 @@ div.right-colorpicker * {
 }
 
 /** The box styles */
-div.right-colorpicker {
-  position: absolute;
-  padding: .6em;
-  background: #EEE;
-  border: 1px solid #CCC;
-  -moz-border-radius: .2em;
-  -webkit-border-radius: .2em;
-  -moz-box-shadow: #AAA .3em .3em .4em;
-  -webkit-box-shadow: #AAA .3em .3em .4em;
-  z-index: 9999;
-}
-
-div.right-colorpicker div.field,
-div.right-colorpicker div.field-pointer,
-div.right-colorpicker div.colors,
-div.right-colorpicker div.colors-pointer {
+div.rui-colorpicker div.field,
+div.rui-colorpicker div.field div.pointer,
+div.rui-colorpicker div.colors,
+div.rui-colorpicker div.colors div.pointer {
   background: url(../../img/colorpicker.png) no-repeat 0 0;
 }
 
-div.right-colorpicker div.field,
-div.right-colorpicker div.colors,
-div.right-colorpicker div.controls {
+div.rui-colorpicker div.field,
+div.rui-colorpicker div.colors,
+div.rui-colorpicker div.controls {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -74,8 +64,8 @@ div.right-colorpicker div.controls {
   height: 150px;
 }
 
-div.right-colorpicker div.field-pointer,
-div.right-colorpicker div.colors-pointer {
+div.rui-colorpicker div.field div.pointer,
+div.rui-colorpicker div.colors div.pointer {
   position: absolute;
   top: 0px;
   left: 0;
@@ -83,10 +73,10 @@ div.right-colorpicker div.colors-pointer {
   height: 9px;
 }
 
-div.right-colorpicker input.display,
-div.right-colorpicker div.preview,
-div.right-colorpicker div.rgb-display,
-div.right-colorpicker input.right-ui-button {
+div.rui-colorpicker input.display,
+div.rui-colorpicker div.preview,
+div.rui-colorpicker div.rgb-display,
+div.rui-colorpicker input.rui-ui-button {
   font-size: 100%;
   display: block;
   width: auto;
@@ -94,10 +84,10 @@ div.right-colorpicker input.right-ui-button {
 }
 
 
-div.right-colorpicker input.display,
-div.right-colorpicker div.preview,
-div.right-colorpicker div.rgb-display input,
-div.right-colorpicker input.right-ui-button {
+div.rui-colorpicker input.display,
+div.rui-colorpicker div.preview,
+div.rui-colorpicker div.rgb-display input,
+div.rui-colorpicker input.rui-ui-button {
   border: 1px solid #AAA;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
@@ -105,21 +95,21 @@ div.right-colorpicker input.right-ui-button {
 
 
 /** The field styles */
-div.right-colorpicker div.field {
+div.rui-colorpicker div.field {
   width: 150px;
   background-color: red;
   cursor: crosshair;
   margin-right: 1.2em;
 }
 
-div.right-colorpicker div.field-pointer {
+div.rui-colorpicker div.field div.pointer {
   background-position: -170px 0;
   margin-left: -2px;
   margin-top: -2px;
 }
 
 /** The colors bar styles */
-div.right-colorpicker div.colors {
+div.rui-colorpicker div.colors {
   width: 16px;
   background-position: -150px 0;
   border-color: #EEE;
@@ -127,7 +117,7 @@ div.right-colorpicker div.colors {
   margin-right: .6em;
 }
 
-div.right-colorpicker div.colors-pointer {
+div.rui-colorpicker div.colors div.pointer {
   cursor: default;
   background-position: -170px -20px;
   margin-left: -8px;
@@ -135,31 +125,34 @@ div.right-colorpicker div.colors-pointer {
 }
 
 /** The controls block */
-div.right-colorpicker div.controls {
+div.rui-colorpicker div.controls {
   width: 5em;
 }
 
-div.right-colorpicker div.preview {
+div.rui-colorpicker div.preview {
   height: 2em;
   background: white;
   border-color: #BBB;
 }
 
-div.right-colorpicker input.display {
+div.rui-colorpicker input.display {
   margin-top: .5em;
   background: #FFF;
   width: 4.5em;
 }
 
-div.right-colorpicker div.rgb-display {
+div.rui-colorpicker div.rgb-display {
   padding: 0;
   text-align: right;
   margin-top: .5em;
 }
-div.right-colorpicker div.rgb-display label {
+div.rui-colorpicker div.rgb-display label {
   display: inline;
 }
-div.right-colorpicker div.rgb-display input {
+div.rui-colorpicker div.rgb-display label:after { /** preventing CSS2 stars */
+  content: none;
+}
+div.rui-colorpicker div.rgb-display input {
   vertical-align: top;
   font-size: 100%;
   width: 2em;
@@ -172,21 +165,22 @@ div.right-colorpicker div.rgb-display input {
 }
 
 /** The bottom button */
-div.right-colorpicker input.right-ui-button {
+div.rui-colorpicker div.rui-button {
   cursor: pointer;
   position: absolute;
   bottom: 0;
-  width: 5em;
-  background: #CCC;
+  right: 0;
+  width: 4em;
 }
 
 
 /** The inlined colorpicker */
-div.right-colorpicker-inline {
+div.rui-colorpicker-inline {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   position: relative;
+  box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   z-index: auto;

@@ -3,34 +3,41 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-document.on({
+$(document).on({
   mousedown: function(event) {
-    var resizable = Resizable.findBy(event);
-    if (resizable) {
-      event.stop();
-      Resizable.current = resizable.start(event);
+    var handle = event.find('.rui-resizable-handle');
+    if (handle) {
+      var resizable = handle.parent();
+
+      if (resizable instanceof Element) {
+        resizable = new Resizable(resizable);
+      }
+
+      Resizable.current = resizable.start(event.stop());
     }
   },
-  
+
   mousemove: function(event) {
     var resizable = Resizable.current;
     if (resizable) {
-      event.stop();
       resizable.track(event);
     }
   },
-  
+
   mouseup: function(event) {
     var resizable = Resizable.current;
+
     if (resizable) {
       resizable.release(event);
+      Resizable.current = null;
     }
   }
 });
 
-window.on('blur', function(event) {
+$(window).onBlur(function(event) {
   var resizable = Resizable.current;
   if (resizable) {
     resizable.release(event);
+    Resizable.current = null;
   }
 });
