@@ -119,7 +119,7 @@ var Autocompleter = new Widget('UL', {
         items.first() : items[index + 1];
     }
 
-    return this.fire('select', current.radioClass('current'));
+    return this.fire('select', {item: current.radioClass('current')});
   },
 
   // handles mouse clicks on the list element

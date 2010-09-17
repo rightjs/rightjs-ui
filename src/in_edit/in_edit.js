@@ -84,7 +84,7 @@ var InEdit = new Widget('FORM', {
     }
 
     InEdit.current = this;
-    return this.fire('show', this);
+    return this.fire('show');
   },
 
   /**
@@ -120,7 +120,7 @@ var InEdit = new Widget('FORM', {
       onComplete: R(this.receive).bind(this)
     })).send(this);
 
-    return this.fire('send', this);
+    return this.fire('send');
   },
 
 // protected
@@ -132,14 +132,14 @@ var InEdit = new Widget('FORM', {
     }
 
     InEdit.current = null;
-    return this.fire('hide', this);
+    return this.fire('hide');
   },
 
   // the xhr callback
   receive: function() {
     if (this.options.update) {
       this.element.update(this.xhr.text);
-      this.fire('update', this);
+      this.fire('update');
     }
 
     this.xhr = null;

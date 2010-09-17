@@ -140,7 +140,7 @@ var Slider = new Widget({
     // checking the change status
     if (value !== this.value) {
       this.value = value;
-      this.fire('change');
+      this.fire('change', {value: value});
     }
 
     return this;

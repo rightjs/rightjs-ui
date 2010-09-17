@@ -211,7 +211,7 @@ var Colorpicker = new Widget({
 
     // tracking the color change events
     if (this.prevColor !== ''+this.color) {
-      this.fire('change', this.color);
+      this.fire('change', {value: this.color});
       this.prevColor = ''+ this.color;
     }
 

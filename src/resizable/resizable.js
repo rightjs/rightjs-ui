@@ -107,7 +107,7 @@ var Resizable = new Widget({
       this[dimension] = this.findDim(dimension);
     }, this);
 
-    return this.fire('start', event);
+    return this.fire('start', {original: event});
   },
 
   /**
@@ -157,7 +157,7 @@ var Resizable = new Widget({
     this.prevEvPos = event_pos;
     this.prevSizes = this.size();
 
-    this.fire('resize', event);
+    this.fire('resize', {original: event});
   },
 
   /**
@@ -188,18 +188,7 @@ var Resizable = new Widget({
    * @return Resizable this
    */
   release: function(event) {
-    return this.fire('release', event);
-  },
-
-  /**
-   * Overloading the standard method so that it was sending
-   * current instance as an argument
-   *
-   * @param String event name
-   * @return Resizable this
-   */
-  fire: function(event, dom_event) {
-    return this.$super(event, this, dom_event);
+    return this.fire('release', {original: event});
   },
 
 // protected

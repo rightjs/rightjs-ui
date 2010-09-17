@@ -85,7 +85,7 @@ var Rater = new Widget({
       this.highlight(value);
 
       if (this.value != value) {
-        this.fire('change', this.value = value, this);
+        this.fire('change', {value: this.value = value});
       }
     }
 
@@ -110,7 +110,7 @@ var Rater = new Widget({
     if (this.options.url) {
       this.request = new Xhr(this.options.url, this.options.Xhr)
         .send(this.options.param+"="+this.value);
-      this.fire('send', this.value, this);
+      this.fire('send', {value: this.value});
     }
     return this;
   },
@@ -149,7 +149,7 @@ var Rater = new Widget({
     var index = this.children().indexOf(event.target);
     if (!this.disabled() && index > -1) {
       this.highlight(index + 1);
-      this.fire('hover', index + 1, this);
+      this.fire('hover', {value: index + 1});
     }
   },
 

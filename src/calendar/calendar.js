@@ -137,7 +137,7 @@ var Calendar = new Widget({
       }
 
       if (date != this.date) {
-        this.fire('change', this.date = date);
+        this.fire('change', {date: this.date = date});
       }
     }
 
@@ -195,7 +195,7 @@ var Calendar = new Widget({
       this.hide();
     }
 
-    this.fire('done', this.date);
+    this.fire('done', {date: this.date});
   },
 
   /**
