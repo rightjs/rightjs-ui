@@ -57,7 +57,7 @@ Calendar.include({
           } else if (key.toLowerCase() == 'p') {
             meridian = value.toLowerCase();
           } else {
-            value = parseInt(value);
+            value = parseInt(value, 10);
             switch(key) {
               case 'd':
               case 'e': date   = value; break;
