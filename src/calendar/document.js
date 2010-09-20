@@ -12,7 +12,7 @@ $(document).on({
    * @return void
    */
   focus: function(event) {
-    var target = event.target instanceof Input ? event.target : null;
+    var target = event.target instanceof Input && event.target.get('type') == 'text' ? event.target : null;
 
     Calendar.hideAll();
 
@@ -50,7 +50,7 @@ $(document).on({
     var target = (event.target instanceof Element) ? event.target : null;
 
     if (target && (target.calendar || target.match(Calendar.Options.cssRule))) {
-      if (!(target instanceof Input)) {
+      if (!(target instanceof Input) || target.get('type') != 'text') {
         event.stop();
         (target.calendar || new Calendar({trigger: target}))
           .hide(null).toggleAt(target.assignedInput);
