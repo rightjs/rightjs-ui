@@ -6,8 +6,8 @@
  */
 if (self.Calendar) {
   $ext(Calendar.i18n, {
-    Done:            "Valmis",
-    Now:             "Nyt",
+    Done:            "OK",
+    Now:             "Tänään",
     NextMonth:       "Seuraava kuukausi",
     PrevMonth:       "Edellinen kuukausi",
     NextYear:        "Seuraava vuosi",
@@ -38,6 +38,6 @@ if (self.InEdit) {
 
 if (self.Colorpicker) {
   $ext(Colorpicker.i18n, {
-    Done: 'Valmis'
+    Done: 'OK'
   });
 }
