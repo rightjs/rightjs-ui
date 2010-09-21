@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Finnish module
  *
- * Copyright (C) Juho Veps‰l‰inen
+ * Copyright (C) Juho Veps√§l√§inen
  * Source: http://www.csc.fi/sivut/kotoistus/suositukset/vahv_kalenterit_cldr1_4.htm
  */
 if (self.Calendar) {
@@ -16,8 +16,8 @@ if (self.Calendar) {
     dayNames:        $w('Sunnuntai Maanantai Tiistai Keskiviikko Torstai Perjantai Lauantai'),
     dayNamesShort:   $w('Su Ma Ti Ke To Pe La'),
     dayNamesMin:     $w('S M T K T P L'),
-    monthNames:      $w('Tammikuu Helmikuu Maaliskuu Huhtikuu Toukokuu Kes‰kuu Hein‰kuu Elokuu Syyskuu Lokakuu Marraskuu Joulukuu'),
-    monthNamesShort: $w('Tammi Helmi Maalis Huhti Touko Kes‰ Hein‰ Elo Syys Loka Marras Joulu')
+    monthNames:      $w('Tammikuu Helmikuu Maaliskuu Huhtikuu Toukokuu Kes√§kuu Hein√§kuu Elokuu Syyskuu Lokakuu Marraskuu Joulukuu'),
+    monthNamesShort: $w('Tammi Helmi Maalis Huhti Touko Kes√§ Hein√§ Elo Syys Loka Marras Joulu')
   });
 }
 
