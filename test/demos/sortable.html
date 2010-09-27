@@ -102,19 +102,23 @@
 
     <h2>Interchangeable Sortables</h2>
     <p>
-      <ul id="in-sort-1" class="sortable-test" data-sortable="{accept: 'in-sort-2'}">
+      <ul id="in-sort-1" class="sortable-test">
         <li>Item #11</li>
         <li>Item #12</li>
         <li>Item #13</li>
         <li>Item #14</li>
       </ul>
 
-      <ul id="in-sort-2" class="sortable-test" data-sortable="{accept: 'in-sort-1'}">
+      <ul id="in-sort-2" class="sortable-test">
         <li>Item #21</li>
         <li>Item #22</li>
         <li>Item #23</li>
         <li>Item #24</li>
       </ul>
+      <script type="text/javascript">
+        new Sortable('in-sort-1', {accept: 'in-sort-2'});
+        new Sortable('in-sort-2', {accept: 'in-sort-1'});
+      </script>
     </p>
 
     <p class="white-space"></p>

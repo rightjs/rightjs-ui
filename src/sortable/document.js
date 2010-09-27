@@ -5,7 +5,7 @@
  */
 $(document).on({
   mousedown: function(event) {
-    var element = event.find(Sortable.Options.cssRule);
+    var element = event.find(Sortable.Options.cssRule+",*.rui-sortable");
 
     if (element) {
       if (!(element instanceof Sortable)) {
