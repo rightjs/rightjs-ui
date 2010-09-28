@@ -175,7 +175,7 @@ var Dialog = new Wrapper(Element, {
    * @return Dialog this
    */
   lock: function() {
-    this.locker.setStyle('opacity:1');
+    this.locker.setStyle('opacity:1;display:block').insertTo(this.scroller, 'before');
     return this;
   },
 
@@ -185,7 +185,7 @@ var Dialog = new Wrapper(Element, {
    * @return Dialog this
    */
   unlock: function() {
-    this.locker.morph({opacity: 0}, {
+    this.locker.remove(this.content.html().blank() ? null : 'fade', {
       duration: this.options.fxDuration * 2/3
     });
 

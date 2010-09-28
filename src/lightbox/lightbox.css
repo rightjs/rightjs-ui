@@ -78,7 +78,6 @@ div.rui-lightbox-title {
   font-weight: bold;
   font-size: 1.6em;
   font-family: Helvetica;
-  text-shadow: #000 .05em .1em .2em;
 }
 
 /** the dialog body-block */
@@ -129,7 +128,7 @@ div.rui-lightbox-body-locker div.rui-spinner {
 /** the navigation units */
 div.rui-lightbox-navigation {
   color: #888;
-  font-size: 150%;
+  font-size: 160%;
   font-family: Arial;
   height: 1em;
   user-select:none;
