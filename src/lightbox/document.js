@@ -29,7 +29,12 @@ $(document).on({
    */
   mousewheel: function(event) {
     if (Lightbox.current) {
-      event.stop();
+      var target = event.target, box = target.parent('div.rui-lightbox-content');
+
+      if (!box || target.getStyle('overflow') === 'visible') {
+        event.stop();
+      }
+
       Lightbox.current.fire((event._.detail || -event._.wheelDelta) < 0 ? 'prev' : 'next');
     }
   },
