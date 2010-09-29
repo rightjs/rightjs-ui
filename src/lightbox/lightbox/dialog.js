@@ -92,7 +92,7 @@ var Dialog = new Wrapper(Element, {
 
     if (RightJS.Fx && with_fx && (end_size.x != cur_size.x || end_size.y != cur_size.y)) {
 
-      $ext(new RightJS.Fx(this, {duration: this.options.fxDuration, transition: 'Lin'}), {
+      $ext(new RightJS.Fx(this, {duration: this.options.fxDuration}), {
         render: function(delta) {
           content.width  = (cur_size.x + (end_size.x - cur_size.x) * delta) + 'px';
           content.height = (cur_size.y + (end_size.y - cur_size.y) * delta) + 'px';
