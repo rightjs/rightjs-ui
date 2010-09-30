@@ -22,13 +22,13 @@ Tabs.include({
 
   // searches and activates the current tab
   findCurrent: function() {
-    var current;
-    if (this.options.selected !== null) {
-      current = this.options.selected;
-    } else {
-      var enabled = this.enabled();
-      current = enabled[this.urlIndex()] || enabled[this.cookieIndex()] || enabled.first('current') || enabled[0];
-    }
+    var enabled = this.enabled(), current = (
+      this.tabs[this.options.selected] ||
+      this.tabs[this.urlIndex()]       ||
+      this.tabs[this.cookieIndex()]    ||
+      enabled.first('current')         ||
+      enabled[0]
+    );
 
     if (current) {
       current.select();
