@@ -129,7 +129,7 @@ task :pull do
   if username = ENV['LOGIN']
     puts " * Handling a pull request from #{username}"
 
-    puts %Q{
+    system %Q{
       git remote rm #{username} &> /dev/null
       git remote add #{username} http://github.com/#{username}/rightjs-ui.git
       git fetch #{username}
