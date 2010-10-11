@@ -20,7 +20,7 @@
 .rui-autocompleter {
   border-top-color: #DDD !important;
   border-top-left-radius: 0 !important;
-  border-top-rui-radius: 0 !important;
+  border-top-right-radius: 0 !important;
   -moz-border-radius-topleft: 0 !important;
   -moz-border-radius-topright: 0 !important;
   -webkit-border-top-left-radius: 0 !important;
