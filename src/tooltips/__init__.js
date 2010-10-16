@@ -10,6 +10,6 @@ var R  = RightJS,
     Element = RightJS.Element;
 
 include_module_files(
-  'tooltip',
+  'tooltips',
   'document'
 );
