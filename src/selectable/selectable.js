@@ -7,7 +7,7 @@ var Selectable = new Widget('UL', {
   include: Updater,
 
   extend: {
-    version: '2.0.0',
+    version: '2.0.1',
 
     EVENTS: $w('change select unselect disable enable hover leave show hide'),
 
@@ -315,7 +315,7 @@ var Selectable = new Widget('UL', {
     event.stop();
     var item = event.target, items = this.items();
 
-    if (!this.disabled(item)) {
+    if (items.include(item) && !this.disabled(item)) {
       if (this.isSingle) {  // single-selects are always select
         this.select(item);
       } else if (this.selected(item)) {
