@@ -37,6 +37,26 @@
       ul.folded {
         width: 20em;
       }
+
+      ul#custom li.nothing {
+        background: brown;
+        display: block;
+        padding: 0;
+        height: 3px;
+        cursor: default;
+      }
+      ul#custom li.item {
+        cursor: default;
+        position: relative;
+      }
+      ul#custom li.item div.handle {
+        position: absolute;
+        right: .35em;
+        top: -0.12em;
+        font-size: 150%;
+        font-weight: bold;
+        cursor: move;
+      }
     </style>
   </head>
   <body>
@@ -113,6 +133,17 @@
         new Sortable('in-sort-2', {accept: 'in-sort-1'});
       </script>
     </p>
+
+    <h2>Customized Sortable With Handlers</h2>
+    <ul class="sortable-test" id="custom" data-sortable="{itemCss:'li.item', handleCss: 'div.handle'}">
+      <li class="nothing"></li>
+      <li class="item">Item #1 <div class="handle">&equiv;</div></li>
+      <li class="item">Item #2 <div class="handle">&equiv;</div></li>
+      <li class="item">Item #3 <div class="handle">&equiv;</div></li>
+      <li class="item">Item #4 <div class="handle">&equiv;</div></li>
+      <li class="item">Item #5 <div class="handle">&equiv;</div></li>
+      <li class="nothing"></li>
+    </ul>
 
     <p class="white-space"></p>
   </body>

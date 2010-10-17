@@ -8,11 +8,7 @@ $(document).on({
     var element = event.find(Sortable.Options.cssRule+",*.rui-sortable");
 
     if (element) {
-      if (!(element instanceof Sortable)) {
-        element = new Sortable(element);
-      }
-
-      element.startDrag(event);
+      Sortable.cast(element).startDrag(event);
     }
   },
 
@@ -22,9 +18,9 @@ $(document).on({
     }
   },
 
-  mouseup: function() {
+  mouseup: function(event) {
     if (Sortable.current) {
-      Sortable.current.finishDrag();
+      Sortable.current.finishDrag(event);
     }
   }
 });

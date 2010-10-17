@@ -7,7 +7,7 @@ var Sortable = new Widget('UL', {
   extend: {
     version: '2.0.0',
 
-    EVENTS: $w('change'),
+    EVENTS: $w('start change finish'),
 
     Options: {
       url:        null,       // the Xhr requests url address, might contain the '%{id}' placeholder
@@ -23,10 +23,27 @@ var Sortable = new Widget('UL', {
       accept:     null,       // a reference or a list of references to the other sortables between which you can drag the items
       minLength:  1,          // minimum number of items on the list when the feature works
 
+      itemCss:    'li',       // the draggable item's css rule
+      handleCss:  'li',       // the draggables handle element css rule
+
       cssRule:    '*[data-sortable]' // css-rule for automatically initializable sortables
     },
 
-    current: false // a reference to the currently active sortable
+    current: false, // a reference to the currently active sortable
+
+    /**
+     * Typecasting the list element for Sortable
+     *
+     * @param Element list
+     * @return Sortable list
+     */
+    cast: function(element) {
+      element = $(element._);
+      if (!(element instanceof Sortable)) {
+        element = new Sortable(element);
+      }
+      return element;
+    }
   },
 
   /**
@@ -40,7 +57,7 @@ var Sortable = new Widget('UL', {
     this.$super('sortable', element)
       .setOptions(options)
       .addClass('rui-sortable')
-      .on('change', this._tryXhr)
+      .on('finish', this._tryXhr)
       .on('selectstart', 'stopEvent'); // disable select under IE
   },
 
@@ -65,20 +82,26 @@ var Sortable = new Widget('UL', {
     return this;
   },
 
+  // returns a list of draggable items
+  items: function() {
+    return this.children(this.options.itemCss);
+  },
+
 // protected
 
   // starts the drag
   startDrag: function(event) {
     // don't let to drag out the last item
-    if (this.children().length <= this.options.minLength) { return; }
+    if (this.items().length <= this.options.minLength) { return; }
 
     // trying to find the list-item upon which the user pressed the mouse
-    var target = event.target, targets = R([target].concat(target.parents())),
-        item = targets[targets.indexOf(this) - 1], event_pos = event.position();
+    var item   = event.find(this.options.itemCss),
+        handle = event.find(this.options.handleCss);
 
-    if (item) {
-      this._initDrag(item, event_pos);
+    if (item && handle) {
+      this._initDrag(item, event.position());
       Sortable.current = this;
+      this.fire('start', this._evOpts(event));
     }
   },
 
@@ -111,32 +134,35 @@ var Sortable = new Widget('UL', {
       item.insert(this.item, item.prevSiblings().include(this.item) ? 'after' : 'before');
       this._findSuspects();
 
-      // sending the event
-      var list = item.parent();
-
-      if (!(list instanceof Sortable)) {
-        list = new Sortable(list);
-      }
-
-      this.fire('change', {
-        list:  list,
-        item:  this.item,
-        index: list.children().indexOf(this.item)
-      });
+      this.fire('change', this._evOpts(event, item));
     }
   },
 
   // finalizes the drag
-  finishDrag: function() {
+  finishDrag: function(event) {
     if (this.itemClone) {
       this.itemClone.remove();
       this.item.setStyle('visibility:visible');
     }
     Sortable.current = false;
+    this.fire('finish', this._evOpts(event));
+  },
+
+  // returns the event options
+  _evOpts: function(event, item) {
+    item = item || this.item;
+    var list = Sortable.cast(item.parent());
+
+    return {
+      list: list,
+      item: item,
+      event: event,
+      index: list.items().indexOf(item)
+    };
   },
 
   _initDrag: function(item, event_pos) {
-    var dims   = this.dimensions(), item_dims = item.dimensions();
+    var dims = this.dimensions(), item_dims = item.dimensions();
 
     // creating the draggable clone
     var clone = item.clone().setStyle({
@@ -174,7 +200,7 @@ var Sortable = new Widget('UL', {
   _findSuspects: function() {
     var suspects = this.suspects = R([]), item = this.item, clone = this.itemClone;
     this.options.accept.each(function(list) {
-      list.children().each(function(element) {
+      Sortable.cast(list).items().each(function(element) {
         if (element !== item && element !== clone) {
           var dims = element.dimensions();
 
