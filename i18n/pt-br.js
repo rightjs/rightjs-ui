@@ -41,3 +41,17 @@ if (self.Colorpicker) {
   });
 }
 
+if (self.Dialog) {
+  $ext(Dialog.i18n, {
+    Ok:       'Ok',
+    Close:    'Fechar',
+    Cancel:   'Cancelar',
+    Help:     'Ajuda',
+    Expand:   'Maximizar',
+    Collapse: 'Minimizar',
+
+    Alert:    'Atenção!',
+    Confirm:  'Confirmar',
+    Prompt:   'Editar'    
+  });
+}
