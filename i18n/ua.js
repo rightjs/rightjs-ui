@@ -48,9 +48,9 @@ if (self.Colorpicker) {
 
 if (self.Dialog) {
   $ext(Dialog.i18n, {
-    Ok:       'Готово',
-    Close:    'Закрыть',
-    Cancel:   'Отмена',
+    Ok:       'Гаразд',
+    Close:    'Сховати',
+    Cancel:   'Сховати',
     Help:     'Помощь',
     Expand:   'Во все окно',
     Collapse: 'Обычный размер',
