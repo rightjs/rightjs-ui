@@ -12,7 +12,7 @@
         }
 
         if (!('html' in options)) {
-          options.html = R.$('lorem').html();
+          options.html = RightJS.$('lorem').html();
         } else if (options.html == null) {
           delete(options.html);
         }
@@ -22,7 +22,7 @@
           .show();
       }
 
-      $(document).onClick(function(event) {
+      RightJS.$(document).onClick(function(event) {
         if (event.target._.tagName === 'A') {
           var options, type;
 
@@ -35,7 +35,7 @@
               break;
             case 'scroll':
               options = {
-                html: R.$('lorem').html() + ' '+ R.$('lorem').html(),
+                html: RightJS.$('lorem').html() + ' '+ RightJS.$('lorem').html(),
                 style: 'width: 30em; height: 10em'
               };
               break;
@@ -56,7 +56,7 @@
             case 'expand':
               options = {expandable: true,
                 style: 'width: 30em; height: 10em',
-                html: R.$('lorem').html() + ' '+ R.$('lorem').html() + ' ' + R.$('lorem').html()
+                html: RightJS.$('lorem').html() + ' '+ RightJS.$('lorem').html() + ' ' + RightJS.$('lorem').html()
               };
               break;
             case 'ajax':
@@ -86,13 +86,8 @@
 
           if (options) {
             show_dialog(options, type);
-            event.stop();
           }
         }
-      });
-
-      R.$(document).onReady(function() {
-//        R.$('prompt').fire('click');
       });
     </script>
   </head>
