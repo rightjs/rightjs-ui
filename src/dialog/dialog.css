@@ -1,0 +1,242 @@
+/**
+ * The standard dialog widget stylesheets
+ *
+ * <div class="rui-dialog">
+ *   <div class="rui-dialog-head">
+ *     <div class="icon"></div>
+ *     <div class="title">...</div>
+ *
+ *     <div class="tools">
+ *       <div class="expand">&equiv;</div>
+ *       <div class="close">&times;</div>
+ *     </div>
+ *   </div>
+ *
+ *   <div class="rui-dialog-body">
+ *     Your content in here
+ *   </div>
+ *
+ *   <div class="rui-dialog-foot">
+ *     <div class="rui-button help">Help</div>
+ *     <div class="rui-button ok">Ok</div>
+ *     <div class="rui-button cancel">Cancel</div>
+ *   </div>
+ * </div>
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+div.rui-dialog {
+  position: absolute;
+  z-index: 99999;
+  background: white;
+  margin: 0;
+  padding: 0;
+  padding-top: 2.5em;
+  padding-bottom: 2.8em;
+  border-radius: .35em;
+  -moz-border-radius: .35em;
+  -webkit-border-radius: .35em;
+  border: 1px solid #ccc;
+}
+
+/** The body block styles */
+div.rui-dialog-body {
+  min-width: 20em;
+  min-height: 4.5em;
+  margin: 0;
+  padding: 0 1em;
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+div.rui-dialog-body-locker {
+  position: absolute;
+  z-index: 9999;
+  left: 0;
+  top:  0;
+  width:  100%;
+  height: 100%;
+  text-align: center;
+  opacity: .6;
+  filter: alpha(opacity=60);
+}
+div.rui-dialog-body-locker div.rui-spinner {
+  border: none;
+  background: none;
+  font-size: 150%;
+  margin-top: 8%;
+}
+div.rui-dialog-body-icon {
+  float: left;
+  background: #eee;
+  font-size: 360%;
+  font-family: Arial;
+  border: 2px solid gray;
+  border-radius: .1em;
+  -moz-border-radius: .1em;
+  -webkit-border-radius: .1em;
+  width: 1em;
+  line-height: 1em;
+  text-align: center;
+  margin-right: .2em;
+  margin-top: .05em;
+  cursor: default;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+/** The header block styles */
+div.rui-dialog-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  line-height: 2em;
+  background: #ccc;
+  border-radius: .35em;
+  -moz-border-radius: .35em;
+  -webkit-border-radius: .35em;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  cursor: move;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+div.rui-dialog-head div.icon {
+  float: left;
+  height: 1.4em;
+  width: 1.4em;
+  margin-left: 1em;
+  margin-top: .3em;
+  margin-right: .3em;
+  display: none;
+}
+div.rui-dialog-head div.title {
+  margin-left: 1em;
+  color: #444;
+}
+div.rui-dialog-head div.tools {
+  position: absolute;
+  right: .3em;
+  top: .3em;
+}
+div.rui-dialog-head div.tools div {
+  float: left;
+  width: 1.4em;
+  line-height: 1.4em;
+  text-align: center;
+  margin-left: .15em;
+  cursor: pointer;
+  background: #aaa;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  font-family: Verdana;
+  opacity: .6;
+  filter: alpha(opacity=60);
+}
+div.rui-dialog-head div.tools div:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  box-shadow: #444 0 0 .1em;
+  -moz-box-shadow: #444 0 0 .1em;
+  -webkit-box-shadow: #444 0 0 .1em;
+}
+div.rui-dialog-head div.tools div.close:hover {
+  background: #daa;
+}
+
+div.rui-dialog-nodrag div.rui-dialog-head {
+  cursor: default;
+}
+
+/** The bottom buttons block */
+div.rui-dialog-foot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+}
+div.rui-dialog-foot div.rui-button {
+  margin: .6em 1em;
+  background: #eee;
+  width: 4em;
+}
+div.rui-dialog-foot div.help {
+  float: left;
+}
+div.rui-dialog-foot div.cancel {
+  margin-right: -.5em;
+}
+div.rui-dialog-foot div.ok:hover {
+  background-color: #ded;
+}
+div.rui-dialog-foot div.cancel:hover {
+  background-color: #ecc;
+}
+
+
+/** The alert dialog styles */
+div.rui-dialog-alert div.rui-dialog-foot {
+  text-align: center;
+}
+
+div.rui-dialog-alert div.rui-dialog-foot div.cancel {
+  display: none;
+}
+
+div.rui-dialog-alert div.rui-dialog-body-icon {
+  color: brown;
+  background: #FEE;
+  border-color: brown;
+}
+
+/** The confirmation dialog styles */
+div.rui-dialog-confirm div.rui-dialog-body-icon {
+  color: #44A;
+  background: #EEF;
+  border-color: #44a;
+}
+
+
+/** The prompt dialog additional styles */
+div.rui-dialog-prompt div.rui-dialog-body-icon {
+  color: #333;
+}
+
+div.rui-dialog-prompt div.rui-dialog-body label {
+  display: block;
+  font-weight: bold;
+  font-size: 120%;
+  color: #444;
+  margin-bottom: .5em;
+}
+
+div.rui-dialog-prompt div.rui-dialog-body input,
+div.rui-dialog-prompt div.rui-dialog-body textarea {
+  border: 1px solid #aaa;
+  font-size: 1em;
+  display: block;
+  width: 16em;
+  margin: 0;
+  padding: .2em;
+  margin-left: 4.7em;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  outline: none;
+}
+
+div.rui-dialog-prompt div.rui-dialog-body textarea {
+  width: 24em;
+  height: 8em;
+}

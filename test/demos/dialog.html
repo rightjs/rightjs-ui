@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="../../util/test/ui-tools.js?dialog"></script>
+    <script type="text/javascript">
+      function show_dialog(options, type) {
+        if (!('title' in options)) {
+          options.title = "Hello World!";
+        } else if (options.title == null) {
+          delete(options.title);
+        }
+
+        if (!('html' in options)) {
+          options.html = R.$('lorem').html();
+        } else if (options.html == null) {
+          delete(options.html);
+        }
+
+        var dlg = new (Dialog[type] || Dialog)(options)
+          .setStyle('style' in options ? options.style : 'width: 30em')
+          .show();
+      }
+
+      $(document).onClick(function(event) {
+        if (event.target._.tagName === 'A') {
+          var options, type;
+
+          switch(event.target.get('id')) {
+            case 'empty':
+              options = {title: '', html: '', style: ''};
+              break;
+            case 'text':
+              options = {};
+              break;
+            case 'scroll':
+              options = {
+                html: R.$('lorem').html() + ' '+ R.$('lorem').html(),
+                style: 'width: 30em; height: 10em'
+              };
+              break;
+            case 'noclose':
+              options = {closeable: false};
+              break;
+            case 'nolock':
+              options = {lockScreen: false};
+              break;
+            case 'nodrag':
+              options = {draggable: false};
+              break;
+            case 'help':
+              options = {showHelp: true,
+                onHelp: function() { this.html("Help is comming!"); }
+              };
+              break;
+            case 'expand':
+              options = {expandable: true,
+                style: 'width: 30em; height: 10em',
+                html: R.$('lorem').html() + ' '+ R.$('lorem').html() + ' ' + R.$('lorem').html()
+              };
+              break;
+            case 'ajax':
+              options = {title: 'Hello Ajax!', url: 'dialog/lorem.html', style: null, html: null};
+              break;
+            case 'alert':
+              options = {html: "Oh dude, you're so screwed!", style: '', title: null};
+              type    = 'Alert';
+              break;
+            case 'confirm':
+              options = {html: "Are you sure that's what you really want?", style: '', title: null};
+              type    = "Confirm";
+              break;
+            case 'prompt':
+              options = {html: null, style: null, title: null};
+              type    = 'Prompt';
+              break;
+            case 'password':
+              options = {html: null, style: null, title: null, input: {type: 'password'}};
+              type    = 'Prompt';
+              break;
+            case 'textarea':
+              options = {html: null, style: null, title: null, input: {type: 'textarea', value: 'Some predefined text'}};
+              type    = 'Prompt';
+              break;
+          }
+
+          if (options) {
+            show_dialog(options, type);
+            event.stop();
+          }
+        }
+      });
+
+      R.$(document).onReady(function() {
+//        R.$('prompt').fire('click');
+      });
+    </script>
+  </head>
+  <body>
+    <h2>Simple Dialog</h2>
+    <p>
+      <ul>
+        <li><a href="" id="empty">Empty Dialog</a></li>
+        <li><a href="" id="text">Dialog With Text And Title</a></li>
+        <li><a href="" id="scroll">Dialog With Scrolled Text</a></li>
+      </ul>
+    </p>
+
+    <h2>Dialogs With Options</h2>
+    <p>
+      <ul>
+        <li><a href="" id="noclose">Uncloseable Dialog</a></li>
+        <li><a href="" id="nolock">Dialog Without Window Lock</a></li>
+        <li><a href="" id="nodrag">Undraggable Dialog</a></li>
+        <li><a href="" id="help">Dialog With Help Button</a></li>
+        <li><a href="" id="expand">Expandable Dialog</a></li>
+      </ul>
+    </p>
+
+    <h2>Ajax Dialog</h2>
+    <p>
+      <ul>
+        <li><a href="" id="ajax">Ajax Dialog</a></li>
+      </ul>
+    </p>
+
+    <h2>Standard Dialogs</h2>
+    <p>
+      <ul>
+        <li><a href="" id="alert">Alert Dialog</a></li>
+        <li><a href="" id="confirm">Confirmation Dialog</a></li>
+        <li><a href="" id="prompt">Standard Prompt Dialog</a></li>
+        <li><a href="" id="password">Password Prompt Dialog</a></li>
+        <li><a href="" id="textarea">Textarea Prompt Dialog</a></li>
+      </ul>
+    </p>
+
+    <p class="white-space"></p>
+    <p class="white-space"></p>
+    <p class="white-space"></p>
+    <p class="white-space"></p>
+
+    <p id="lorem" style="display:none">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+      irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+      deserunt mollit anim id est laborum.
+    </p>
+  </body>
+</html>

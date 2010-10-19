@@ -1,0 +1,19 @@
+/**
+ * The standard screen locker for various RightJS vidgets
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+div.rui-screen-locker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  opacity: .5;
+  filter: alpha(opacity=50);
+  z-index: 99999;
+  cursor: default;
+}
