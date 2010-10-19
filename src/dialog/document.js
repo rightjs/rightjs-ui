@@ -10,7 +10,10 @@ $(document).on({
         Dialog.current.fire('cancel');
       }
     } else if (event.keyCode === 13 && Dialog.current) {
-      Dialog.current.fire('ok');
+      if (!(Dialog.current instanceof Dialog.Prompt)) {
+        event.stop();
+        Dialog.current.fire('ok');
+      }
     }
   },
 
