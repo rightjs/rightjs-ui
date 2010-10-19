@@ -41,3 +41,17 @@ if (self.Colorpicker) {
   });
 }
 
+if (self.Dialog) {
+  $ext(Dialog.i18n, {
+    Ok:       'Готово',
+    Close:    'Закрыть',
+    Cancel:   'Отмена',
+    Help:     'Помощь',
+    Expand:   'Во все окно',
+    Collapse: 'Обычный размер',
+
+    Alert:    'Внимание!',
+    Confirm:  'Подтверждение',
+    Prompt:   'Ввод данных'
+  });
+}
