@@ -41,3 +41,17 @@ if (self.Colorpicker) {
   });
 }
 
+if (self.Dialog) {
+  $ext(Dialog.i18n, {
+    Ok:       'Ok',
+    Close:    'Close',
+    Cancel:   'Cancel',
+    Help:     'Help',
+    Expand:   'Expand',
+    Collapse: 'Collapse',
+
+    Alert:    'Warning!',
+    Confirm:  'Confirm',
+    Prompt:   'Enter'
+  })
+}
