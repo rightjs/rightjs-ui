@@ -38,7 +38,6 @@ div.rui-lightbox {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
   float: none;
   width: 100%;
   height: 100%;
@@ -112,7 +111,6 @@ div.rui-lightbox-body-locker {
   top: 0px;
   width: 100%;
   height: 100%;
-  z-index: 999;
   opacity: 0;
   filter: alpha(opacity=0);
 }
