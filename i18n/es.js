@@ -44,15 +44,15 @@ if (self.Colorpicker) {
 if (self.Dialog) {
   $ext(Dialog.i18n, {
     Ok:       'Ok',
-    Close:    'Close',
-    Cancel:   'Cancel',
-    Help:     'Help',
-    Expand:   'Expand',
-    Collapse: 'Collapse',
+    Close:    'Cerrar',
+    Cancel:   'Cancelar',
+    Help:     'Ayuda',
+    Expand:   'Expandir',
+    Collapse: 'Plegar',
 
-    Alert:    'Warning!',
-    Confirm:  'Confirm',
-    Prompt:   'Enter'
+    Alert:    'Aviso!',
+    Confirm:  'Confirmar',
+    Prompt:   'Entrar'
   })
 }
 
