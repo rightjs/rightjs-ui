@@ -58,6 +58,7 @@ div.rui-lightbox-locker {
   opacity: 0.8;
   filter: alpha(opacity=80);
   cursor: default;
+  z-index: 9990;
 }
 
 /** the dialog block basic styles */
@@ -67,6 +68,7 @@ div.rui-lightbox-dialog {
   * zoom: 1;
   position: relative;
   text-align: left;
+  z-index: 9999;
 }
 
 div.rui-lightbox-title {
@@ -81,7 +83,7 @@ div.rui-lightbox-title {
 
 /** the dialog body-block */
 div.rui-lightbox-body {
-  background-color: white;
+  background-color: #FFF;
   padding: 1em;
   border-radius: .5em;
   -moz-border-radius: .5em;
