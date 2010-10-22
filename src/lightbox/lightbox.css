@@ -46,6 +46,8 @@ div.rui-lightbox {
   background: none;
   border: none;
   text-align: center;
+  z-index: 9999;
+  z-index/*\**/: auto\9; /* IE8 "standard mode" fix */
 }
 
 div.rui-lightbox-locker {
@@ -58,7 +60,7 @@ div.rui-lightbox-locker {
   opacity: 0.8;
   filter: alpha(opacity=80);
   cursor: default;
-  z-index: 9990;
+  z-index/*\**/: 9990\9; /* IE8 "standard mode" fix */
 }
 
 /** the dialog block basic styles */
@@ -68,7 +70,7 @@ div.rui-lightbox-dialog {
   * zoom: 1;
   position: relative;
   text-align: left;
-  z-index: 9999;
+  z-index/*\**/: 9999\9;  /* IE8 "standard mode" fix */
 }
 
 div.rui-lightbox-title {

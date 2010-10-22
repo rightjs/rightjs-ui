@@ -83,9 +83,9 @@ task :pack do
       # adding the inlined-css entry
       source + "\n\n" + FrontCompiler.new.inline_css(
         (css + ["src/#{widget}/#{widget}.css"]).collect do |filename|
-          File.read(filename)
+          File.read(filename).gsub('/*\**/:', '_ie8_s:').gsub('\9;', '_ie8_e')
         end.join("\n")
-      ).gsub(/([^\s])\*/, '\1 *')
+      ).gsub(/([^\s])\*/, '\1 *').gsub('_ie8_s:', '/*\\\\\\**/:').gsub('_ie8_e', '\\\\\\\\9;')
     end
     rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget.gsub('_', '-')}.js")
 
