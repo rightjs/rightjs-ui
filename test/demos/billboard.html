@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../../util/test/ui-tools.js?billboard"></script>
+    <script type="text/javascript">
+      Billboard.Options.autostart = false;
+    </script>
+    <style type="text/css">
+      div.swap-links {
+        margin-top: .5em;
+      }
+      div.swap-links a {
+        outline: none;
+      }
+      ul.text-example {
+        width: 30em;
+      }
+      ul.text-example li {
+        height: 12em;
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Normal Billboard</h2>
+    <p>
+      <ul class="rui-billboard" data-billboard="{autostart: true}">
+        <li><img src="http://rightjs.org/images/test/2-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/3-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/4-med.jpg" /></li>
+      </ul>
+    </p>
+
+    <h2>Sliding Billboard</h2>
+    <p>
+      <ul class="rui-billboard" data-billboard="{fxName: 'slide'}">
+        <li><img src="http://rightjs.org/images/test/2-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/3-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/4-med.jpg" /></li>
+      </ul>
+    </p>
+
+    <h2>Fading Billboard</h2>
+    <p>
+      <ul class="rui-billboard" data-billboard="{fxName: 'fade'}">
+        <li><img src="http://rightjs.org/images/test/2-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/3-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/4-med.jpg" /></li>
+      </ul>
+    </p>
+
+    <h2>No-Fx Billboard</h2>
+    <p>
+      <ul class="rui-billboard" data-billboard="{fxName: null}">
+        <li><img src="http://rightjs.org/images/test/2-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/3-med.jpg" /></li>
+        <li><img src="http://rightjs.org/images/test/4-med.jpg" /></li>
+      </ul>
+    </p>
+
+    <h2>Billboard With Text And External Links</h2>
+    <p>
+      <ul class="rui-billboard text-example" data-billboard="{prevButton: 'prev-txt', nextButton: 'next-txt'}">
+        <li style="background: white">
+          Lorem ipsum dolor sit amet, <b>consectetur</b> adipisicing elit, sed do <em>eiusmod t</em>empor incididunt ut labore et dolore magna aliqua. <u>Ut enim ad mi</u>nim veniam, quis nostrud <i>exercitati</i>on ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volu<b>ptate velit </b>esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupida<u>tat non proident</u>, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </li>
+        <li style="background: yellow">
+          Duis aute irure dolor in reprehenderit in volu<b>ptate velit </b>esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupida<u>tat non proident</u>, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, <b>consectetur</b> adipisicing elit, sed do <em>eiusmod t</em>empor incididunt ut labore et dolore magna aliqua. <u>Ut enim ad mi</u>nim veniam, quis nostrud <i>exercitati</i>on ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </li>
+        <li style="background: pink">
+           <u>Ut enim ad mi</u>nim veniam, quis nostrud <i>exercitati</i>on ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volu<b>ptate velit </b>esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, <b>consectetur</b> adipisicing elit, sed do <em>eiusmod t</em>empor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupida<u>tat non proident</u>, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </li>
+      </ul>
+      <div class="swap-links">
+        <a href="" id="prev-txt">&larr; Prev</a> |
+        <a href="" id="next-txt">Next &rarr;</a>
+      </div>
+    </p>
+
+    <p class="white-space"></p>
+  </body>
+</html>

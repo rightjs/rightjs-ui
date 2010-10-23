@@ -1,0 +1,115 @@
+/**
+ * Billboard widget basic stylesheet
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+/** A bit of reset */
+*.rui-billboard, *.rui-billboard > * {
+  margin:  0;
+  padding: 0;
+  list-style: none;
+}
+
+/** billboard main element styles */
+*.rui-billboard {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: relative;
+}
+
+/** billboard items */
+*.rui-billboard > * {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+*.rui-billboard > *:first-child,
+*.rui-billboard > *.rui-billboard-current:first-child {
+  display: block;
+  position: relative;
+}
+*.rui-billboard > * > img {
+  margin:  0;
+  padding: 0;
+}
+*.rui-billboard-current {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  z-index: 999;
+}
+
+/** navigation buttons */
+*.rui-billboard-button-prev, *.rui-billboard-button-next {
+  position: absolute;
+  z-index: 99999;
+  left: .25em;
+  top: auto;
+  bottom: .25em;
+  display: block;
+  width: .5em;
+  height: auto;
+  text-align: center;
+  font-size: 200%;
+  font-family: Arial;
+  font-weight: bold;
+  padding: 0em .5em .2em .5em;
+  background: white;
+  opacity: 0;
+  filter: alpha(opacity:0);
+  cursor: pointer;
+  border: .12em solid #888;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -webkit-transition: opacity .3s ease-in-out;
+}
+*.rui-billboard-button-next {
+  left: auto;
+  right: .25em;
+  text-align: right;
+}
+*.rui-billboard-button-prev:active {
+  text-indent: -.1em;
+}
+*.rui-billboard-button-next:active {
+  text-indent: .2em;
+}
+*.rui-billboard:hover *.rui-billboard-button-prev, *.rui-billboard:hover *.rui-billboard-button-next {
+  opacity: 0.4;
+  filter: alpha(opacity:40);
+}
+*.rui-billboard:hover *.rui-billboard-button-prev:hover, *.rui-billboard:hover *.rui-billboard-button-next:hover {
+  opacity: 0.7;
+  filter: alpha(opacity:70);
+}
+
+
+/** FX related elements */
+.rui-billboard-fx-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  z-index: 9999;
+  overflow: hidden;
+}
+.rui-billboard-fx-container > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.rui-billboard-stripe {
+  overflow: hidden;
+}
+.rui-billboard-stripe > * {
+  position: relative;
+}
