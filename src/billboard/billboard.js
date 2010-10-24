@@ -44,10 +44,10 @@ var Billboard = new Widget('UL', {
         $E('div', {'class': 'rui-billboard-button-next', 'html': '&rsaquo;'}).insertTo(this);
 
       this.prevButton.onClick(R(function(event) {
-        event.stop(); this.prev();
+        event.stop(); this.showPrev();
       }).bind(this));
       this.nextButton.onClick(R(function(event) {
-        event.stop(); this.next();
+        event.stop(); this.showNext();
       }).bind(this));
     }
 
@@ -93,7 +93,7 @@ var Billboard = new Widget('UL', {
    *
    * @return Billboard this
    */
-  next: function() {
+  showNext: function() {
     var items = this.items(), index = items.indexOf(this.current()) + 1;
 
     if (index == items.length && this.options.loop) {
@@ -108,7 +108,7 @@ var Billboard = new Widget('UL', {
    *
    * @return Billboard this
    */
-  prev: function() {
+  showPrev: function() {
     var items = this.items(), index = items.indexOf(this.current()) - 1;
 
     if (index < 0 && this.options.loop) {
@@ -149,7 +149,7 @@ var Billboard = new Widget('UL', {
    * @return Billboard this
    */
   start: function() {
-    this.timer = R(this.next).bind(this).periodical(this.options.delay);
+    this.timer = R(this.showNext).bind(this).periodical(this.options.delay);
   },
 
   /**
