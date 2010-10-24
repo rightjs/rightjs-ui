@@ -30,11 +30,6 @@ Billboard.Fx.Slide = new Class(Billboard.Fx, {
    */
   render: function(delta) {
     this.clone._.style.left = this._direction * this._width * delta + 'px';
-  },
-
-  start: function() {
-    this.$super.apply(this, arguments);
-    return this.resume();
   }
 
 });

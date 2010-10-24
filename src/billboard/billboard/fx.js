@@ -42,16 +42,6 @@ Billboard.Fx = new Class(Fx, {
     this.clone = old_item.clone();
 
     this.container.update(this.clone);
-  },
-
-  /**
-   * Stubbing the timer so it didn't count nothing
-   *
-   * @return Fx this
-   */
-  start: function() {
-    this.$super.apply(this, arguments);
-    return this.pause();
   }
 
 });

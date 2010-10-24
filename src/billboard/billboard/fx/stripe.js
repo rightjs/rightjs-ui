@@ -76,6 +76,17 @@ Billboard.Fx.Stripe = new Class(Billboard.Fx, {
           this.finish();
       }
     }
+  },
+
+
+  /**
+   * Stubbing the timer so it didn't count nothing
+   *
+   * @return Fx this
+   */
+  start: function() {
+    this.$super.apply(this, arguments);
+    return this.pause();
   }
 
 });

@@ -14,11 +14,16 @@ Billboard.Fx.Fade = new Class(Billboard.Fx, {
    */
   prepare: function(old_item, new_item) {
     this.$super(old_item, new_item);
+  },
 
-    this.container.morph({opacity: 0}, {
-      duration: this.options.duration,
-      onFinish: this.finish.bind(this)
-    });
+  /**
+   * Rendering the effect
+   *
+   * @param Float delta value
+   * @return void
+   */
+  render: function(delta) {
+    this.container.setStyle({opacity: 1 - delta});
   }
 
 });
