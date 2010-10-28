@@ -8,7 +8,8 @@ var R  = RightJS,
     $w = RightJS.$w,
     $E = RightJS.$E,
     Class  = RightJS.Class,
-    Object = RightJS.Object;
+    Object = RightJS.Object,
+    Element = RightJS.Element;
 
 include_shared_js(
   'button',
