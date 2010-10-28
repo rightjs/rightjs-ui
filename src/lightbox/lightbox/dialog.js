@@ -185,7 +185,7 @@ var Dialog = new Wrapper(Element, {
    * @return Dialog this
    */
   unlock: function() {
-    this.locker.remove(this.content.html().blank() ? null : 'fade', {
+    this.locker.remove(R(this.content.html()).blank() ? null : 'fade', {
       duration: this.options.fxDuration * 2/3
     });
 
