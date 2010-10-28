@@ -5,12 +5,13 @@
  */
 var Dialog = new Widget({
   extend: {
-    version: '2.0.1',
+    version: '2.0.2',
 
     EVENTS: $w('ok cancel help expand collapse resize load'),
 
     Options: {
       lockScreen:  true,  // if you need to lock the scrreen
+      fxDuration:  'short', // dialog appearance duration
 
       draggable:   true,  // sets if the user should be able to drag the dialog around
       closeable:   true,  // allow the user to close the dialog
@@ -82,7 +83,19 @@ var Dialog = new Widget({
       this.locker.insertTo(document.body);
     }
 
-    this.insertTo(document.body).resize();
+    this
+      .setStyle('visibility:hidden')
+      .insertTo(document.body)
+      .resize()
+      .setStyle('visibility:visible;opacity:0');
+
+    if (this.options.fxDuration) {
+      this.morph({opacity: 1}, {
+        duration: this.options.fxDuration
+      });
+    } else {
+      this.setStyle('opacity:0');
+    }
 
     return (Dialog.current = this);
   },
