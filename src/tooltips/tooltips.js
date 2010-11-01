@@ -5,7 +5,7 @@
  */
 var Tooltip = new Widget({
   extend: {
-    version: '2.0.0',
+    version: '2.0.2',
 
     EVENTS: $w('show hide'),
 
@@ -53,7 +53,7 @@ var Tooltip = new Widget({
         '</div>'
       )
       .on({
-        mouseout:  'stopEvent',
+        mouseout:  this._mouseOut,
         mouseover: this._cancelTimer
       })
       .insertTo(document.body);
@@ -120,8 +120,10 @@ var Tooltip = new Widget({
    * @return Tooltip this
    */
   moveToEvent: function(event) {
-    this._.style.left = event.pageX + 'px';
-    this._.style.top  = event.pageY + 'px';
+    if (this.options.move) {
+      this._.style.left = event.pageX + 'px';
+      this._.style.top  = event.pageY + 'px';
+    }
 
     return this;
   },
@@ -129,11 +131,18 @@ var Tooltip = new Widget({
 // protected
 
   // cancels a show timeout
-  _cancelTimer: function(event) {
-    if (event) { event.stop(); }
+  _cancelTimer: function() {
     if (this._timer) {
       this._timer.cancel();
       this._timer = null;
+    }
+    return false;
+  },
+
+  _mouseOut: function(event) {
+    event.stop();
+    if (event.relatedTarget !== this.associate) {
+      this.hide();
     }
   }
 });

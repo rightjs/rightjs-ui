@@ -12,6 +12,11 @@
       #tooltiped-tooltip div.rui-tooltip-container {
         color: #AAF;
       }
+      #stationary-tooltip {
+        color: red;
+        left: 500px;
+        top:  68em;
+      }
     </style>
   </head>
   <body>
@@ -28,7 +33,14 @@
 
     <h2>Tooltips With Image And Alt Attribute</h2>
     <p>
-      <img src="http://rightjs.org/images/test/1.jpg" alt="The pictue tooltip" data-tooltip="{delay: 50}" />
+      <img src="http://rightjs.org/images/test/1-med.jpg" alt="The pictue tooltip" data-tooltip="{delay: 50}" />
     </p>
+
+    <h2>Stationary Tooltip</h2>
+    <p>
+      <img src="http://rightjs.org/images/test/2-med.jpg" alt="You ain't no moving nowhere!" data-tooltip="{move: false}" id="stationary" />
+    </p>
+
+    <p class="white-space"></p>
   </body>
 </html>
