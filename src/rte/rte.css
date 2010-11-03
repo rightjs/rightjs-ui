@@ -1,0 +1,162 @@
+/**
+ * The right text editor's basic stylesheets
+ *
+ * USAGE:
+ *
+ *  <div class="rui-rte">
+ *    <div class="rui-rte-toolbar">
+ *      <div class="line">
+ *        <div class="bar">
+ *          <div class="action icon bold"></div>
+ *          <div class="action icon italic"></div>
+ *          <div class="action icon underline"></div>
+ *          .....
+ *        </div>
+ *        ....
+ *      </div>
+ *      .....
+ *    </div>
+ *
+ *    <div class="rui-rte-editor">
+ *      // your content goes in here
+ *    </div>
+ *
+ *    <div class="rui-rte-toolbar">
+ *      Some toolbar stuff will be in here
+ *    </div>
+ *  </div>
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+/** RESET */
+div.rui-rte,
+div.rui-rte-toolbar,
+div.rui-rte-toolbar *,
+div.rui-rte-editor,
+div.rui-rte-status,
+div.rui-rte-status * {
+  margin:  0;
+  padding: 0;
+  background: none;
+  border: none;
+  width: auto;
+  height: auto;
+}
+
+/** hidding the original textareas so they didn't jump */
+textarea[data-rte] {
+  visibility: hidden;
+}
+
+/** The main block styles*/
+div.rui-rte {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: relative;
+}
+
+/** Toolbar styles */
+div.rui-rte-toolbar {
+
+}
+
+div.rui-rte-toolbar div.line {
+
+}
+
+div.rui-rte-toolbar div.bar {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  margin-right: .25em;
+}
+
+div.rui-rte-toolbar div.action {
+  margin-right: 1px;
+}
+
+div.rui-rte-toolbar div.icon {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: .25em;
+  -moz-border-radius: .25em;
+  -webkit-border-radius: .25em;
+  background-image: url(../../img/rte.png);
+  background-repeat: no-repeat;
+  background-color: #eee;
+}
+div.rui-rte-toolbar div.icon:hover {
+  background-color: #DDD;
+  border-color: #aaa;
+}
+div.rui-rte-toolbar div.disabled,
+div.rui-rte-toolbar div.disabled:hover {
+  opacity: .5;
+  background-color: #ccc;
+  border-color: #aaa;
+  cursor: default;
+}
+
+div.rui-rte-toolbar div.save       { background-position:   0px    0px; }
+div.rui-rte-toolbar div.clear      { background-position: -20px    0px; }
+div.rui-rte-toolbar div.source     { background-position: -40px    0px; }
+
+div.rui-rte-toolbar div.bold       { background-position:   0px  -20px; }
+div.rui-rte-toolbar div.italic     { background-position: -20px  -20px; }
+div.rui-rte-toolbar div.underline  { background-position: -40px  -20px; }
+div.rui-rte-toolbar div.strike     { background-position: -60px  -20px; }
+
+div.rui-rte-toolbar div.cut        { background-position:   0px  -40px; }
+div.rui-rte-toolbar div.copy       { background-position: -20px  -40px; }
+div.rui-rte-toolbar div.paste      { background-position: -40px  -40px; }
+
+div.rui-rte-toolbar div.left       { background-position:   0px  -60px; }
+div.rui-rte-toolbar div.center     { background-position: -20px  -60px; }
+div.rui-rte-toolbar div.right      { background-position: -40px  -60px; }
+div.rui-rte-toolbar div.justify    { background-position: -60px  -60px; }
+
+div.rui-rte-toolbar div.undo       { background-position:   0px  -80px; }
+div.rui-rte-toolbar div.redo       { background-position: -20px  -80px; }
+
+div.rui-rte-toolbar div.quote      { background-position:   0px -100px; }
+div.rui-rte-toolbar div.code       { background-position: -20px -100px; }
+div.rui-rte-toolbar div.ttext      { background-position: -40px -100px; }
+
+div.rui-rte-toolbar div.image      { background-position:   0px -120px; }
+div.rui-rte-toolbar div.link       { background-position: -20px -120px; }
+div.rui-rte-toolbar div.video      { background-position: -40px -120px; }
+
+div.rui-rte-toolbar div.dotlist    { background-position:   0px -140px; }
+div.rui-rte-toolbar div.numlist    { background-position: -20px -140px; }
+div.rui-rte-toolbar div.listin     { background-position: -40px -140px; }
+div.rui-rte-toolbar div.listout    { background-position: -60px -140px; }
+
+div.rui-rte-toolbar div.color      { background-position:   0px -160px; }
+div.rui-rte-toolbar div.background { background-position: -20px -160px; }
+
+
+/** The editor block styles */
+div.rui-rte-editor {
+  outline: none;
+  padding: .2em;
+  overflow: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: .25em;
+  -moz-border-radius: .25em;
+  -webkit-border-radius: .25em;
+}
+div.rui-rte-editor:focus {
+  background: #fffff8;
+}
+
+/** The statusbar block styles */
+div.rui-rte-status {
+
+}
