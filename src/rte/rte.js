@@ -78,7 +78,8 @@ var Rte = new Widget({
         this.editor  = new Rte.Editor(this),
         this.status  = new Rte.Status(this)
       )
-      .setValue(this.textarea.value());
+      .setValue(this.textarea.value())
+      .onFocus(R(this.status.update).bind(this.status));
 
     if (this.options.showToolbar) {
       this.toolbar.show();
@@ -97,7 +98,6 @@ var Rte = new Widget({
     );
 
     this.editor.resize(size);
-    this.focus();
   },
 
   /**

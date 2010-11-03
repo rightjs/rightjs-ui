@@ -103,6 +103,11 @@ div.rui-rte-toolbar div.disabled:hover {
   cursor: default;
 }
 
+div.rui-rte-toolbar div.active {
+  background-color: #D8D8D8;
+  border-color: #777;
+}
+
 div.rui-rte-toolbar div.save       { background-position:   0px    0px; }
 div.rui-rte-toolbar div.clear      { background-position: -20px    0px; }
 div.rui-rte-toolbar div.source     { background-position: -40px    0px; }

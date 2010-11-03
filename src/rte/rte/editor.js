@@ -15,10 +15,10 @@ Rte.Editor = new Class(Element, {
 
     this.on({
       focus: R(rte).fire.bind(rte, 'focus'),
-      blur:  R(rte).fire.bind(rte, 'blur')
+      blur:  R(rte).fire.bind(rte, 'blur'),
+      keydown: this._keydown
     });
   },
-
 
   focus: function() {
     this._.focus();
@@ -28,7 +28,22 @@ Rte.Editor = new Class(Element, {
   blur: function() {
     this._.blur();
     return this;
-  }
+  },
 
+// protected
+
+  // catches the keydown
+  _keydown: function(event) {
+    var raw = event._, key = raw.keyCode, action;
+
+    if (raw.metaKey || raw.ctrlKey) {
+      if ((action = this.rte.shortcuts[key])) {
+        action.kickIn(event);
+      }
+    } else if (key === 37 || key === 38 || key === 39 || key === 40) {
+      // call the status update when the user changes the cursor position
+      this.rte.status.update();
+    }
+  }
 
 });

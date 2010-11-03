@@ -8,6 +8,10 @@ Rte.Status = new Class(Element, {
   initialize: function(rte) {
     this.$super('div', {'class': 'rui-rte-status'});
     this.rte = rte;
+  },
+
+  update: function() {
+
   }
 
 });

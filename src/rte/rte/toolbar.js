@@ -8,7 +8,9 @@ Rte.Toolbar = new Class(Element, {
   initialize: function(rte) {
     this.$super('div', {'class': 'rui-rte-toolbar'});
 
-    this.rte = rte;
+    this.rte    = rte;
+    rte.actions = [];
+    rte.shortcuts = {};
 
     var options = rte.options, toolbar = options.toolbar;
 
