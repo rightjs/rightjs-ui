@@ -17,6 +17,8 @@ include_module_files(
   'rte/editor',
   'rte/status',
 
+  'rte/selection',
+
   'rte/action',
 
   'rte/action/bold',
