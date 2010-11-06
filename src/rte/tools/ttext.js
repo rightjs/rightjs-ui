@@ -1,8 +1,8 @@
 /**
- * the 'ttext' action
+ * the 'ttext' tool
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Ttext = new Class(Rte.Action, {
+Rte.Tool.Ttext = new Class(Rte.Tool, {
   key: 'T'
 });

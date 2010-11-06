@@ -1,9 +1,9 @@
 /**
- * The cut action
+ * The cut tool
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Cut = new Class(Rte.Action, {
+Rte.Tool.Cut = new Class(Rte.Tool, {
   key:   'X',
   block: false
 });

@@ -1,9 +1,9 @@
 /**
- * the 'undo' action
+ * the 'undo' tool
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Undo = new Class(Rte.Action, {
+Rte.Tool.Undo = new Class(Rte.Tool, {
   key:   'Z',
   block: false
 });

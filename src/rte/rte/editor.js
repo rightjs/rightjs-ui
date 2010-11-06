@@ -34,11 +34,11 @@ Rte.Editor = new Class(Element, {
 
   // catches the keydown
   _keydown: function(event) {
-    var raw = event._, key = raw.keyCode, action;
+    var raw = event._, key = raw.keyCode;
 
     if (raw.metaKey || raw.ctrlKey) {
-      if ((action = this.rte.shortcuts[key])) {
-        action.kickIn(event);
+      if (key in this.rte.shortcuts) {
+        this.rte.shortcuts[key].involve(event);
       }
     } else if (key === 37 || key === 38 || key === 39 || key === 40) {
       // call the status update when the user changes the cursor position

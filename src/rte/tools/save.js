@@ -1,8 +1,8 @@
 /**
- * the 'save' action
+ * the 'save' tool
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Save = new Class(Rte.Action, {
+Rte.Tool.Save = new Class(Rte.Tool, {
   key: 'S'
 });

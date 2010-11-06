@@ -19,44 +19,44 @@ include_module_files(
 
   'rte/selection',
 
-  'rte/action',
+  'rte/tool',
 
-  'rte/action/bold',
-  'rte/action/italic',
-  'rte/action/underline',
-  'rte/action/strike',
-  'rte/action/ttext',
+  'tools/bold',
+  'tools/italic',
+  'tools/underline',
+  'tools/strike',
+  'tools/ttext',
 
-  'rte/action/cut',
-  'rte/action/copy',
-  'rte/action/paste',
+  'tools/cut',
+  'tools/copy',
+  'tools/paste',
 
-  'rte/action/left',
-  'rte/action/center',
-  'rte/action/right',
-  'rte/action/justify',
+  'tools/left',
+  'tools/center',
+  'tools/right',
+  'tools/justify',
 
-  'rte/action/undo',
-  'rte/action/redo',
+  'tools/undo',
+  'tools/redo',
 
-  'rte/action/code',
-  'rte/action/quote',
+  'tools/code',
+  'tools/quote',
 
-  'rte/action/link',
-  'rte/action/image',
-  'rte/action/video',
+  'tools/link',
+  'tools/image',
+  'tools/video',
 
-  'rte/action/dotlist',
-  'rte/action/numlist',
-  'rte/action/listin',
-  'rte/action/listout',
+  'tools/dotlist',
+  'tools/numlist',
+  'tools/listin',
+  'tools/listout',
 
-  'rte/action/color',
-  'rte/action/background',
+  'tools/color',
+  'tools/background',
 
-  'rte/action/source',
-  'rte/action/clear',
-  'rte/action/save',
+  'tools/source',
+  'tools/clear',
+  'tools/save',
 
   'document',
   'input'

@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Paste = new Class(Rte.Action, {
+Rte.Tool.Paste = new Class(Rte.Tool, {
   key:   'V',
   block: false
 });

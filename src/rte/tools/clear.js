@@ -1,8 +1,8 @@
 /**
- * the 'clear' action
+ * the 'clear' tool
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Clear = new Class(Rte.Action, {
+Rte.Tool.Clear = new Class(Rte.Tool, {
   key: 'N'
 });

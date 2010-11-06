@@ -1,28 +1,28 @@
 /**
- * Abstract actions class
+ * The basic tools class
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Action = new Class(Element, {
+Rte.Tool = new Class(Element, {
 
-  block: true,  // block the default actions of the browser (used for shortcuts)
+  block: true,  // block the default respond of the browser (used for shortcuts)
 
   /**
    * Basic constructor
    *
    * @param Rte rte reference
-   * @return Rte.Action this
+   * @return Rte.Tool this
    */
   initialize: function(rte) {
     var name = this.findName();
 
     this.$super('div', {
-      'class': 'action icon '+ name.toLowerCase(),
+      'class': 'tool icon '+ name.toLowerCase(),
       'title': (Rte.i18n[name] || name) + (this.key ? " ("+ this.key + ")" : "")
     });
 
     this.rte = rte;
-    rte.actions.push(this);
+    rte.tools[name] = this;
 
     if (this.key) {
       rte.shortcuts[this.key.toUpperCase().charCodeAt(0)] = this;
@@ -36,7 +36,7 @@ Rte.Action = new Class(Element, {
   /**
    * Disables the action
    *
-   * @return Rte.Action this
+   * @return Rte.Tool this
    */
   disable: function() {
     this.disabled = true;
@@ -46,7 +46,7 @@ Rte.Action = new Class(Element, {
   /**
    * Enables the action
    *
-   * @param Rte.Action this
+   * @param Rte.Tool this
    */
   enable: function() {
     this.disabled = false;
@@ -54,12 +54,12 @@ Rte.Action = new Class(Element, {
   },
 
   /**
-   * The entry point for the actions
+   * The entry point for the toolss
    *
    * @param RightJS.Event event object
    * @return void
    */
-  kickIn: function(event) {
+  involve: function(event) {
     if (!this.disabled) {
       if (this.block) {
         event.stop();
@@ -70,7 +70,7 @@ Rte.Action = new Class(Element, {
   },
 
   /**
-   * Just highlights that the action was used
+   * Just highlights that the tool was used
    *
    * @return void
    */
@@ -80,12 +80,12 @@ Rte.Action = new Class(Element, {
 
 // protected
 
-  // Finds the action uniq name
+  // Finds the tool uniq name
   findName: function() {
-    var key, actions = Rte.Action, klass = this.constructor;
+    var key, tools = Rte.Tool, klass = this.constructor;
 
-    for (key in actions) {
-      if (actions[key] === klass) {
+    for (key in tools) {
+      if (tools[key] === klass) {
         return key;
       }
     }

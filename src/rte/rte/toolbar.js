@@ -8,8 +8,8 @@ Rte.Toolbar = new Class(Element, {
   initialize: function(rte) {
     this.$super('div', {'class': 'rui-rte-toolbar'});
 
-    this.rte    = rte;
-    rte.actions = [];
+    this.rte      = rte;
+    rte.tools     = {};
     rte.shortcuts = {};
 
     var options = rte.options, toolbar = options.toolbar;
@@ -23,11 +23,11 @@ Rte.Toolbar = new Class(Element, {
         if (!R(bar_s).blank()) {
           var bar = $E('div', {'class': 'bar'}).insertTo(line);
 
-          R(bar_s.split(' ')).each(function(action) {
-            action = R(action).capitalize();
+          R(bar_s.split(' ')).each(function(tool) {
+            tool = R(tool).capitalize();
 
-            if (Rte.Action[action]) {
-              bar.insert(new Rte.Action[action](rte));
+            if (tool in Rte.Tool) {
+              bar.insert(new Rte.Tool[tool](rte));
             }
           });
         }

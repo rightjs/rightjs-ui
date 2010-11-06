@@ -1,9 +1,9 @@
 /**
- * The copy action
+ * The copy tool
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Action.Copy = new Class(Rte.Action, {
+Rte.Tool.Copy = new Class(Rte.Tool, {
   key:   'C',
   block: false
 });
