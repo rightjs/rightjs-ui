@@ -4,5 +4,5 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Source = new Class(Rte.Tool, {
-  key: 'E'
+  shortcut: 'E'
 });

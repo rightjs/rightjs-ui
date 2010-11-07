@@ -43,7 +43,8 @@ Rte.Editor = new Class(Element, {
 
     if (raw.metaKey || raw.ctrlKey) {
       if (key in this.rte.shortcuts) {
-        this.rte.shortcuts[key].involve(event);
+        event.stop();
+        this.rte.shortcuts[key].exec();
       }
     } else if (key === 37 || key === 38 || key === 39 || key === 40) {
       // call the status update when the user changes the cursor position

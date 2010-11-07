@@ -4,9 +4,7 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool = new Class(Element, {
-
-  block: true,  // block the default respond of the browser (used for shortcuts)
-  shift: false, // trigger only if the Shift key is pressed
+  shortcut: false, // shortcut string
 
   /**
    * Basic constructor
@@ -19,14 +17,16 @@ Rte.Tool = new Class(Element, {
 
     this.$super('div', {
       'class': 'tool icon '+ name.toLowerCase(),
-      'title': (Rte.i18n[name] || name) + (this.key ? " ("+ this.key + ")" : "")
+      'title': (Rte.i18n[name] || name) + (
+        this.shortcut ? " ("+ this.shortcut + ")" : ""
+      )
     });
 
     this.rte = rte;
     rte.tools[name] = this;
 
-    if (this.key) {
-      rte.shortcuts[this.key.toUpperCase().charCodeAt(0)] = this;
+    if (this.shortcut) {
+      rte.shortcuts[this.shortcut.toUpperCase().charCodeAt(0)] = this;
     }
 
     this.onClick(this.kickIn);
@@ -55,17 +55,12 @@ Rte.Tool = new Class(Element, {
   },
 
   /**
-   * The entry point for the toolss
+   * The entry point for the tools
    *
-   * @param RightJS.Event event object
    * @return void
    */
-  involve: function(event) {
+  exec: function() {
     if (!this.disabled) {
-      if (this.block) {
-        event.stop();
-      }
-
       this.blip();
     }
   },

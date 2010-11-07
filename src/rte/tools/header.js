@@ -4,8 +4,8 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Header = new Class(Rte.Tool, {
-  key:     'H',
-  command: 'formatblock',
+  shortcut: 'H',
+  command:  'formatblock',
 
   initialize: function(rte) {
     this.$super(rte);

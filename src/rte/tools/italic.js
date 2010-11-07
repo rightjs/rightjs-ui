@@ -4,6 +4,6 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Italic = new Class(Rte.Tool, {
-  key: 'I',
-  command: 'italic'
+  shortcut: 'I',
+  command:  'italic'
 });
