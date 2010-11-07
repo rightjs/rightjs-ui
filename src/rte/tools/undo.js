@@ -4,6 +4,6 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Undo = new Class(Rte.Tool, {
-  key:   'Z',
-  block: false
+  key:     'Z',
+  command: 'undo'
 });

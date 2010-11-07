@@ -18,6 +18,11 @@ Rte.Editor = new Class(Element, {
       blur:  R(rte).fire.bind(rte, 'blur'),
       keydown: this._keydown
     });
+
+    // setting up the styles mode
+    document.designMode = 'On';
+    document.execCommand('styleWithCSS', false, rte.options.styleWithCSS);
+    document.designMode = 'Off';
   },
 
   focus: function() {

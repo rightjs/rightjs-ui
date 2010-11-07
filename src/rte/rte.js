@@ -9,10 +9,17 @@ var Rte = new Widget({
     EVENTS: $w('change focus blur'),
 
     Options: {
-      toolbar:     'small',  // toolbar, the name or an array of your own
+      toolbar:      'small',  // toolbar, the name or an array of your own
 
-      showToolbar: true,     // show the toolbar
-      showStatus:  true,     // show the status bar
+      showToolbar:  true,     // show the toolbar
+      showStatus:   true,     // show the status bar
+
+      styleWithCSS: false,    // either use CSS or tags to format the code
+
+      quoteTag:     'cite',   // the quote block tag name
+      codeTag:      'pre',    // the code block tag name
+      ttextTag:     'tt',     // the mono-width text tag name
+      headerTag:    'h2',     // the header block tag name
 
       cssRule: 'textarea[data-rte]'
     },

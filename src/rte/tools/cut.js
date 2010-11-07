@@ -5,5 +5,5 @@
  */
 Rte.Tool.Cut = new Class(Rte.Tool, {
   key:   'X',
-  block: false
+  command: 'cut'
 });

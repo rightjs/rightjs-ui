@@ -4,5 +4,7 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Link = new Class(Rte.Tool, {
-  key: 'L'
+  key: 'L',
+
+  command: 'createlink', // 'unlink'
 });

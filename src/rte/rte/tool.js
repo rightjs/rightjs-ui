@@ -6,6 +6,7 @@
 Rte.Tool = new Class(Element, {
 
   block: true,  // block the default respond of the browser (used for shortcuts)
+  shift: false, // trigger only if the Shift key is pressed
 
   /**
    * Basic constructor

@@ -5,5 +5,5 @@
  */
 Rte.Tool.Paste = new Class(Rte.Tool, {
   key:   'V',
-  block: false
+  command: 'paste'
 });

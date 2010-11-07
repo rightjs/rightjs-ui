@@ -5,5 +5,5 @@
  */
 Rte.Tool.Copy = new Class(Rte.Tool, {
   key:   'C',
-  block: false
+  command: 'copy'
 });
