@@ -13,16 +13,25 @@ Rte.Editor = new Class(Element, {
 
     this.rte = rte;
 
+    var editor = this, selection = this.selection = new Rte.Selection();
+
     this.on({
-      focus: R(rte).fire.bind(rte, 'focus'),
-      blur:  R(rte).fire.bind(rte, 'blur'),
+      focus: function() {
+        selection.restore();
+        rte.fire('focus');
+      },
+      blur:    function() { rte.fire('blur'); },
+      mouseup: function() { selection.save(); },
+      keyup:   function(event) {
+        if (editor._isNav(event)) {
+          selection.save();
+        }
+      },
       keydown: this._keydown
     });
 
     // setting up the styles mode
-    document.designMode = 'On';
-    document.execCommand('styleWithCSS', false, rte.options.styleWithCSS);
-    document.designMode = 'Off';
+    this.execCommand('styleWithCSS', rte.options.styleWithCSS);
   },
 
   focus: function() {
@@ -32,6 +41,21 @@ Rte.Editor = new Class(Element, {
 
   blur: function() {
     this._.blur();
+    return this;
+  },
+
+  execCommand: function(name, value) {
+    try {
+      this.selection.restore();
+      document.designMode = 'On';
+      document.execCommand(name, false, value);
+      document.designMode = 'Off';
+    } catch(e) {
+      // getting off the designMode if some error happened
+      document.designMode = 'Off';
+      throw e;
+    }
+
     return this;
   },
 
@@ -46,10 +70,15 @@ Rte.Editor = new Class(Element, {
         event.stop();
         this.rte.shortcuts[key].exec();
       }
-    } else if (key === 37 || key === 38 || key === 39 || key === 40) {
+    } else if (this._isNav(event)) {
       // call the status update when the user changes the cursor position
       this.rte.status.update();
     }
+  },
+
+  _isNav: function(event) {
+    var key = event._.keyCode;
+    return key === 37 || key === 38 || key === 39 || key === 40;
   }
 
 });

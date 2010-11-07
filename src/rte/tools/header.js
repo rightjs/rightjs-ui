@@ -9,6 +9,6 @@ Rte.Tool.Header = new Class(Rte.Tool, {
 
   initialize: function(rte) {
     this.$super(rte);
-    this.tag = rte.options.headerTag;
+    this.value = rte.options.headerTag;
   }
 });

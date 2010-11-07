@@ -4,7 +4,10 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool = new Class(Element, {
+
   shortcut: false, // shortcut string
+  command:  false, // execCommand command
+  value:    null,  // execCommand value
 
   /**
    * Basic constructor
@@ -29,7 +32,7 @@ Rte.Tool = new Class(Element, {
       rte.shortcuts[this.shortcut.toUpperCase().charCodeAt(0)] = this;
     }
 
-    this.onClick(this.kickIn);
+    this.onClick(this._click);
 
     return this;
   },
@@ -61,20 +64,20 @@ Rte.Tool = new Class(Element, {
    */
   exec: function() {
     if (!this.disabled) {
-      this.blip();
+      if (this.command) {
+        this.rte.editor.execCommand(
+          this.command, this.value
+        ).focus();
+      }
     }
   },
 
-  /**
-   * Just highlights that the tool was used
-   *
-   * @return void
-   */
-  blip: function() {
-    this.highlight({duration: 'short'});
-  },
-
 // protected
+
+  // a dummy clicks handler, can be overloaded in the submodules
+  _click: function() {
+    this.exec();
+  },
 
   // Finds the tool uniq name
   findName: function() {

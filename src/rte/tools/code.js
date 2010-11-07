@@ -8,6 +8,6 @@ Rte.Tool.Code = new Class(Rte.Tool, {
 
   initialize: function(rte) {
     this.$super(rte);
-    this.tag = rte.options.codeTag;
+    this.value = rte.options.codeTag;
   }
 });

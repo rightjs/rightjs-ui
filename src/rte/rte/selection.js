@@ -10,18 +10,18 @@ Rte.Selection = new Class({
   },
 
   get: function() {
-    return window.getSelection ?
-      window.getSelection().getRangeAt(0) :  // w3c
-      document.selection.createRange();      // IE
+    return document.selection ?
+      document.selection.createRange() :   // IE
+      window.getSelection().getRangeAt(0); // w3c
   },
 
   set: function(range) {
-    if (window.getSelection) {  // w3c
+    if (range.select) {  // IE
+      range.select();
+    } else { // w3c
       var selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
-    } else { // ie
-      range.select();
     }
   },
 

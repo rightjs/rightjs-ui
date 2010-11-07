@@ -8,7 +8,7 @@ Rte.Tool.Quote = new Class(Rte.Tool, {
 
   initialize: function(rte) {
     this.$super(rte);
-    this.tag = rte.options.quoteTag;
+    this.value = rte.options.quoteTag;
   }
 
 });

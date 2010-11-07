@@ -9,6 +9,6 @@ Rte.Tool.Ttext = new Class(Rte.Tool, {
 
   initialize: function(rte) {
     this.$super(rte);
-    this.tag = rte.options.ttextTag;
+    this.value = rte.options.ttextTag;
   }
 });

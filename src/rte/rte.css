@@ -150,6 +150,7 @@ div.rui-rte-toolbar div.background { background-position: -20px -160px; }
 /** The editor block styles */
 div.rui-rte-editor {
   outline: none;
+  outline: hidden;
   padding: .2em;
   overflow: auto;
   background: white;
@@ -159,7 +160,7 @@ div.rui-rte-editor {
   -webkit-border-radius: .25em;
 }
 div.rui-rte-editor:focus {
-  background: #fffff8;
+  border-color: #aaa;
 }
 
 /** The statusbar block styles */
