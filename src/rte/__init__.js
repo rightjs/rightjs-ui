@@ -25,7 +25,6 @@ include_module_files(
   'tools/italic',
   'tools/underline',
   'tools/strike',
-  'tools/ttext',
 
   'tools/cut',
   'tools/copy',
@@ -41,6 +40,8 @@ include_module_files(
 
   'tools/code',
   'tools/quote',
+  'tools/ttext',
+  'tools/header',
 
   'tools/link',
   'tools/image',

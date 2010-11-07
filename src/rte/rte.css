@@ -132,6 +132,7 @@ div.rui-rte-toolbar div.redo       { background-position: -20px  -80px; }
 div.rui-rte-toolbar div.quote      { background-position:   0px -100px; }
 div.rui-rte-toolbar div.code       { background-position: -20px -100px; }
 div.rui-rte-toolbar div.ttext      { background-position: -40px -100px; }
+div.rui-rte-toolbar div.header     { background-position: -60px -100px; }
 
 div.rui-rte-toolbar div.image      { background-position:   0px -120px; }
 div.rui-rte-toolbar div.link       { background-position: -20px -120px; }
