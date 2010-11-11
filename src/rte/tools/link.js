@@ -5,5 +5,5 @@
  */
 Rte.Tool.Link = new Class(Rte.Tool, {
   shortcut: 'L',
-  command:  'createlink', // 'unlink'
+  command:  'createlink'  // 'unlink'
 });
