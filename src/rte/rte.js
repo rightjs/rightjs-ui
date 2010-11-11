@@ -62,7 +62,8 @@ var Rte = new Widget({
       Listin:     'Add list level',
       Listout:    'Remove list level',
       Color:      'Text color',
-      Background: 'Background color'
+      Background: 'Background color',
+      Select:     'Select'
     },
 
     current: null

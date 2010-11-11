@@ -27,13 +27,18 @@ Rte.Editor = new Class(Element, {
         rte.fire('focus');
       },
       blur:    function() { rte.fire('blur'); },
-      mouseup: function() { selection.save(); },
+      mouseup: function() {
+        selection.save();
+        rte.status.update();
+      },
       keyup:   function(event) {
         if (editor._isNav(event)) {
           selection.save();
+          rte.status.update();
         }
       },
-      keydown: this._keydown
+      keydown:  this._keydown,
+      keypress: this._keypress
     });
 
     // setting up the styles mode
@@ -85,9 +90,6 @@ Rte.Editor = new Class(Element, {
         event.stop();
         this.rte.shortcuts[key].exec();
       }
-    } else if (this._isNav(event)) {
-      // call the status update when the user changes the cursor position
-      this.rte.status.update();
     }
   },
 
