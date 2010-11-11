@@ -26,10 +26,10 @@ var Rte = new Widget({
 
     // predefined toolbars set
     Toolbars: {
-      small: ['bold italic underline strike|cut copy paste|quote code ttext header|link image video|source'],
+      small: ['bold italic underline strike ttext|cut copy paste|header code quote|link image video|source'],
       basic: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header quote code|link image video|dotlist numlist|listin listout|color background|source'
+        'undo redo|header code quote|link image video|dotlist numlist|listin listout|color background|source'
       ]
     },
 

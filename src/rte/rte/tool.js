@@ -25,14 +25,20 @@ Rte.Tool = new Class(Element, {
       )
     });
 
+    // registering the tool
     this.rte = rte;
     rte.tools[name] = this;
 
+    // hooking up the shortcuts
     if (this.shortcut) {
       rte.shortcuts[this.shortcut.toUpperCase().charCodeAt(0)] = this;
     }
 
-    this.onClick(this._click);
+    // connecting the mousedown the way that the editor din't loose the focus
+    this.onMousedown(function(e) {
+      e.stop();
+      this.exec();
+    });
 
     return this;
   },
@@ -65,19 +71,14 @@ Rte.Tool = new Class(Element, {
   exec: function() {
     if (!this.disabled) {
       if (this.command) {
-        this.rte.editor.execCommand(
+        this.rte.editor.focus().exec(
           this.command, this.value
-        ).focus();
+        );
       }
     }
   },
 
 // protected
-
-  // a dummy clicks handler, can be overloaded in the submodules
-  _click: function() {
-    this.exec();
-  },
 
   // Finds the tool uniq name
   findName: function() {

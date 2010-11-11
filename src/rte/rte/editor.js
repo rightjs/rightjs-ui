@@ -5,6 +5,12 @@
  */
 Rte.Editor = new Class(Element, {
 
+  /**
+   * Basic constructor
+   *
+   * @param Rte rte
+   * @return void
+   */
   initialize: function(rte) {
     this.$super('div', {
       'class': 'rui-rte-editor',
@@ -31,30 +37,39 @@ Rte.Editor = new Class(Element, {
     });
 
     // setting up the styles mode
-    this.execCommand('styleWithCSS', rte.options.styleWithCSS);
+    this.exec('styleWithCSS', rte.options.styleWithCSS);
   },
 
+  /**
+   * puts focus on the editing area
+   *
+   * @return Rte.Editor this
+   */
   focus: function() {
     this._.focus();
     return this;
   },
 
+  /**
+   * removes focus out of the editing area
+   *
+   * @return Rte.Editor this
+   */
   blur: function() {
     this._.blur();
     return this;
   },
 
-  execCommand: function(name, value) {
+  /**
+   * executes a command on this editing area
+   *
+   * @return Rte.Editor this
+   */
+  exec: function(name, value) {
     try {
-      this.selection.restore();
-      document.designMode = 'On';
+      // it throws errors in some cases in the non-design mode
       document.execCommand(name, false, value);
-      document.designMode = 'Off';
-    } catch(e) {
-      // getting off the designMode if some error happened
-      document.designMode = 'Off';
-      throw e;
-    }
+    } catch(e) {}
 
     return this;
   },
