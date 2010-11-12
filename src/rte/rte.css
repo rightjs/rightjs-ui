@@ -92,8 +92,8 @@ div.rui-rte-toolbar div.icon {
   background-color: #eee;
 }
 div.rui-rte-toolbar div.icon:hover {
-  background-color: #DDD;
-  border-color: #aaa;
+  background-color: #CCC;
+  border-color: #888;
 }
 div.rui-rte-toolbar div.disabled,
 div.rui-rte-toolbar div.disabled:hover {
@@ -104,8 +104,8 @@ div.rui-rte-toolbar div.disabled:hover {
 }
 
 div.rui-rte-toolbar div.active {
-  background-color: #D8D8D8;
-  border-color: #777;
+  background-color: #CCC;
+  border-color: #666;
 }
 
 div.rui-rte-toolbar div.save       { background-position:   0px    0px; }

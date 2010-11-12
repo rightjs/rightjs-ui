@@ -46,6 +46,25 @@ Rte.Editor = new Class(Element, {
   },
 
   /**
+   * Updates the editor's content
+   *
+   * @param String text
+   * @return Rte.Editor this
+   */
+  update: function(text) {
+    for (var key in Rte.Convert) {
+      text = text.replace(
+        new RegExp('<(\/)?'+ key +'>', 'ig'),
+        '<$1'+ Rte.Convert[key] + '>'
+      );
+    }
+
+    this._.innerHTML = text;
+
+    return this;
+  },
+
+  /**
    * puts focus on the editing area
    *
    * @return Rte.Editor this
@@ -68,15 +87,31 @@ Rte.Editor = new Class(Element, {
   /**
    * executes a command on this editing area
    *
+   * @param String command name
+   * @param mixed command value
    * @return Rte.Editor this
    */
-  exec: function(name, value) {
+  exec: function(command, value) {
     try {
       // it throws errors in some cases in the non-design mode
-      document.execCommand(name, false, value);
+      document.execCommand(command, false, value);
     } catch(e) {}
 
     return this;
+  },
+
+  /**
+   * Queries the command state
+   *
+   * @param String command name
+   * @return boolean check result
+   */
+  query: function(command) {
+    try {
+      return document.queryCommandState(command);
+    } catch(e) {
+      return false;
+    }
   },
 
 // protected

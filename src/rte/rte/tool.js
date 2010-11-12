@@ -74,7 +74,19 @@ Rte.Tool = new Class(Element, {
         this.rte.editor.focus().exec(
           this.command, this.value
         );
+        this.rte.status.update();
       }
+    }
+  },
+
+  /**
+   * Checks the command's status
+   *
+   * @return void
+   */
+  check: function() {
+    if (!this.disabled && this.command) {
+      this[this.rte.editor.query(this.command) ? 'addClass' : 'removeClass']('active');
     }
   },
 

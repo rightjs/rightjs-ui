@@ -27,6 +27,7 @@ Rte.Status = new Class(Element, {
    */
   update: function() {
     this._findNodes();
+    this._checkTools();
 
     return this.$super(this.nodes.map(function(node, index) {
       var name = node.tagName.toLowerCase();
@@ -48,6 +49,14 @@ Rte.Status = new Class(Element, {
   },
 
 // protected
+
+  // runs the tools check
+  _checkTools: function() {
+    var tools = this.rte.tools, key;
+    for (key in tools) {
+      tools[key].check();
+    }
+  },
 
   // finds the nodes from the current selection to the bottom
   _findNodes: function() {

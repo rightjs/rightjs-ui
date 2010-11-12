@@ -66,6 +66,11 @@ var Rte = new Widget({
       Select:     'Select'
     },
 
+    // tags initial convertions
+    Convert: {
+      s: 'strike'
+    },
+
     current: null
   },
 
@@ -116,8 +121,8 @@ var Rte = new Widget({
    * @return Rte this
    */
   setValue: function(value) {
-    this.textarea.value     = value;
-    this.editor._.innerHTML = value;
+    this.textarea.value = value;
+    this.editor.update(value);
     return this;
   },
 
