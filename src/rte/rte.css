@@ -165,15 +165,11 @@ div.rui-rte-editor:focus {
 
 /** The statusbar block styles */
 div.rui-rte-status {
-  height: 1.6em;
-  padding: 0 .2em;
+  height: 1.4em;
+  padding: 0 .5em;
   color: #888;
-  font-size: 80%;
   background: #eee;
   border-radius: .25em;
   -moz-border-radius: .25em;
   -webkit-border-radius: .25em;
-}
-div.rui-rte-status a {
-  font-size: 120%;
 }

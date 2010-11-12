@@ -45,7 +45,7 @@ Rte.Status = new Class(Element, {
           Rte.i18n.Select +
         '">'+ name +'</a>';
 
-    }).join(' > '));
+    }).join(' &rsaquo; '));
   },
 
 // protected

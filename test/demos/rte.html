@@ -2,6 +2,29 @@
 <html>
   <head>
     <script src="../../util/test/ui-tools.js?rte"></script>
+    <style type="text/css">
+      .rui-rte h2 {
+        margin-top: 0;
+        margin-bottom: .5em;
+      }
+      .rui-rte blockquote,
+      .rui-rte pre {
+        margin: .5em 0 0 1em;
+        padding: .2em .5em;
+        border-radius: .25em;
+        -moz-border-radius: .25em;
+        -webkit-border-radius: .25em;
+      }
+      .rui-rte blockquote {
+        background: #EED;
+
+      }
+      .rui-rte pre {
+        background: #EEF;
+        margin: .5em 0 0 1em;
+        padding: .2em .5em;
+      }
+    </style>
   </head>
   <body>
     <h2>Simple Case</h2>
@@ -9,9 +32,56 @@
       <textarea data-rte=""><b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!</textarea>
     </p>
 
-    <h2>Basic Toolbar</h2>
+    <h2>Basic Example</h2>
     <p>
-      <textarea data-rte="{toolbar: 'basic'}"><b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!</textarea>
+      <textarea data-rte="{toolbar: 'basic'}">
+        <h2>Hello There!</h2>
+        <p>
+          <b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!
+        </p>
+        <p>
+          <blockquote>
+            ho ho ho! this is a blockqoute thing!
+          </blockquote>
+        </p>
+        <p>
+          <pre>
+and this is a
+  pre   formatted
+    piece of     code
+booo!</pre>
+        </p>
+        <p>
+          trololo, some text in here
+        </p>
+      </textarea>
     </p>
+
+    <h2>No Autoresize Example</h2>
+    <p>
+      <textarea data-rte="{toolbar: 'basic', autoresize: false}">
+        <h2>Hello There!</h2>
+        <p>
+          <b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!
+        </p>
+        <p>
+          <blockquote>
+            ho ho ho! this is a blockqoute thing!
+          </blockquote>
+        </p>
+        <p>
+          <pre>
+and this is a
+  pre   formatted
+    piece of     code
+booo!</pre>
+        </p>
+        <p>
+          trololo, some text in here
+        </p>
+      </textarea>
+    </p>
+
+    <p class="white-space"></p>
   </body>
 </html>

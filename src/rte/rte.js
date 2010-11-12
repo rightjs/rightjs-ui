@@ -11,6 +11,8 @@ var Rte = new Widget({
     Options: {
       toolbar:      'small',  // toolbar, the name or an array of your own
 
+      autoresize:   true,     // automatically resize the editor's height to fit the text
+
       showToolbar:  true,     // show the toolbar
       showStatus:   true,     // show the status bar
 
@@ -68,7 +70,8 @@ var Rte = new Widget({
 
     // tags initial convertions
     Convert: {
-      s: 'strike'
+      s:    'strike',
+      cite: 'blockquote'
     },
 
     current: null
@@ -112,6 +115,13 @@ var Rte = new Widget({
     );
 
     this.editor.resize(size);
+
+    if (this.options.autoresize) {
+      this.editor.setStyle({
+        minHeight: size.y + 'px',
+        height:  'auto'
+      });
+    }
   },
 
   /**
