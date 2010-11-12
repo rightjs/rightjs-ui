@@ -8,6 +8,8 @@ Rte.Tool = new Class(Element, {
   shortcut: false, // shortcut string
   command:  false, // execCommand command
   value:    null,  // execCommand value
+  block:    true,  // should the 'keypress' be blocked
+  blip:     false, // whether it should 'blip' when used
 
   /**
    * Basic constructor
@@ -40,6 +42,9 @@ Rte.Tool = new Class(Element, {
       this.exec();
     });
 
+    // checking if the command is supported
+    this.supported();
+
     return this;
   },
 
@@ -69,8 +74,10 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   exec: function() {
-    if (!this.disabled) {
+    if (this.supported()) {
       if (this.command) {
+        if (this.blips) { this.blip(); }
+
         this.rte.editor.focus().exec(
           this.command, this.value
         );
@@ -85,7 +92,7 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   check: function() {
-    if (!this.disabled && this.command) {
+    if (this.supported() && this.command) {
       this[this.rte.editor.query(this.command) ? 'addClass' : 'removeClass']('active');
     }
   },
@@ -97,6 +104,23 @@ Rte.Tool = new Class(Element, {
    */
   blip: function() {
     R(this.addClass('blip').removeClass).bind(this, 'blip').delay(100);
+  },
+
+  /**
+   * Checks if the command is supported
+   *
+   * @return boolean check result
+   */
+  supported: function() {
+    if (this.command) {
+      if (document.queryCommandEnabled(this.command)) {
+        this.enable();
+      } else {
+        this.disable();
+      }
+    }
+
+    return !this.disabled;
   },
 
 // protected

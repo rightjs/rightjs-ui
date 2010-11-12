@@ -122,12 +122,12 @@ Rte.Editor = new Class(Element, {
 
   // catches the keydown
   _keydown: function(event) {
-    var raw = event._, key = raw.keyCode;
+    var raw = event._, key = raw.keyCode, tool;
 
     if (raw.metaKey || raw.ctrlKey) {
-      if (key in this.rte.shortcuts) {
-        event.stop();
-        this.rte.shortcuts[key].exec();
+      if ((tool = this.rte.shortcuts[key])) {
+        if (tool.block) { event.stop(); }
+        tool.exec();
       }
     }
   },

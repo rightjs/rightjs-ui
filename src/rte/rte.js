@@ -91,7 +91,6 @@ var Rte = new Widget({
       .$super('rte', {})
       .setOptions(options, this.textarea)
       .append(
-        this.toolbar = new Rte.Toolbar(this),
         this.editor  = new Rte.Editor(this),
         this.status  = new Rte.Status(this)
       )
@@ -113,6 +112,10 @@ var Rte = new Widget({
         'visibility:hidden;position:absolute;z-index:-1'
       ),'before'
     );
+
+    // should be created after the editor on the page
+    // because some tools check if they are supported
+    this.toolbar = new Rte.Toolbar(this).insertTo(this, 'top');
 
     this.editor.resize(size);
 
