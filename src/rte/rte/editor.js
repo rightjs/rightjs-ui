@@ -24,9 +24,13 @@ Rte.Editor = new Class(Element, {
     this.on({
       focus: function() {
         selection.restore();
+        editor.focused = true;
         rte.fire('focus');
       },
-      blur:    function() { rte.fire('blur'); },
+      blur:    function() {
+        editor.focused = false;
+        rte.fire('blur');
+      },
       mouseup: function() {
         selection.save();
         rte.status.update();
@@ -128,9 +132,16 @@ Rte.Editor = new Class(Element, {
     }
   },
 
+  navigation_keys: [
+    37,
+    38,
+    39,
+    40,
+    13
+  ],
+
   _isNav: function(event) {
-    var key = event._.keyCode;
-    return key === 37 || key === 38 || key === 39 || key === 40;
+    return this.navigation_keys.indexOf(event._.keyCode) > -1;
   }
 
 });

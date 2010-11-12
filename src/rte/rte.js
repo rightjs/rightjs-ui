@@ -98,12 +98,12 @@ var Rte = new Widget({
       .setValue(this.textarea.value())
       .onFocus(R(this.status.update).bind(this.status));
 
-    if (this.options.showToolbar) {
-      this.toolbar.show();
+    if (!this.options.showToolbar) {
+      this.toolbar.hide();
     }
 
-    if (this.options.showStatus) {
-      this.status.show();
+    if (!this.options.showStatus) {
+      this.status.hide();
     }
 
     var size = this.textarea.size();

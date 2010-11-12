@@ -108,6 +108,11 @@ div.rui-rte-toolbar div.active {
   border-color: #666;
 }
 
+div.rui-rte-toolbar div.blip {
+  background-color: #BBB;
+  border-color: #666;
+}
+
 div.rui-rte-toolbar div.save       { background-position:   0px    0px; }
 div.rui-rte-toolbar div.clear      { background-position: -20px    0px; }
 div.rui-rte-toolbar div.source     { background-position: -40px    0px; }
@@ -151,7 +156,7 @@ div.rui-rte-toolbar div.background { background-position: -20px -160px; }
 div.rui-rte-editor {
   outline: none;
   outline: hidden;
-  padding: .2em;
+  padding: .1em .3em;
   overflow: auto;
   background: white;
   border: 1px solid #ccc;
@@ -161,6 +166,13 @@ div.rui-rte-editor {
 }
 div.rui-rte-editor:focus {
   border-color: #aaa;
+}
+
+div.rui-rte-editor > p:first-child {
+  margin-top: 0;
+}
+div.rui-rte-editor > p:last-child {
+  margin-bottom: 0;
 }
 
 /** The statusbar block styles */

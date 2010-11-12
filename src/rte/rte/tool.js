@@ -90,6 +90,15 @@ Rte.Tool = new Class(Element, {
     }
   },
 
+  /**
+   * Highlights the button as triggered
+   *
+   * @return void
+   */
+  blip: function() {
+    R(this.addClass('blip').removeClass).bind(this, 'blip').delay(100);
+  },
+
 // protected
 
   // Finds the tool uniq name
