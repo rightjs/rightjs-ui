@@ -4,5 +4,13 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Clear = new Class(Rte.Tool, {
-  shortcut: 'N'
+  shortcut: 'N',
+
+  exec: function() {
+    this.rte.editor.exec('selectAll');
+    this.rte.editor.exec('delete');
+    this.rte.status.update();
+  },
+
+  check: function() {}
 });
