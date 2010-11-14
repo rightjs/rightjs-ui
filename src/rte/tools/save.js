@@ -15,10 +15,10 @@ Rte.Tool.Save = new Class(Rte.Tool, {
 
   exec: function() {
     if (!this.disabled) {
-      this.blip();
+      this.highlight();
       this.rte.textarea.form().submit();
     }
   },
 
-  check: function() {}
+  check: function() {} // checked in the constructor
 });

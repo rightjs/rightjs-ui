@@ -44,9 +44,6 @@ Rte.Editor = new Class(Element, {
       keydown:  this._keydown,
       keypress: this._keypress
     });
-
-    // setting up the styles mode
-    this.exec('styleWithCSS', rte.options.styleWithCSS);
   },
 
   /**
@@ -102,20 +99,6 @@ Rte.Editor = new Class(Element, {
     } catch(e) {}
 
     return this;
-  },
-
-  /**
-   * Queries the command state
-   *
-   * @param String command name
-   * @return boolean check result
-   */
-  query: function(command) {
-    try {
-      return document.queryCommandState(command);
-    } catch(e) {
-      return false;
-    }
   },
 
 // protected

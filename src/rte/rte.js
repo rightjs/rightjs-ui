@@ -117,6 +117,9 @@ var Rte = new Widget({
     // because some tools check if they are supported
     this.toolbar = new Rte.Toolbar(this).insertTo(this, 'top');
 
+    // setting up the styles mode
+    this.editor.exec('styleWithCSS', this.options.styleWithCSS);
+
     this.editor.resize(size);
 
     if (this.options.autoresize) {

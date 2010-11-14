@@ -5,5 +5,5 @@
  */
 Rte.Tool.Redo = new Class(Rte.Tool, {
   command:  'redo',
-  blips:    true
+  blip:     true
 });

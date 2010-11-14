@@ -6,5 +6,5 @@
 Rte.Tool.Undo = new Class(Rte.Tool, {
   shortcut: 'Z',
   command:  'undo',
-  blips:    true
+  blip:     true
 });

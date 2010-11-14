@@ -43,7 +43,7 @@ Rte.Tool = new Class(Element, {
     });
 
     // checking if the command is supported
-    this.supported();
+    this.enabled();
 
     return this;
   },
@@ -74,15 +74,14 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   exec: function() {
-    if (this.supported()) {
-      if (this.command) {
-        if (this.blips) { this.blip(); }
+    if (this.enabled()) {
+      if (this.blip) { this.highlight(); }
 
-        this.rte.editor.focus().exec(
-          this.command, this.value
-        );
-        this.rte.status.update();
-      }
+      this.rte.editor.focus().exec(
+        this.command, this.value
+      );
+
+      this.rte.status.update();
     }
   },
 
@@ -92,38 +91,60 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   check: function() {
-    if (this.supported() && this.command) {
-      this[this.rte.editor.query(this.command) ? 'addClass' : 'removeClass']('active');
+    if (this.enabled()) {
+      // speading up the className toggling
+      this._.className = this._.className.replace(' active', '');
+
+      if (this.active()) {
+        this._.className += ' active';
+      }
     }
   },
 
   /**
-   * Highlights the button as triggered
-   *
-   * @return void
-   */
-  blip: function() {
-    R(this.addClass('blip').removeClass).bind(this, 'blip').delay(100);
-  },
-
-  /**
-   * Checks if the command is supported
+   * Checks if the command is enabled at all
    *
    * @return boolean check result
    */
-  supported: function() {
+  enabled: function() {
     if (this.command) {
-      if (document.queryCommandEnabled(this.command)) {
-        this.enable();
-      } else {
-        this.disable();
+      this._.className = this._.className.replace(' disabled', '');
+      this.disabled    = false;
+
+      if (!document.queryCommandEnabled(this.command)) {
+        this._.className += ' disabled';
+        this.disabled  = true;
       }
     }
 
     return !this.disabled;
   },
 
-// protected
+  /**
+   * Queries if the command is in active state
+   *
+   * @return boolean check result
+   */
+  active: function() {
+    if (this.command) {
+      try {
+        return document.queryCommandState(this.command);
+      } catch(e) {}
+    }
+
+    return false;
+  },
+
+  /**
+   * Replacing the highlight method with some css stuff instead of an Fx
+   *
+   * @return Rte.Tool this
+   */
+  highlight: function() {
+    R(this.addClass('highlight').removeClass).bind(this, 'highlight').delay(100);
+  },
+
+// private
 
   // Finds the tool uniq name
   findName: function() {
