@@ -31,7 +31,7 @@ var Rte = new Widget({
       small: ['bold italic underline strike ttext|cut copy paste|header code quote|link image video|source'],
       basic: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header code quote|link image video|dotlist numlist|listin listout|color background|source'
+        'undo redo|header code quote|link image video|dotlist numlist|indent outdent|color background|source'
       ]
     },
 
@@ -61,8 +61,8 @@ var Rte = new Widget({
       Video:      'Insert video',
       Dotlist:    'List with dots',
       Numlist:    'List with numbers',
-      Listin:     'Add list level',
-      Listout:    'Remove list level',
+      Indent:     'Indent',
+      Outdent:    'Outdent',
       Color:      'Text color',
       Background: 'Background color',
       Select:     'Select'

@@ -145,8 +145,8 @@ div.rui-rte-toolbar div.video      { background-position: -40px -120px; }
 
 div.rui-rte-toolbar div.dotlist    { background-position:   0px -140px; }
 div.rui-rte-toolbar div.numlist    { background-position: -20px -140px; }
-div.rui-rte-toolbar div.listin     { background-position: -40px -140px; }
-div.rui-rte-toolbar div.listout    { background-position: -60px -140px; }
+div.rui-rte-toolbar div.indent     { background-position: -40px -140px; }
+div.rui-rte-toolbar div.outdent    { background-position: -60px -140px; }
 
 div.rui-rte-toolbar div.color      { background-position:   0px -160px; }
 div.rui-rte-toolbar div.background { background-position: -20px -160px; }

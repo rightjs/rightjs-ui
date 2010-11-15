@@ -49,8 +49,8 @@ include_module_files(
 
   'tools/dotlist',
   'tools/numlist',
-  'tools/listin',
-  'tools/listout',
+  'tools/indent',
+  'tools/outdent',
 
   'tools/color',
   'tools/background',
