@@ -20,6 +20,7 @@ include_module_files(
   'rte/selection',
 
   'rte/tool',
+  'rte/tool/format',
 
   'tools/bold',
   'tools/italic',
