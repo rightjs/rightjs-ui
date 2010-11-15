@@ -83,13 +83,13 @@ div.rui-rte-toolbar div.icon {
   height: 20px;
   width: 20px;
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: 1px solid #c8c8c8;
   border-radius: .25em;
   -moz-border-radius: .25em;
   -webkit-border-radius: .25em;
   background-image: url(../../img/rte.png);
   background-repeat: no-repeat;
-  background-color: #eee;
+  background-color: #e8e8e8;
 }
 div.rui-rte-toolbar div.icon:hover {
   background-color: #CCC;
