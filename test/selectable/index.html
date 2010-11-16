@@ -18,7 +18,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>Selectable With Groups</h2>
     <p>
       <dl class="right-selectable">
@@ -42,7 +42,7 @@
         </dd>
       </dl>
     </p>
-    
+
     <h2>With A Single Option</h2>
     <p>
       <ul class="right-selectable right-selectable-single">
@@ -56,7 +56,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>With A Single Option And Groups</h2>
     <p>
       <dl class="right-selectable right-selectable-single">
@@ -80,7 +80,7 @@
         </dd>
       </dl>
     </p>
-    
+
     <h2>With Disabled Options</h2>
     <p>
       <ul class="right-selectable" data-selectable-options="{disabled:[1,4]}">
@@ -94,7 +94,7 @@
         <li>Eight</li>
       </ul>
     </p>
-    
+
     <h2>Assigned To An Input</h2>
     <p>
       This one works with indexes
@@ -104,7 +104,7 @@
         <li>Three</li>
         <li>Four</li>
       </ul>
-      
+
       <input type="text" id="input-1" />
     </p>
     <p>
@@ -115,7 +115,7 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-2" />
     </p>
     <p>
@@ -126,7 +126,7 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-3" />
     </p>
     <p>
@@ -137,14 +137,14 @@
         <li id="three-3">Three</li>
         <li id="four-4">Four</li>
       </ul>
-      
+
       <input type="text" id="input-4" />
     </p>
-    
+
     <h2>With Limited Number of Options</h2>
     <p>
       This one allows you to select three items only
-      
+
       <ul class="right-selectable" data-selectable-options="{limit: 3}">
         <li>One</li>
         <li>Two</li>
@@ -153,7 +153,7 @@
         <li>Five</li>
       </ul>
     </p>
-    
+
     <h2>Programmatically Generated</h2>
     <div id="generated-selects"></div>
     <script type="text/javascript">
@@ -164,19 +164,19 @@
         'option-3': 'Three',
         'option-4': 'Four'
       };
-      
+
       new Selectable({
         options: Object.values(keys),
         selected: 2,
         multiple: false
       }).insertTo($E('p').insertTo('generated-selects'));
-      
+
       new Selectable({
         options: keys,
         selected: [0,2],
         multiple: true
       }).insertTo($E('p').insertTo('generated-selects'));
-      
+
       new Selectable({
         options: keys,
         selected: [0,2]
@@ -184,7 +184,7 @@
         .insertTo($E('p').insertTo('generated-selects'));
     // ]]>
     </script>
-    
+
     <h2>Generated from selectboxes</h2>
     <p>
       <select class="right-selectable">
@@ -216,6 +216,18 @@
         <option value="thing">Thing</option>
       </select>
     </p>
+    <p>With Empty Option</p>
+    <p>
+      <form method="get">
+      <select class="right-selectable" data-selectable-options="{update:'display-123'}" name="select">
+        <option value=""> </option>
+        <option value="one" selected="true">One</option>
+        <option value="two">Two</option>
+      </select>
+      <input type="text" id="display-123" />
+      <input type="submit" />
+      </form>
+    </p>
     <p>Fully disabled</p>
     <p>
       <select class="right-selectable" multiple="multiple" disabled="true">
@@ -225,7 +237,7 @@
         <option disabled="true" value="item-4">Four</option>
       </select>
     </p>
-  
+
     <p class="white-space"></p>
   </body>
 </html>
