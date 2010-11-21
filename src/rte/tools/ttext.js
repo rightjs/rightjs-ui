@@ -5,10 +5,9 @@
  */
 Rte.Tool.Ttext = new Class(Rte.Tool.Format, {
   shortcut: 'T',
-  command:  'formatblock',
 
   initialize: function(rte) {
     this.$super(rte);
-    this.value = rte.options.ttextTag;
+    this.tag = rte.options.ttextTag;
   }
 });

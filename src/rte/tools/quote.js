@@ -4,11 +4,10 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Quote = new Class(Rte.Tool.Format, {
-  command: 'formatblock',
 
   initialize: function(rte) {
     this.$super(rte);
-    this.value = rte.options.quoteTag;
+    this.tag = rte.options.quoteTag;
   }
 
 });

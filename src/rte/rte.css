@@ -175,6 +175,11 @@ div.rui-rte-editor > p:last-child {
   margin-bottom: 0;
 }
 
+/** The source editor block styles */
+div.rui-rte textarea.rui-rte-source {
+  position: absolute;
+}
+
 /** The statusbar block styles */
 div.rui-rte-status {
   height: 1.4em;

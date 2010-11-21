@@ -29,6 +29,7 @@ Rte.Editor = new Class(Element, {
       },
       blur:    function() {
         editor.focused = false;
+        rte.status.update();
         rte.fire('blur');
       },
       mouseup: function() {
@@ -96,7 +97,14 @@ Rte.Editor = new Class(Element, {
     try {
       // it throws errors in some cases in the non-design mode
       document.execCommand(command, false, value);
-    } catch(e) {}
+    } catch(e) {
+      // emulating insert html under IE
+      if (command.toLowerCase() === 'inserthtml') {
+        try {
+          this.selection.get().pasteHTML = value;
+        } catch(e) {}
+      }
+    }
 
     return this;
   },

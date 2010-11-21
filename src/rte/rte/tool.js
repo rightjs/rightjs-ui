@@ -128,7 +128,11 @@ Rte.Tool = new Class(Element, {
   active: function() {
     if (this.command) {
       try {
-        return document.queryCommandState(this.command);
+        if (this.value) {
+          return document.queryCommandValue(this.command) == this.value;
+        } else {
+          return document.queryCommandState(this.command);
+        }
       } catch(e) {}
     }
 

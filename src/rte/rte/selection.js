@@ -88,5 +88,46 @@ Rte.Selection = new Class({
     } else {
       // TODO IE version
     }
+  },
+
+  /**
+   * Returns the selection text
+   *
+   * @return String selection text
+   */
+  text: function() {
+    var text = this.get();
+    return '' + (text.text ? text.text : text);
+  },
+
+  /**
+   * Cheks if the selection is empty
+   *
+   * @return boolean check result
+   */
+  empty: function() {
+    return this.text() == '';
+  },
+
+  /**
+   * Returns the HTML content of the selection
+   *
+   * @return String html content
+   */
+  html: function() {
+    var range = this.get(), tmp, fragment;
+
+    if (range.htmlText) {
+      return range.htmlText;
+    } else {
+      tmp = document.createElement('div');
+      fragment = range.cloneContents();
+
+      while (fragment.firstChild) {
+        tmp.appendChild(fragment.firstChild);
+      }
+
+      return tmp.innerHTML;
+    }
   }
 });

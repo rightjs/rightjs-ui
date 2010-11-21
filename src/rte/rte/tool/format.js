@@ -4,34 +4,93 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Format = new Class(Rte.Tool, {
-  command:  'formatblock',
+  tag:        null, // element's tag name
+  attributes: {},   // element's attributes
 
+  /**
+   * Overloading the main funciton
+   *
+   * @return Rte.Tool.Format this
+   */
   exec: function() {
-    if (this.active()) {
-      var nodes = this.rte.status.nodes, tag = this.value.toUpperCase();
-
-      for (var i = nodes.length-1; i > -1; i--) {
-        if (nodes[i].tagName === tag) {
-          var parent = nodes[i].parentNode;
-
-          while (nodes[i].firstChild) {
-            parent.insertBefore(nodes[i].firstChild, nodes[i]);
-          }
-
-          parent.removeChild(nodes[i]);
-          break;
-        }
-      }
-    } else {
-      this.rte.editor.focus().exec(this.command, this.value);
-    }
-
+    this[this.active() ? 'unformat' : 'format']();
     this.rte.status.update();
 
     return this;
   },
 
+  /**
+   * Overloading the activity checks
+   *
+   * @return boolean check result
+   */
   active: function() {
-    return document.queryCommandValue(this.command) == this.value;
+    return this.element() !== null;
+  },
+
+// protected
+
+  /**
+   * Tries to find a currently active element
+   *
+   * @return raw dom element or null
+   */
+  element: function() {
+    var nodes   = this.rte.status.nodes,
+        tag     = this.tag.toUpperCase(),
+        i       = nodes.length - 1,
+        key, match;
+
+    for (; i > -1; i--) {
+      if (nodes[i].tagName === tag) {
+        match = true;
+
+        for (key in this.attributes) {
+          match &= nodes[i].getAttribute(key) == this.attributes[key];
+        }
+
+        if (match) {
+          return nodes[i];
+        }
+
+        break;
+      }
+    }
+
+    return null;
+  },
+
+  /**
+   * Removes the formatting
+   *
+   * @return void
+   */
+  unformat: function() {
+    var editor  = this.rte.editor,
+        element = this.element();
+
+    if (element !== null) {
+      editor.selection.wrap(element);
+      editor.exec('insertHTML', element.innerHTML);
+    }
+  },
+
+  /**
+   * Formats the block accordingly
+   *
+   * @return void
+   */
+  format: function() {
+    var content = '<'+ this.tag,
+        editor  = this.rte.editor;
+
+    for (var key in this.attributes) {
+      content += ' '+key+'="'+ this.attributes[key]+ '"';
+    }
+
+    content += ">" + editor.selection.html() + '</'+ this.tag + '>';
+
+    editor.exec('insertHTML', content);
   }
+
 });

@@ -25,6 +25,12 @@
         font-family: Monaco, "Lucida Console", monospace;
         font-size: 95%;
       }
+      .rui-rte tt {
+        font-family: Monaco, "Lucida Console", monospace;
+        font-size: 95%;
+        background: #DDD;
+        padding: 0 .5em;
+      }
       form.save-example textarea {
         height: 2em !important;
       }
@@ -33,60 +39,59 @@
   <body>
     <h2>Simple Case</h2>
     <p>
-      <textarea data-rte=""><b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!</textarea>
+      <textarea data-rte=""><b>Bold</b> <i>italic</i> <u>underline</u> <s>strike through</s></textarea>
     </p>
 
     <h2>Basic Example</h2>
     <p>
       <textarea data-rte="{toolbar: 'basic'}">
-        <h2>Hello There!</h2>
-        <p>
-          <b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!
-        </p>
-        <p>
-          <blockquote>ho ho ho! this is a blockqoute thing!</blockquote>
-        </p>
-        <p>
-          <pre>
+<h2>Hello There!</h2>
+<p>
+  <b>Bold</b> <i>italic</i> <u>underline</u> <s>strike through</s> <tt>code_block</tt>
+</p>
+<p>
+  <blockquote>ho ho ho! this is a blockqoute thing!</blockquote>
+</p>
+<p>
+  <pre>
 and this is a
   pre   formatted
     piece of     code
 booo!</pre>
-        </p>
-        <p>
-          trololo, some text in here
-        </p>
-      </textarea>
+</p>
+<p>
+  <tt>inline(code)</tt>, some text in here
+</p></textarea>
     </p>
 
     <h2>No Autoresize Example</h2>
     <p>
       <textarea data-rte="{autoresize: false}">
-        <h2>Hello There!</h2>
-        <p>
-          <b>Bla</b> <i>bla</i> <u>bla</u> <s>Mr. Freeman</s>!
-        </p>
-        <p>
-          <blockquote>ho ho ho! this is a blockqoute thing!</blockquote>
-        </p>
-        <p>
-          <pre>
+<h2>Hello There!</h2>
+<p>
+  <b>Bold</b> <i>italic</i> <u>underline</u> <s>strike through</s> <tt>code_block</tt>
+</p>
+<p>
+  <blockquote>ho ho ho! this is a blockqoute thing!</blockquote>
+</p>
+<p>
+  <pre>
 and this is a
   pre   formatted
     piece of     code
 booo!</pre>
-        </p>
-        <p>
-          trololo, some text in here
-        </p>
+</p>
+<p>
+  <tt>inline(code)</tt>, some text in here
+</p>
       </textarea>
     </p>
 
     <h2>Save Button Example</h2>
     <p>
-      <form onsubmit="alert('fuck')" class="save-example">
+      <form class="save-example">
         <textarea data-rte="{toolbar:'save|bold italic underline|source', showStatus: false}">
-          Press the "Save" button or Ctrl+S to submit the form
+          Press the <tt>Save</tt> button or <tt>Ctrl+S</tt> to submit the form
         </textarea>
       </form>
     </p>
