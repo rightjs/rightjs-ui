@@ -107,11 +107,9 @@ var Rte = new Widget({
 
     var size = this.textarea.size();
 
-    this.insertTo(
-      this.textarea.setStyle(
-        'visibility:hidden;position:absolute;z-index:-1'
-      ),'before'
-    );
+    this.insertTo(this.textarea.setStyle(
+      'visibility:hidden;position:absolute;z-index:-1'
+    ),'before');
 
     // should be created after the editor on the page
     // because some tools check if they are supported

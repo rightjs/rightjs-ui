@@ -66,17 +66,23 @@ Rte.Status = new Class(Element, {
         nodes  = [],
         tags   = [];
 
-    while (node && node !== editor && node !== rte) {
+    this.nodes = [];
+    this.tags  = [];
+
+    while (node && node !== rte) {
       if (node.tagName) { // skipping the textual nodes
         nodes.unshift(node);
         tags.unshift(node.tagName);
       }
 
       node = node.parentNode;
-    }
 
-    this.nodes = nodes;
-    this.tags  = tags;
+      if (node === editor) {
+        this.nodes = nodes;
+        this.tags  = tags;
+        break;
+      }
+    }
   },
 
   // catches the mousedown on the links
