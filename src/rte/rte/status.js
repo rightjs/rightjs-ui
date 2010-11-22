@@ -48,6 +48,34 @@ Rte.Status = new Class(Element, {
     }).join(' &rsaquo; '));
   },
 
+  /**
+   * Finds an element in the current status stack
+   *
+   * @param String tag name
+   * @param Object optional attributes
+   * @return raw element or null if nothing found
+   */
+  findElement: function(tag, attributes) {
+    tag = tag.toUpperCase();
+    attributes = attributes || {};
+
+    for (var i = this.nodes.length - 1, key, match; i > -1; i--) {
+      if (this.nodes[i].tagName === tag) {
+        match = true;
+
+        for (key in attributes) {
+          match &= this.nodes[i].getAttribute(key) == attributes[key];
+        }
+
+        if (match) {
+          return this.nodes[i];
+        }
+      }
+    }
+
+    return null;
+  },
+
 // protected
 
   // runs the tools check

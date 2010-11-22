@@ -36,28 +36,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
    * @return raw dom element or null
    */
   element: function() {
-    var nodes   = this.rte.status.nodes,
-        tag     = this.tag.toUpperCase(),
-        i       = nodes.length - 1,
-        key, match;
-
-    for (; i > -1; i--) {
-      if (nodes[i].tagName === tag) {
-        match = true;
-
-        for (key in this.attributes) {
-          match &= nodes[i].getAttribute(key) == this.attributes[key];
-        }
-
-        if (match) {
-          return nodes[i];
-        }
-
-        break;
-      }
-    }
-
-    return null;
+    return this.rte.status.findElement(this.tag, this.attributes);
   },
 
   /**
@@ -66,13 +45,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
    * @return void
    */
   unformat: function() {
-    var editor  = this.rte.editor,
-        element = this.element();
-
-    if (element !== null) {
-      editor.selection.wrap(element);
-      editor.exec('insertHTML', element.innerHTML);
-    }
+    this.rte.editor.removeElement(this.element());
   },
 
   /**

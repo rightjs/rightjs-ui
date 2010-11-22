@@ -54,8 +54,8 @@ Rte.Tool = new Class(Element, {
    * @return Rte.Tool this
    */
   disable: function() {
+    this._.className += ' disabled';
     this.disabled = true;
-    return this.addClass('disabled');
   },
 
   /**
@@ -64,8 +64,8 @@ Rte.Tool = new Class(Element, {
    * @param Rte.Tool this
    */
   enable: function() {
+    this._.className = this._.className.replace(/ disabled/g, '');
     this.disabled = false;
-    return this.removeClass('disabled');
   },
 
   /**
@@ -108,13 +108,7 @@ Rte.Tool = new Class(Element, {
    */
   enabled: function() {
     if (this.command) {
-      this._.className = this._.className.replace(' disabled', '');
-      this.disabled    = false;
-
-      if (!document.queryCommandEnabled(this.command)) {
-        this._.className += ' disabled';
-        this.disabled  = true;
-      }
+      this[document.queryCommandEnabled(this.command) ? 'enable' : 'disable']();
     }
 
     return !this.disabled;
