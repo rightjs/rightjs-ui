@@ -60,16 +60,34 @@ Rte.Selection = new Class({
   },
 
   /**
-   * Returns the parent dom-node for the current selection
+   * Returns the dom-node that's currently in focus
    *
    * @return raw dom-node
    */
-  parent: function() {
-    var range = this.get();
+  node: function() {
+    var range = this.get(), node;
 
-    return range.startContainer ?
-      range.startContainer.parentNode :
-      range.parentElement();
+    if (range.startContainer) {
+      // getting the basic common container
+      node = range.commonAncestorContainer;
+
+      // if there is a selection trying those
+      if (!range.collapsed) {
+        if (
+          range.startContainer == range.endContainer &&
+          range.startOffset - range.endOffset < 2    &&
+          range.startContainer.hasChildNodes()
+        ) {
+          node = range.startContainer.childNodes[range.startOffset];
+        }
+      }
+
+      node = node && node.nodeType === 3 ? node.parentNode : node;
+    } else {
+      node = range.item ? range.item(0) : range.parentElement();
+    }
+
+    return node;
   },
 
   /**

@@ -88,7 +88,7 @@ Rte.Status = new Class(Element, {
 
   // finds the nodes from the current selection to the bottom
   _findNodes: function() {
-    var node   = this.rte.editor.focus().selection.parent(),
+    var node   = this.rte.editor.focus().selection.node(),
         editor = this.rte.editor._,
         rte    = this.rte._,
         nodes  = [],
