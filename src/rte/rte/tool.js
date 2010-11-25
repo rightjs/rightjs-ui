@@ -18,9 +18,15 @@ Rte.Tool = new Class(Element, {
    * @return Rte.Tool this
    */
   initialize: function(rte) {
-    var name = this.findName();
+    // searching for the tool-name
+    var name = '', tools = Rte.Tool, klass = this.constructor;
+
+    for (name in tools) {
+      if (tools[name] === klass) { break; }
+    }
 
     this.$super('div', {
+      'html':  '<i></i>', // <- icon container
       'class': 'tool icon '+ name.toLowerCase(),
       'title': (Rte.i18n[name] || name) + (
         this.shortcut ? " ("+ this.shortcut + ")" : ""
@@ -38,34 +44,14 @@ Rte.Tool = new Class(Element, {
 
     // connecting the mousedown the way that the editor din't loose the focus
     this.onMousedown(function(e) {
-      e.stop();
-      this.exec();
+      e.stop(); this._mousedown();
     });
 
-    // checking if the command is supported
-    this.enabled();
+    // checking the command initial state
+    this.check();
 
+    // allowing some nice chains in the subclass
     return this;
-  },
-
-  /**
-   * Disables the action
-   *
-   * @return Rte.Tool this
-   */
-  disable: function() {
-    this._.className += ' disabled';
-    this.disabled = true;
-  },
-
-  /**
-   * Enables the action
-   *
-   * @param Rte.Tool this
-   */
-  enable: function() {
-    this._.className = this._.className.replace(/ disabled/g, '');
-    this.disabled = false;
   },
 
   /**
@@ -74,7 +60,7 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   exec: function() {
-    if (this.enabled()) {
+    if (!this.disabled) {
       if (this.blip) { this.highlight(); }
 
       this.rte.editor.focus().exec(
@@ -91,13 +77,18 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   check: function() {
-    if (this.enabled()) {
-      // speading up the className toggling
-      this._.className = this._.className.replace(' active', '');
+    this._.className = this._.className.replace(' disabled', '');
+    this.disabled = false;
 
+    if (this.enabled()) {
+      this._.className = this._.className.replace(' active', '');
       if (this.active()) {
         this._.className += ' active';
       }
+
+    } else {
+      this._.className += ' disabled';
+      this.disabled = true;
     }
   },
 
@@ -107,11 +98,7 @@ Rte.Tool = new Class(Element, {
    * @return boolean check result
    */
   enabled: function() {
-    if (this.command) {
-      this[document.queryCommandEnabled(this.command) ? 'enable' : 'disable']();
-    }
-
-    return !this.disabled;
+    return !this.command || document.queryCommandEnabled(this.command);
   },
 
   /**
@@ -120,15 +107,13 @@ Rte.Tool = new Class(Element, {
    * @return boolean check result
    */
   active: function() {
-    if (this.command) {
-      try {
-        if (this.value) {
-          return document.queryCommandValue(this.command) == this.value;
-        } else {
-          return document.queryCommandState(this.command);
-        }
-      } catch(e) {}
-    }
+    try {
+      if (this.value) {
+        return document.queryCommandValue(this.command) == this.value;
+      } else {
+        return document.queryCommandState(this.command);
+      }
+    } catch(e) {}
 
     return false;
   },
@@ -142,19 +127,11 @@ Rte.Tool = new Class(Element, {
     R(this.addClass('highlight').removeClass).bind(this, 'highlight').delay(100);
   },
 
-// private
+// protected
 
-  // Finds the tool uniq name
-  findName: function() {
-    var key, tools = Rte.Tool, klass = this.constructor;
-
-    for (key in tools) {
-      if (tools[key] === klass) {
-        return key;
-      }
-    }
-
-    return '';
+  // mousedown event receiver (might be replaced in subclasses)
+  _mousedown: function() {
+    this.exec();
   }
 
 });

@@ -80,15 +80,12 @@ div.rui-rte-toolbar div.icon {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  height: 20px;
-  width: 20px;
+  position: relative;
   cursor: pointer;
   border: 1px solid #c8c8c8;
   border-radius: .25em;
   -moz-border-radius: .25em;
   -webkit-border-radius: .25em;
-  background-image: url(../../img/rte.png);
-  background-repeat: no-repeat;
   background-color: #e8e8e8;
 }
 div.rui-rte-toolbar div.icon:hover {
@@ -106,6 +103,9 @@ div.rui-rte-toolbar div.disabled:hover {
 div.rui-rte-toolbar div.active {
   background-color: #CCC;
   border-color: #666;
+  box-shadow: #aaa .025em .025em .5em;
+  -moz-box-shadow: #aaa .025em .025em .5em;
+  -webkit-box-shadow: #aaa .025em .025em .5em;
 }
 
 div.rui-rte-toolbar div.highlight {
@@ -113,43 +113,51 @@ div.rui-rte-toolbar div.highlight {
   border-color: #666;
 }
 
-div.rui-rte-toolbar div.save       { background-position:   0px    0px; }
-div.rui-rte-toolbar div.clear      { background-position: -20px    0px; }
-div.rui-rte-toolbar div.source     { background-position: -40px    0px; }
+div.rui-rte-toolbar i {
+  display: block;
+  height: 20px;
+  width: 20px;
+  background-image: url(../../img/rte.png);
+  background-repeat: no-repeat;
+}
 
-div.rui-rte-toolbar div.bold       { background-position:   0px  -20px; }
-div.rui-rte-toolbar div.italic     { background-position: -20px  -20px; }
-div.rui-rte-toolbar div.underline  { background-position: -40px  -20px; }
-div.rui-rte-toolbar div.strike     { background-position: -60px  -20px; }
+div.rui-rte-toolbar div.save       i { background-position:   0px    0px; }
+div.rui-rte-toolbar div.clear      i { background-position: -20px    0px; }
+div.rui-rte-toolbar div.source     i { background-position: -40px    0px; }
 
-div.rui-rte-toolbar div.cut        { background-position:   0px  -40px; }
-div.rui-rte-toolbar div.copy       { background-position: -20px  -40px; }
-div.rui-rte-toolbar div.paste      { background-position: -40px  -40px; }
+div.rui-rte-toolbar div.bold       i { background-position:   0px  -20px; }
+div.rui-rte-toolbar div.italic     i { background-position: -20px  -20px; }
+div.rui-rte-toolbar div.underline  i { background-position: -40px  -20px; }
+div.rui-rte-toolbar div.strike     i { background-position: -60px  -20px; }
 
-div.rui-rte-toolbar div.left       { background-position:   0px  -60px; }
-div.rui-rte-toolbar div.center     { background-position: -20px  -60px; }
-div.rui-rte-toolbar div.right      { background-position: -40px  -60px; }
-div.rui-rte-toolbar div.justify    { background-position: -60px  -60px; }
+div.rui-rte-toolbar div.cut        i { background-position:   0px  -40px; }
+div.rui-rte-toolbar div.copy       i { background-position: -20px  -40px; }
+div.rui-rte-toolbar div.paste      i { background-position: -40px  -40px; }
 
-div.rui-rte-toolbar div.undo       { background-position:   0px  -80px; }
-div.rui-rte-toolbar div.redo       { background-position: -20px  -80px; }
+div.rui-rte-toolbar div.left       i { background-position:   0px  -60px; }
+div.rui-rte-toolbar div.center     i { background-position: -20px  -60px; }
+div.rui-rte-toolbar div.right      i { background-position: -40px  -60px; }
+div.rui-rte-toolbar div.justify    i { background-position: -60px  -60px; }
 
-div.rui-rte-toolbar div.quote      { background-position:   0px -100px; }
-div.rui-rte-toolbar div.code       { background-position: -20px -100px; }
-div.rui-rte-toolbar div.ttext      { background-position: -40px -100px; }
-div.rui-rte-toolbar div.header     { background-position: -60px -100px; }
+div.rui-rte-toolbar div.undo       i { background-position:   0px  -80px; }
+div.rui-rte-toolbar div.redo       i { background-position: -20px  -80px; }
 
-div.rui-rte-toolbar div.image      { background-position:   0px -120px; }
-div.rui-rte-toolbar div.link       { background-position: -20px -120px; }
-div.rui-rte-toolbar div.video      { background-position: -40px -120px; }
+div.rui-rte-toolbar div.quote      i { background-position:   0px -100px; }
+div.rui-rte-toolbar div.code       i { background-position: -20px -100px; }
+div.rui-rte-toolbar div.ttext      i { background-position: -40px -100px; }
+div.rui-rte-toolbar div.header     i { background-position: -60px -100px; }
 
-div.rui-rte-toolbar div.dotlist    { background-position:   0px -140px; }
-div.rui-rte-toolbar div.numlist    { background-position: -20px -140px; }
-div.rui-rte-toolbar div.indent     { background-position: -40px -140px; }
-div.rui-rte-toolbar div.outdent    { background-position: -60px -140px; }
+div.rui-rte-toolbar div.image      i { background-position:   0px -120px; }
+div.rui-rte-toolbar div.link       i { background-position: -20px -120px; }
+div.rui-rte-toolbar div.video      i { background-position: -40px -120px; }
 
-div.rui-rte-toolbar div.color      { background-position:   0px -160px; }
-div.rui-rte-toolbar div.background { background-position: -20px -160px; }
+div.rui-rte-toolbar div.dotlist    i { background-position:   0px -140px; }
+div.rui-rte-toolbar div.numlist    i { background-position: -20px -140px; }
+div.rui-rte-toolbar div.indent     i { background-position: -40px -140px; }
+div.rui-rte-toolbar div.outdent    i { background-position: -60px -140px; }
+
+div.rui-rte-toolbar div.color      i { background-position:   0px -160px; }
+div.rui-rte-toolbar div.background i { background-position: -20px -160px; }
 
 
 /** The editor block styles */

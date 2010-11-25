@@ -56,19 +56,21 @@ Rte.Status = new Class(Element, {
    * @return raw element or null if nothing found
    */
   findElement: function(tag, attributes) {
-    tag = tag.toUpperCase();
-    attributes = attributes || {};
+    if (tag) {
+      tag = tag.toUpperCase();
+      attributes = attributes || {};
 
-    for (var i = this.nodes.length - 1, key, match; i > -1; i--) {
-      if (this.nodes[i].tagName === tag) {
-        match = true;
+      for (var i = this.nodes.length - 1, key, match; i > -1; i--) {
+        if (this.nodes[i].tagName === tag) {
+          match = true;
 
-        for (key in attributes) {
-          match &= this.nodes[i].getAttribute(key) == attributes[key];
-        }
+          for (key in attributes) {
+            match &= this.nodes[i].getAttribute(key) == attributes[key];
+          }
 
-        if (match) {
-          return this.nodes[i];
+          if (match) {
+            return this.nodes[i];
+          }
         }
       }
     }

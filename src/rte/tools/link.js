@@ -28,8 +28,7 @@ Rte.Tool.Link = new Class(Rte.Tool, {
   },
 
   enabled: function() {
-    this[(this.rte.editor.selection.empty() && !this.active()) ? 'disable' : 'enable']();
-    return !this.disabled;
+    return !this.rte.editor.selection.empty() || this.active();
   },
 
   active: function() {

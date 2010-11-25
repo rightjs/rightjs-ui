@@ -19,6 +19,10 @@ Rte.Tool.Format = new Class(Rte.Tool, {
     return this;
   },
 
+  enabled: function() {
+    return !this.rte.editor.selection.empty() || this.active();
+  },
+
   /**
    * Overloading the activity checks
    *

@@ -8,8 +8,9 @@ Rte.Tool.Save = new Class(Rte.Tool, {
 
   initialize: function(rte) {
     this.$super(rte);
-    if (!rte.textarea || !rte.textarea._.form) {
-      this.disable();
+    if (!(rte.textarea && rte.textarea._.form)) {
+      this.disabled = true;
+      this.addClass('disabled')
     }
   },
 
