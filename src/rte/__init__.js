@@ -24,6 +24,8 @@ include_module_files(
 
   'rte/tool',
   'rte/tool/format',
+  'rte/tool/options',
+  'rte/tool/color',
 
   'tools/bold',
   'tools/italic',
@@ -56,8 +58,8 @@ include_module_files(
   'tools/indent',
   'tools/outdent',
 
-  'tools/color',
-  'tools/background',
+  'tools/forecolor',
+  'tools/backcolor',
 
   'tools/source',
   'tools/clear',

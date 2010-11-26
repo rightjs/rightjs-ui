@@ -44,7 +44,7 @@ Rte.Tool = new Class(Element, {
 
     // connecting the mousedown the way that the editor din't loose the focus
     this.onMousedown(function(e) {
-      e.stop(); this._mousedown();
+      e.stop(); this.mousedown();
     });
 
     // checking the command initial state
@@ -130,7 +130,7 @@ Rte.Tool = new Class(Element, {
 // protected
 
   // mousedown event receiver (might be replaced in subclasses)
-  _mousedown: function() {
+  mousedown: function() {
     this.exec();
   }
 
