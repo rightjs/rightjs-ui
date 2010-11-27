@@ -109,9 +109,9 @@ Rte.Tool = new Class(Element, {
   active: function() {
     try {
       if (this.value) {
-        return document.queryCommandValue(this.command) == this.value;
+        return this.rte.editor.focused && document.queryCommandValue(this.command) == this.value;
       } else {
-        return document.queryCommandState(this.command);
+        return this.rte.editor.focused && document.queryCommandState(this.command);
       }
     } catch(e) {}
 

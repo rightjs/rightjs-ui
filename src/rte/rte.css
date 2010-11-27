@@ -119,6 +119,7 @@ div.rui-rte-toolbar i {
   width: 20px;
   background-image: url(../../img/rte.png);
   background-repeat: no-repeat;
+  background-position: 20px 20px;
 }
 
 div.rui-rte-toolbar div.save       i { background-position:   0px    0px; }
@@ -157,7 +158,11 @@ div.rui-rte-toolbar div.indent     i { background-position: -40px -140px; }
 div.rui-rte-toolbar div.outdent    i { background-position: -60px -140px; }
 
 div.rui-rte-toolbar div.forecolor  i { background-position:   0px -160px; }
-div.rui-rte-toolbar div.backcolor i { background-position: -20px -160px; }
+div.rui-rte-toolbar div.backcolor  i { background-position: -20px -160px; }
+
+div.rui-rte-toolbar div.symbol     i { background-position:   0px -180px; }
+div.rui-rte-toolbar div.subscript  i { background-position: -20px -180px; }
+div.rui-rte-toolbar div.superscript i { background-position:-40px -180px; }
 
 /** Generic options tool styles */
 div.rui-rte-toolbar div.with-options ul.options,

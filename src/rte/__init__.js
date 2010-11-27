@@ -65,6 +65,13 @@ include_module_files(
   'tools/clear',
   'tools/save',
 
+  'tools/style',
+  'tools/fontname',
+  'tools/fontsize',
+  'tools/subscript',
+  'tools/superscript',
+  'tools/symbol',
+
   'document',
   'input'
 );

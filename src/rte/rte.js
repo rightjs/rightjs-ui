@@ -30,8 +30,53 @@ var Rte = new Widget({
       basic: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
         'undo redo|header code quote|link image video|dotlist numlist|indent outdent|forecolor backcolor|source'
+      ],
+      extra: [
+        'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
+        'undo redo|header code quote|link image video|subscript superscript symbol|dotlist numlist|indent outdent',
+        'style|fontname fontsize|forecolor backcolor|source'
       ]
     },
+
+    // the formatting options, you can use simply tag names
+    // or you can also specify tag + class like 'div.blue'
+    Formats: {
+      'h1':  'Header 1',
+      'h2':  'Header 2',
+      'h3':  'Header 3',
+      'h4':  'Header 4',
+      'h5':  'Header 5',
+      'h6':  'Header 6',
+      'p':   'Paragraph',
+      'pre': 'Preformatted',
+      'blockquote': 'Blockquote',
+      'tt':         'Typetext',
+      'address':    'Address'
+    },
+
+    // the font-name options
+    FontNames: {
+      'Andale Mono':     'andale mono,times',
+      'Arial':           'arial,helvetica,sans-serif',
+      'Arial Black':     'arial black,avant garde',
+      'Book Antiqua':    'book antiqua,palatino',
+      'Comic Sans MS':   'comic sans ms,sans-serif',
+      'Courier New':     'courier new,courier',
+      'Georgia':         'georgia,palatino',
+      'Helvetica':       'helvetica',
+      'Impact':          'impact,chicago',
+      'Symbol':          'symbol',
+      'Tahoma':          'tahoma,arial,helvetica,sans-serif',
+      'Terminal':        'terminal,monaco',
+      'Times New Roman': 'times new roman,times',
+      'Trebuchet MS':    'trebuchet ms,geneva',
+      'Verdana':         'verdana,geneva',
+      'Webdings':        'webdings',
+      'Wingdings':       'wingdings,zapf dingbats'
+    },
+
+    // the font-size options
+    FontSizes: '7pt,8pt,9pt,10pt,11pt,12pt,14pt,18pt,24pt,36pt',
 
     i18n: {
       Clear:      'Clear',
@@ -41,7 +86,7 @@ var Rte = new Widget({
       Italic:     'Italic',
       Underline:  'Underline',
       Strike:     'Strike through',
-      Ttext:      'Mono width',
+      Ttext:      'Typetext',
       Header:     'Header',
       Cut:        'Cut',
       Copy:       'Copy',
@@ -64,13 +109,13 @@ var Rte = new Widget({
       Forecolor:  'Text color',
       Backcolor:  'Background color',
       Select:     'Select',
-      None:       'None'
-    },
-
-    // tags initial convertions
-    Convert: {
-      s:    'strike',
-      cite: 'blockquote'
+      None:       'None',
+      Style:      'Style',
+      Fontname:   'Font name',
+      Fontsize:   'Font size',
+      Subscript:  'Subscript',
+      Superscript: 'Superscript',
+      Symbol:     'Special character'
     },
 
     current: null
