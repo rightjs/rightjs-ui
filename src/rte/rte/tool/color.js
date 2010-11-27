@@ -25,6 +25,7 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
    */
   initialize: function(rte) {
     this.colors = {};
+    this.defaultColor = this.color() || '#000000'; // saving the default color
 
     this.$super(rte, {}).addClass('color');
 
@@ -68,20 +69,26 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
    * @return boolean check result
    */
   active: function() {
-    var color = this.toHex(document.queryCommandValue(this.command));
-    this.display._.style.background = color;
-    return color !== '' && color !== '#000000' && color !== 'transparent';
+    var color = this.color();
+
+    if (color !== '' && color !== this.defaultColor) {
+      this.display._.style.background = color;
+      return true;
+    } else {
+      this.display._.style.background = 'transparent';
+      return false;
+    }
   },
 
 // protected
 
   /**
-   * Converting any type of colors into a six letters hex
+   * Returns the current color as a six symbols hex value
    *
-   * @param any color format
-   * @return string hex color format
+   * @return String current color
    */
-  toHex: function(color) {
+  color: function() {
+    var color = document.queryCommandValue(this.command);
     var match = /^#(\w)(\w)(\w)$/.exec(color);
 
     if (match) {
