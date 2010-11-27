@@ -223,11 +223,22 @@ div.rui-rte-toolbar div.color div.display {
   left: 3px;
   margin: 0;
   padding: 0;
-  width: 15px;
+  width: 14px;
   height: 4px;
   border-radius: .1em;
   -moz-border-radius: .1em;
   -webkit-border-radius: .1em;
+}
+div.rui-rte-toolbar div.color ul.options li.group ul li.none {
+  border-color: #444;
+}
+div.rui-rte-toolbar div.color ul.options li.group ul li.label,
+div.rui-rte-toolbar div.color ul.options li.group ul li.label:hover {
+  text-indent: 0;
+  border: none;
+  margin-left: .5em;
+  font-size: 1em;
+  cursor: default;
 }
 
 /** The editor block styles */

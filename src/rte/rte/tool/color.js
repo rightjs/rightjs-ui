@@ -68,14 +68,31 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
    * @return boolean check result
    */
   active: function() {
-    var color = document.queryCommandValue(this.command);
+    var color = this.toHex(document.queryCommandValue(this.command));
+    this.display._.style.background = color;
+    return color !== '' && color !== '#000000' && color !== 'transparent';
+  },
 
-    if (color in this.colors) {
-      this.display._.style.background = color;
-      return true;
-    } else {
-      this.display._.style.background = 'transparent';
-      return false;
+// protected
+
+  /**
+   * Converting any type of colors into a six letters hex
+   *
+   * @param any color format
+   * @return string hex color format
+   */
+  toHex: function(color) {
+    var match = /^#(\w)(\w)(\w)$/.exec(color);
+
+    if (match) {
+      color = "#"+ match[1]+match[1]+match[2]+match[2]+match[3]+match[3];
+    } else if ((match = /^\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)\s*$/.exec(color))) {
+      color = "#"+ match.slice(1).map(function(bit) {
+        bit = (bit-0).toString(16);
+        return bit.length == 1 ? '0'+bit : bit;
+      }).join('');
     }
+
+    return color;
   }
 });

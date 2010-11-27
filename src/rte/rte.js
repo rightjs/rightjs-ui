@@ -16,8 +16,6 @@ var Rte = new Widget({
       showToolbar:  true,     // show the toolbar
       showStatus:   true,     // show the status bar
 
-      styleWithCSS: false,    // either use CSS or tags to format the code
-
       quoteTag:     'blockquote',   // the quote block tag name
       codeTag:      'pre',    // the code block tag name
       ttextTag:     'tt',     // the mono-width text tag name
@@ -65,7 +63,8 @@ var Rte = new Widget({
       Outdent:    'Outdent',
       Forecolor:  'Text color',
       Backcolor:  'Background color',
-      Select:     'Select'
+      Select:     'Select',
+      None:       'None'
     },
 
     // tags initial convertions
@@ -115,8 +114,10 @@ var Rte = new Widget({
     // because some tools check if they are supported
     this.toolbar = new Rte.Toolbar(this).insertTo(this, 'top');
 
-    // setting up the styles mode
-    this.editor.exec('styleWithCSS', this.options.styleWithCSS);
+    // enforcing the css-mode so that things like 'hilitecolor' worked properly
+    try { document.execCommand("styleWithCSS", 0,     true);  } catch (e) {
+    try { document.execCommand("useCSS",       0,     false); } catch (e) {
+    try { document.execCommand('styleWithCSS', false, true);  } catch (e) {}}}
 
     this.editor.resize(size);
 

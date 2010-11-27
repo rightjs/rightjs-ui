@@ -61,10 +61,12 @@ Rte.Tool.Options = new Class(Rte.Tool, {
 
   // toggling the menu on the icon-click
   mousedown: function() {
-    $$('.rui-rte-toolbar div.with-options ul.options')
-      .without(this.options).each('hide');
+    if (!this.disabled) {
+      $$('.rui-rte-toolbar div.with-options ul.options')
+        .without(this.options).each('hide');
 
-    this.options.toggle('fade', {duration: 'short'});
+      this.options.toggle('fade', {duration: 'short'});
+    }
   }
 
 });
