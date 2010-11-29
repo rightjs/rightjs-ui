@@ -3,7 +3,9 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Color = new Class(Rte.Tool.Options, {
+Rte.Tool.Color = new Class(Rte.Tool.Style, {
+  include: Object.only(Rte.Tool.Options.prototype, 'initialize', 'pick', 'mousedown'),
+
   extend: {
     COLORS: R([
       // TODO that's ain't no cool hacker's approach!
@@ -25,9 +27,9 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
    */
   initialize: function(rte) {
     this.colors = {};
-    this.defaultColor = this.color() || '#000000'; // saving the default color
 
-    this.$super(rte, {}).addClass('color');
+    Rte.Tool.Options.prototype.initialize.call(this, rte, {});
+    this.addClass('color');
 
     // building the color picker menu
     Rte.Tool.Color.COLORS.each(function(line) {
@@ -71,7 +73,7 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
   active: function() {
     var color = this.color();
 
-    if (color !== '' && color !== this.defaultColor) {
+    if (color !== null) {
       this.display._.style.background = color;
       return true;
     } else {
@@ -88,16 +90,17 @@ Rte.Tool.Color = new Class(Rte.Tool.Options, {
    * @return String current color
    */
   color: function() {
-    var color = document.queryCommandValue(this.command);
-    var match = /^#(\w)(\w)(\w)$/.exec(color);
+    var color = this.getStyleValue(), match;
 
-    if (match) {
-      color = "#"+ match[1]+match[1]+match[2]+match[2]+match[3]+match[3];
-    } else if ((match = /^\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)\s*$/.exec(color))) {
-      color = "#"+ match.slice(1).map(function(bit) {
-        bit = (bit-0).toString(16);
-        return bit.length == 1 ? '0'+bit : bit;
-      }).join('');
+    if (color !== null) {
+      if ((match = /^#(\w)(\w)(\w)$/.exec(color))) {
+        color = "#"+ match[1]+match[1]+match[2]+match[2]+match[3]+match[3];
+      } else if ((match = /^\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)\s*$/.exec(color))) {
+        color = "#"+ match.slice(1).map(function(bit) {
+          bit = (bit-0).toString(16);
+          return bit.length === 1 ? '0'+bit : bit;
+        }).join('');
+      }
     }
 
     return color;

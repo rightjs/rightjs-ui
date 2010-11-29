@@ -7,7 +7,10 @@
 var R  = RightJS,
     $  = RightJS.$,
     $$ = RightJS.$$,
-    $w = RightJS.$w;
+    $w = RightJS.$w,
+    $E = RightJS.$E,
+    RegExp = RightJS.RegExp,
+    Class  = RightJS.Class;
 
 
 include_module_files(
@@ -24,6 +27,7 @@ include_module_files(
 
   'rte/tool',
   'rte/tool/format',
+  'rte/tool/style',
   'rte/tool/options',
   'rte/tool/color',
 

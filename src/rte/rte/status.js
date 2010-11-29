@@ -65,7 +65,11 @@ Rte.Status = new Class(Element, {
           match = true;
 
           for (key in attributes) {
-            match &= this.nodes[i].getAttribute(key) == attributes[key];
+            if (attributes[key] instanceof RegExp) {
+              match &= attributes[key].test(this.nodes[i].getAttribute(key));
+            } else {
+              match &= this.nodes[i].getAttribute(key) == attributes[key];
+            }
           }
 
           if (match) {

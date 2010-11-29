@@ -188,9 +188,10 @@ div.rui-rte-toolbar div.with-options div.icon {
 div.rui-rte-toolbar div.with-options div.display {
   display: block;
   line-height: 20px;
-  padding: 0 .5em;
+  padding: 0 6px;
   margin: 0;
-  color: #444;
+  color: #222;
+  font-size: 12px;
   background: #f8f8f8;
 }
 
@@ -261,6 +262,7 @@ div.rui-rte-toolbar div.color ul.options li.group ul li {
 }
 div.rui-rte-toolbar div.color ul.options li.group ul li:hover,
 div.rui-rte-toolbar div.color ul.options li.group ul li.active {
+  background: none;
   border-color: #444;
   border-radius: .1em;
   -moz-border-radius: .1em;

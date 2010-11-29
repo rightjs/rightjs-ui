@@ -4,7 +4,7 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tools.Backcolor = new Class(Rte.Tool.Color, {
-  command: RightJS.Browser.IE ? 'backcolor' : 'hilitecolor',
+  style: 'background-color',
 
   initialize: function(rte) {
     this.$super(rte);
@@ -17,7 +17,7 @@ Rte.Tools.Backcolor = new Class(Rte.Tool.Color, {
       $E('li', {html: Rte.i18n.None, 'class': 'label'})
     ).first());
 
-    this.items[0].value = 'transparent';
-    this.colors['transparent'] = this.items[0];
+    this.items[0].value = '';
+    this.colors[''] = this.items[0];
   }
 });

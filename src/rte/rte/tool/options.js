@@ -56,8 +56,7 @@ Rte.Tool.Options = new Class(Rte.Tool, {
 
     if (value !== undefined) {
       this.options.hide();
-      this.items.each('removeClass', 'active');
-      target.addClass('active');
+
       this.value = value;
       this.exec();
     }
@@ -68,6 +67,13 @@ Rte.Tool.Options = new Class(Rte.Tool, {
     if (!this.disabled) {
       $$('.rui-rte-toolbar div.with-options ul.options')
         .without(this.options).each('hide');
+
+      if (this.options.hidden() && this.value !== null) {
+        // marking the current value
+        this.items.each(function(item) {
+          item[item.value == this.value ? 'addClass' : 'removeClass']('active');
+        }, this);
+      }
 
       this.options.toggle('fade', {duration: 'short'});
     }

@@ -47,8 +47,6 @@ var Rte = new Widget({
       'h2':  'Header 2',
       'h3':  'Header 3',
       'h4':  'Header 4',
-      'h5':  'Header 5',
-      'h6':  'Header 6',
       'p':   'Paragraph',
       'pre': 'Preformatted',
       'blockquote': 'Blockquote',
@@ -161,10 +159,10 @@ var Rte = new Widget({
     // because some tools check if they are supported
     this.toolbar = new Rte.Toolbar(this).insertTo(this, 'top');
 
-    // enforcing the css-mode so that things like 'hilitecolor' worked properly
-    try { document.execCommand("styleWithCSS", 0,     true);  } catch (e) {
-    try { document.execCommand("useCSS",       0,     false); } catch (e) {
-    try { document.execCommand('styleWithCSS', false, true);  } catch (e) {}}}
+    // disabling the 'css-mode' so the editor behaved itself properly
+    try { document.execCommand("styleWithCSS", 0,     false); } catch (e) {
+    try { document.execCommand("useCSS",       0,     true);  } catch (e) {
+    try { document.execCommand('styleWithCSS', false, false); } catch (e) {}}}
 
     this.editor.resize(size);
     this.setWidth(size.x);
