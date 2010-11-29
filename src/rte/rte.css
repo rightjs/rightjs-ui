@@ -62,18 +62,22 @@ div.rui-rte-toolbar {
 }
 
 div.rui-rte-toolbar div.line {
-
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  margin-bottom: 1px;
 }
 
 div.rui-rte-toolbar div.bar {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  margin-right: .25em;
+  margin-right: 2px;
 }
 
 div.rui-rte-toolbar div.tool {
   margin-right: 1px;
+  vertical-align: middle;
 }
 
 div.rui-rte-toolbar div.icon {
@@ -165,6 +169,35 @@ div.rui-rte-toolbar div.subscript  i { background-position: -20px -180px; }
 div.rui-rte-toolbar div.superscript i { background-position:-40px -180px; }
 
 /** Generic options tool styles */
+div.rui-rte-toolbar div.with-options {
+  padding-right: 8px;
+}
+div.rui-rte-toolbar div.with-options div.trigger {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 7px;
+  text-align: center;
+  background: #ccc;
+  border-left: 1px solid #bbb;
+}
+div.rui-rte-toolbar div.bar div:hover div.trigger,
+div.rui-rte-toolbar div.bar div.active div.trigger {
+  background: #aaa;
+  border-color: #888;
+}
+div.rui-rte-toolbar div.with-options i {
+  display: none;
+}
+div.rui-rte-toolbar div.with-options div.display {
+  display: block;
+  line-height: 20px;
+  padding: 0 .5em;
+  margin: 0;
+  color: #444;
+  background: #f8f8f8;
+}
+
 div.rui-rte-toolbar div.with-options ul.options,
 div.rui-rte-toolbar div.with-options ul.options li {
   list-style: none;
@@ -175,25 +208,43 @@ div.rui-rte-toolbar div.with-options ul.options {
   display: none;
   cursor: default;
   position: absolute;
+  margin-bottom: 1px;
+  margin-left: -1px;
   background: #fff;
   border: 1px solid #aaa;
-}
-div.rui-rte-toolbar div.with-options ul.options li {
-  padding: .2em .5em;
-}
-
-/* Colorpicker styles */
-div.rui-rte-toolbar div.color ul.options {
-  right: 0;
-  margin-bottom: 1px;
-  margin-right: -1px;
-  padding-bottom: .5em;
   border-radius: .25em;
   -moz-border-radius: .25em;
   -webkit-border-radius: .25em;
   box-shadow: #bbb .1em .1em .25em;
   -moz-box-shadow: #bbb .1em .1em .25em;
   -webkit-box-shadow: #bbb .1em .1em .25em;
+}
+div.rui-rte-toolbar div.with-options ul.options li {
+  padding: .2em .5em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+div.rui-rte-toolbar div.with-options ul.options li:hover {
+  background-color: #eee;
+}
+
+div.rui-rte-toolbar div.with-options ul.options li > * {
+  margin:  0;
+  padding: 0;
+  border:  none;
+  position: static;
+}
+
+/* Colorpicker styles */
+div.rui-rte-toolbar div.color i {
+  display: block;
+}
+div.rui-rte-toolbar div.color ul.options {
+  padding-bottom: .5em;
+}
+div.rui-rte-toolbar div.color ul.options li.group,
+div.rui-rte-toolbar div.color ul.options li.group:hover {
+  background: none;
 }
 div.rui-rte-toolbar div.color ul.options li.group ul {
   width: 144px;
@@ -224,6 +275,7 @@ div.rui-rte-toolbar div.color ul.options li.group ul li.active {
 }
 div.rui-rte-toolbar div.color div.display {
   position: absolute;
+  text-indent: -9999em;
   bottom: 2px;
   left: 3px;
   margin: 0;

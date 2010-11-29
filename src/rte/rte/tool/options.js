@@ -12,19 +12,21 @@ Rte.Tool.Options = new Class(Rte.Tool, {
    * @param Object key -> value hash
    */
   initialize: function(rte, options) {
+    this.trigger = $E('div', {'class': 'trigger', 'html': '&middot;'});
     this.display = $E('div', {'class': 'display'});
     this.options = $E('ul',  {'class': 'options'});
 
     this
       .$super(rte)
       .addClass('with-options')
-      .append(this.display, this.options);
+      .append(this.display, this.options)
+      .insert(this.trigger, 'top');
 
     this.items = R([]);
 
     for (var value in options) {
       this.items.push($E('li', {html: options[value]}));
-      this.items.last().insertTo(this.list).value = value;
+      this.items.last().insertTo(this.options).value = value;
     }
 
     this.options.onMousedown(R(this.pick).bind(this));
@@ -40,6 +42,8 @@ Rte.Tool.Options = new Class(Rte.Tool, {
         }
       }
     });
+
+    this.display.html(this.get('title'));
 
     return this;
   },

@@ -76,7 +76,7 @@ var Rte = new Widget({
     },
 
     // the font-size options
-    FontSizes: '7pt,8pt,9pt,10pt,11pt,12pt,14pt,18pt,24pt,36pt',
+    FontSizes: '7pt 8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
 
     i18n: {
       Clear:      'Clear',
@@ -165,6 +165,7 @@ var Rte = new Widget({
     try { document.execCommand('styleWithCSS', false, true);  } catch (e) {}}}
 
     this.editor.resize(size);
+    this.setWidth(size.x);
 
     if (this.options.autoresize) {
       this.editor.setStyle({

@@ -14,7 +14,7 @@ Rte.Tool.Source = new Class(Rte.Tool, {
   },
 
   enabled: function() {
-    return !!this.rte.editor.focused;
+    return true;
   },
 
   active: function() {
