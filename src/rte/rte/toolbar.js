@@ -26,8 +26,8 @@ Rte.Toolbar = new Class(Element, {
           R(bar_s.split(' ')).each(function(tool) {
             tool = R(tool).capitalize();
 
-            if (tool in Rte.Tool) {
-              bar.insert(new Rte.Tool[tool](rte));
+            if (tool in Rte.Tools) {
+              bar.insert(new Rte.Tools[tool](rte));
             }
           });
         }

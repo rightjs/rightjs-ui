@@ -38,6 +38,8 @@ var Rte = new Widget({
       ]
     },
 
+    Tools: {}, // the index of available tools will be here
+
     // the formatting options, you can use simply tag names
     // or you can also specify tag + class like 'div.blue'
     Formats: {

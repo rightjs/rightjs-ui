@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Quote = new Class(Rte.Tool.Format, {
+Rte.Tools.Quote = new Class(Rte.Tool.Format, {
 
   initialize: function(rte) {
     this.$super(rte);

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Symbol = new Class(Rte.Tool, {
+Rte.Tools.Symbol = new Class(Rte.Tool, {
   extend: {
     CHARS:
       // basic

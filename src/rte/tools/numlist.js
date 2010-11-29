@@ -3,6 +3,6 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Numlist = new Class(Rte.Tool, {
+Rte.Tools.Numlist = new Class(Rte.Tool, {
   command: 'insertorderedlist'
 });

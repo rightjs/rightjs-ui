@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Fontsize = new Class(Rte.Tool.Options, {
+Rte.Tools.Fontsize = new Class(Rte.Tool.Options, {
   command: 'fontsize',
 
   /**

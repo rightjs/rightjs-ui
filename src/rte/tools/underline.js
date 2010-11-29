@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Underline = new Class(Rte.Tool, {
+Rte.Tools.Underline = new Class(Rte.Tool, {
   shortcut: 'U',
   command:  'underline'
 });

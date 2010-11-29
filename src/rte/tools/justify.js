@@ -3,6 +3,6 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Justify = new Class(Rte.Tool, {
+Rte.Tools.Justify = new Class(Rte.Tool, {
   command: 'justifyfull'
 });

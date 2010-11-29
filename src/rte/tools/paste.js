@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Paste = new Class(Rte.Tool.Cut, {
+Rte.Tools.Paste = new Class(Rte.Tools.Cut, {
   shortcut: 'V',
   command:  'paste'
 });

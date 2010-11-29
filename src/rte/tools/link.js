@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Link = new Class(Rte.Tool, {
+Rte.Tools.Link = new Class(Rte.Tool, {
   shortcut: 'L',
   command:  'createlink',  // 'unlink'
 

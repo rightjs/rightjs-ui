@@ -76,14 +76,11 @@ div.rui-rte-toolbar div.bar {
 }
 
 div.rui-rte-toolbar div.tool {
-  margin-right: 1px;
-  vertical-align: middle;
-}
-
-div.rui-rte-toolbar div.icon {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  margin-right: 1px;
+  vertical-align: middle;
   position: relative;
   cursor: pointer;
   border: 1px solid #c8c8c8;
@@ -92,7 +89,7 @@ div.rui-rte-toolbar div.icon {
   -webkit-border-radius: .25em;
   background-color: #e8e8e8;
 }
-div.rui-rte-toolbar div.icon:hover {
+div.rui-rte-toolbar div.tool:hover {
   background-color: #CCC;
   border-color: #888;
 }
@@ -117,8 +114,7 @@ div.rui-rte-toolbar div.highlight {
   border-color: #666;
 }
 
-div.rui-rte-toolbar i {
-  display: block;
+div.rui-rte-toolbar div.icon {
   height: 20px;
   width: 20px;
   background-image: url(../../img/rte.png);
@@ -126,47 +122,47 @@ div.rui-rte-toolbar i {
   background-position: 20px 20px;
 }
 
-div.rui-rte-toolbar div.save       i { background-position:   0px    0px; }
-div.rui-rte-toolbar div.clear      i { background-position: -20px    0px; }
-div.rui-rte-toolbar div.source     i { background-position: -40px    0px; }
+div.rui-rte-toolbar div.save       div.icon { background-position:   0px    0px; }
+div.rui-rte-toolbar div.clear      div.icon { background-position: -20px    0px; }
+div.rui-rte-toolbar div.source     div.icon { background-position: -40px    0px; }
 
-div.rui-rte-toolbar div.bold       i { background-position:   0px  -20px; }
-div.rui-rte-toolbar div.italic     i { background-position: -20px  -20px; }
-div.rui-rte-toolbar div.underline  i { background-position: -40px  -20px; }
-div.rui-rte-toolbar div.strike     i { background-position: -60px  -20px; }
+div.rui-rte-toolbar div.bold       div.icon { background-position:   0px  -20px; }
+div.rui-rte-toolbar div.italic     div.icon { background-position: -20px  -20px; }
+div.rui-rte-toolbar div.underline  div.icon { background-position: -40px  -20px; }
+div.rui-rte-toolbar div.strike     div.icon { background-position: -60px  -20px; }
 
-div.rui-rte-toolbar div.cut        i { background-position:   0px  -40px; }
-div.rui-rte-toolbar div.copy       i { background-position: -20px  -40px; }
-div.rui-rte-toolbar div.paste      i { background-position: -40px  -40px; }
+div.rui-rte-toolbar div.cut        div.icon { background-position:   0px  -40px; }
+div.rui-rte-toolbar div.copy       div.icon { background-position: -20px  -40px; }
+div.rui-rte-toolbar div.paste      div.icon { background-position: -40px  -40px; }
 
-div.rui-rte-toolbar div.left       i { background-position:   0px  -60px; }
-div.rui-rte-toolbar div.center     i { background-position: -20px  -60px; }
-div.rui-rte-toolbar div.right      i { background-position: -40px  -60px; }
-div.rui-rte-toolbar div.justify    i { background-position: -60px  -60px; }
+div.rui-rte-toolbar div.left       div.icon { background-position:   0px  -60px; }
+div.rui-rte-toolbar div.center     div.icon { background-position: -20px  -60px; }
+div.rui-rte-toolbar div.right      div.icon { background-position: -40px  -60px; }
+div.rui-rte-toolbar div.justify    div.icon { background-position: -60px  -60px; }
 
-div.rui-rte-toolbar div.undo       i { background-position:   0px  -80px; }
-div.rui-rte-toolbar div.redo       i { background-position: -20px  -80px; }
+div.rui-rte-toolbar div.undo       div.icon { background-position:   0px  -80px; }
+div.rui-rte-toolbar div.redo       div.icon { background-position: -20px  -80px; }
 
-div.rui-rte-toolbar div.quote      i { background-position:   0px -100px; }
-div.rui-rte-toolbar div.code       i { background-position: -20px -100px; }
-div.rui-rte-toolbar div.ttext      i { background-position: -40px -100px; }
-div.rui-rte-toolbar div.header     i { background-position: -60px -100px; }
+div.rui-rte-toolbar div.quote      div.icon { background-position:   0px -100px; }
+div.rui-rte-toolbar div.code       div.icon { background-position: -20px -100px; }
+div.rui-rte-toolbar div.ttext      div.icon { background-position: -40px -100px; }
+div.rui-rte-toolbar div.header     div.icon { background-position: -60px -100px; }
 
-div.rui-rte-toolbar div.image      i { background-position:   0px -120px; }
-div.rui-rte-toolbar div.link       i { background-position: -20px -120px; }
-div.rui-rte-toolbar div.video      i { background-position: -40px -120px; }
+div.rui-rte-toolbar div.image      div.icon { background-position:   0px -120px; }
+div.rui-rte-toolbar div.link       div.icon { background-position: -20px -120px; }
+div.rui-rte-toolbar div.video      div.icon { background-position: -40px -120px; }
 
-div.rui-rte-toolbar div.dotlist    i { background-position:   0px -140px; }
-div.rui-rte-toolbar div.numlist    i { background-position: -20px -140px; }
-div.rui-rte-toolbar div.indent     i { background-position: -40px -140px; }
-div.rui-rte-toolbar div.outdent    i { background-position: -60px -140px; }
+div.rui-rte-toolbar div.dotlist    div.icon { background-position:   0px -140px; }
+div.rui-rte-toolbar div.numlist    div.icon { background-position: -20px -140px; }
+div.rui-rte-toolbar div.indent     div.icon { background-position: -40px -140px; }
+div.rui-rte-toolbar div.outdent    div.icon { background-position: -60px -140px; }
 
-div.rui-rte-toolbar div.forecolor  i { background-position:   0px -160px; }
-div.rui-rte-toolbar div.backcolor  i { background-position: -20px -160px; }
+div.rui-rte-toolbar div.forecolor  div.icon { background-position:   0px -160px; }
+div.rui-rte-toolbar div.backcolor  div.icon { background-position: -20px -160px; }
 
-div.rui-rte-toolbar div.symbol     i { background-position:   0px -180px; }
-div.rui-rte-toolbar div.subscript  i { background-position: -20px -180px; }
-div.rui-rte-toolbar div.superscript i { background-position:-40px -180px; }
+div.rui-rte-toolbar div.symbol     div.icon { background-position:   0px -180px; }
+div.rui-rte-toolbar div.subscript  div.icon { background-position: -20px -180px; }
+div.rui-rte-toolbar div.superscript div.icon { background-position:-40px -180px; }
 
 /** Generic options tool styles */
 div.rui-rte-toolbar div.with-options {
@@ -186,7 +182,7 @@ div.rui-rte-toolbar div.bar div.active div.trigger {
   background: #aaa;
   border-color: #888;
 }
-div.rui-rte-toolbar div.with-options i {
+div.rui-rte-toolbar div.with-options div.icon {
   display: none;
 }
 div.rui-rte-toolbar div.with-options div.display {
@@ -236,7 +232,7 @@ div.rui-rte-toolbar div.with-options ul.options li > * {
 }
 
 /* Colorpicker styles */
-div.rui-rte-toolbar div.color i {
+div.rui-rte-toolbar div.color div.icon {
   display: block;
 }
 div.rui-rte-toolbar div.color ul.options {

@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Source = new Class(Rte.Tool, {
+Rte.Tools.Source = new Class(Rte.Tool, {
   shortcut: 'E',
   _on:      false,
   source:   false,

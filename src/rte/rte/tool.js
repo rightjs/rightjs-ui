@@ -19,15 +19,13 @@ Rte.Tool = new Class(Element, {
    */
   initialize: function(rte) {
     // searching for the tool-name
-    var name = '', tools = Rte.Tool, klass = this.constructor;
-
-    for (name in tools) {
-      if (tools[name] === klass) { break; }
+    for (var name in Rte.Tools) {
+      if (Rte.Tools[name] === this.constructor) { break; }
     }
 
     this.$super('div', {
-      'html':  '<i></i>', // <- icon container
-      'class': 'tool icon '+ name.toLowerCase(),
+      'html':  '<div class="icon"></div>', // <- icon container
+      'class': 'tool '+ name.toLowerCase(),
       'title': (Rte.i18n[name] || name) + (
         this.shortcut ? " ("+ this.shortcut + ")" : ""
       )

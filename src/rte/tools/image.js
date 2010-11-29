@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Image = new Class(Rte.Tool, {
+Rte.Tools.Image = new Class(Rte.Tool, {
   command: 'insertimage',
 
   exec: function() {

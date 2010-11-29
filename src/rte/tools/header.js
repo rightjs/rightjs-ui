@@ -3,7 +3,7 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Header = new Class(Rte.Tool.Format, {
+Rte.Tools.Header = new Class(Rte.Tool.Format, {
   shortcut: 'H',
 
   initialize: function(rte) {

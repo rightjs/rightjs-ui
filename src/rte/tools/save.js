@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Save = new Class(Rte.Tool, {
+Rte.Tools.Save = new Class(Rte.Tool, {
   shortcut: 'S',
 
   initialize: function(rte) {

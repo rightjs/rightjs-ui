@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Bold = new Class(Rte.Tool, {
+Rte.Tools.Bold = new Class(Rte.Tool, {
   shortcut: 'B',
   command:  'bold'
 });
