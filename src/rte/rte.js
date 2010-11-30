@@ -109,10 +109,10 @@ var Rte = new Widget({
       Forecolor:  'Text color',
       Backcolor:  'Background color',
       Select:     'Select',
-      None:       'None',
+      Remove:     'Remove',
       Style:      'Style',
       Fontname:   'Font name',
-      Fontsize:   'Font size',
+      Fontsize:   'Size',
       Subscript:  'Subscript',
       Superscript: 'Superscript',
       Symbol:     'Special character'

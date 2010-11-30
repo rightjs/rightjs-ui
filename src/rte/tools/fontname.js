@@ -3,8 +3,8 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tools.Fontname = new Class(Rte.Tool.Options, {
-  command: 'fontname',
+Rte.Tools.Fontname = new Class(Rte.Tool.Style, {
+  style: 'font-family',
 
   /**
    * Basic constructor

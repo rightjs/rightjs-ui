@@ -10,7 +10,8 @@ var R  = RightJS,
     $w = RightJS.$w,
     $E = RightJS.$E,
     RegExp = RightJS.RegExp,
-    Class  = RightJS.Class;
+    Class  = RightJS.Class,
+    Object = RightJS.Object;
 
 
 include_module_files(
@@ -27,8 +28,8 @@ include_module_files(
 
   'rte/tool',
   'rte/tool/format',
-  'rte/tool/style',
   'rte/tool/options',
+  'rte/tool/style',
   'rte/tool/color',
 
   'tools/bold',

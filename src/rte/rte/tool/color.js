@@ -4,7 +4,6 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Color = new Class(Rte.Tool.Style, {
-  include: Object.only(Rte.Tool.Options.prototype, 'initialize', 'pick', 'mousedown'),
 
   extend: {
     COLORS: R([
@@ -26,10 +25,8 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
    * @return Rte.Tool.Color this
    */
   initialize: function(rte) {
-    this.colors = {};
-
-    Rte.Tool.Options.prototype.initialize.call(this, rte, {});
-    this.addClass('color');
+    this.$super(rte, {}).addClass('color');
+    this.display.clean();
 
     // building the color picker menu
     Rte.Tool.Color.COLORS.each(function(line) {
@@ -40,23 +37,18 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
       for (; i < colors.length; i++) {
         color = '#' + colors[i];
 
-        this.items.push(
-          $E('li', {
-            html:  '&bull;',
-            style: {
-              background: color,
-              color: '#' +(
-                // calculating an opposite color so the text would be visible
-                'ffffff'.toInt(16) - colors[i].toInt(16)
-              ).toString(16)
-            }
-          })
-          .insertTo(list)
-          .onMousedown(R(this.pick).bind(this))
-        );
+        this.items[color] = $E('li', {
+          html:  '&bull;',
+          style: {
+            background: color,
+            color: '#' +(
+              // calculating an opposite color so the text would be visible
+              'ffffff'.toInt(16) - colors[i].toInt(16)
+            ).toString(16)
+          }
+        });
 
-        this.colors[color] = this.items.last();
-        this.colors[color].value = color;
+        this.items[color].insertTo(list).value = color;
       }
 
       this.options.append(group);
@@ -65,32 +57,16 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
     return this;
   },
 
-  /**
-   * Overloading the original method to check the color
-   *
-   * @return boolean check result
-   */
-  active: function() {
-    var color = this.color();
-
-    if (color !== null) {
-      this.display._.style.background = color;
-      return true;
-    } else {
-      this.display._.style.background = 'transparent';
-      return false;
-    }
-  },
-
 // protected
 
   /**
-   * Returns the current color as a six symbols hex value
+   * Overloading the property so that it converted any color formats
+   * into a six chars hex value
    *
-   * @return String current color
+   * @return String current color or null
    */
-  color: function() {
-    var color = this.getStyleValue(), match;
+  getStyleValue: function() {
+    var color = this.$super(), match;
 
     if (color !== null) {
       if ((match = /^#(\w)(\w)(\w)$/.exec(color))) {
@@ -104,5 +80,18 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
     }
 
     return color;
+  },
+
+  /**
+   * Replacing the original method so that
+   * it changed the color of the display thing
+   * instead of text
+   *
+   * @param String value
+   * @return void
+   */
+  updateDisplay: function(value) {
+    this.display._.style.background = value === null ?
+      'transparent' : this.value;
   }
 });
