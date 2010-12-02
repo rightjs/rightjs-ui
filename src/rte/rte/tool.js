@@ -58,14 +58,23 @@ Rte.Tool = new Class(Element, {
    * @return void
    */
   exec: function() {
+    if (this.blip) { this.highlight(); }
+
+    this.rte.editor.focus().exec(
+      this.command, this.value
+    );
+
+    this.rte.status.update();
+  },
+
+  /**
+   * Tries to involve the tool if it's enabled
+   *
+   * @return void
+   */
+  call: function() {
     if (!this.disabled) {
-      if (this.blip) { this.highlight(); }
-
-      this.rte.editor.focus().exec(
-        this.command, this.value
-      );
-
-      this.rte.status.update();
+      this.exec();
     }
   },
 
@@ -129,7 +138,7 @@ Rte.Tool = new Class(Element, {
 
   // mousedown event receiver (might be replaced in subclasses)
   mousedown: function() {
-    this.exec();
+    this.call();
   }
 
 });

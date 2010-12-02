@@ -131,13 +131,14 @@ var Rte = new Widget({
   initialize: function(textarea, options) {
     this.textarea = $(textarea);
 
+    this.selection = new Rte.Selection();
+    this.editor    = new Rte.Editor(this);
+    this.status    = new Rte.Status(this);
+
     this
       .$super('rte', {})
       .setOptions(options, this.textarea)
-      .append(
-        this.editor  = new Rte.Editor(this),
-        this.status  = new Rte.Status(this)
-      )
+      .append(this.editor, this.status)
       .setValue(this.textarea.value())
       .onFocus(R(this.status.update).bind(this.status));
 

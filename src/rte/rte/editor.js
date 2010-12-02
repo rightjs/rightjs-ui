@@ -19,7 +19,7 @@ Rte.Editor = new Class(Element, {
 
     this.rte = rte;
 
-    var editor = this, selection = this.selection = new Rte.Selection();
+    var editor = this, selection = rte.selection;
 
     this.on({
       focus: function() {
@@ -101,7 +101,7 @@ Rte.Editor = new Class(Element, {
       // emulating insert html under IE
       if (command.toLowerCase() === 'inserthtml') {
         try {
-          this.selection.get().pasteHTML = value;
+          this.rte.selection.get().pasteHTML = value;
         } catch(e) {}
       }
     }
@@ -118,8 +118,8 @@ Rte.Editor = new Class(Element, {
    */
   removeElement: function(element) {
     if (element !== null) {
-      this.selection.wrap(element);
       if (element.innerHTML) {
+        this.rte.selection.wrap(element);
         this.exec('insertHTML', element.innerHTML);
       } else {
         this.exec('delete');
@@ -136,7 +136,7 @@ Rte.Editor = new Class(Element, {
     if (raw.metaKey || raw.ctrlKey) {
       if ((tool = this.rte.shortcuts[key])) {
         if (tool.block) { event.stop(); }
-        tool.exec();
+        tool.call();
       }
     }
   },

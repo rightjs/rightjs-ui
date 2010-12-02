@@ -30,6 +30,7 @@ include_module_files(
   'rte/tool/options',
   'rte/tool/style',
   'rte/tool/color',
+  'rte/tool/url',
 
   'tools/bold',
   'tools/italic',

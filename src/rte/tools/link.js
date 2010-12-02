@@ -3,36 +3,13 @@
  *
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
-Rte.Tools.Link = new Class(Rte.Tool, {
+Rte.Tools.Link = new Class(Rte.Tool.Url, {
   shortcut: 'L',
   command:  'createlink',  // 'unlink'
-
-  exec: function() {
-    if (this.enabled()) {
-      Rte.Prompt.Url(
-        this.active() ? this.element().href : "http://some-url.com",
-
-        R(function(url) {
-          if (url) {
-            if (this.active()) {
-              this.element().setAttribute('href', url);
-            } else {
-              this.rte.editor.focus().exec(this.command, url);
-            }
-          } else {
-            this.rte.editor.removeElement(this.element());
-          }
-        }).bind(this)
-      )
-    }
-  },
+  attr:     'href',
 
   enabled: function() {
-    return !this.rte.editor.selection.empty() || this.active();
-  },
-
-  active: function() {
-    return this.element() !== null;
+    return !this.rte.selection.empty() || this.active();
   },
 
   element: function() {
