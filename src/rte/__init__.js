@@ -10,8 +10,7 @@ var R  = RightJS,
     $w = RightJS.$w,
     $E = RightJS.$E,
     RegExp = RightJS.RegExp,
-    Class  = RightJS.Class,
-    Object = RightJS.Object;
+    Class  = RightJS.Class;
 
 
 include_module_files(
@@ -70,7 +69,7 @@ include_module_files(
   'tools/clear',
   'tools/save',
 
-  'tools/style',
+  'tools/format',
   'tools/fontname',
   'tools/fontsize',
   'tools/subscript',

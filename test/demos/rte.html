@@ -2,6 +2,11 @@
 <html>
   <head>
     <script src="../../util/test/ui-tools.js?rte"></script>
+    <script type="text/javascript">
+      // registering custom formats
+      Rte.Formats['div.blue']  = 'Blue block';
+      Rte.Formats['div.green'] = 'Green block';
+    </script>
     <style type="text/css">
       .rui-rte h2 {
         margin-top: 0;
@@ -39,6 +44,14 @@
       }
       form.save-example textarea {
         height: 2em !important;
+      }
+
+      /* custom formats */
+      div.blue {
+        background: #AAe;
+      }
+      div.green {
+        background: #8c8;
       }
     </style>
   </head>

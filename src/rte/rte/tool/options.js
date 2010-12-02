@@ -1,9 +1,10 @@
 /**
- * An abstract tool with an options menu
+ * A _shared module_ to provide the `options` list functionality
+ * for the tools
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tool.Options = new Class(Rte.Tool, {
+Rte.Tool.Options = {
 
   /**
    * Constructor
@@ -30,7 +31,7 @@ Rte.Tool.Options = new Class(Rte.Tool, {
     }
 
     // creating an the reset value
-    this.items[''] = $E('li', {'class': 'remove', 'html': '--'});
+    this.items[''] = $E('li', {'class': 'remove', 'html': '--', 'title': Rte.i18n.Remove});
     this.items[''].insertTo(this.options, 'top').value = '';
 
     // catching the clicks
@@ -99,5 +100,4 @@ Rte.Tool.Options = new Class(Rte.Tool, {
       this.items[value].text() : this._.title;
   }
 
-
-});
+};

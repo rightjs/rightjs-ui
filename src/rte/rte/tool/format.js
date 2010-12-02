@@ -54,16 +54,15 @@ Rte.Tool.Format = new Class(Rte.Tool, {
    * @return void
    */
   format: function() {
-    var content = '<'+ this.tag,
-        editor  = this.rte.editor;
+    var content = '<'+ this.tag, attr;
 
-    for (var key in this.attributes) {
-      content += ' '+key+'="'+ this.attributes[key]+ '"';
+    for (attr in this.attributes) {
+      content += ' '+ attr +'="'+ this.attributes[attr]+ '"';
     }
 
-    content += ">" + editor.selection.html() + '</'+ this.tag + '>';
+    content += ">" + this.rte.editor.selection.html() + '</'+ this.tag + '>';
 
-    editor.exec('insertHTML', content);
+    this.rte.editor.exec('insertHTML', content);
   }
 
 });

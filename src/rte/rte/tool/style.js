@@ -6,9 +6,7 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Style = new Class(Rte.Tool.Format, {
-  include: Object.only(Rte.Tool.Options.prototype,
-    'pick', 'mousedown', 'markActive', 'updateDisplay'
-  ),
+  include: Rte.Tool.Options,
 
   tag:   'span',  // tag name of the element to be used
   style:  null,   // the style property name (dashed)
@@ -27,7 +25,7 @@ Rte.Tool.Style = new Class(Rte.Tool.Format, {
     this.re = new RegExp("(^|;)\\s*"+ RegExp.escape(this.style + ":")+ "\\s*(.+?)\\s*(;|$)");
     this.attributes = { style: this.re };
 
-    return Rte.Tool.Options.prototype.initialize.call(this, rte, options);
+    return Rte.Tool.Options.initialize.call(this, rte, options);
   },
 
   /**

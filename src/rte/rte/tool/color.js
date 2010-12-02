@@ -72,7 +72,7 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
       if ((match = /^#(\w)(\w)(\w)$/.exec(color))) {
         color = "#"+ match[1]+match[1]+match[2]+match[2]+match[3]+match[3];
       } else if ((match = /^\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)\s*$/.exec(color))) {
-        color = "#"+ match.slice(1).map(function(bit) {
+        color = "#"+ R(match.slice(1)).map(function(bit) {
           bit = (bit-0).toString(16);
           return bit.length === 1 ? '0'+bit : bit;
         }).join('');
@@ -92,6 +92,6 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
    */
   updateDisplay: function(value) {
     this.display._.style.background = value === null ?
-      'transparent' : this.value;
+      'transparent' : value;
   }
 });

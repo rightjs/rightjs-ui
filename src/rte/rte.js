@@ -34,7 +34,7 @@ var Rte = new Widget({
       extra: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
         'undo redo|header code quote|link image video|subscript superscript symbol|dotlist numlist|indent outdent',
-        'style|fontname fontsize|forecolor backcolor|source'
+        'format|fontname fontsize|forecolor backcolor|source'
       ]
     },
 
@@ -110,7 +110,7 @@ var Rte = new Widget({
       Backcolor:  'Background color',
       Select:     'Select',
       Remove:     'Remove',
-      Style:      'Style',
+      Format:     'Format',
       Fontname:   'Font name',
       Fontsize:   'Size',
       Subscript:  'Subscript',
