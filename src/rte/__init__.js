@@ -22,9 +22,6 @@ include_module_files(
 
   'rte/selection',
 
-  'rte/prompt',
-  'rte/prompt/url',
-
   'rte/tool',
   'rte/tool/format',
   'rte/tool/options',

@@ -13,6 +13,6 @@ Rte.Tools.Link = new Class(Rte.Tool.Url, {
   },
 
   element: function() {
-    return this.rte.status.findElement('a');
+    return this.rte.status.findElement('A', {});
   }
 });

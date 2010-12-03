@@ -4,24 +4,13 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tools.Video = new Class(Rte.Tool.Url, {
-  extend: {
-    medias: R([
-      // supported media formats
-      [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/,       '$1/v/$2'],
-      [/(http:\/\/video.google.com)\/videoplay\?docid=([^&]+)/, '$1/googleplayer.swf?docId=$2'],
-      [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/,                 '$1/moogaloop.swf?clip_id=$2']
-    ]),
-
-    width:  425, // default width
-    height: 344  // default height
-  },
-
   command: 'inserthtml',
 
   element: function() {
-    return this.rte.status.findElement('object');
+    return this.rte.status.findElement('OBJECT', {});
   },
 
+  // works with url address of the embedded object
   url: function(url) {
     var element = this.element() && this.element().getElementsByTagName('embed')[0];
 
@@ -34,8 +23,11 @@ Rte.Tools.Video = new Class(Rte.Tool.Url, {
     }
   },
 
+  // creates the actual object block
   create: function(url) {
-    var swf_url = this.swfUrl(url), size = 'width="'+ this.constructor.width + '" height="'+ this.constructor.height + '"';
+    var swf_url = this.swfUrl(url),
+        size =  'width="'+  this.rte.options.videoSize.split('x')[0] +
+              '" height="'+ this.rte.options.videoSize.split('x')[1] + '"';
 
     this.$super('<object '+ size +'>'+
       '<param name="src" value="'+ swf_url +'" />'+
@@ -45,7 +37,7 @@ Rte.Tools.Video = new Class(Rte.Tool.Url, {
 
   // making the actual 'swf' url
   swfUrl: function(url) {
-    return this.constructor.medias.map(function(desc) {
+    return R(Rte.Videos).map(function(desc) {
       return url.match(desc[0]) ?
         url.replace(desc[0], desc[1]) : null;
     }).compact()[0] || url;

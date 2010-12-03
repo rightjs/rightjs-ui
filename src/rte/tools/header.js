@@ -4,10 +4,6 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tools.Header = new Class(Rte.Tool.Format, {
-  shortcut: 'H',
-
-  initialize: function(rte) {
-    this.$super(rte);
-    this.tag = rte.options.headerTag;
-  }
+  shortcut: 'H'
+  // tag is autoassigned from the options
 });

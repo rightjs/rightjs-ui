@@ -4,21 +4,30 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tool.Url = new Class(Rte.Tool, {
-  prompt: Rte.Prompt.Url,
   attr:   null, // the url-attribute 'src', 'href', etc.
 
-  exec: function() {
-    this.prompt(function(url) {
+  exec: function(url) {
+    if (url === undefined) {
+      this.prompt();
+    } else {
       if (url) {
         this[this.element() ? 'url' : 'create'](url);
       } else {
         this.rte.editor.removeElement(this.element());
       }
-    }, this.url());
+    }
   },
 
   active: function() {
     return this.element() !== null;
+  },
+
+  prompt: function() {
+    var url = prompt(Rte.i18n.UrlAddress, this.url() || 'http://some.url.com');
+
+    if (url !== null) {
+      this.exec(url);
+    }
   },
 
 // protected

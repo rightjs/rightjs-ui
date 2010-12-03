@@ -312,10 +312,10 @@ div.rui-rte-editor:focus {
   border-color: #aaa;
 }
 
-div.rui-rte-editor > p:first-child {
+div.rui-rte-editor > *:first-child {
   margin-top: 0;
 }
-div.rui-rte-editor > p:last-child {
+div.rui-rte-editor > *:last-child {
   margin-bottom: 0;
 }
 

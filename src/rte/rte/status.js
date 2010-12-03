@@ -57,9 +57,6 @@ Rte.Status = new Class(Element, {
    */
   findElement: function(tag, attributes) {
     if (tag) {
-      tag = tag.toUpperCase();
-      attributes = attributes || {};
-
       for (var i = this.nodes.length - 1, key, match; i > -1; i--) {
         if (this.nodes[i].tagName === tag) {
           match = true;

@@ -9,19 +9,22 @@ var Rte = new Widget({
     EVENTS: $w('change focus blur'),
 
     Options: {
-      toolbar:      'small',  // toolbar, the name or an array of your own
+      toolbar:     'small',  // toolbar, the name or an array of your own
 
-      autoresize:   true,     // automatically resize the editor's height to fit the text
+      autoresize:  true,     // automatically resize the editor's height to fit the text
 
-      showToolbar:  true,     // show the toolbar
-      showStatus:   true,     // show the status bar
+      showToolbar: true,     // show the toolbar
+      showStatus:  true,     // show the status bar
 
-      quoteTag:     'blockquote',   // the quote block tag name
-      codeTag:      'pre',    // the code block tag name
-      ttextTag:     'tt',     // the mono-width text tag name
-      headerTag:    'h2',     // the header block tag name
+      tagQuote:    'blockquote', // the quote block tag name
+      tagCode:     'pre',    // the code block tag name
+      tagTtext:    'tt',     // the mono-width text tag name
+      tagHeader:   'h2',     // the header block tag name
+      tagStrike:   's',      // the strike-through element tag-name
 
-      cssRule: 'textarea[data-rte]'
+      videoSize:   '425x344', // flash-video blocks default size
+
+      cssRule:     'textarea[data-rte]'
     },
 
     // predefined toolbars set
@@ -29,7 +32,7 @@ var Rte = new Widget({
       small: ['bold italic underline strike ttext|cut copy paste|header code quote|link image video|source'],
       basic: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header code quote|link image video|dotlist numlist|indent outdent|forecolor backcolor|source'
+        'undo redo|header code quote|link image video|dotlist numlist|indent outdent|source'
       ],
       extra: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
@@ -76,7 +79,14 @@ var Rte = new Widget({
     },
 
     // the font-size options
-    FontSizes: '7pt 8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
+    FontSizes: '6pt 7pt 8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
+
+    Videos: [
+      // supported swf video resources
+      [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/,       '$1/v/$2'],
+      [/(http:\/\/video.google.com)\/videoplay\?docid=([^&]+)/, '$1/googleplayer.swf?docId=$2'],
+      [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/,                 '$1/moogaloop.swf?clip_id=$2']
+    ],
 
     i18n: {
       Clear:      'Clear',
@@ -115,7 +125,8 @@ var Rte = new Widget({
       Fontsize:   'Size',
       Subscript:  'Subscript',
       Superscript: 'Superscript',
-      Symbol:     'Special character'
+      Symbol:     'Special character',
+      UrlAddress: 'URL Address'
     },
 
     current: null

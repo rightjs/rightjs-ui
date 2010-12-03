@@ -7,18 +7,16 @@
 Rte.Tool.Options = {
 
   /**
-   * Constructor
+   * Builds the options list
    *
-   * @param Rte rte instance
    * @param Object key -> value hash
    */
-  initialize: function(rte, options) {
+  build: function(options) {
     this.trigger = $E('div', {'class': 'trigger', 'html': '&middot;'});
     this.display = $E('div', {'class': 'display'});
     this.options = $E('ul',  {'class': 'options'});
 
     this
-      .$super(rte)
       .addClass('with-options')
       .append(this.display, this.options)
       .insert(this.trigger, 'top');

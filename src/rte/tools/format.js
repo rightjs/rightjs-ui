@@ -35,7 +35,9 @@ Rte.Tools.Format = new Class(Rte.Tool.Format, {
       }
     }
 
-    return Rte.Tool.Options.initialize.call(this, rte, options);
+    this.$super(rte).build(options);
+
+    return this;
   },
 
   /**
@@ -65,8 +67,8 @@ Rte.Tools.Format = new Class(Rte.Tool.Format, {
   // overloading the formatting method to have multiple options
   format: function() {
     if (this.formats[this.value]) {
-      this.tag = this.formats[this.value].tag;
-      this.attributes = this.formats[this.value].attrs;
+      this.tag   = this.formats[this.value].tag;
+      this.attrs = this.formats[this.value].attrs;
 
       this.$super();
     }

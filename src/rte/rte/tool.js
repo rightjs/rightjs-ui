@@ -23,6 +23,8 @@ Rte.Tool = new Class(Element, {
       if (Rte.Tools[name] === this.constructor) { break; }
     }
 
+    this.name = name;
+
     this.$super('div', {
       'html':  '<div class="icon"></div>', // <- icon container
       'class': 'tool '+ name.toLowerCase(),
@@ -45,9 +47,6 @@ Rte.Tool = new Class(Element, {
       e.stop(); this.mousedown();
     });
 
-    // checking the command initial state
-    this.check();
-
     // allowing some nice chains in the subclass
     return this;
   },
@@ -63,8 +62,6 @@ Rte.Tool = new Class(Element, {
     this.rte.editor.focus().exec(
       this.command, this.value
     );
-
-    this.rte.status.update();
   },
 
   /**
@@ -75,6 +72,8 @@ Rte.Tool = new Class(Element, {
   call: function() {
     if (!this.disabled) {
       this.exec();
+
+      this.rte.status.update();
     }
   },
 
@@ -87,7 +86,7 @@ Rte.Tool = new Class(Element, {
     this._.className = this._.className.replace(' disabled', '');
     this.disabled = false;
 
-    if (this.enabled()) {
+    if ((this.name === 'Source' || this.rte.srcMode !== true) && this.enabled()) {
       this._.className = this._.className.replace(' active', '');
       if (this.active()) {
         this._.className += ' active';

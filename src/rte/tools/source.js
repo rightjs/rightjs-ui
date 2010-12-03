@@ -5,12 +5,11 @@
  */
 Rte.Tools.Source = new Class(Rte.Tool, {
   shortcut: 'E',
-  _on:      false,
-  source:   false,
+  source:   false, // the textarea element reference
 
   exec: function() {
-    this[this._on ? 'showPreview' : 'showSource']();
-    this._on = !this._on;
+    this[this.rte.srcMode ? 'showPreview' : 'showSource']();
+    this.rte.srcMode = !this.rte.srcMode;
   },
 
   enabled: function() {
@@ -18,25 +17,40 @@ Rte.Tools.Source = new Class(Rte.Tool, {
   },
 
   active: function() {
-    return this._on && this.enabled();
+    return this.rte.srcMode;
   },
 
 // protected
 
   showPreview: function() {
+    this.rte.editor.setStyle('visibility:visible');
     if (this.source) {
+      this.rte.value(this.source.value());
       this.source.remove();
     }
+
+    this.rte.editor.focus();
   },
 
   showSource: function() {
+    this.rte.editor.setStyle('visibility:hidden;');
+
     (
       this.source = this.source ||
       $E('textarea', {'class': 'rui-rte-source'})
     )
-    .setValue('' + this.rte.editor.html())
     .insertTo(this.rte.editor, 'before')
     .resize(this.rte.editor.size())
-    ._.focus();
+    .setValue('' + this.rte.value())
+    .focus();
+
+    this.rte.status.update();
+
+    // locking all the tools
+    for (var name in this.rte.tools) {
+      if (this.rte.tools[name] !== this) {
+        this.rte.tools[name].addClass('disabled');
+      }
+    }
   }
 });
