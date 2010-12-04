@@ -44,6 +44,8 @@ Rte.Tools.Source = new Class(Rte.Tool, {
     .setValue('' + this.rte.value())
     .focus();
 
+    this.rte.focused = true;
+
     this.rte.status.update();
 
     // locking all the tools

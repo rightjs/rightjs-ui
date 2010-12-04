@@ -6,6 +6,10 @@
 Rte.Tools.Video = new Class(Rte.Tool.Url, {
   command: 'inserthtml',
 
+  enabled: function() {
+    return true; // always enabled
+  },
+
   element: function() {
     return this.rte.status.findElement('OBJECT', {});
   },

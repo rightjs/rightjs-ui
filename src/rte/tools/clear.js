@@ -12,5 +12,7 @@ Rte.Tools.Clear = new Class(Rte.Tool, {
     this.rte.status.update();
   },
 
-  check: function() {} // it's always available
+  active: function() {
+    return false;  // it's never gets active
+  }
 });

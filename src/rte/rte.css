@@ -96,6 +96,7 @@ div.rui-rte-toolbar div.tool:hover {
 div.rui-rte-toolbar div.disabled,
 div.rui-rte-toolbar div.disabled:hover {
   opacity: .5;
+  filter: alpha(opacity=50);
   background-color: #ccc;
   border-color: #aaa;
   cursor: default;

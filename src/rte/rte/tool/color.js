@@ -32,19 +32,22 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
     Rte.Tool.Color.COLORS.each(function(line) {
       var group  = $E('li', {'class': 'group'}),
           list   = $E('ul').insertTo(group),
-          colors = line.split(' '), i = 0, color;
+          colors = line.split(' '), i = 0, color, forecolor;
 
       for (; i < colors.length; i++) {
-        color = '#' + colors[i];
+        color     = '#' + colors[i];
+        forecolor = ('ffffff'.toInt(16) - colors[i].toInt(16)).toString(16);
+
+        // IE will get screwed if the length of the color is less than 6
+        while (forecolor.length < 6) {
+          forecolor += '0';
+        }
 
         this.items[color] = $E('li', {
           html:  '&bull;',
           style: {
             background: color,
-            color: '#' +(
-              // calculating an opposite color so the text would be visible
-              'ffffff'.toInt(16) - colors[i].toInt(16)
-            ).toString(16)
+            color: '#'+ forecolor
           }
         });
 

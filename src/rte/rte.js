@@ -36,7 +36,7 @@ var Rte = new Widget({
       ],
       extra: [
         'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header code quote|link image video|subscript superscript symbol|dotlist numlist|indent outdent',
+        'undo redo|header code quote|link image video|subscript superscript|dotlist numlist|indent outdent',
         'format|fontname fontsize|forecolor backcolor|source'
       ]
     },
@@ -142,16 +142,22 @@ var Rte = new Widget({
   initialize: function(textarea, options) {
     this.textarea = $(textarea);
 
+    this
+      .$super('rte', {})
+      .setOptions(options, this.textarea)
+      .append('<div contenteditable="true"></div>');
+
+    // IE won't allow to set 'contenteditable' progarmatically
+    // so we put it as a textual content and then find and assign
+    // in the Rte.Editor constructor
+
     this.selection = new Rte.Selection();
     this.editor    = new Rte.Editor(this);
     this.status    = new Rte.Status(this);
 
     this
-      .$super('rte', {})
-      .setOptions(options, this.textarea)
       .append(this.editor, this.status)
-      .setValue(this.textarea.value())
-      .onFocus(R(this.status.update).bind(this.status));
+      .setValue(this.textarea.value());
 
     if (!this.options.showToolbar) {
       this.toolbar.hide();
@@ -173,8 +179,7 @@ var Rte = new Widget({
 
     // disabling the 'css-mode' so the editor behaved itself properly
     try { document.execCommand("styleWithCSS", 0,     false); } catch (e) {
-    try { document.execCommand("useCSS",       0,     true);  } catch (e) {
-    try { document.execCommand('styleWithCSS', false, false); } catch (e) {}}}
+    try { document.execCommand('styleWithCSS', false, false); } catch (e) {}}
 
     this.editor.resize(size);
     this.setWidth(size.x);
@@ -194,7 +199,7 @@ var Rte = new Widget({
    * @return Rte this
    */
   setValue: function(value) {
-    this.textarea.value = value;
+    this.textarea._.value = value;
     this.editor.update(value);
     return this;
   },
@@ -205,7 +210,7 @@ var Rte = new Widget({
    * @return String current value
    */
   getValue: function() {
-    return this.textarea.value;
+    return this.editor._.innerHTML;
   },
 
   /**

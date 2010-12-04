@@ -18,9 +18,20 @@ Rte.Selection = new Class({
    * @return TextRange range
    */
   get: function() {
-    return document.selection ?
-      document.selection.createRange() :   // IE
-      window.getSelection().getRangeAt(0); // w3c
+    try { // W3C
+      return window.getSelection().getRangeAt(0);
+    } catch(e) {
+      try { // IE
+        return document.selection.createRange();
+      } catch (e) { // Safari
+        var selection = window.getSelection(), range = document.createRange();
+        if (selection.focusNode) {
+          range.setStart(selection.anchorNode, selection.anchorOffset);
+          range.setEnd(selection.focusNode, selection.focusOffset);
+        }
+        return range;
+      }
+    }
   },
 
   /**
@@ -100,8 +111,7 @@ Rte.Selection = new Class({
     var range = this.get();
 
     if (range.setStart) {
-      range.setStartBefore(element);
-      range.setEndAfter(element);
+      range.selectNode(element);
       this.set(range);
     } else {
       // TODO IE version

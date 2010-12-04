@@ -12,10 +12,8 @@ Rte.Editor = new Class(Element, {
    * @return void
    */
   initialize: function(rte) {
-    this.$super('div', {
-      'class': 'rui-rte-editor',
-      'contenteditable': true
-    });
+    this.$super(rte.first('div[contenteditable]')._);
+    this.addClass('rui-rte-editor');
 
     this.rte = rte;
 
@@ -24,13 +22,12 @@ Rte.Editor = new Class(Element, {
     this.on({
       focus: function() {
         selection.restore();
-        editor.focused = true;
-        rte.fire('focus');
+        rte.status.update();
+        rte.focused = true;
       },
       blur:    function() {
-        editor.focused = false;
+        rte.focused = false;
         rte.status.update();
-        rte.fire('blur');
       },
       mouseup: function() {
         selection.save();
@@ -118,8 +115,26 @@ Rte.Editor = new Class(Element, {
    */
   removeElement: function(element) {
     if (element !== null) {
-      if (element.innerHTML) {
-        this.rte.selection.wrap(element);
+      this.rte.selection.wrap(element);
+
+      if (Browser.Opera) {
+        // Opera screwes with the deletion process, so we delete the things manually
+        var parent = element.parentNode;
+        while (element.firstChild) {
+          parent.insertBefore(element.firstChild, element);
+        }
+        parent.removeChild(element);
+
+      } else if (element.innerHTML) {
+
+        if (Browser.WebKit) {
+          // webkit has a but with the selection replacement
+          // basically it will replace the content of the element
+          // not the element itself, so, first we need to
+          // delete the element and then insert its content
+          this.exec('delete');
+        }
+
         this.exec('insertHTML', element.innerHTML);
       } else {
         this.exec('delete');
@@ -142,11 +157,7 @@ Rte.Editor = new Class(Element, {
   },
 
   navigation_keys: [
-    37,
-    38,
-    39,
-    40,
-    13
+    37, 38, 39, 40, 13
   ],
 
   _isNav: function(event) {
