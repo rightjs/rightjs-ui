@@ -10,6 +10,7 @@ Rte.Tool = new Class(Element, {
   value:    null,  // execCommand value
   block:    true,  // should the 'keypress' be blocked
   blip:     false, // whether it should 'blip' when used
+  changes:  true,  // if this tool should fire 'change' on the rte
 
   /**
    * Basic constructor
@@ -58,10 +59,7 @@ Rte.Tool = new Class(Element, {
    */
   exec: function() {
     if (this.blip) { this.highlight(); }
-
-    this.rte.editor.focus().exec(
-      this.command, this.value
-    );
+    this.rte.editor.focus().exec(this.command, this.value);
   },
 
   /**
@@ -72,8 +70,8 @@ Rte.Tool = new Class(Element, {
   call: function() {
     if (!this.disabled) {
       this.exec();
-
       this.rte.status.update();
+      this.rte.fire('change', {tool: this});
     }
   },
 

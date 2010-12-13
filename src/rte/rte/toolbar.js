@@ -31,8 +31,6 @@ Rte.Toolbar = new Class(Element, {
         }
       });
     }, this);
-
-    rte.status.update();
   }
 
 });

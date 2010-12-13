@@ -18,8 +18,6 @@ Rte.Tool.Style = new Class(Rte.Tool.Format, {
    * @return Rte.Tool.StyleOptions
    */
   initialize: function(rte, options) {
-    this.defaultStyle = rte.editor.getStyle(this.style);
-
     // a regular expression to process the `style` property
     this.re    = new RegExp("(^|;)\\s*"+ RegExp.escape(this.style + ":")+ "\\s*(.+?)\\s*(;|$)");
     this.attrs = { style: this.re };

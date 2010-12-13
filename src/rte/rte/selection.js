@@ -7,9 +7,12 @@ Rte.Selection = new Class({
 
   /**
    * Basic constructor
+   *
+   * @param Rte rte
+   * @return void
    */
-  initialize: function() {
-    this.range = null;
+  initialize: function(rte) {
+    this.rte = rte;
   },
 
   /**
@@ -53,20 +56,84 @@ Rte.Selection = new Class({
   /**
    * Saves the current selection range
    *
-   * @return void
+   * Basically we create a pair of sequences of offsets
+   * from the selection's start and the end containers, from
+   * top to the editor's element, so that later on, we could
+   * try to restore the selection position even if the real
+   * data was lost or changed manually via the `innerHTML`
+   * assignment
+   *
+   * @return Array bookmark
    */
   save: function() {
-    this.range = this.get();
+    var range = this.get(), editor = this.rte.editor._.parentNode;
+
+    function find_position(type) {
+      var marker  = [],
+          found   = false,
+          element = range[type + 'Container'],
+          offset  = range[type + 'Offset'];
+
+      while (element.parentNode) {
+        if (element === editor) {
+          found = true;
+          break;
+        } else {
+          marker.push(offset);
+
+          for (var i=0; i < element.parentNode.childNodes.length; i++) {
+            if (element.parentNode.childNodes[i] === element) {
+              offset = i;
+              break;
+            }
+          }
+
+          element = element.parentNode;
+        }
+      }
+
+      return found ? marker : [];
+    }
+
+    return (this.mark = [find_position('start'), find_position('end')]);
   },
 
   /**
    * Restores previously stored selection range
    *
+   * SEE: the #save method for more details
+   *
+   * @param Array bookmark
    * @return void
    */
-  restore: function() {
-    if (this.range !== null) {
-      this.set(this.range);
+  restore: function(bookmark) {
+    var marker = bookmark || this.mark,
+        editor = this.rte.editor._,
+        range  = document.selection ? document.selection.createRange() : document.createRange();
+
+    function set_position(what, markers) {
+      var element = editor,
+          offset  = markers.shift(),
+          i = markers.length - 1;
+
+      for (; i > -1; i--) {
+        if (!(element.tagName && (element = element.childNodes[markers[i]]))) {
+          break;
+        }
+      }
+
+      if (element && element !== editor) {
+        range[what](element, offset);
+      }
+    }
+
+    if (marker) {
+      try { // sometimes the offsets might not exist anymore
+        set_position('setStart', marker[0]);
+        set_position('setEnd',   marker[1]);
+
+        this.set(range);
+      } catch(e) {}
     }
   },
 
@@ -124,8 +191,8 @@ Rte.Selection = new Class({
    * @return String selection text
    */
   text: function() {
-    var text = this.get();
-    return '' + (text.text ? text.text : text);
+    var range = this.get();
+    return '' + (range.text ? range.text : range);
   },
 
   /**

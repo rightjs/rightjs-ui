@@ -19,6 +19,7 @@ include_module_files(
   'rte/toolbar',
   'rte/editor',
   'rte/status',
+  'rte/undoer',
 
   'rte/selection',
 

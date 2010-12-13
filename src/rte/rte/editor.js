@@ -12,35 +12,16 @@ Rte.Editor = new Class(Element, {
    * @return void
    */
   initialize: function(rte) {
-    this.$super(rte.first('div[contenteditable]')._);
-    this.addClass('rui-rte-editor');
+    this.$super(rte.first('div.rui-rte-editor')._);
 
     this.rte = rte;
 
-    var editor = this, selection = rte.selection;
-
     this.on({
-      focus: function() {
-        selection.restore();
-        rte.status.update();
-        rte.focused = true;
-      },
-      blur:    function() {
-        rte.focused = false;
-        rte.status.update();
-      },
-      mouseup: function() {
-        selection.save();
-        rte.status.update();
-      },
-      keyup:   function(event) {
-        if (editor._isNav(event)) {
-          selection.save();
-          rte.status.update();
-        }
-      },
-      keydown:  this._keydown,
-      keypress: this._keypress
+      focus:   this._focus,
+      blur:    this._blur,
+      mouseup: this._mouseup,
+      keydown: this._keydown,
+      keyup:   this._keyup
     });
   },
 
@@ -144,7 +125,22 @@ Rte.Editor = new Class(Element, {
 
 // protected
 
-  // catches the keydown
+  _focus: function() {
+    this.rte.selection.restore();
+    this.rte.status.update();
+    this.rte.focused = true;
+  },
+
+  _blur: function() {
+    this.rte.focused = false;
+    this.rte.status.update();
+  },
+
+  _mouseup: function() {
+    this.rte.selection.save();
+    this.rte.status.update();
+  },
+
   _keydown: function(event) {
     var raw = event._, key = raw.keyCode, tool;
 
@@ -152,16 +148,38 @@ Rte.Editor = new Class(Element, {
       if ((tool = this.rte.shortcuts[key])) {
         if (tool.block) { event.stop(); }
         tool.call();
+      } else if (key === 90) { // 'Z' enforcing the undo/redo actions
+        event.stop();
+        this.rte.undoer[raw.shiftKey ? 'redo' : 'undo']();
       }
     }
   },
 
-  navigation_keys: [
-    37, 38, 39, 40, 13
-  ],
+  _keyup: function(event) {
+    var raw = event._;
 
-  _isNav: function(event) {
-    return this.navigation_keys.indexOf(event._.keyCode) > -1;
+    if (raw.keyCode in this._keys) {
+      this.rte.selection.save();
+      this.rte.status.update();
+    } else {
+      // watching the typing pauses to fire 'change' events
+      if (this._timer) { window.clearTimeout(this._timer); }
+      var rte = this.rte;
+      this._timer = window.setTimeout(function() {
+        rte.fire('change');
+      }, 400);
+    }
+  },
+
+  _timer: false,
+
+  // navigation keys
+  _keys: {
+    37: true,
+    38: true,
+    39: true,
+    40: true,
+    13: true
   }
 
 });

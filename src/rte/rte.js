@@ -145,18 +145,19 @@ var Rte = new Widget({
     this
       .$super('rte', {})
       .setOptions(options, this.textarea)
-      .append('<div contenteditable="true"></div>');
+      .append('<div contenteditable="true" class="rui-rte-editor"></div>');
 
     // IE won't allow to set 'contenteditable' progarmatically
     // so we put it as a textual content and then find and assign
     // in the Rte.Editor constructor
-
-    this.selection = new Rte.Selection();
+    this.toolbar   = new Rte.Toolbar(this)
     this.editor    = new Rte.Editor(this);
     this.status    = new Rte.Status(this);
+    this.undoer    = new Rte.Undoer(this);
+    this.selection = new Rte.Selection(this);
 
     this
-      .append(this.editor, this.status)
+      .append(this.toolbar, this.editor, this.status)
       .setValue(this.textarea.value());
 
     if (!this.options.showToolbar) {
@@ -167,19 +168,12 @@ var Rte = new Widget({
       this.status.hide();
     }
 
+    // handling the sizes and stuff
     var size = this.textarea.size();
 
     this.insertTo(this.textarea.setStyle(
       'visibility:hidden;position:absolute;z-index:-1'
-    ),'before');
-
-    // should be created after the editor on the page
-    // because some tools check if they are supported
-    this.toolbar = new Rte.Toolbar(this).insertTo(this, 'top');
-
-    // disabling the 'css-mode' so the editor behaved itself properly
-    try { document.execCommand("styleWithCSS", 0,     false); } catch (e) {
-    try { document.execCommand('styleWithCSS', false, false); } catch (e) {}}
+    ), 'before');
 
     this.editor.resize(size);
     this.setWidth(size.x);
@@ -190,6 +184,11 @@ var Rte = new Widget({
         height:  'auto'
       });
     }
+
+    // updating the initial state
+    this.editor.exec('styleWithCss', false);
+    this.status.update();
+    this.undoer.save();
   },
 
   /**
