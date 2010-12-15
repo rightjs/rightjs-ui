@@ -5,7 +5,7 @@
  */
 Rte.Tools.Link = new Class(Rte.Tool.Url, {
   shortcut: 'L',
-  command:  'createlink',  // 'unlink'
+  command:  'createlink',
   attr:     'href',
 
   enabled: function() {

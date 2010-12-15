@@ -16,7 +16,6 @@ Rte.Tools.Save = new Class(Rte.Tool, {
 
   exec: function() {
     if (!this.disabled) {
-      this.highlight();
       this.rte.textarea.form().submit();
     }
   },

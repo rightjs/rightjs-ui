@@ -24,6 +24,7 @@ include_module_files(
   'rte/selection',
 
   'rte/tool',
+  'rte/tool/command',
   'rte/tool/format',
   'rte/tool/options',
   'rte/tool/style',

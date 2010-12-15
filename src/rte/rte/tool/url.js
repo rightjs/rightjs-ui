@@ -43,6 +43,6 @@ Rte.Tool.Url = new Class(Rte.Tool, {
   },
 
   create: function(url) {
-    Rte.Tool.prototype.exec.call(this, this.command, this.value = url);
+    this.rte.exec(this.command, url);
   }
 });

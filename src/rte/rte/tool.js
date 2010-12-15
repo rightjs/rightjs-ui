@@ -6,8 +6,6 @@
 Rte.Tool = new Class(Element, {
 
   shortcut: false, // shortcut string
-  command:  false, // execCommand command
-  value:    null,  // execCommand value
   block:    true,  // should the 'keypress' be blocked
   blip:     false, // whether it should 'blip' when used
   changes:  true,  // if this tool should fire 'change' on the rte
@@ -52,18 +50,14 @@ Rte.Tool = new Class(Element, {
     return this;
   },
 
-  /**
-   * The entry point for the tools
-   *
-   * @return void
-   */
-  exec: function() {
-    if (this.blip) { this.highlight(); }
-    this.rte.editor.focus().exec(this.command, this.value);
-  },
+  // those three methods should be implemented in subclasses
+  exec:    function() {               }, /// the actual process
+  active:  function() { return false; }, // all tools not active by default
+  enabled: function() { return true;  }, // all tools enabled by default
 
   /**
-   * Tries to involve the tool if it's enabled
+   * The entry point for all the tools, if you need to call a tool,
+   * call this method. __DON'T CALL__ the #exec method directly!
    *
    * @return void
    */
@@ -72,6 +66,7 @@ Rte.Tool = new Class(Element, {
       this.exec();
       this.rte.status.update();
       this.rte.fire('change', {tool: this});
+      if (this.blip) { this.highlight(); }
     }
   },
 
@@ -94,32 +89,6 @@ Rte.Tool = new Class(Element, {
       this._.className += ' disabled';
       this.disabled = true;
     }
-  },
-
-  /**
-   * Checks if the command is enabled at all
-   *
-   * @return boolean check result
-   */
-  enabled: function() {
-    return !this.command || document.queryCommandEnabled(this.command);
-  },
-
-  /**
-   * Queries if the command is in active state
-   *
-   * @return boolean check result
-   */
-  active: function() {
-    try {
-      if (this.value) {
-        return this.rte.focused && document.queryCommandValue(this.command) == this.value;
-      } else {
-        return this.rte.focused && document.queryCommandState(this.command);
-      }
-    } catch(e) {}
-
-    return false;
   },
 
   /**

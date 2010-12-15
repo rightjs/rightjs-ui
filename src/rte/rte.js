@@ -186,7 +186,7 @@ var Rte = new Widget({
     }
 
     // updating the initial state
-    this.editor.exec('styleWithCss', false);
+    this.exec('styleWithCss', false);
     this.status.update();
     this.undoer.save();
   },
@@ -265,6 +265,31 @@ var Rte = new Widget({
     Rte.current = null;
 
     this.editor.blur();
+
+    return this;
+  },
+
+// protected
+
+  /**
+   * executes a command on this editing area
+   *
+   * @param String command name
+   * @param mixed command value
+   * @return Rte.Editor this
+   */
+  exec: function(command, value) {
+    try {
+      // it throws errors in some cases in the non-design mode
+      document.execCommand(command, false, value);
+    } catch(e) {
+      // emulating insert html under IE
+      if (command === 'inserthtml') {
+        try {
+          this.selection.get().pasteHTML = value;
+        } catch(e) {}
+      }
+    }
 
     return this;
   }

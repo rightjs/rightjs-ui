@@ -75,7 +75,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
 
     content += ">" + this.rte.selection.html() + '</'+ this.tag + '>';
 
-    this.rte.editor.exec('insertHTML', content);
+    this.rte.exec('inserthtml', content);
   }
 
 });

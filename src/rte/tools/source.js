@@ -12,10 +12,6 @@ Rte.Tools.Source = new Class(Rte.Tool, {
     this.rte.srcMode = !this.rte.srcMode;
   },
 
-  enabled: function() {
-    return true;
-  },
-
   active: function() {
     return this.rte.srcMode;
   },

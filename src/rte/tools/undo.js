@@ -8,10 +8,10 @@
  */
 Rte.Tools.Undo = new Class(Rte.Tool, {
   shortcut: 'Z',
+  blip:     true,
 
   exec: function() {
     this.rte.undoer.undo();
-    this.highlight();
   },
 
   enabled: function() {

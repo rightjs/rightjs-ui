@@ -3,6 +3,6 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tools.Subscript = new Class(Rte.Tool, {
+Rte.Tools.Subscript = new Class(Rte.Tool.Command, {
   command: 'subscript'
 });

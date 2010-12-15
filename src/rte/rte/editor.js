@@ -65,29 +65,6 @@ Rte.Editor = new Class(Element, {
   },
 
   /**
-   * executes a command on this editing area
-   *
-   * @param String command name
-   * @param mixed command value
-   * @return Rte.Editor this
-   */
-  exec: function(command, value) {
-    try {
-      // it throws errors in some cases in the non-design mode
-      document.execCommand(command, false, value);
-    } catch(e) {
-      // emulating insert html under IE
-      if (command.toLowerCase() === 'inserthtml') {
-        try {
-          this.rte.selection.get().pasteHTML = value;
-        } catch(e) {}
-      }
-    }
-
-    return this;
-  },
-
-  /**
    * Removes the element from the editor, placing all its content
    * in its place
    *
@@ -96,30 +73,11 @@ Rte.Editor = new Class(Element, {
    */
   removeElement: function(element) {
     if (element !== null) {
-      this.rte.selection.wrap(element);
-
-      if (Browser.Opera) {
-        // Opera screwes with the deletion process, so we delete the things manually
-        var parent = element.parentNode;
-        while (element.firstChild) {
-          parent.insertBefore(element.firstChild, element);
-        }
-        parent.removeChild(element);
-
-      } else if (element.innerHTML) {
-
-        if (Browser.WebKit) {
-          // webkit has a but with the selection replacement
-          // basically it will replace the content of the element
-          // not the element itself, so, first we need to
-          // delete the element and then insert its content
-          this.exec('delete');
-        }
-
-        this.exec('insertHTML', element.innerHTML);
-      } else {
-        this.exec('delete');
+      var parent = element.parentNode;
+      while (element.firstChild) {
+        parent.insertBefore(element.firstChild, element);
       }
+      parent.removeChild(element);
     }
   },
 
@@ -137,8 +95,7 @@ Rte.Editor = new Class(Element, {
   },
 
   _mouseup: function() {
-    this.rte.selection.save();
-    this.rte.status.update();
+    this._focus();
   },
 
   _keydown: function(event) {
@@ -156,11 +113,8 @@ Rte.Editor = new Class(Element, {
   },
 
   _keyup: function(event) {
-    var raw = event._;
-
-    if (raw.keyCode in this._keys) {
-      this.rte.selection.save();
-      this.rte.status.update();
+    if (event.keyCode in this._keys) {
+      this._focus();
     } else {
       // watching the typing pauses to fire 'change' events
       if (this._timer) { window.clearTimeout(this._timer); }

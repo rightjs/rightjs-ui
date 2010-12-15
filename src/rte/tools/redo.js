@@ -7,10 +7,10 @@
  * Copyright (C) 2010 Nikolay Nemshilov
  */
 Rte.Tools.Redo = new Class(Rte.Tool, {
+  blip: true,
 
   exec: function() {
     this.rte.undoer.redo();
-    this.highlight();
   },
 
   enabled: function() {
