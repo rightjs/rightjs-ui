@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-Rte.Tools.Italic = new Class(Rte.Tool.Command, {
+Rte.Tools.Italic = new Class(Rte.Tool.Format, {
   shortcut: 'I',
-  command:  'italic'
+  tag:      'I'
 });

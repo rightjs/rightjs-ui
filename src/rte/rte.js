@@ -16,12 +16,6 @@ var Rte = new Widget({
       showToolbar: true,     // show the toolbar
       showStatus:  true,     // show the status bar
 
-      tagQuote:    'blockquote', // the quote block tag name
-      tagCode:     'pre',    // the code block tag name
-      tagTtext:    'tt',     // the mono-width text tag name
-      tagHeader:   'h2',     // the header block tag name
-      tagStrike:   's',      // the strike-through element tag-name
-
       videoSize:   '425x344', // flash-video blocks default size
 
       cssRule:     'textarea[data-rte]'
@@ -42,6 +36,18 @@ var Rte = new Widget({
     },
 
     Tools: {}, // the index of available tools will be here
+
+    // tags used by default with formatting tools
+    Tags: {
+      Bold:      'b',
+      Italic:    'i',
+      Underline: 'u',
+      Strike:    's',
+      Ttext:     'tt',
+      Code:      'pre',
+      Quote:     'blockquote',
+      Header:    'h2'
+    },
 
     // the formatting options, you can use simply tag names
     // or you can also specify tag + class like 'div.blue'
@@ -140,25 +146,14 @@ var Rte = new Widget({
    * @return void
    */
   initialize: function(textarea, options) {
-    this.textarea = $(textarea);
-
     this
       .$super('rte', {})
-      .setOptions(options, this.textarea)
-      .append('<div contenteditable="true" class="rui-rte-editor"></div>');
-
-    // IE won't allow to set 'contenteditable' progarmatically
-    // so we put it as a textual content and then find and assign
-    // in the Rte.Editor constructor
-    this.toolbar   = new Rte.Toolbar(this)
-    this.editor    = new Rte.Editor(this);
-    this.status    = new Rte.Status(this);
-    this.undoer    = new Rte.Undoer(this);
-    this.selection = new Rte.Selection(this);
-
-    this
-      .append(this.toolbar, this.editor, this.status)
-      .setValue(this.textarea.value());
+      .setOptions(options, this.textarea = $(textarea))
+      .append(
+        this.toolbar = new Rte.Toolbar(this),
+        this.editor  = new Rte.Editor(this),
+        this.status  = new Rte.Status(this)
+      );
 
     if (!this.options.showToolbar) {
       this.toolbar.hide();
@@ -184,6 +179,11 @@ var Rte = new Widget({
         height:  'auto'
       });
     }
+
+    this.setValue(this.textarea.value());
+
+    this.undoer    = new Rte.Undoer(this);
+    this.selection = new Rte.Selection(this);
 
     // updating the initial state
     this.exec('styleWithCss', false);

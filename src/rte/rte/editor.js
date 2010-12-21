@@ -12,7 +12,12 @@ Rte.Editor = new Class(Element, {
    * @return void
    */
   initialize: function(rte) {
-    this.$super(rte.first('div.rui-rte-editor')._);
+    // IE won't allow us to set 'contenteditable' progarmatically
+    // so we put it as a textual content and then find it manually
+    this.$super(rte
+      .append('<div contenteditable="true" class="rui-rte-editor"></div>')
+      .first('div.rui-rte-editor')._
+    );
 
     this.rte = rte;
 

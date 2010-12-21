@@ -46,8 +46,14 @@ Rte.Tools.Format = new Class(Rte.Tool.Format, {
    * @return void
    */
   exec: function() {
-    this[this.value ? 'format' : 'unformat']();
-    this.rte.status.update();
+    if (this.formats[this.value]) {
+      this.tag   = this.formats[this.value].tag;
+      this.attrs = this.formats[this.value].attrs;
+
+      this.format();
+    } else {
+      this.unformat();
+    }
   },
 
   /**
@@ -63,16 +69,6 @@ Rte.Tools.Format = new Class(Rte.Tool.Format, {
   },
 
 // protected
-
-  // overloading the formatting method to have multiple options
-  format: function() {
-    if (this.formats[this.value]) {
-      this.tag   = this.formats[this.value].tag;
-      this.attrs = this.formats[this.value].attrs;
-
-      this.$super();
-    }
-  },
 
   // overloading the original method to handle multiple options
   element: function() {

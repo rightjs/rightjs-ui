@@ -4,5 +4,5 @@
  * Copyrigth (C) 2010 Nikolay Nemshilov
  */
 Rte.Tools.Code = new Class(Rte.Tool.Format, {
-  // tag is autoassigned from the options
+  tag: 'PRE'
 });

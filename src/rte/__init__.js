@@ -9,6 +9,7 @@ var R  = RightJS,
     $$ = RightJS.$$,
     $w = RightJS.$w,
     $E = RightJS.$E,
+    $A = RightJS.$A,
     RegExp = RightJS.RegExp,
     Class  = RightJS.Class;
 

@@ -8,7 +8,7 @@
 Rte.Tool.Style = new Class(Rte.Tool.Format, {
   include: Rte.Tool.Options,
 
-  tag:   'SPAN',  // tag name of the element to be used
+  tag:   'span',  // tag name of the element to be used
   style:  null,   // the style property name (dashed)
 
   /**

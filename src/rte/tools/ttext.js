@@ -5,5 +5,4 @@
  */
 Rte.Tools.Ttext = new Class(Rte.Tool.Format, {
   shortcut: 'T'
-  // tag is autoassigned from the options
 });
