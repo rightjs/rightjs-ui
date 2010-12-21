@@ -123,9 +123,12 @@ Rte.Editor = new Class(Element, {
     } else {
       // watching the typing pauses to fire 'change' events
       if (this._timer) { window.clearTimeout(this._timer); }
-      var rte = this.rte;
+      var rte = this.rte, editor = this._;
       this._timer = window.setTimeout(function() {
-        rte.fire('change');
+        if (rte.__old_value !== editor.innerHTML) {
+          rte.__old_value = editor.innerHTML;
+          rte.fire('change');
+        }
       }, 400);
     }
   },

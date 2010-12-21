@@ -8,6 +8,9 @@ var Rte = new Widget({
   extend: {
     EVENTS: $w('change focus blur'),
 
+    // checking if the 'contentEditable' feature is supported at all
+    supported: 'contentEditable' in document.createElement('div'),
+
     Options: {
       toolbar:     'small',  // toolbar, the name or an array of your own
 
@@ -148,7 +151,7 @@ var Rte = new Widget({
   initialize: function(textarea, options) {
     this
       .$super('rte', {})
-      .setOptions(options, this.textarea = $(textarea))
+      .setOptions(options, textarea)
       .append(
         this.toolbar = new Rte.Toolbar(this),
         this.editor  = new Rte.Editor(this),
@@ -163,24 +166,9 @@ var Rte = new Widget({
       this.status.hide();
     }
 
-    // handling the sizes and stuff
-    var size = this.textarea.size();
-
-    this.insertTo(this.textarea.setStyle(
-      'visibility:hidden;position:absolute;z-index:-1'
-    ), 'before');
-
-    this.editor.resize(size);
-    this.setWidth(size.x);
-
-    if (this.options.autoresize) {
-      this.editor.setStyle({
-        minHeight: size.y + 'px',
-        height:  'auto'
-      });
+    if (textarea) {
+      this.assignTo(textarea);
     }
-
-    this.setValue(this.textarea.value());
 
     this.undoer    = new Rte.Undoer(this);
     this.selection = new Rte.Selection(this);
@@ -198,7 +186,9 @@ var Rte = new Widget({
    * @return Rte this
    */
   setValue: function(value) {
-    this.textarea._.value = value;
+    if (this.textarea) {
+      this.textarea.value(value);
+    }
     this.editor.update(value);
     return this;
   },
@@ -265,6 +255,46 @@ var Rte = new Widget({
     Rte.current = null;
 
     this.editor.blur();
+
+    return this;
+  },
+
+  /**
+   * Assigns this Rte to work with this textarea
+   *
+   * @param mixed textarea reference
+   * @return Rte this
+   */
+  assignTo: function(element) {
+    var textarea = $(element),
+        size = textarea.size();
+
+    // displaying self only if the 'contentEditable' feature is supported
+    // otherwise keeping original textarea where it is
+    if (Rte.supported) {
+      this.insertTo(textarea.setStyle(
+        'visibility:hidden;position:absolute;z-index:-1'
+      ), 'before');
+
+      this.editor.resize(size);
+      this.setWidth(size.x);
+
+      if (this.options.autoresize) {
+        this.editor.setStyle({
+          minHeight: size.y + 'px',
+          height:  'auto'
+        });
+      }
+    } else {
+      textarea.setStyle('visibility:visible');
+    }
+
+    this.setValue(textarea.value());
+    this.onChange(function() {
+      textarea._.value = this.editor._.innerHTML;
+    });
+
+    this.textarea = textarea;
 
     return this;
   },
