@@ -5,7 +5,7 @@
 require 'rake'
 require 'fileutils'
 require 'front_compiler'
-require 'util/build/rutil'
+require File.expand_path('util/build/rutil')
 
 BUILD_DIR    = 'build'
 BUILD_PREFIX = 'right'
