@@ -58,7 +58,13 @@ div.rui-rte {
 
 /** Toolbar styles */
 div.rui-rte-toolbar {
-
+  padding: 5px;
+  background: #eee;
+  border-radius: .25em .25em 0 0;
+  -moz-border-radius: .25em .25em 0 0;
+  -webkit-border-radius: .25em .25em 0 0;
+  border: 1px solid #ccc;
+  border-bottom: none;
 }
 
 div.rui-rte-toolbar div.line {
@@ -83,27 +89,33 @@ div.rui-rte-toolbar div.tool {
   vertical-align: middle;
   position: relative;
   cursor: pointer;
-  border: 1px solid #c8c8c8;
+  border: 1px solid #bbb;
+  background-image: url(../../img/rte-buttons.png);
+  background-position: left center;
+  background-color:#fff;
   border-radius: .25em;
   -moz-border-radius: .25em;
   -webkit-border-radius: .25em;
-  background-color: #e8e8e8;
 }
 div.rui-rte-toolbar div.tool:hover {
-  background-color: #CCC;
-  border-color: #888;
+  background-color: #ddd;
+  border-color: #777;
 }
 div.rui-rte-toolbar div.disabled,
 div.rui-rte-toolbar div.disabled:hover {
-  opacity: .5;
-  filter: alpha(opacity=50);
-  background-color: #ccc;
+  opacity: .4;
+  filter: alpha(opacity=40);
+  background-image: url(../../img/rte-buttons.png);
+  background-position: right center;
+  background-color: #eee;
   border-color: #aaa;
   cursor: default;
 }
 
 div.rui-rte-toolbar div.active {
-  background-color: #CCC;
+  background-image: url(../../img/rte-buttons.png);
+  background-position: center center;
+  background-color:#eee;
   border-color: #666;
   box-shadow: #aaa .025em .025em .5em;
   -moz-box-shadow: #aaa .025em .025em .5em;
@@ -305,9 +317,6 @@ div.rui-rte-editor {
   overflow: auto;
   background: white;
   border: 1px solid #ccc;
-  border-radius: .25em;
-  -moz-border-radius: .25em;
-  -webkit-border-radius: .25em;
 }
 div.rui-rte-editor:focus {
   border-color: #aaa;
@@ -331,7 +340,9 @@ div.rui-rte-status {
   padding: 0 .5em;
   color: #888;
   background: #eee;
-  border-radius: .25em;
-  -moz-border-radius: .25em;
-  -webkit-border-radius: .25em;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 .25em .25em;
+  -moz-border-radius: 0 0 .25em .25em;
+  -webkit-border-radius: 0 0 .25em .25em;
 }
