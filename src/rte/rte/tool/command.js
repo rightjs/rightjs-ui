@@ -22,7 +22,11 @@ Rte.Tool.Command = new Class(Rte.Tool, {
    * @return boolean check result
    */
   enabled: function() {
-    return document.queryCommandEnabled(this.command);
+    try {
+      return document.queryCommandEnabled(this.command);
+    } catch(e) {
+      return false;
+    }
   },
 
   /**

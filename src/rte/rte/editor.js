@@ -37,15 +37,7 @@ Rte.Editor = new Class(Element, {
    * @return Rte.Editor this
    */
   update: function(text) {
-    for (var key in Rte.Convert) {
-      text = text.replace(
-        new RegExp('<(\/)?'+ key +'>', 'ig'),
-        '<$1'+ Rte.Convert[key] + '>'
-      );
-    }
-
-    this._.innerHTML = text;
-
+    this.$super(text);
     return this;
   },
 

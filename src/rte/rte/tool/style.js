@@ -28,6 +28,28 @@ Rte.Tool.Style = new Class(Rte.Tool.Format, {
   },
 
   /**
+   * Triggers the action
+   *
+   * @return void
+   */
+  exec: function() {
+    // unformatting if there is a value
+    if (this.active()) {
+      this.attrs = {style: this.style + ":" + this._value};
+      this.unformat();
+    }
+
+    // formatting if some value was asked
+    if (this.value) {
+      this.attrs = {style: this.style + ":" + this.value};
+      this.format();
+    }
+
+    // getting back the RE checker
+    this.attrs = {style: this.re};
+  },
+
+  /**
    * Overloading the original method so that we could do some additional
    * features with the actual current value
    *
@@ -37,7 +59,7 @@ Rte.Tool.Style = new Class(Rte.Tool.Format, {
     var element = this.element(), active = false, value = null;
 
     if (element !== null) {
-      value  = this.getStyleValue();
+      this._value = value  = this.getStyleValue();
       active = true;
     }
 
@@ -47,21 +69,6 @@ Rte.Tool.Style = new Class(Rte.Tool.Format, {
   },
 
 // protected
-
-  // calling format all over again because there might be nested styles
-  unformat: function() { this.format(); },
-
-  // reformatting the selection using the `style` property
-  format: function() {
-    if (this.value) {
-      this.attrs = {style: this.style + ":" + this.value};
-      this.$super();
-      this.attrs = {style: this.re};
-    } else if (this.element()) {
-      // removing the formatting element if there is no style value
-      Rte.Tool.Format.prototype.unformat.call(this);
-    }
-  },
 
   /**
    * Finds the current style value (if any)

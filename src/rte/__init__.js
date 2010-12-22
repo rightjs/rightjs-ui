@@ -10,8 +10,9 @@ var R  = RightJS,
     $w = RightJS.$w,
     $E = RightJS.$E,
     $A = RightJS.$A,
-    RegExp = RightJS.RegExp,
-    Class  = RightJS.Class;
+    RegExp  = RightJS.RegExp,
+    Class   = RightJS.Class,
+    Element = RightJS.Element;
 
 
 include_module_files(
@@ -75,7 +76,6 @@ include_module_files(
   'tools/fontsize',
   'tools/subscript',
   'tools/superscript',
-  'tools/symbol',
 
   'document',
   'input'

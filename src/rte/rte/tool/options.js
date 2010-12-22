@@ -94,8 +94,10 @@ Rte.Tool.Options = {
 
   // updates the display
   updateDisplay: function(value) {
-    this.display._.innerHTML = value !== null && value in this.items ?
-      this.items[value].text() : this._.title;
+    this.display.update(
+      value !== null && value in this.items ?
+        this.items[value].text() : this._.title
+    );
   }
 
 };

@@ -46,13 +46,18 @@ Rte.Tools.Format = new Class(Rte.Tool.Format, {
    * @return void
    */
   exec: function() {
-    if (this.formats[this.value]) {
+    // removing the formatting first
+    if (this.active() && this.rule) {
+      this.tag   = this.formats[this.rule].tag;
+      this.attrs = this.formats[this.rule].attrs;
+      this.unformat();
+    }
+
+    // applying a new formatting if needed
+    if (this.value && this.formats[this.value]) {
       this.tag   = this.formats[this.value].tag;
       this.attrs = this.formats[this.value].attrs;
-
       this.format();
-    } else {
-      this.unformat();
     }
   },
 
