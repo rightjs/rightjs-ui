@@ -273,7 +273,7 @@ var Rte = new Widget({
     // otherwise keeping original textarea where it is
     if (Rte.supported) {
       this.insertTo(textarea.setStyle(
-        'visibility:hidden;position:absolute;z-index:-1'
+        'visibility:hidden;position:absolute;z-index:-1;top:-9999px;left:-9999px;'
       ), 'before');
 
       this.editor.resize(size);
