@@ -94,7 +94,7 @@ var Dialog = new Widget({
         duration: this.options.fxDuration
       });
     } else {
-      this.setStyle('opacity:0');
+      this.setStyle('opacity:1');
     }
 
     return (Dialog.current = this);
