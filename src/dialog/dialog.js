@@ -5,7 +5,7 @@
  */
 var Dialog = new Widget({
   extend: {
-    version: '2.0.2',
+    version: '2.0.3',
 
     EVENTS: $w('ok cancel help expand collapse resize load'),
 
