@@ -1,12 +1,12 @@
 /**
  * The lightbox widget
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 var Lightbox = new Widget({
 
   extend: {
-    version: '2.0.5',
+    version: '2.2.0',
 
     EVENTS: $w('show hide load'),
 

@@ -1,9 +1,9 @@
 /**
  * The calendar months greed unit
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-var Greed = new Wrapper(Element, {
+var Greed = new Class(Element, {
   /**
    * Constructor
    *

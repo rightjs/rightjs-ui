@@ -1,7 +1,7 @@
 /**
  * Stripe visual effects class
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Billboard.Fx.Stripe = new Class(Billboard.Fx, {
 
@@ -43,12 +43,13 @@ Billboard.Fx.Stripe = new Class(Billboard.Fx, {
       };
 
       if (direction !== 'right' && i === (length - 1) || (direction === 'right' && i === 0)) {
-        options.onFinish = R(this.finish).bind(this);
+        options.onFinish = R(this.finish).bind(this, true);
       }
 
       switch (direction) {
         case 'up':
           R(function(stripe, options) {
+            stripe.setHeight(stripe.size().y);
             stripe.morph({height: '0px'}, options);
           }).bind(this, stripe, options).delay(i * delay);
           break;
@@ -56,6 +57,7 @@ Billboard.Fx.Stripe = new Class(Billboard.Fx, {
         case 'down':
           stripe.setStyle('top: auto; bottom: 0px');
           R(function(stripe, options) {
+            stripe.setHeight(stripe.size().y);
             stripe.morph({height: '0px'}, options);
           }).bind(this, stripe, options).delay(i * delay);
           break;
@@ -73,20 +75,22 @@ Billboard.Fx.Stripe = new Class(Billboard.Fx, {
           break;
 
         default:
-          this.finish();
+          this.finish(true);
       }
     }
   },
 
 
   /**
-   * Stubbing the timer so it didn't count nothing
+   * Stubbing the finish method so it didn't finish prematurely
    *
    * @return Fx this
    */
-  start: function() {
-    this.$super.apply(this, arguments);
-    return this.pause();
+  finish: function(for_sure) {
+    if (for_sure) {
+      this.$super();
+    }
+    return this;
   }
 
 });

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
-var Buttons = new Wrapper(Element, {
+var Buttons = new Class(Element, {
   /**
    * Constructor
    *

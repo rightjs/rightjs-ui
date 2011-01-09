@@ -1,11 +1,11 @@
 /**
  * An inline editor feature
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 var InEdit = new Widget('FORM', {
   extend: {
-    version: '2.0.0',
+    version: '2.2.0',
 
     EVENTS: $w('show hide send update'),
 

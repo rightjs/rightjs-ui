@@ -1,9 +1,9 @@
 /**
  * The controls block unit
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-var Controls = new Wrapper(Element, {
+var Controls = new Class(Element, {
   initialize: function() {
     this.$super('div', {'class': 'controls'});
     this.insert([

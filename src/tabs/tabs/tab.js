@@ -1,9 +1,9 @@
 /**
  * A single tab handling object
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
-var Tab = Tabs.Tab = new Wrapper(Element, {
+var Tab = Tabs.Tab = new Class(Element, {
   extend: {
     autoId: 0
   },

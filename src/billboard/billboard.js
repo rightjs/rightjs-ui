@@ -1,11 +1,11 @@
 /**
  * Billboards basic class
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var Billboard = new Widget('UL', {
   extend: {
-    version: '2.0.1',
+    version: '2.2.0',
 
     EVENTS:  $w('change first last'),
 

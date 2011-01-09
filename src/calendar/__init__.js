@@ -1,7 +1,7 @@
 /**
  * The filenames to include
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 
 var R          = RightJS,
@@ -13,7 +13,7 @@ var R          = RightJS,
     isString   = RightJS.isString,
     isArray    = RightJS.isArray,
     isFunction = RightJS.isFunction,
-    Wrapper    = RightJS.Wrapper,
+    Class      = RightJS.Class,
     Element    = RightJS.Element,
     Input      = RightJS.Input,
     RegExp     = RightJS.RegExp,

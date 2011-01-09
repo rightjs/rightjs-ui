@@ -1,9 +1,9 @@
 /**
  * The calendar month/year swapping buttons block
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-var Swaps = new Wrapper(Element, {
+var Swaps = new Class(Element, {
   /**
    * Constructor
    *

@@ -11,7 +11,7 @@ var R = RightJS,
     $E = RightJS.$E,
     $A = RightJS.$A,
     isArray = RightJS.isArray,
-    Wrapper = RightJS.Wrapper,
+    Class   = RightJS.Class,
     Element = RightJS.Element,
     Input   = RightJS.Input;
 

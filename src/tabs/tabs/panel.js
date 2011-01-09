@@ -1,9 +1,9 @@
 /**
  * The tab panels behavior logic
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
-var Panel = Tabs.Panel = new Wrapper(Element, {
+var Panel = Tabs.Panel = new Class(Element, {
 
   /**
    * Basic constructor

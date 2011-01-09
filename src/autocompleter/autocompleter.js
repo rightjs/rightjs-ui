@@ -1,13 +1,13 @@
 /**
  * The RightJS UI Autocompleter unit base class
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 var Autocompleter = new Widget('UL', {
   include: Toggler,
 
   extend: {
-    version: '2.0.1',
+    version: '2.2.0',
 
     EVENTS: $w('show hide update load select done'),
 
@@ -171,9 +171,13 @@ var Autocompleter = new Widget('UL', {
       this.cache[search] = result_text;
     }
 
-    if (!(result_text).blank()) {
+    if (!R(result_text).blank()) {
       this.update(result_text.replace(/<ul[^>]*>|<\/ul>/im, ''));
-      this.fire('update').showAt(this.input, 'bottom', 'resize');
+      this.fire('update');
+      if (!this._connected || this.hidden()) {
+        this.showAt(this.input, 'bottom', 'resize');
+        this._connected = true;
+      }
     } else {
       this.hide();
     }
@@ -203,7 +207,7 @@ var Autocompleter = new Widget('UL', {
 
     // positioning the native spinner
     if (spinner instanceof Spinner) {
-      re_position.call(spinner, this.input, 'right', 'resize');
+      Toggler_re_position.call(spinner, this.input, 'right', 'resize');
     }
 
     return spinner;

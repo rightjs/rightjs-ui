@@ -1,13 +1,13 @@
 /**
  * The basic file for Colorpicker
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var Colorpicker = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.0.0',
+    version: '2.2.0',
 
     EVENTS: $w('change show hide done'),
 

@@ -1,21 +1,21 @@
 /**
  * The tabs init-script
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var R  = RightJS,
     $  = RightJS.$,
     $$ = RightJS.$$,
     $w = RightJS.$w,
     $E = RightJS.$E,
-    Fx      = RightJS.Fx,
-    Object  = RightJS.Object,
-    Browser = RightJS.Browser,
-    isArray = RightJS.isArray,
+    Fx       = RightJS.Fx,
+    Object   = RightJS.Object,
+    Browser  = RightJS.Browser,
+    isArray  = RightJS.isArray,
     isNumber = RightJS.isNumber,
-    Wrapper = RightJS.Wrapper,
-    Element = RightJS.Element,
-    Cookie  = RightJS.Cookie;
+    Class    = RightJS.Class,
+    Element  = RightJS.Element,
+    Cookie   = RightJS.Cookie;
 
 include_shared_js('spinner');
 include_shared_css('spinner');

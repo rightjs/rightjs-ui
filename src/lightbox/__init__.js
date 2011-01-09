@@ -1,7 +1,7 @@
 /**
  * The filenames to include
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var R       = RightJS,
     $       = RightJS.$,
@@ -12,7 +12,6 @@ var R       = RightJS,
     Xhr     = RightJS.Xhr,
     Class   = RightJS.Class,
     Object  = RightJS.Object,
-    Wrapper = RightJS.Wrapper,
     Element = RightJS.Element,
     Browser = RightJS.Browser;
 
