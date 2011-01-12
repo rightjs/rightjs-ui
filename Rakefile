@@ -4,7 +4,6 @@
 
 require 'rake'
 require 'fileutils'
-require 'front_compiler'
 require File.expand_path('util/build/rutil')
 
 BUILD_DIR    = 'build'
@@ -81,11 +80,40 @@ task :pack do
       source[id+2, source.size]
 
       # adding the inlined-css entry
-      source + "\n\n" + FrontCompiler.new.inline_css(
-        (css + ["src/#{widget}/#{widget}.css"]).collect do |filename|
-          File.read(filename).gsub('/*\**/:', '_ie8_s:').gsub('\9;', '_ie8_e')
-        end.join("\n")
-      ).gsub(/([^\s])\*/, '\1 *').gsub('_ie8_s:', '/*\\\\\\**/:').gsub('_ie8_e', '\\\\\\\\9;')
+      css = (css + ["src/#{widget}/#{widget}.css"]).collect do |filename|
+        File.read(filename).gsub('/*\**/:', '_ie8_s:').gsub('\9;', '_ie8_e')
+      end.join("\n")
+
+      # compressing the css stuff into one line
+      css.gsub!(/\/\*.*?\*\//im, '')
+      css.gsub!(/\n\s*\n/m, "\n")
+      css.gsub!(/\s+/im, ' ')
+      css.gsub!(/\s*(\+|>|\||~|\{|\}|,|\)|\(|;|:|\*)\s*/im, '\1')
+      css.gsub!(/;\}/, '}')
+      css.gsub!(/\)([^;}\s])/, ') \1')
+      css.strip!
+
+      # inlining the stylesheets into the javascript file
+      css = %Q{(function() {
+        var style = document.createElement('style'),
+            rules = document.createTextNode("#{css.gsub('"', '\"')}");
+
+        style.type = 'text/css';
+
+        if(style.styleSheet) {
+          style.styleSheet.cssText = rules.nodeValue;
+        } else {
+          style.appendChild(rules);
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(style);
+      })();}
+
+      css.gsub!(/([^\s])\*/, '\1 *')
+      css.gsub!('_ie8_s:', '/*\\\\\\**/:')
+      css.gsub!('_ie8_e', '\\\\\\\\9;')
+
+      source + css
     end
     rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{widget.gsub('_', '-')}.js")
 
