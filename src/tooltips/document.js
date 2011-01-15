@@ -1,7 +1,7 @@
 /**
  * The post load tooltips initialization script
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 $(document).on({
   /**
@@ -10,13 +10,10 @@ $(document).on({
    *
    * @param Event event
    */
-  mouseover: function(event) {
-    var prev_tip = Tooltip.current, this_tip = Tooltip.find(event);
-    if (this_tip) {
-      if (prev_tip && prev_tip !== this_tip) { prev_tip.hide(); }
-      if (this_tip.hidden()) { this_tip.show(); }
-
-      this_tip.moveToEvent(event);
+  mouseenter: function(event) {
+    var tip = Tooltip.find(event);
+    if (tip) {
+      tip.show().moveToEvent(event);
     }
   },
 
@@ -25,11 +22,11 @@ $(document).on({
    *
    * @param Event event
    */
-  mouseout: function(event) {
-    var curr_tip = Tooltip.current, this_tip = Tooltip.find(event);
+  mouseleave: function(event) {
+    var tip = Tooltip.find(event);
 
-    if (curr_tip && (!this_tip || this_tip === curr_tip)) {
-      curr_tip.hide();
+    if (tip) {
+      tip.hide();
     }
   },
 
@@ -40,7 +37,7 @@ $(document).on({
    */
   mousemove: function(event) {
     var tip = Tooltip.current;
-    if (tip && tip.options.move) {
+    if (tip !== null && tip.options.move) {
       tip.moveToEvent(event);
     }
   }

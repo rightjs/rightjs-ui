@@ -26,9 +26,9 @@ var Tooltip = new Widget({
 
     // tries to find a tip closest to the event
     find: function(event) {
-      var element = event.find(Tooltip.Options.cssRule);
+      var element = event.target;
 
-      if (element) {
+      if (element.match(Tooltip.Options.cssRule)) {
         var uid = $uid(element);
         return (Tooltip.instances[uid] || (Tooltip.instances[uid] = new Tooltip(element)));
       }
@@ -77,6 +77,7 @@ var Tooltip = new Widget({
 
     this._timer = R(function() {
       Element.prototype.hide.call(this, this.options.fxName, {
+        engine:   'javascript', // Webkit too slow in here
         duration: this.options.fxDuration,
         onFinish: R(function() {
           if (Tooltip.current === this) {
@@ -105,7 +106,10 @@ var Tooltip = new Widget({
     // show the tooltip with a delay
     this._timer = R(function() {
       Element.prototype.show.call(this.stop(),
-        this.options.fxName, {duration: this.options.fxDuration}
+        this.options.fxName, {
+          engine: 'javascript', // webkit it too slow on that
+          duration: this.options.fxDuration
+        }
       );
 
       Tooltip.current = this.fire('show');
