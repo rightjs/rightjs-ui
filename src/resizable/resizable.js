@@ -39,7 +39,7 @@ var Resizable = new Widget({
 
     // initializing the inner structure
     this.content = this.first('.rui-resizable-content') ||
-      $E('div', {'class': 'rui-resizable-content'}).insert(this._.childNodes).insertTo(this);
+      $E('div', {'class': 'rui-resizable-content'}).insert(this.children()).insertTo(this);
     this.handle  = this.first('.rui-resizable-handle')  ||
       $E('div', {'class': 'rui-resizable-handle'}).insertTo(this);
   },
