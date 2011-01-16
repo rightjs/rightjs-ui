@@ -15,6 +15,8 @@ end
 
 options = ((ENV['OPTIONS'] || '').split('=').last || '').strip.split(/\s*,\s*/)
 
+options = ['rte'] if options.empty? # removing RTE out of the mass-build for now
+
 unless options.empty?
   $widgets.reject! do |name|
     !options.include?(name)
