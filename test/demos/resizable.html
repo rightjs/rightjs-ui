@@ -16,6 +16,11 @@
       div.resizable-test-block p:nth-child(2) {
         margin-bottom: 0;
       }
+      div#boundaries-test {
+        width:  200pt;
+        height: 150px;
+        background: #F8f8f8;
+      }
     </style>
   </head>
   <body>
@@ -100,6 +105,24 @@
       RightJS.$('vertical-resizable-test').makeResizable({direction: 'right'});
       RightJS.$('horizontal-resizable-test').makeResizable({direction: 'bottom'});
     // ]]>
+    </script>
+
+    <h2>With Programmatically Defined Boundaries</h2>
+    <p>
+      <div id="boundaries-test">
+        <div>minWidth:  '100pt' </div>
+        <div>minHeight: '100px'</div>
+        <div>maxWidth:  '40em' </div>
+        <div>maxHeight: '400pt' </div>
+      </div>
+    </p>
+    <script type="text/javascript">
+      RightJS.$('boundaries-test').makeResizable({
+        minWidth:  '150pt',
+        minHeight: '100px',
+        maxWidth:  '40em',
+        maxHeight: '200pt'
+      });
     </script>
 
     <p class="white-space"></p>

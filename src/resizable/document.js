@@ -9,7 +9,7 @@ $(document).on({
     if (handle) {
       var resizable = handle.parent();
 
-      if (resizable instanceof Element) {
+      if (!(resizable instanceof Resizable)) {
         resizable = new Resizable(resizable);
       }
 

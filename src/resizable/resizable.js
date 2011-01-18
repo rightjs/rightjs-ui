@@ -42,6 +42,14 @@ var Resizable = new Widget({
       $E('div', {'class': 'rui-resizable-content'}).insert(this.children()).insertTo(this);
     this.handle  = this.first('.rui-resizable-handle')  ||
       $E('div', {'class': 'rui-resizable-handle'}).insertTo(this);
+
+    // resizing the content block so it fully fit the resizable element
+    var size = this.size();
+
+    size.x -= parseInt(this.getStyle('borderLeftWidth'), 10) + parseInt(this.getStyle('borderRightWidth'), 10);
+    size.y -= parseInt(this.getStyle('borderTopWidth'), 10) + parseInt(this.getStyle('borderBottomWidth'), 10);
+
+    this.content.resize(size);
   },
 
   /**
