@@ -11,8 +11,7 @@ Element.include({
    * @return Element this
    */
   makeResizable: function(options) {
-    new Resizable(this, options);
-    return this;
+    return new Resizable(this, options);
   },
 
   /**
