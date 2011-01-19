@@ -126,7 +126,7 @@ var Uploader = new Widget({
 
     var param = this.options.param;
     var url = this.form.get('action').replace(new RegExp('(\\?|&)'+RegExp.escape(param) + '=[^&]*', 'i'), '');
-    this.form.set('action', (R(url).includes('?') ? '&' : '?') + param + '=' + this.uid);
+    this.form.set('action', url + (R(url).includes('?') ? '&' : '?') + param + '=' + this.uid);
 
     this.show();
 
