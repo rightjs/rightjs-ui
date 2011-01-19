@@ -68,6 +68,9 @@ dl.rui-selectable dd li{
   background: #FFF;
   display: none;
 }
+*.rui-selectable-single li {
+  overflow: hidden;
+}
 div.rui-selectable-container {
   border: 1px solid #CCC;
   -moz-border-radius: .2em;
@@ -84,7 +87,8 @@ div.rui-selectable-container {
 }
 div.rui-selectable-container div.rui-selectable-handle {
   font-family: Arial;
-  float: right;
+  position: absolute;
+  right: 0;
   width: 0.8em;
   background: #DDD;
   text-align: center;
@@ -100,12 +104,15 @@ div.rui-selectable-container:hover div.rui-selectable-handle {
 div.rui-selectable-container ul.rui-selectable-display {
   display: block;
   width: auto;
-  margin-right: 2em;
   overflow: hidden;
+  margin-right: 2em;
 }
 div.rui-selectable-container ul.rui-selectable-display li {
   line-height: 1.6em;
   padding: 0 .5em;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
 }
 
 /** hidding the native selectboxes by default */
