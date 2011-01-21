@@ -5,7 +5,7 @@
  */
 var Tooltip = new Widget({
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('show hide'),
 
@@ -78,13 +78,9 @@ var Tooltip = new Widget({
     this._timer = R(function() {
       Element.prototype.hide.call(this, this.options.fxName, {
         engine:   'javascript', // Webkit too slow in here
-        duration: this.options.fxDuration,
-        onFinish: R(function() {
-          if (Tooltip.current === this) {
-            Tooltip.current = null;
-          }
-        }).bind(this)
+        duration: this.options.fxDuration
       });
+      Tooltip.current = null;
       this.fire('hide');
     }).bind(this).delay(100);
 
