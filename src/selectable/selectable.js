@@ -248,10 +248,21 @@ var Selectable = new Widget('UL', {
    * @return Selectable this
    */
   insertTo: function(target, where) {
-    Element.prototype.insertTo.call(
+    this.$super.call(
       (this.isSingle ? this.container : this), target, where
     );
 
+    return this;
+  },
+
+  /**
+   * Overloading the method so that single selectables were removed
+   * properly
+   *
+   * @return Selectable this
+   */
+  remove: function() {
+    this.$super.call(this.isSingle ? this.container : this);
     return this;
   },
 
