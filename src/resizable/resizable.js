@@ -5,7 +5,7 @@
  */
 var Resizable = new Widget({
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('resize start release'),
 
@@ -44,12 +44,16 @@ var Resizable = new Widget({
       $E('div', {'class': 'rui-resizable-handle'}).insertTo(this);
 
     // resizing the content block so it fully fit the resizable element
-    var size = this.size();
-
-    size.x -= parseInt(this.getStyle('borderLeftWidth'), 10) + parseInt(this.getStyle('borderRightWidth'), 10);
-    size.y -= parseInt(this.getStyle('borderTopWidth'), 10) + parseInt(this.getStyle('borderBottomWidth'), 10);
-
-    this.content.resize(size);
+    this.content.setWidth(this.size().x -
+      parseInt(this.getStyle('borderLeftWidth'), 10) -
+      parseInt(this.getStyle('borderRightWidth'), 10)
+    );
+    if (this.options.direction !== 'left' && this.options.direction !== 'right') {
+      this.content.setHeight(this.size().y -
+        parseInt(this.getStyle('borderTopWidth'), 10) -
+        parseInt(this.getStyle('borderBottomWidth'), 10)
+      );
+    }
   },
 
   /**
