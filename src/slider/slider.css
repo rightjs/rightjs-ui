@@ -35,8 +35,8 @@ div.rui-slider .handle {
   left: 0;
   top: 0;
   width: 4pt;
-  height: 4em;
-  margin-top: -1.6em;
+  height: 10pt;
+  margin-top: -4pt;
   margin-left: 0.4em;
   background: #BBB;
   border: 1px solid #999;
@@ -66,10 +66,10 @@ div.rui-slider-vertical .handle {
   top: auto;
   bottom: 0;
   margin: 0;
-  margin-left: -1.6em;
+  margin-left: -4pt;
   margin-bottom: 0.4em;
-  height: 4pt;
-  width: 4em;
+  height: 5pt;
+  width: 10pt;
 }
 div.rui-slider-vertical .level {
   height: 0;
