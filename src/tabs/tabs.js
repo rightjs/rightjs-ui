@@ -5,7 +5,7 @@
  */
 var Tabs = new Widget('UL', {
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('select hide load disable enable add remove move'),
 

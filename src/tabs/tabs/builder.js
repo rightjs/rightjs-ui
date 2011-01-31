@@ -81,7 +81,7 @@ Tabs.include({
    * @return Tabs this
    */
   remove: function(tab) {
-    return this.callTab(tab, 'remove');
+    return arguments.length === 0 ? this.$super() : this.callTab(tab, 'remove');
   }
 
 });
