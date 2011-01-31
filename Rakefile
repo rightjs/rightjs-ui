@@ -102,14 +102,13 @@ task :pack do
             rules = document.createTextNode("#{css.gsub('"', '\"')}");
 
         style.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(style);
 
         if(style.styleSheet) {
           style.styleSheet.cssText = rules.nodeValue;
         } else {
           style.appendChild(rules);
         }
-
-        document.getElementsByTagName('head')[0].appendChild(style);
       })();}
 
       css.gsub!(/([^\s])\*/, '\1 *')
