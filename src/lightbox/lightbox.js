@@ -67,7 +67,7 @@ var Lightbox = new Widget({
   },
 
   /**
-   * Extracting the rel="lightboux[groupname]" attributes
+   * Extracting the rel="lightbox[groupname]" attributes
    *
    * @param Object options
    * @param Element link with options

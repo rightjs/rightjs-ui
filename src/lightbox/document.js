@@ -6,15 +6,18 @@
 
 $(document).on({
   /**
-   * Catches clicks on the target links
+   * Catches clicks on the target links (respecting
+   * native behavior when modifier keys are pressed,
+   * e.g. opt+click must download clicked link)
    *
    * @param Event click
    * @return void
    */
   click: function(event) {
-    var target = event.find(Lightbox.Options.cssRule) || event.find('a[rel^=lightbox]');
+    var target = event.find(Lightbox.Options.cssRule) || event.find('a[rel^=lightbox]'),
+    e = event._;
 
-    if (target) {
+    if (target && !(e.shiftKey || e.altKey || e.ctrlKey || e.metaKey)) {
       event.stop();
       new Lightbox({}, target).load(target);
     }
