@@ -90,7 +90,7 @@ var Tab = Tabs.Tab = new Class(Element, {
     this.main.tabs.splice(this.main.tabs.indexOf(this), 1);
     this.panel.remove();
 
-    return this.$super().fire('remove');
+    return this.fire('remove').$super();
   },
 
 // protected
