@@ -51,7 +51,6 @@ var Tabs = new Widget('UL', {
   initialize: function(element, options) {
     this
       .$super('tabs', element)
-      .setOptions(options)
       .addClass('rui-tabs');
 
     this.isHarmonica = this._.tagName === 'DL';
