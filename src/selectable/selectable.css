@@ -23,6 +23,7 @@ div.rui-selectable-container ul.rui-selectable-display li {
 * display: inline;
 * zoom: 1;
   min-width: 10em;
+  border-radius: .2em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   user-select:none;
@@ -73,6 +74,7 @@ dl.rui-selectable dd li{
 }
 div.rui-selectable-container {
   border: 1px solid #CCC;
+  border-radius: .2em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
   display: inline-block;
