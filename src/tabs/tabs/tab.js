@@ -90,7 +90,12 @@ var Tab = Tabs.Tab = new Class(Element, {
     this.main.tabs.splice(this.main.tabs.indexOf(this), 1);
     this.panel.remove();
 
-    return this.$super().fire('remove');
+    var parent = this.parent();
+    this.fire('beforeremove');
+    this.$super();
+    parent.fire('remove', {target: this});
+
+    return this;
   },
 
 // protected
