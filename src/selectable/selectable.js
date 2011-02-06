@@ -59,7 +59,7 @@ var Selectable = new Widget('UL', {
     if (element && (element = $(element)) instanceof Input) {
       this.selectbox = selectbox = element;
       options = Object.merge(this.harvestOptions(element), options);
-      element = options;
+      element = null;
     }
 
     // main initialization
