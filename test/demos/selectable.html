@@ -254,6 +254,20 @@
         <option disabled="true" value="item-4">Four</option>
       </select>
     </p>
+    <p>With Empty Option</p>
+    <p>
+      <select id="empty-option-test">
+        <option value="">-</option>
+        <option value="0">0-item</option>
+        <option value="1">1-item</option>
+        <option value="2">2-item</option>
+      </select>
+    </p>
+    <script>
+      new Selectable('empty-option-test')
+//        .onSelect(function() { console.log("'" + this.value + "' - '" + this.selectbox._.value + "'");})
+        .selectbox.insertTo(document.body);
+    </script>
     <p class="white-space"></p>
   </body>
 </html>

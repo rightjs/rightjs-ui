@@ -56,8 +56,8 @@ var Selectable = new Widget('UL', {
     }
 
     // converting the selectboxes
-    if (element && element instanceof Input) {
-      options = this.harvestOptions(selectbox = element);
+    if (element && (element = $(element)) instanceof Input) {
+      options = this.harvestOptions(this.selectbox = selectbox = element);
       element = options;
     }
 
@@ -280,8 +280,11 @@ var Selectable = new Widget('UL', {
 
   // finds out the value for the item
   itemValue: function(item) {
-    var value = item.get('id') || item.get('val');
-    return value ? this.options.parseIds ? value.match(/\d+/) : value : this.items().indexOf(item);
+    var value = R([item._value, item.get('id'), item.get('val')]).compact()[0];
+
+    return  value !== undefined ? (
+      this.options.parseIds ? value.match(/\d+/) : value
+    ) : this.items().indexOf(item);
   },
 
   // returns the list of items
@@ -412,7 +415,9 @@ var Selectable = new Widget('UL', {
     }
 
     items.each(function(option) {
-      this.insert($E('li', {val: option[1], html: option[0]}));
+      var item = $E('li', {val: option[1], html: option[0]});
+      item._value = option[1];
+      this.insert(item);
     }, this);
 
     return this;
@@ -491,15 +496,17 @@ var Selectable = new Widget('UL', {
 
   // harvests options from a selectbox element
   harvestOptions: function(selectbox) {
-    var options = {};
+    var options = new Function('return '+ selectbox.get('data-selectable'))() || {};
 
-    options.multiple = selectbox.has('multiple');
+    options.multiple = selectbox._.type == 'select-multiple';
     options.options  = R([]);
     options.selected = R([]);
     options.disabled = R([]);
 
     $A(selectbox._.getElementsByTagName('OPTION')).each(function(option, index) {
-      options.options.push([option.innerHTML, $(option).get('value') || option.innerHTML]);
+      var html = option.innerHTML, value = option.getAttribute('value');
+
+      options.options.push([html, value === null ? html : value]);
 
       if (option.selected && !selectbox._.disabled) { options.selected.push(index); }
       if (option.disabled ||  selectbox._.disabled) { options.disabled.push(index); }
