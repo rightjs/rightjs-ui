@@ -7,7 +7,7 @@ var Selectable = new Widget('UL', {
   include: Updater,
 
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('change select unselect disable enable hover leave show hide'),
 
@@ -57,7 +57,8 @@ var Selectable = new Widget('UL', {
 
     // converting the selectboxes
     if (element && (element = $(element)) instanceof Input) {
-      options = this.harvestOptions(this.selectbox = selectbox = element);
+      this.selectbox = selectbox = element;
+      options = Object.merge(this.harvestOptions(element), options);
       element = options;
     }
 

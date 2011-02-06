@@ -1,7 +1,7 @@
 /**
  * The filenames to include
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var R        = RightJS,
     $        = RightJS.$,
@@ -9,6 +9,7 @@ var R        = RightJS,
     $w       = RightJS.$w,
     $E       = RightJS.$E,
     $A       = RightJS.$A,
+    Object   = RightJS.Object,
     isHash   = RightJS.isHash,
     isArray  = RightJS.isArray,
     isString = RightJS.isString,
