@@ -7,7 +7,7 @@ var Autocompleter = new Widget('UL', {
   include: Toggler,
 
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('show hide update load select done'),
 
