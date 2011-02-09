@@ -86,7 +86,7 @@ var Autocompleter = new Widget('UL', {
 
     if (current) {
       current.radioClass('current');
-      this.input.setValue(R(current.html()).stripTags());
+      this.input.setValue(current._.textContent || current._.innerText);
       this.fire('done');
     }
 
