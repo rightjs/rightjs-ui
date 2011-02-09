@@ -52,7 +52,7 @@ var Selectable = new Widget('UL', {
     // figuring out the arguments
     if (!isHash(options) || options instanceof Element) {
       element = $(element || options);
-      options = {};
+      options = null;
     }
 
     // converting the selectboxes
@@ -281,7 +281,7 @@ var Selectable = new Widget('UL', {
 
   // finds out the value for the item
   itemValue: function(item) {
-    var value = R([item._value, item.get('id'), item.get('val')]).compact()[0];
+    var value = R([item._value, item.get('id') || item.get('val')]).compact()[0];
 
     return  value !== undefined ? (
       this.options.parseIds ? value.match(/\d+/) : value
