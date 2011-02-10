@@ -112,7 +112,7 @@ var Uploader = new Widget({
     Xhr.load(this.options.url + "?" + this.options.param + "=" + this.uid, {
       evalJSON: false,
       onSuccess: R(function(xhr) {
-        this.update(eval('('+xhr.text+')'));
+        this.update(new Function('return '+xhr.text)());
       }).bind(this)
     });
 

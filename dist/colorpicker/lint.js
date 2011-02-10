@@ -1,12 +1,9 @@
 /**
  * JSLint file for the autocompliter widget
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-load('util/test/rightly_check.js');
-
-rightly_check('build/right-colorpicker-src.js', [
-  "Do not use 'new' for side effects.",
+var okays = [
   "Missing radix parameter.",
   "Use '===' to compare with '0'."
-]);
+];

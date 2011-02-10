@@ -70,7 +70,7 @@ var Pager = {
       var data = link.get('data-lightbox');
       var rel  = link.get('rel');
 
-      return (data && eval("("+ data + ")").group === group) ||
+      return (data && new Function("return "+ data)().group === group) ||
         (rel && rel.indexOf('lightbox['+ group + ']') > -1);
     });
   },

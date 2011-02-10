@@ -1,11 +1,8 @@
 /**
  * JSLint file for the billboard widget
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-load('util/test/rightly_check.js');
-
-rightly_check('build/right-billboard-src.js', [
-  "Do not use 'new' for side effects.",
+var okays = [
   "Don't make functions within a loop."
-]);
+];

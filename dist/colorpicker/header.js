@@ -3,5 +3,5 @@
  *
  * See http://rightjs.org/ui/colorpicker
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */

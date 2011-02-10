@@ -1,36 +1,46 @@
-Welcome !
-=========
+# Welcome !
 
 RightJS-UI is a collection of standard user-interface widgets
 implemented using the RightJS library.
 
 
-Builds
-======
 
-All the freshest builds of the project are available at the home page
+## Builds
+
+All the latests builds of the project are available at the home page
 
 http://rightjs.org/ui
 
+In order to build any widgets on your own you'll need
+[NodeJS](http://nodejs.org) and if you also have [npm](http://npmjs.org)
+you might want to install the [nake](https://github.com/MadRabbit/Nake)
+tools
 
-If you need to build the things by yourself, you'll need Java, Ruby
-and Rake tools, after that say in the console the following
+    npm install nake
 
-    git submodule init
-    git submodule update
-    
-    rake build
+After that either run `nake`
 
-If you don't have Java you can use a remote build via google's API
+    nake build
 
-    rake build REMOTE=true
+or, if you don't have [npm](http://npmjs.org), just run the `Nakefile`
+directly with [NodeJS](http://nodejs.org)
 
-And you also can build only some of the widgets
+    node Nakefile build
 
-    rake build OPTIONS=calendar,autocompleter
+Try, `-l` or `--list` key to see which other tasks are available
 
 
---
+
+## Options
+
+And you also can build/pack/check only some of the widgets
+
+    nake build OPTIONS=calendar,autocompleter
+
+
+
+## License
 
 The code released under terms of the MIT License
-Copyright (C) 2009-2010 Nikolay Nemshilov
+
+Copyright (C) 2009-2011 Nikolay Nemshilov

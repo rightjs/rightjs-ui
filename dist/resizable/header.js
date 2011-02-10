@@ -2,5 +2,5 @@
  * Resizable unit for RightJS
  * http://rightjs.org/ui/resizable
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2011 Nikolay Nemshilov
  */

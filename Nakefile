@@ -1,0 +1,154 @@
+/**
+ * The 'nake' util taks
+ *
+ * Copyright (C) 2011 Nikolay Nemshilov
+ */
+
+var // the build constants
+BUILD_DIRECTORY = 'build',
+BUILD_PREFIX    = 'right',
+BUILD_EXCLUDE   = ['rte', 'tabs']; // the don't build list
+
+var // importint the Nake tools
+on_npm          = process.ARGV[1].match(/nake$/),
+Nake            = require(on_npm ? 'nake' : './util/nake'),
+task            = Nake.task,
+namespace       = Nake.namespace;
+
+Nake.Default    = 'build'; // making the build by default
+
+
+var // sources processing tools
+Source          = require('./util/source').Source,
+builds          = {}; // global build reference
+
+
+////////////////////////////////////////////////////////////////
+// Parsing the options
+////////////////////////////////////////////////////////////////
+var fs      = require('fs');
+var options = Nake.ARGS.OPTIONS ? Nake.ARGS.OPTIONS.split(',') : [];
+var widgets = fs.readdirSync('dist').filter(function(filename) {
+  return filename.match(/^[a-z_]+$/) && options.empty() ?
+    !BUILD_EXCLUDE.includes(filename) :
+    options.include(filename);
+});
+
+
+////////////////////////////////////////////////////////////////
+// Cleaning up the build directory
+////////////////////////////////////////////////////////////////
+task('clean', 'Clean up the build directory', function() {
+  try {
+    this.step("Deleting an old directory");
+
+    fs.readdirSync(BUILD_DIRECTORY).each(function(file) {
+      fs.unlinkSync(BUILD_DIRECTORY + '/' + file);
+    });
+    fs.rmdirSync(BUILD_DIRECTORY);
+  } catch(e) {}
+
+  this.step("Creating the build directory");
+  fs.mkdirSync(BUILD_DIRECTORY, 0755);
+});
+
+
+////////////////////////////////////////////////////////////////
+// Paking the widgets into single source files
+////////////////////////////////////////////////////////////////
+task('pack', 'Pack up the source code', function() {
+  Nake.run('clean', 'Cleaning up the build directory');
+
+  this.step('Packing up the widgets');
+  widgets.each(function(name) {
+    this.step('\b\b  - '+ name.capitalize());
+
+    var init   = fs.readFileSync('src/'+ name + '/__init__.js')+'';
+    var files  = ['lib/widget.js'];
+    var styles = [];
+
+    // hooking up the shared files
+    init.replace(/include_shared_js\(([^\)]+)\)(;*)/mg, function(m, content) {
+      content.replace(/('|")([\w\d\_\-\/]+)\1/g, function(m, q, filename) {
+        files.push("lib/"+ filename + ".js");
+      });
+    });
+
+    // parsing out the widget's own files
+    files.push('src/' + name + '/__init__.js');
+    init.replace(/include_module_files\(([^\)]+)\)(;*)/mg, function(m, content) {
+      content.replace(/('|")([\w\d\_\-\/]+)\1/g, function(m, q, filename) {
+        files.push("src/"+ name + "/"+ filename + ".js");
+      });
+    });
+
+    // parsing out the shared css-files list
+    init.replace(/include_shared_css\(([^\)]+)\)(;*)/mg, function(m, content) {
+      content.replace(/('|")([\w\d\_\-\/]+)\1/g, function(m, q, filename) {
+        styles.push('lib/css/' + filename + ".css");
+      });
+    });
+
+    // adding the widget's own styles
+    styles.push('src/'+ name + '/'+ name + '.css');
+
+    var source = new Source({
+      files:  files,
+      styles: styles,
+      header: 'dist/'+ name +'/header.js',
+      layout: 'dist/'+ name +'/layout.js'
+    });
+
+    source.patch(function(source) {
+      return source
+        .replace(/include_shared_js\(([^\)]+)\)(;*)/mg,  '')
+        .replace(/include_shared_css\(([^\)]+)\)(;*)/mg, '')
+        .replace(/include_module_files\([^\)]+\)(;*)/mg, '');
+    });
+
+    source.write(BUILD_DIRECTORY + '/' + BUILD_PREFIX + "-" + name.replace('_', '-'));
+
+    builds[name] = source;
+  }, this);
+});
+
+
+////////////////////////////////////////////////////////////////
+// Checking the widgets with JSLint
+////////////////////////////////////////////////////////////////
+task('check', 'Check the source builds with JSLint', function() {
+  Nake.run('pack', 'Packing the widget source files');
+
+  this.step('Running JSLint on widgets')
+  for (var name in builds) {
+    var linter = builds[name].linter('dist/'+ name + '/lint.js');
+    linter.run();
+
+    if (linter.failed) {
+      linter.report();
+      break;
+    } else {
+      while (name.length < 32) name += ' ';
+      this.step('\b\b  - '+ name.capitalize() + '\u001B[32mOK\u001B[0m');
+    }
+  }
+});
+
+////////////////////////////////////////////////////////////////
+// Minifying the widgets
+////////////////////////////////////////////////////////////////
+task('build', 'Pack and minify the widgets', function() {
+  Nake.run('pack', 'Packing the widget source files');
+
+  this.step('Minifying the source files');
+  for (var name in builds) {
+    this.step('\b\b  - '+ name.capitalize());
+    builds[name].compress();
+  }
+});
+
+
+// manual kick-in in case the thing was called without 'nake'
+if (!on_npm) {
+  Nake.start();
+}
