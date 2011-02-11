@@ -1,7 +1,6 @@
 /**
- * The calendar widget implemented with RightJS
+ * RightJS-UI Calendar v%{version}
+ * http://rightjs.org/ui/calendar
  *
- * Home page: http://rightjs.org/ui/calendar
- *
- * @copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
