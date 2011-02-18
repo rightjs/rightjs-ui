@@ -6,7 +6,7 @@
 var Lightbox = new Widget({
 
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('show hide load'),
 
