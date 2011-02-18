@@ -34,13 +34,13 @@ var Lightbox = new Widget({
     },
 
     // the supported image-urls regexp
-    Images: /\.(jpg|jpeg|gif|png|bmp)/,
+    Images: /\.(jpg|jpeg|gif|png|bmp)/i,
 
     // media content sources
     Medias: [
-      [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/,       '$1/v/$2',                      'swf'],
-      [/(http:\/\/video.google.com)\/videoplay\?docid=([^&]+)/, '$1/googleplayer.swf?docId=$2', 'swf'],
-      [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/,                 '$1/moogaloop.swf?clip_id=$2',  'swf']
+      [/(http:\/\/.*?youtube\.[a-z]+)\/watch\?v=([^&]+)/i,       '$1/v/$2',                      'swf'],
+      [/(http:\/\/video.google.com)\/videoplay\?docid=([^&]+)/i, '$1/googleplayer.swf?docId=$2', 'swf'],
+      [/(http:\/\/vimeo\.[a-z]+)\/([0-9]+).*?/i,                 '$1/moogaloop.swf?clip_id=$2',  'swf']
     ]
   },
 
