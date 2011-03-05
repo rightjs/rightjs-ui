@@ -7,7 +7,7 @@ var Slider = new Widget({
   include: Updater,
 
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('change'),
 
@@ -100,7 +100,7 @@ var Slider = new Widget({
         dims        = this.dims  = this.dimensions();
 
     this.offset = horizontal ? handle.left - dims.left : dims.top + dims.height - handle.top - handle_size;
-    this.space  = (horizontal ? dims.width - handle_size - this.offset * 2 : dims.height - handle_size) - this.offset * 2;
+    this.space  = (horizontal ? dims.width : dims.height) - handle_size - this.offset * 2;
 
     return this;
   },
