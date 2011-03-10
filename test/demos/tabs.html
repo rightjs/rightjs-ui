@@ -246,6 +246,60 @@
       </dl>
     </p>
 
+    <h2>Tabs Within Tabs</h2>
+    <p>
+      <dl class="rui-tabs">
+        <dt><a href="#">Tab 1</a></dt>
+        <dd>
+          <ul class="rui-tabs">
+            <ul>
+              <li><a href="#in-tab-11">Tab 1</a></li>
+              <li><a href="#in-tab-12">Tab 2</a></li>
+              <li><a href="#in-tab-13">Tab 3</a></li>
+              <li><a href="#in-tab-14">Tab 4</a></li>
+            </ul>
+
+            <li id="in-tab-11">tab body 1</li>
+            <li id="in-tab-12">tab body 2</li>
+            <li id="in-tab-13">tab body 3</li>
+            <li id="in-tab-14">tab body 4</li>
+          </ul>
+        </dd>
+        <dt><a href="#">Tab 2</a></dt>
+        <dd>Some text in here</dd>
+      </dl>
+    </p>
+
+    <p>
+      <ul class="rui-tabs">
+        <ul>
+          <li><a href="#in-tab-21">Tab 1</a></li>
+          <li><a href="#in-tab-22">Tab 2</a></li>
+          <li><a href="#in-tab-23">Tab 3</a></li>
+          <li><a href="#in-tab-24">Tab 4</a></li>
+        </ul>
+
+        <li id="in-tab-21">
+          <ul class="rui-tabs">
+            <ul>
+              <li><a href="#in-tab-31">Tab 1</a></li>
+              <li><a href="#in-tab-32">Tab 2</a></li>
+              <li><a href="#in-tab-33">Tab 3</a></li>
+              <li><a href="#in-tab-34">Tab 4</a></li>
+            </ul>
+
+            <li id="in-tab-31">tab body 1</li>
+            <li id="in-tab-32">tab body 2</li>
+            <li id="in-tab-33">tab body 3</li>
+            <li id="in-tab-34">tab body 4</li>
+          </ul>
+        </li>
+        <li id="in-tab-22">tab body 2</li>
+        <li id="in-tab-23">tab body 3</li>
+        <li id="in-tab-24">tab body 4</li>
+      </ul>
+    </p>
+
     <p class="white-space"></p>
   </body>
 </html>
