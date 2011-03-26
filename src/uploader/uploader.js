@@ -5,7 +5,7 @@
  */
 var Uploader = new Widget({
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('start update finish error'),
 
@@ -110,6 +110,7 @@ var Uploader = new Widget({
   // sends a request to the server
   request: function() {
     Xhr.load(this.options.url + "?" + this.options.param + "=" + this.uid, {
+      evalJS:   false,
       evalJSON: false,
       onSuccess: R(function(xhr) {
         this.update(new Function('return '+xhr.text)());
