@@ -114,7 +114,7 @@ Tags.List = new Class(Element, {
       style = this._.style;
 
       style.top  = '0px';
-      style.left = '0px'
+      style.left = '0px';
 
       size = this.position();
       main = this.main.position();

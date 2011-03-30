@@ -83,7 +83,7 @@ Tags.Input = new Class(Input, {
   _add: function() {
     var value = this._.value.replace(this.list.main.options.separator, '');
 
-    if (value != false) { // no blanks
+    if (!(/^\s*$/).test(value)) {
       this.list.addTag(value);
       this.focus();
     }
