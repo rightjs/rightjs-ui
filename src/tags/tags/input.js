@@ -5,6 +5,12 @@
  */
 Tags.Input = new Class(Input, {
 
+  /**
+   * Constructor
+   *
+   * @param {Tabs} the main object
+   * @return void
+   */
   initialize: function(main) {
     this.main = main;
     this.list = main.list;
@@ -26,7 +32,17 @@ Tags.Input = new Class(Input, {
     }).insertTo(this, 'after');
 
     // a letter size (to create some threshold when typing)
-    this.space = this.meter.html('W').size().x * 4;
+    this.space = this.meter.html('W').size().x * 2;
+  },
+
+  /**
+   * Inserting itself into the tags list on the 'focus' call
+   *
+   * @return {Tags.Input} this
+   */
+  focus: function() {
+    this.main.list.append(this, this.meter);
+    return this.$super();
   },
 
 // private
@@ -34,6 +50,7 @@ Tags.Input = new Class(Input, {
   _keydown: function(event) {
     if (event.keyCode === 8 && this._.value === '') { // Backspace
       this.list.removeLast();
+      this.focus();
     } else if (event.keyCode === 13) { // Enter
       event.stop();
       this._add();
@@ -50,6 +67,9 @@ Tags.Input = new Class(Input, {
 
   _blur: function() {
     this._add();
+    this.remove();
+    this.meter.remove();
+    this.list.reposition();
   },
 
   // resizes the field to fit the text
@@ -65,10 +85,10 @@ Tags.Input = new Class(Input, {
 
     if (value != false) { // no blanks
       this.list.addTag(value);
-      this._.value = '';
       this.focus();
     }
 
+    this._.value = '';
     this._resize();
   }
 

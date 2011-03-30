@@ -58,7 +58,7 @@ Tags.List = new Class(Element, {
       this.addTag(tag);
     }, this);
 
-    return this.append(this.main.input, this.main.input.meter);
+    return this;
   },
 
   /**
@@ -79,7 +79,6 @@ Tags.List = new Class(Element, {
   addTag: function(tag) {
     return !this._allowed(tag) ? this : (this
       .append('<li>'+ R(tag).trim() + '<b>&times;</b></li>')
-      .append(this.main.input, this.main.input.meter)
       .reposition()
     );
   },
@@ -96,7 +95,7 @@ Tags.List = new Class(Element, {
       this._remove(item);
     }
 
-    return this.main.input.focus();
+    return this;
   },
 
   /**
