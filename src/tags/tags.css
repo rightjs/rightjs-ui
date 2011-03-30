@@ -1,0 +1,81 @@
+/**
+ * The rightjs-tags widget basic styles
+ *
+ * <input type="text" data-tags="{}" />
+ * <div class="rui-tags">
+ *   <ul class="list">
+ *     <li>Tag 1 <b>&times;</b></li>
+ *     <li>Tag 2 <b>&times;</b></li>
+ *     <li>Tag 3 <b>&times;</b></li>
+ *
+ *     <input type="text" />
+ *   </ul>
+ *
+ *   <ul class="options">
+ *     <li>Tag 1</li>
+ *     <li>Tag 2</li>
+ *     <li>Tag 3</li>
+ *   </ul>
+ * </div>
+ *
+ * Copyright (C) 2011 Nikolay Nemshilov
+ */
+
+/* RESET */
+div.rui-tags, div.rui-tags * {
+  margin:     0;
+  padding:    0;
+  border:     none;
+  background: none;
+  list-style: none;
+}
+
+/** hidding the inputs by default to prevent them from jumping */
+input[data-tags], input.rui-tags {
+  color: transparent;
+}
+
+div.rui-tags {
+  position: absolute;
+  left: -9999em;
+}
+
+div.rui-tags ul.list {
+  position: relative;
+  overflow: hidden;
+}
+
+div.rui-tags ul.list li {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  cursor: default;
+  margin-right: .1em;
+  margin-bottom: .1em;
+  padding: 0 .5em;
+  padding-right: .25em;
+  background: #ddd;
+  border-radius: .25em;
+  -moz-border-radius: .25em;
+  -webkit-border-radius: .25em;
+}
+
+div.rui-tags ul.list li b {
+  margin-left: .25em;
+  cursor: pointer;
+  font-family: Arial;
+  font-weight: normal;
+  opacity: 0.5;
+}
+div.rui-tags ul.list li b:hover {
+  opacity: 1;
+}
+
+div.rui-tags input {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 1em;
+}

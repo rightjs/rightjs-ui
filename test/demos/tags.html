@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../../util/ui-tools.js?tags"></script>
+    <style type="text/css">
+      input.big, input.bigger, input.huge {
+        margin-bottom: .5em;
+        border-width:  .1em;
+      }
+
+      input.big    { font-size: 1.5em; }
+      input.bigger { font-size: 2em; }
+      input.huge   { font-size: 3em; }
+    </style>
+  </head>
+  <body>
+    <h2>Simple Tags Field</h2>
+    <p>
+      <input type="text" value="any, bunny, twenny" data-tags="{}" />
+    </p>
+
+    <h2>Fields Of Different Sizes</h2>
+    <p>
+      <input type="text" value="any, bunny, twenny" data-tags="{}" class="big" />
+    </p>
+    <p>
+      <input type="text" value="any, bunny, twenny" data-tags="{}" class="bigger" />
+    </p>
+    <p>
+      <input type="text" value="any, bunny, twenny" data-tags="{}" class="huge" />
+    </p>
+
+    <p class="white-space"></p>
+  </body>
+</html>
