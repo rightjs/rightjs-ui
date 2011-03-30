@@ -50,7 +50,7 @@ div.rui-tags {
 div.rui-tags ul.list {
   position: relative;
   overflow: hidden;
-  min-height: 1.2em;
+  min-height: 1.3em;
 }
 
 div.rui-tags ul.list li {
@@ -63,9 +63,9 @@ div.rui-tags ul.list li {
   padding: 0 .5em;
   padding-right: .25em;
   background: #ddd;
-  border-radius: .25em;
-  -moz-border-radius: .25em;
-  -webkit-border-radius: .25em;
+  border-radius: .2em;
+  -moz-border-radius: .2em;
+  -webkit-border-radius: .2em;
 }
 
 div.rui-tags ul.list li b {
