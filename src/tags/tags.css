@@ -23,11 +23,18 @@
 
 /* RESET */
 div.rui-tags, div.rui-tags * {
+  position:   static;
+  top:        auto;
+  left:       auto;
+  right:      auto;
+  bottom:     auto;
+  float:      none;
   margin:     0;
   padding:    0;
   border:     none;
   background: none;
   list-style: none;
+  display:    block;
 }
 
 /** hidding the inputs by default to prevent them from jumping */
@@ -66,6 +73,7 @@ div.rui-tags ul.list li b {
   font-family: Arial;
   font-weight: normal;
   opacity: 0.5;
+  display: inline;
 }
 div.rui-tags ul.list li b:hover {
   opacity: 1;
@@ -78,4 +86,17 @@ div.rui-tags input {
   *display: inline;
   *zoom: 1;
   width: 1em;
+  outline: none;
+}
+
+/** the vertical tags list */
+div.rui-tags ul.vertical li {
+  display: block;
+  position: relative;
+  padding-right: 1em;
+}
+div.rui-tags ul.vertical li b {
+  position: absolute;
+  right: .25em;
+  top: 0em;
 }

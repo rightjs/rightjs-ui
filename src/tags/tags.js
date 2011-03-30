@@ -8,11 +8,12 @@ var Tags = new Widget('INPUT', {
     version: '2.2.0',
 
     Options: {
-      tags: null,     // the tags list
+      tags:      null,  // the tags list
+      vertical:  false, // use a vertical tags list
 
-      separator: ',', // the tokens separator
+      separator: ',',   // the tokens separator
 
-      cssRule: 'input[data-tags]'
+      cssRule:   'input[data-tags]' // the autoinitialization css-rule
     },
 
     /**

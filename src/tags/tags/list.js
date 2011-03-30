@@ -17,12 +17,26 @@ Tags.List = new Class(Element, {
     this.$super('ul', {'class': 'list'});
     this.insertTo(main.container);
 
+    if (this.main.options.vertical) {
+      this.addClass('vertical');
+    }
+
     // repositioning the list to put over the existing input field
+    function double_styles(name) {
+      return main.getStyle(name).replace(
+        /[\d\.]+/, function(m) { return m.toFloat() * 2; }
+      );
+    }
+
     this.setStyle({
-      fontSize:    main.getStyle('fontSize'),
-      fontFamily:  main.getStyle('fontFamily'),
-      paddingTop:  main.getStyle('borderTopWidth') .replace(/[\d\.]+/, function(m) { return m.toFloat() * 2; }),
-      paddingLeft: main.getStyle('borderLeftWidth').replace(/[\d\.]+/, function(m) { return m.toFloat() * 2; })
+      fontSize:      main.getStyle('fontSize'),
+      fontFamily:    main.getStyle('fontFamily'),
+      fontWeight:    main.getStyle('fontWeight'),
+      letterSpacing: main.getStyle('letterSpacing'),
+      paddingTop:    double_styles('borderTopWidth'),
+      paddingLeft:   double_styles('borderLeftWidth'),
+      paddingRight:  double_styles('borderRightWidth'),
+      paddingBottom: main.getStyle('borderBottomWidth')
     });
 
     this.onClick(this._click);
@@ -90,16 +104,12 @@ Tags.List = new Class(Element, {
    * @return {Tags.List} this
    */
   reposition: function() {
-    var size = this.size().y, main = this.main.size().y, reposition = false;
+    var size = this.size().y, main = this.main.size(), reposition = false;
 
-    if (this.yDiff === undefined) {
-      this.setWidth(this.main.size().x);
-      this.yDiff = main - size;
-      reposition = true;
-    }
+    this.setWidth(main.x);
 
-    if (size + this.yDiff !== main) {
-      this.main.setHeight(size + this.yDiff);
+    if (size !== main) {
+      this.main.setHeight(size);
       reposition = true;
     }
 
