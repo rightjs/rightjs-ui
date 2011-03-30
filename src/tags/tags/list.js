@@ -39,6 +39,9 @@ Tags.List = new Class(Element, {
       paddingBottom: main.getStyle('borderBottomWidth')
     });
 
+    this.setWidth(main.size().x);
+    this.reposition(true);
+
     this.onClick(this._click);
   },
 
@@ -103,26 +106,22 @@ Tags.List = new Class(Element, {
    *
    * @return {Tags.List} this
    */
-  reposition: function() {
-    var size = this.size().y, main = this.main.size(), reposition = false;
+  reposition: function(force) {
+    var size = this.size().y, main = this.main.size().y, style;
 
-    this.setWidth(main.x);
-
-    if (size !== main) {
+    if (size !== main || force === true) {
       this.main.setHeight(size);
-      reposition = true;
-    }
 
-    if (reposition) {
-      this.setStyle({top: '0px', left: '0px'});;
+      style = this._.style;
+
+      style.top  = '0px';
+      style.left = '0px'
 
       size = this.position();
       main = this.main.position();
 
-      this.setStyle({
-        top:  main.y - size.y + 'px',
-        left: main.x - size.x + 'px'
-      });
+      style.top  = main.y - size.y + 'px';
+      style.left = main.x - size.x + 'px';
     }
 
     return this;

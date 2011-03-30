@@ -26,7 +26,7 @@ Tags.Input = new Class(Input, {
     }).insertTo(this, 'after');
 
     // a letter size (to create some threshold when typing)
-    this.space = this.meter.html('W').size().x;
+    this.space = this.meter.html('W').size().x * 4;
   },
 
 // private
@@ -36,31 +36,31 @@ Tags.Input = new Class(Input, {
       this.list.removeLast();
     } else if (event.keyCode === 13) { // Enter
       event.stop();
-      this._cutOff();
+      this._add();
     }
   },
 
   _keyup: function() {
-    if (this.value().endsWith(this.list.main.options.separator)) {
-      this._cutOff();
+    if (this._.value.indexOf(this.list.main.options.separator) !== -1) {
+      this._add();
     } else {
       this._resize();
     }
   },
 
   _blur: function() {
-    this._cutOff();
+    this._add();
   },
 
   // resizes the field to fit the text
   _resize: function() {
     this.meter._.innerHTML = this._.value;
-    this._.style.width = this.meter.size().x + this.space * 2 + 'px';
+    this._.style.width = this.meter.size().x + this.space + 'px';
     this.list.reposition();
   },
 
-  // cuts off the text and makes a tag out of it
-  _cutOff: function() {
+  // makes a tag out of the current value
+  _add: function() {
     var value = this._.value.replace(this.list.main.options.separator, '');
 
     if (value != false) { // no blanks
