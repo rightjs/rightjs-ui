@@ -130,7 +130,9 @@ Tags.List = new Class(Element, {
 
   // checks if the tag is allowed to be added to the list
   _allowed: function(tag) {
-    return !this.getTags().include(tag);
+    return !this.getTags().include(tag) && (
+      this.main.options.allowNew || this.main.options.tags.include(tag)
+    );
   },
 
   // returns a tag text from an item element

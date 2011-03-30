@@ -11,6 +11,8 @@ var Tags = new Widget('INPUT', {
       tags:      null,  // the tags list
       vertical:  false, // use a vertical tags list
 
+      allowNew:  true,  // allow new tags to be created
+
       separator: ',',   // the tokens separator
 
       cssRule:   'input[data-tags]' // the autoinitialization css-rule
@@ -63,11 +65,17 @@ var Tags = new Widget('INPUT', {
    * @return {Tags} this
    */
   setValue: function(string) {
-    this.list.setTags(
-      R(R(string).split(this.options.separator)
-      ).map('trim').reject('blank')
-    );
+    var tags = R(string.split(this.options.separator)).map('trim').reject('blank');
 
+    // merging the tags into the known list
+    this.options.tags = R(
+      this.options.tags || (this.options.tags = [])
+    ).merge(tags);
+
+    // repopulating the list
+    this.list.setTags(tags);
+
+    // setting the internal value
     return this.$super(string);
   }
 });
