@@ -50,6 +50,7 @@ div.rui-tags {
 div.rui-tags ul.list {
   position: relative;
   overflow: hidden;
+  min-height: 1.2em;
 }
 
 div.rui-tags ul.list li {

@@ -41,7 +41,7 @@ Tags.Input = new Class(Input, {
    * @return {Tags.Input} this
    */
   focus: function() {
-    this.main.list.append(this, this.meter);
+    this.main.list.append(this, this.meter).reposition();
     return this.$super();
   },
 
