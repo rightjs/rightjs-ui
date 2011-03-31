@@ -130,8 +130,17 @@ Tags.List = new Class(Element, {
 
   // checks if the tag is allowed to be added to the list
   _allowed: function(tag) {
-    return !this.getTags().include(tag) && (
-      this.main.options.allowNew || this.main.options.tags.include(tag)
+    var tags    = this.getTags(),
+        options = this.main.options,
+        casesensitive = !options.nocase;
+
+    return !(casesensitive ? tags.include(tag) :
+      tags.map('toLowerCase').include(tag.toLowerCase())
+    ) && (
+      options.allowNew || (
+        casesensitive ? tags.include(tag) :
+          options.tags.map('toLowerCase').include(tag.toLowerCase())
+      )
     );
   },
 

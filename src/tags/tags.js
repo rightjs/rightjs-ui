@@ -12,6 +12,7 @@ var Tags = new Widget('INPUT', {
       vertical:  false, // use a vertical tags list
 
       allowNew:  true,  // allow new tags to be created
+      nocase:    true,  // caseinsensitive
 
       separator: ',',   // the tokens separator
 
