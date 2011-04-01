@@ -45,31 +45,55 @@ Tags.Input = new Class(Input, {
     return this.$super();
   },
 
-// private
-
-  _keydown: function(event) {
-    if (event.keyCode === 8 && this._.value === '') { // Backspace
-      this.list.removeLast();
-      this.focus();
-    } else if (event.keyCode === 13) { // Enter
-      event.stop();
-      this._add();
-    }
-  },
-
-  _keyup: function() {
-    if (this._.value.indexOf(this.list.main.options.separator) !== -1) {
-      this._add();
-    } else {
-      this._resize();
-    }
-  },
-
-  _blur: function() {
-    this._add();
+  /**
+   * Resets the input field state
+   *
+   * @return {Tags.Input} this
+   */
+  reset: function() {
     this.remove();
     this.meter.remove();
     this.list.reposition();
+    this._.value = '';
+
+    return this;
+  },
+
+// private
+
+  _keydown: function(event) {
+    if (event.keyCode === 8 && this._.value === '') {
+      this.list.removeLast(); // deleting the last tag with backspace
+      this.focus();
+    } else if (event.keyCode === 13) {
+      event.preventDefault(); // preventing the for to go off on Enter
+    }
+  },
+
+  _keyup: function(event) {
+    if (!R([9, 27, 37, 38, 39, 40, 13]).include(event.keyCode)) {
+      if (this._.value.includes(this.main.options.separator)) {
+        this._add();
+        this.focus();
+      } else {
+        this._resize();
+        this.main.completer.suggest(this._.value);
+      }
+    }
+  },
+
+  _blur: function(event) {
+    this._timer = R(function() {
+      this._add();
+      this.reset();
+    }).bind(this).delay(200);
+  },
+
+  _cancelTimer: function() {
+    if (this._timer) {
+      this._timer.cancel();
+      this._timer = null;
+    }
   },
 
   // resizes the field to fit the text
@@ -81,11 +105,10 @@ Tags.Input = new Class(Input, {
 
   // makes a tag out of the current value
   _add: function() {
-    var value = this._.value.replace(this.list.main.options.separator, '');
+    var value = this._.value.replace(this.main.options.separator, '');
 
     if (!(/^\s*$/).test(value)) {
       this.list.addTag(value);
-      this.focus();
     }
 
     this._.value = '';

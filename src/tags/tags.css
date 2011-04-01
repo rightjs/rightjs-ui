@@ -22,7 +22,7 @@
  */
 
 /* RESET */
-div.rui-tags, div.rui-tags * {
+div.rui-tags, div.rui-tags ul.list, div.rui-tags ul.list * {
   position:   static;
   top:        auto;
   left:       auto;
@@ -47,6 +47,7 @@ div.rui-tags {
   left: -9999em;
 }
 
+/** the tags list thingy */
 div.rui-tags ul.list {
   position: relative;
   overflow: hidden;
@@ -80,17 +81,7 @@ div.rui-tags ul.list li b:hover {
   opacity: 1;
 }
 
-div.rui-tags input {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  width: 1em;
-  outline: none;
-}
-
-/** the vertical tags list */
+/** a vertical tags list */
 div.rui-tags ul.vertical li {
   display: block;
   position: relative;
@@ -100,4 +91,15 @@ div.rui-tags ul.vertical li b {
   position: absolute;
   right: .25em;
   top: 0em;
+}
+
+/** the fake input field */
+div.rui-tags ul.list input {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 1em;
+  outline: none;
 }
