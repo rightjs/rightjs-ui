@@ -41,6 +41,7 @@ Tags.Input = new Class(Input, {
    * @return {Tags.Input} this
    */
   focus: function() {
+    this._cancelTimer();
     this.main.list.append(this, this.meter).reposition();
     return this.$super();
   },
@@ -86,7 +87,7 @@ Tags.Input = new Class(Input, {
     this._timer = R(function() {
       this._add();
       this.reset();
-    }).bind(this).delay(200);
+    }).bind(this).delay(300);
   },
 
   _cancelTimer: function() {

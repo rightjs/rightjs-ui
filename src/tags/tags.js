@@ -57,6 +57,11 @@ var Tags = new Widget('INPUT', {
       .$super('tags', element)
       .setOptions(options);
 
+    if (RightJS.Browser.IE) {
+      this.setStyle({color: this.getStyle('backgroundColor')});
+    }
+
+
     this.container = new Element('div', {'class': 'rui-tags'}).insertTo(this, 'after');
     this.list      = new Tags.List(this);
     this.input     = new Tags.Input(this);

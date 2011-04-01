@@ -40,6 +40,7 @@ div.rui-tags, div.rui-tags ul.list, div.rui-tags ul.list * {
 /** hidding the inputs by default to prevent them from jumping */
 input[data-tags], input.rui-tags {
   color: transparent;
+  color: rgba(0,0,0,0);
 }
 
 div.rui-tags {
