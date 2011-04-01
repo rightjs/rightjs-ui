@@ -13,5 +13,6 @@ var R       = RightJS,
 include_module_files(
   'resizable',
   'document',
-  'element'
+  'element',
+  'draggable'
 );
