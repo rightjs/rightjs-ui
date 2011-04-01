@@ -7,7 +7,7 @@ var Slider = new Widget({
   include: Updater,
 
   extend: {
-    version: '2.2.2',
+    version: '2.2.3',
 
     EVENTS: $w('change'),
 
@@ -127,7 +127,7 @@ var Slider = new Widget({
     if (value > options.max) { value = options.max; }
     if (options.snap) {
       var snap = options.snap;
-      var diff = value % snap;
+      var diff = (value - options.min) % snap;
       value = diff < snap/2 ? value - diff : value - diff + snap;
     }
 
