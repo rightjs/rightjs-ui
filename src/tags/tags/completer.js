@@ -161,7 +161,7 @@ Tags.Completer = new Class(Element, {
     return tags.filter(function(tag) {
       var low_tag = nocase ? tag.toLowerCase() : tag;
 
-      return low_tag.include(value) && !used.include(low_tag);
+      return low_tag.indexOf(value) !== -1 && !used.include(low_tag);
     });
   }
 });

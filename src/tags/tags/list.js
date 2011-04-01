@@ -24,7 +24,7 @@ Tags.List = new Class(Element, {
     // repositioning the list to put over the existing input field
     function double_styles(name) {
       return main.getStyle(name).replace(
-        /[\d\.]+/, function(m) { return m.toFloat() * 2; }
+        /[\d\.]+/, function(m) { return parseFloat(m) * 2; }
       );
     }
 

@@ -72,7 +72,7 @@ Tags.Input = new Class(Input, {
 
   _keyup: function(event) {
     if (!R([9, 27, 37, 38, 39, 40, 13]).include(event.keyCode)) {
-      if (this._.value.includes(this.main.options.separator)) {
+      if (this._.value.indexOf(this.main.options.separator) !== -1) {
         this._add();
         this.focus();
       } else {
