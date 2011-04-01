@@ -5,6 +5,7 @@
  */
 var R       = RightJS,
     $       = RightJS.$,
+    $w      = RightJS.$w,
     Class   = RightJS.Class,
     Input   = RightJS.Input,
     Element = RightJS.Element;

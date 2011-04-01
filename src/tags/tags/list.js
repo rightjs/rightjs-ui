@@ -77,10 +77,14 @@ Tags.List = new Class(Element, {
    * @return {Tags.List} this
    */
   addTag: function(tag) {
-    return !this._allowed(tag) ? this : (this
-      .append('<li>'+ R(tag).trim() + '<b>&times;</b></li>')
-      .reposition()
-    );
+    if (this._allowed(tag)) {
+      this
+        .append('<li>'+ R(tag).trim() + '<b>&times;</b></li>')
+        .reposition();
+      this.main.fire('add', {tag: tag});
+    }
+
+    return this;
   },
 
   /**
@@ -151,10 +155,14 @@ Tags.List = new Class(Element, {
 
   // removes an item out of the list
   _remove: function(item) {
+    var tag = this._tag(item);
+
     this.main.setValue(
-      this.getTags().without(this._tag(item))
+      this.getTags().without(tag)
         .join(this.main.options.separator + ' ')
     );
+
+    this.main.fire('remove', {tag: tag});
   },
 
   // catches the clicks on the list

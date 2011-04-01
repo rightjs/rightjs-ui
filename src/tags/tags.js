@@ -7,6 +7,8 @@ var Tags = new Widget('INPUT', {
   extend: {
     version: '2.2.0',
 
+    EVENTS: $w('add remove'),
+
     Options: {
       tags:         [],    // the tags list
       vertical:     false, // use a vertical tags list
