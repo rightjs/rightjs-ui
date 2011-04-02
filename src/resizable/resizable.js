@@ -5,7 +5,7 @@
  */
 var Resizable = new Widget({
   extend: {
-    version: '2.2.2',
+    version: '2.2.3',
 
     EVENTS: $w('resize start release'),
 
