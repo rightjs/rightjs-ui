@@ -32,6 +32,18 @@ $(document).on({
       event.stop();
       list[keys[event.keyCode]]();
     }
+  },
+
+  /**
+   * Hides the completer menu by an outer click
+   *
+   * @param {Event} click
+   * @return void
+   */
+  click: function(event) {
+    if (Tags.Completer.current) {
+      Tags.Completer.current.hide();
+    }
   }
 
 });

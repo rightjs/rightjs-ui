@@ -21,7 +21,6 @@ Tags.List = new Class(Element, {
       this.addClass('vertical');
     }
 
-    // repositioning the list to put over the existing input field
     function double_styles(name) {
       return main.getStyle(name).replace(
         /[\d\.]+/, function(m) { return parseFloat(m) * 2; }
@@ -39,6 +38,11 @@ Tags.List = new Class(Element, {
       paddingBottom: main.getStyle('borderBottomWidth')
     });
 
+    // frakking Opera '0em' sizes bug fallback
+    if (main.getStyle('fontSize') === '0em') {
+      this.setStyle({fontSize: '1em'});
+    }
+
     this.setWidth(main.size().x);
     this.reposition(true);
 
@@ -52,11 +56,7 @@ Tags.List = new Class(Element, {
    * @return {Tags.List} this
    */
   setTags: function(tags) {
-    this.clean();
-
-    tags.uniq().each(function(tag) {
-      this.addTag(tag);
-    }, this);
+    tags.uniq().each(this.clean().addTag, this);
 
     return this;
   },
@@ -67,7 +67,7 @@ Tags.List = new Class(Element, {
    * @return {Array} of tokens
    */
   getTags: function() {
-    return this.find('li').map(this._tag);
+    return this.find('div.text').map('text');
   },
 
   /**
@@ -79,8 +79,13 @@ Tags.List = new Class(Element, {
   addTag: function(tag) {
     if (this._allowed(tag)) {
       this
-        .append('<li>'+ R(tag).trim() + '<b>&times;</b></li>')
-        .reposition();
+        .append(
+          '<li>'+
+            '<div class="text">'+ R(tag).trim() +'</div>'+
+            '<div class="close">&times;</div>' +
+          '</li>'
+        ).reposition();
+
       this.main.fire('add', {tag: tag});
     }
 
@@ -132,6 +137,15 @@ Tags.List = new Class(Element, {
 
 // private
 
+  // catches the clicks on the list
+  _click: function(event) {
+    if (event.target.hasClass('close')) {
+      this._remove(event.target.parent());
+    } else {
+      this.main.input.focus();
+    }
+  },
+
   // checks if the tag is allowed to be added to the list
   _allowed: function(tag) {
     var tags    = this.getTags(),
@@ -148,30 +162,15 @@ Tags.List = new Class(Element, {
     );
   },
 
-  // returns a tag text from an item element
-  _tag: function(item) {
-    return item.html().replace(/<b>.+?<\/b>/, '');
-  },
-
   // removes an item out of the list
   _remove: function(item) {
-    var tag = this._tag(item);
+    var tag = item.first('div.text').text();
 
     this.main.setValue(
       this.getTags().without(tag)
-        .join(this.main.options.separator + ' ')
     );
 
     this.main.fire('remove', {tag: tag});
-  },
-
-  // catches the clicks on the list
-  _click: function(event) {
-    if (event.target._.tagName === 'B') {
-      this._remove(event.target.parent());
-    }
-
-    this.main.input.focus();
   }
 
 });

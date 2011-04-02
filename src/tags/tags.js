@@ -57,12 +57,12 @@ var Tags = new Widget('INPUT', {
       .$super('tags', element)
       .setOptions(options);
 
-    if (RightJS.Browser.IE) {
+    if (RightJS.Browser.OLD) {
       this.setStyle({color: this.getStyle('backgroundColor')});
     }
 
-
     this.container = new Element('div', {'class': 'rui-tags'}).insertTo(this, 'after');
+
     this.list      = new Tags.List(this);
     this.input     = new Tags.Input(this);
     this.completer = new Tags.Completer(this);
@@ -76,11 +76,14 @@ var Tags = new Widget('INPUT', {
   /**
    * Overloading the method so that it updated the visible list as well
    *
-   * @param {String} string tokens
+   * @param {String|Array} string tokens
    * @return {Tags} this
    */
-  setValue: function(string) {
-    var tags = R(string.split(this.options.separator)).map('trim').reject('blank');
+  setValue: function(tags) {
+    if (isString(tags)) {
+      tags = R(tags.split(this.options.separator))
+        .map('trim').reject('blank');
+    }
 
     // merging the tags into the known list
     this.options.tags = R(this.options.tags).merge(tags);
@@ -89,6 +92,6 @@ var Tags = new Widget('INPUT', {
     this.list.setTags(tags);
 
     // setting the internal value
-    return this.$super(string);
+    return this.$super(tags.join(this.options.separator + ' '));
   }
 });

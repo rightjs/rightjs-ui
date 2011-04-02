@@ -30,9 +30,6 @@ Tags.Input = new Class(Input, {
         left:       '-99999em'
       }
     }).insertTo(this, 'after');
-
-    // a letter size (to create some threshold when typing)
-    this.space = this.meter.html('W').size().x * 2;
   },
 
   /**
@@ -41,7 +38,6 @@ Tags.Input = new Class(Input, {
    * @return {Tags.Input} this
    */
   focus: function() {
-    this._cancelTimer();
     this.main.list.append(this, this.meter).reposition();
     return this.$super();
   },
@@ -84,36 +80,31 @@ Tags.Input = new Class(Input, {
   },
 
   _blur: function(event) {
-    this._timer = R(function() {
+    if (this.main.completer.hidden() && this._.value !== '') {
       this._add();
       this.reset();
-    }).bind(this).delay(300);
-  },
-
-  _cancelTimer: function() {
-    if (this._timer) {
-      this._timer.cancel();
-      this._timer = null;
     }
   },
 
   // resizes the field to fit the text
   _resize: function() {
-    this.meter._.innerHTML = this._.value;
-    this._.style.width = this.meter.size().x + this.space + 'px';
+    this.meter.html(this._.value + 'xx');
+    this._.style.width = this.meter.size().x + 'px';
     this.list.reposition();
   },
 
   // makes a tag out of the current value
   _add: function() {
     var value = this._.value.replace(this.main.options.separator, '');
+    this._.value = '';
 
     if (!(/^\s*$/).test(value)) {
       this.list.addTag(value);
     }
 
-    this._.value = '';
-    this._resize();
+    if (this.main.completer.visible()) {
+      this.main.completer.hide();
+    }
   }
 
 });

@@ -4,9 +4,9 @@
  * <input type="text" data-tags="{}" />
  * <div class="rui-tags">
  *   <ul class="list">
- *     <li>Tag 1 <b>&times;</b></li>
- *     <li>Tag 2 <b>&times;</b></li>
- *     <li>Tag 3 <b>&times;</b></li>
+ *     <li><div class="text">Tag 1</div><div class="close">&times;</div></li>
+ *     <li><div class="text">Tag 2</div><div class="close">&times;</div></li>
+ *     <li><div class="text">Tag 3</div><div class="close">&times;</div></li>
  *
  *     <input type="text" />
  *   </ul>
@@ -33,7 +33,6 @@ div.rui-tags, div.rui-tags ul.list, div.rui-tags ul.list * {
   padding:    0;
   border:     none;
   background: none;
-  list-style: none;
   display:    block;
 }
 
@@ -45,12 +44,12 @@ input[data-tags], input.rui-tags {
 
 div.rui-tags {
   position: absolute;
-  left: -9999em;
+  display: inline;
 }
 
 /** the tags list thingy */
 div.rui-tags ul.list {
-  position: relative;
+  position: absolute;
   overflow: hidden;
   min-height: 1.3em;
 }
@@ -59,39 +58,40 @@ div.rui-tags ul.list li {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  position: relative;
   cursor: default;
   margin-right: .1em;
   margin-bottom: .1em;
   padding: 0 .5em;
-  padding-right: .25em;
+  padding-right: 1.1em;
   background: #ddd;
   border-radius: .2em;
   -moz-border-radius: .2em;
   -webkit-border-radius: .2em;
+  vertical-align: top;
 }
 
-div.rui-tags ul.list li b {
+div.rui-tags ul.list li div.text {
+  position: inline;
+}
+
+div.rui-tags ul.list li div.close {
   margin-left: .25em;
   cursor: pointer;
   font-family: Arial;
   font-weight: normal;
   opacity: 0.5;
-  display: inline;
+  position: absolute;
+  right: .25em;
+  top: 0.04em;
 }
-div.rui-tags ul.list li b:hover {
+div.rui-tags ul.list li div.close:hover {
   opacity: 1;
 }
 
 /** a vertical tags list */
 div.rui-tags ul.vertical li {
   display: block;
-  position: relative;
-  padding-right: 1em;
-}
-div.rui-tags ul.vertical li b {
-  position: absolute;
-  right: .25em;
-  top: 0em;
 }
 
 /** the fake input field */
@@ -103,4 +103,5 @@ div.rui-tags ul.list input {
   *zoom: 1;
   width: 1em;
   outline: none;
+  vertical-align: top;
 }

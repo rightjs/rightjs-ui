@@ -36,9 +36,9 @@ Tags.Completer = new Class(Element, {
       var tags = this._filter(this.main.options.tags, value);
 
       if (tags.length !== 0) {
-        this._.innerHTML = tags.map(function(tag) {
+        this.html(tags.map(function(tag) {
           return '<li>'+ tag.replace(value, '<b>'+ value + '</b>') +'</li>';
-        }).join('');
+        }).join(''));
 
         this.picked = false;
 
@@ -141,7 +141,6 @@ Tags.Completer = new Class(Element, {
     var item = event.find('li');
 
     if (item) {
-      this.input._cancelTimer();
       item.radioClass('current');
     }
 
