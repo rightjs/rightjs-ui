@@ -104,4 +104,8 @@ div.rui-tags ul.list input {
   width: 1em;
   outline: none;
   vertical-align: top;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
 }
