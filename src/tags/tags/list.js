@@ -89,6 +89,10 @@ Tags.List = new Class(Element, {
       this.main.fire('add', {tag: tag});
     }
 
+    this.main._.value = this.getTags().join(
+      this.main.options.separator + ' '
+    );
+
     return this;
   },
 
