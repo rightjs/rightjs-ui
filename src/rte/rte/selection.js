@@ -1,7 +1,7 @@
 /**
  * This class handles the selection ranges
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Selection = new Class({
 
@@ -16,40 +16,40 @@ Rte.Selection = new Class({
   },
 
   /**
-   * Returns current selected text range
+   * gets/sets the current range object
    *
+   * @param {Range} to set
    * @return TextRange range
    */
-  get: function() {
-    try { // W3C
-      return window.getSelection().getRangeAt(0);
-    } catch(e) {
-      try { // IE
-        return document.selection.createRange();
-      } catch (e) { // Safari
-        var selection = window.getSelection(), range = document.createRange();
-        if (selection.focusNode) {
-          range.setStart(selection.anchorNode, selection.anchorOffset);
-          range.setEnd(selection.focusNode, selection.focusOffset);
-        }
-        return range;
-      }
-    }
-  },
+  range: function(range) {
+    var selection = window.getSelection && window.getSelection();
 
-  /**
-   * Sets the selection by range
-   *
-   * @param TextRange range
-   * @return void
-   */
-  set: function(range) {
-    if (range.select) {  // IE
-      range.select();
-    } else { // w3c
-      var selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
+    if (range) {
+      if (selection) { // w3c
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } else if (range._) { // IE
+        range._.select();
+      }
+
+    } else {
+      try {
+        range = selection.getRangeAt(0);
+      } catch (e) {
+        try {
+          range = document.createRange();
+        } catch (e) {
+          range = new IERangeEmulator();
+        }
+      }
+
+      // Webkit needs the range to be preset first
+      if (selection && selection.focusNode && range.setStart) {
+        range.setStart(selection.anchorNode, selection.anchorOffset);
+        range.setEnd(selection.focusNode, selection.focusOffset);
+      }
+
+      return range;
     }
   },
 
@@ -65,8 +65,8 @@ Rte.Selection = new Class({
    *
    * @return Array bookmark
    */
-  save: function() {
-    var range = this.get(), editor = this.rte.editor._.parentNode;
+  store: function() {
+    var range = this.range(), editor = this.rte.editor._.parentNode;
 
     function find_position(type) {
       var marker  = [],
@@ -81,8 +81,8 @@ Rte.Selection = new Class({
         } else {
           marker.push(offset);
 
-          for (var i=0; i < element.parentNode.childNodes.length; i++) {
-            if (element.parentNode.childNodes[i] === element) {
+          for (var i=0, nodes = element.parentNode.childNodes; i < nodes.length; i++) {
+            if (nodes[i] === element) {
               offset = i;
               break;
             }
@@ -109,7 +109,7 @@ Rte.Selection = new Class({
   restore: function(bookmark) {
     var marker = bookmark || this.mark,
         editor = this.rte.editor._,
-        range  = document.selection ? document.selection.createRange() : document.createRange();
+        range  = this.range();
 
     function set_position(what, markers) {
       var element = editor,
@@ -132,7 +132,7 @@ Rte.Selection = new Class({
         set_position('setStart', marker[0]);
         set_position('setEnd',   marker[1]);
 
-        this.set(range);
+        this.range(range);
       } catch(e) {}
     }
   },
@@ -143,27 +143,20 @@ Rte.Selection = new Class({
    * @return raw dom-node
    */
   node: function() {
-    var range = this.get(), node;
+    var range = this.range(), node = range.commonAncestorContainer;
 
-    if (range.startContainer) {
-      // getting the basic common container
-      node = range.commonAncestorContainer;
-
-      // if there is a selection trying those
-      if (!range.collapsed) {
-        if (
-          range.startContainer == range.endContainer &&
-          range.startOffset - range.endOffset < 2    &&
-          range.startContainer.hasChildNodes()
-        ) {
-          node = range.startContainer.childNodes[range.startOffset];
-        }
+    // if there is a selection, trying those
+    if (!range.collapsed) {
+      if (
+        range.startContainer === range.endContainer &&
+        range.startOffset - range.endOffset < 2     &&
+        range.startContainer.hasChildNodes()
+      ) {
+        node = range.startContainer.childNodes[range.startOffset];
       }
-
-      node = node && node.nodeType === 3 ? node.parentNode : node;
-    } else {
-      node = range.item ? range.item(0) : range.parentElement();
     }
+
+    node = node && node.nodeType === 3 ? node.parentNode : node;
 
     return node;
   },
@@ -174,15 +167,10 @@ Rte.Selection = new Class({
    * @param raw dom-node
    * @return void
    */
-  wrap: function(element) {
-    var range = this.get();
-
-    if (range.setStart) {
-      range.selectNode(element);
-      this.set(range);
-    } else {
-      // TODO IE version
-    }
+  wrap: function(node) {
+    var range = this.range();
+    range.selectNode(node);
+    this.range(range);
   },
 
   /**
@@ -191,8 +179,7 @@ Rte.Selection = new Class({
    * @return String selection text
    */
   text: function() {
-    var range = this.get();
-    return '' + (range.text ? range.text : range);
+    return '' + this.range();
   },
 
   /**
@@ -201,7 +188,7 @@ Rte.Selection = new Class({
    * @return boolean check result
    */
   empty: function() {
-    return this.text() == '';
+    return this.text() === '';
   },
 
   /**
@@ -210,10 +197,10 @@ Rte.Selection = new Class({
    * @return String html content
    */
   html: function() {
-    var range = this.get(), tmp, fragment;
+    var range = this.range(), tmp, fragment;
 
-    if (range.htmlText) {
-      return range.htmlText;
+    if (range._) {
+      return range._.htmlText;
     } else {
       tmp = document.createElement('div');
       fragment = range.cloneContents();
@@ -224,5 +211,38 @@ Rte.Selection = new Class({
 
       return tmp.innerHTML;
     }
+  },
+
+  /**
+   * executes a command on this editing area
+   *
+   * @param String command name
+   * @param mixed command value
+   * @return Rte.Editor this
+   */
+  exec: function(command, value) {
+    try {
+      // it throws errors in some cases in the non-design mode
+      document.execCommand(command, false, value);
+    } catch(e) {
+      // emulating insert html under IE
+      if (command === 'inserthtml') {
+        try {
+          this.range()._.pasteHTML = value;
+        } catch(e) {}
+      }
+    }
+  }
+});
+
+
+/**
+ * W3C ranges emulator for the old IE browsers
+ *
+ * Copyrgiht (C) 2011 Nikolay Nemshilov
+ */
+var IERangeEmulator = new Class({
+  initialize: function() {
+    this._ = document.selection.createRange();
   }
 });

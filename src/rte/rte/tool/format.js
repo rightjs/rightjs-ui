@@ -1,7 +1,7 @@
 /**
  * Text formatting specific abstract tool
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tool.Format = new Class(Rte.Tool, {
   tag:  null, // element's tag name
@@ -77,7 +77,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
   _format: function(formatting) {
     var open_tag  = '<'+  this.tag,
         close_tag = '</'+ this.tag + '>',
-        range     = this.rte.selection.get(),
+        range     = this.rte.selection.range(),
         editor    = this.rte.editor._;
 
     // building the open-tag attributes
@@ -167,7 +167,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
     // Restoring the selection range
     /////////////////////////////////////////////////////////////////
     var elements = $A(editor.getElementsByTagName('span')),
-        range    = this.rte.selection.get(),
+        range    = this.rte.selection.range(),
         i=0, method, parent, offset;
 
     for (; i < elements.length; i++) {
@@ -182,7 +182,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       }
     }
 
-    this.rte.selection.set(range);
+    this.rte.selection.range(range);
   }
 
 });

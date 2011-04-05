@@ -1,7 +1,7 @@
 /**
  * The basic tools class
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tool = new Class(Element, {
 

@@ -1,7 +1,7 @@
 /**
  * The Right Text Editor
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var Rte = new Widget({
 
@@ -174,7 +174,7 @@ var Rte = new Widget({
     this.selection = new Rte.Selection(this);
 
     // updating the initial state
-    this.exec('styleWithCss', false);
+    this.selection.exec('styleWithCss', false);
     this.status.update();
     this.undoer.save();
   },
@@ -297,30 +297,6 @@ var Rte = new Widget({
     this.textarea = textarea;
 
     return this;
-  },
-
-// protected
-
-  /**
-   * executes a command on this editing area
-   *
-   * @param String command name
-   * @param mixed command value
-   * @return Rte.Editor this
-   */
-  exec: function(command, value) {
-    try {
-      // it throws errors in some cases in the non-design mode
-      document.execCommand(command, false, value);
-    } catch(e) {
-      // emulating insert html under IE
-      if (command === 'inserthtml') {
-        try {
-          this.selection.get().pasteHTML = value;
-        } catch(e) {}
-      }
-    }
-
-    return this;
   }
+
 });

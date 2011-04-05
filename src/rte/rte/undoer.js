@@ -8,7 +8,7 @@
  * So we manage our undo/redo states manually by whatching
  * the 'change' event in the RTE instance
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Undoer = new Class({
 

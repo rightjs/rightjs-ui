@@ -1,7 +1,7 @@
 /**
  * An abstract URL tool, used with the links, images, videos, etc.
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tool.Url = new Class(Rte.Tool, {
   attr:   null, // the url-attribute 'src', 'href', etc.
@@ -43,6 +43,6 @@ Rte.Tool.Url = new Class(Rte.Tool, {
   },
 
   create: function(url) {
-    this.rte.exec(this.command, url);
+    this.rte.selection.exec(this.command, url);
   }
 });

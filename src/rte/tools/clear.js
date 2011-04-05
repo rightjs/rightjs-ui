@@ -1,13 +1,13 @@
 /**
  * the 'clear' tool
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tools.Clear = new Class(Rte.Tool, {
 
   exec: function() {
-    this.rte.exec('selectall');
-    this.rte.exec('delete');
+    this.rte.selection.exec('selectall');
+    this.rte.selection.exec('delete');
   }
 
 });

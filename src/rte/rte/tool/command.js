@@ -1,7 +1,7 @@
 /**
  * Native command related abstract tool
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tool.Command = new Class(Rte.Tool, {
   command: null, // execCommand name
@@ -13,7 +13,7 @@ Rte.Tool.Command = new Class(Rte.Tool, {
    * @return void
    */
   exec: function() {
-    this.rte.exec(this.command, this.value);
+    this.rte.selection.exec(this.command, this.value);
   },
 
   /**
