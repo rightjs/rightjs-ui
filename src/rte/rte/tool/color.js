@@ -1,7 +1,7 @@
 /**
  * an abstract color-picking tool
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tool.Color = new Class(Rte.Tool.Style, {
 
@@ -36,7 +36,7 @@ Rte.Tool.Color = new Class(Rte.Tool.Style, {
 
       for (; i < colors.length; i++) {
         color     = '#' + colors[i];
-        forecolor = ('ffffff'.toInt(16) - colors[i].toInt(16)).toString(16);
+        forecolor = (parseInt('ffffff', 16) - parseInt(colors[i], 16)).toString(16);
 
         // IE will get screwed if the length of the color is less than 6
         while (forecolor.length < 6) {

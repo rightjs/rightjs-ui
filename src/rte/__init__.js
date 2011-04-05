@@ -1,18 +1,20 @@
 /**
  * RTE's initialization script
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 
-var R  = RightJS,
-    $  = RightJS.$,
-    $$ = RightJS.$$,
-    $w = RightJS.$w,
-    $E = RightJS.$E,
-    $A = RightJS.$A,
+var R       = RightJS,
+    $       = RightJS.$,
+    $$      = RightJS.$$,
+    $w      = RightJS.$w,
+    $E      = RightJS.$E,
+    $A      = RightJS.$A,
+    isArray = RightJS.isArray,
     RegExp  = RightJS.RegExp,
     Class   = RightJS.Class,
-    Element = RightJS.Element;
+    Element = RightJS.Element,
+    Input   = RightJS.Input;
 
 
 include_module_files(

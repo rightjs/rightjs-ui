@@ -1,7 +1,7 @@
 /**
  * the 'save' tool
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tools.Save = new Class(Rte.Tool, {
   shortcut: 'S',
