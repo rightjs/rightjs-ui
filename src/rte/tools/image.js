@@ -9,7 +9,7 @@ Rte.Tools.Image = new Class(Rte.Tool.Url, {
 
   element: function() {
     var image = this.rte.selection.node();
-    return image != null && image.tagName === "IMG" ? image : null;
+    return image !== null && image !== undefined && image.tagName === "IMG" ? image : null;
   }
 
 });

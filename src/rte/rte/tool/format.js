@@ -104,7 +104,9 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       var container = range[name + 'Container'],
           offset    = range[name + 'Offset'],
           parent    = container.parentNode,
-          marker    = document.createElement('span');
+          marker    = document.createElement('span'),
+          text      = container.nodeValue,
+          ending    = document.createTextNode((''+text).substr(offset));
 
       marker.setAttribute('rrte-'+name, '1');
 
@@ -128,9 +130,6 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       } else if (text ? offset === text.length : offset === container.childNodes.length) {
         insert_after(marker, container);
       } else if (container.nodeType === 3) { // splitting up a textual node
-        var text   = container.nodeValue,
-            ending = document.createTextNode(text.substr(offset));
-
         container.nodeValue = text.substr(0, offset);
         insert_after(ending, container);
         parent.insertBefore(marker, ending);
@@ -167,8 +166,9 @@ Rte.Tool.Format = new Class(Rte.Tool, {
     // Restoring the selection range
     /////////////////////////////////////////////////////////////////
     var elements = $A(editor.getElementsByTagName('span')),
-        range    = this.rte.selection.range(),
         i=0, method, parent, offset;
+
+    range = this.rte.selection.range();
 
     for (; i < elements.length; i++) {
       method = elements[i].getAttribute('rrte-start') ? 'setStart' :

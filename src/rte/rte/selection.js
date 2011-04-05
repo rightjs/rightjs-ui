@@ -38,7 +38,7 @@ Rte.Selection = new Class({
       } catch (e) {
         try {
           range = document.createRange();
-        } catch (e) {
+        } catch (ee) {
           range = new IERangeEmulator();
         }
       }
@@ -229,7 +229,7 @@ Rte.Selection = new Class({
       if (command === 'inserthtml') {
         try {
           this.range()._.pasteHTML = value;
-        } catch(e) {}
+        } catch(ee) {}
       }
     }
   }

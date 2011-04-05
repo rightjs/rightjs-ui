@@ -10,7 +10,7 @@ Rte.Tools.Save = new Class(Rte.Tool, {
     this.$super(rte);
     if (!(rte.textarea && rte.textarea._.form)) {
       this.disabled = true;
-      this.addClass('disabled')
+      this.addClass('disabled');
     }
   },
 
