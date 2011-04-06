@@ -61,14 +61,15 @@
   <body>
     <h2>Simple Case</h2>
     <p>
-      <textarea data-rte=""><h2>Hello There!</h2> <b>bold</b> <i>italic</i>
-        <u>underline</u> <s>strike</s> <tt>typetext</tt>
+      <textarea name="t1" data-rte=""><h2>Hello There!</h2> <b>bold</b> <i>italic</i>
+        <u>underline</u> <s>strike</s> <tt>typetext</tt><br/>
+        some plain text
       </textarea>
     </p>
 
     <h2>Basic Example</h2>
     <p>
-      <textarea data-rte="{toolbar: 'basic'}">
+      <textarea name="t2" data-rte="{toolbar: 'basic'}">
 <h2>Hello There!</h2>
 <p>
   <img src="http://rightjs.org/images/test/1-thmb.jpg" />
@@ -99,7 +100,7 @@ booo!</pre>
 
     <h2>Extra Version</h2>
     <p>
-      <textarea data-rte="{toolbar: 'extra'}">
+      <textarea name="t3" data-rte="{toolbar: 'extra'}">
 <h2>Hello There!</h2>
 <p>
   <img src="http://rightjs.org/images/test/2-thmb.jpg" />
@@ -129,7 +130,7 @@ booo!</pre>
 
     <h2>Flash Video Example</h2>
     <p>
-      <textarea data-rte="{toolbar: 'basic'}">
+      <textarea name="t4" data-rte="{toolbar: 'basic'}">
 <h2>Try Those Urls</h2>
 <p>
   <ul>
@@ -143,7 +144,7 @@ booo!</pre>
 
     <h2>No Autoresize Example</h2>
     <p>
-      <textarea data-rte="{autoresize: false}">
+      <textarea name="t5" data-rte="{autoresize: false}">
 <h2>Hello There!</h2>
 <p>
   <b>Bold</b> <i>italic</i> <u>underline</u> <s>strike through</s> <tt>code_block</tt>
@@ -167,7 +168,7 @@ booo!</pre>
     <h2>Save Button Example</h2>
     <p>
       <form class="save-example">
-        <textarea data-rte="{toolbar:'save|bold italic underline|source', showStatus: false}">
+        <textarea name="t6" data-rte="{toolbar:'save|bold italic underline|source', showStatus: false}">
           Press the <tt>Save</tt> button or <tt>Ctrl+S</tt> to submit the form
         </textarea>
       </form>

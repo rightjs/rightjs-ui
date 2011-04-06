@@ -78,7 +78,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
     var open_tag  = '<'+  this.tag,
         close_tag = '</'+ this.tag + '>',
         range     = this.rte.selection.range(),
-        editor    = this.rte.editor._;
+        editor    = this.rte.editor;
 
     // building the open-tag attributes
     for (var attr in this.attrs) {
@@ -151,21 +151,23 @@ Rte.Tool.Format = new Class(Rte.Tool, {
         end_marker   = '<span rrte-end="1"></span>';
 
     if (formatting) {
-      editor.innerHTML = editor.innerHTML
-        .replace(start_marker, open_tag + start_marker)
-        .replace(end_marker, end_marker + close_tag);
+      editor.update(editor.html()
+        .replace(new RegExp(RegExp.escape(start_marker), 'i'), open_tag + start_marker)
+        .replace(new RegExp(RegExp.escape(end_marker), 'i'), end_marker + close_tag)
+      );
     } else {
-      editor.innerHTML = editor.innerHTML
-        .replace(start_marker, close_tag + start_marker)
-        .replace(end_marker,   end_marker + open_tag)
+      editor.update(editor.html()
+        .replace(new RegExp(RegExp.escape(start_marker), 'i'), close_tag + start_marker)
+        .replace(new RegExp(RegExp.escape(end_marker), 'i'),   end_marker + open_tag)
         // cleaning up empty tags
-        .replace(new RegExp(RegExp.escape(open_tag + close_tag), 'ig'), '');
+        .replace(new RegExp(RegExp.escape(open_tag + close_tag), 'ig'), '')
+      );
     }
 
     /////////////////////////////////////////////////////////////////
     // Restoring the selection range
     /////////////////////////////////////////////////////////////////
-    var elements = $A(editor.getElementsByTagName('span')),
+    var elements = $A(editor._.getElementsByTagName('span')),
         i=0, method, parent, offset;
 
     range = this.rte.selection.range();
@@ -176,7 +178,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
 
       if (method) {
         parent = elements[i].parentNode;
-        offset = $A(parent.childNodes).indexOf(elements[i]);
+        offset = IER_getIndex(elements[i]);
         parent.removeChild(elements[i]);
         range[method](parent, offset);
       }

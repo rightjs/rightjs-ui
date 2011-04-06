@@ -81,7 +81,7 @@ Rte.Undoer = new Class({
    */
   set: function(index) {
     if (this.stash[this.index]) {
-      this.rte.editor._.innerHTML = this.stash[this.index];
+      this.rte.editor.update(this.stash[this.index]);
       this.rte.selection.restore();
     }
   },

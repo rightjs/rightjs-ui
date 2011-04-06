@@ -258,7 +258,7 @@ var IERangeEmulator = new Class({
     this._ = document.selection.createRange();
 
     //startPoint
-    range = this._.duplicate();
+    var range = this._.duplicate();
     range.collapse(true);
     range = IER_getPosition(range);
 
@@ -302,8 +302,8 @@ var IERangeEmulator = new Class({
       this.endOffset    = offset;
     }
 
-    IER_commonAncestorContainer();
-    IER_collapsed();
+    IER_commonAncestorContainer(this);
+    IER_collapsed(this);
   },
 
   /**
@@ -334,8 +334,8 @@ var IERangeEmulator = new Class({
       this.startOffset    = offset;
     }
 
-    IER_commonAncestorContainer();
-    IER_collapsed();
+    IER_commonAncestorContainer(this);
+    IER_collapsed(this);
   },
 
   /**
@@ -403,6 +403,15 @@ var IERangeEmulator = new Class({
       node, node.nodeType === 3 ?
       node.data.length : node.childNodes.length
     );
+  },
+
+  /**
+   * Selection text emulation
+   *
+   * @return {String} text
+   */
+  toString: function() {
+    return ''+ this._.text;
   }
 });
 
@@ -419,14 +428,15 @@ var IERangeEmulator = new Class({
  * @param {TextRange} ie text range object
  * @return {Object} 'node' and 'offset' pairs
  */
-function IER_getPosition(range) {
-  var element = range.parentElement();
+function IER_getPosition(original_range) {
+  var element = original_range.parentElement(),
+      range, range_size, direction, node, node_size;
 
   range = element.ownerDocument.body.createTextRange();
   range.moveToElementText(element);
-  range.setEndPoint("EndToStart", range);
+  range.setEndPoint("EndToStart", original_range);
 
-  var range_size = range.text.length, direction, node, node_size;
+  range_size = range.text.length;
 
   // Choose Direction
   if (range_size < element.innerText.length / 2) {
@@ -436,7 +446,7 @@ function IER_getPosition(range) {
     direction = -1;
     node = element.lastChild;
     range.moveToElementText(element);
-    range.setEndPoint("StartToStart", range);
+    range.setEndPoint("StartToStart", original_range);
     range_size = range.text.length;
   }
 
@@ -446,12 +456,15 @@ function IER_getPosition(range) {
       case 3: // text-node
         node_size = node.data.length;
         if(node_size < range_size) {
-          var difference = range_size - node_size;
-          if (direction === 1) { range.moveStart("character", difference); }
-          else { range.moveEnd("character", -difference); }
-          range_size = difference;
-        }
-        else {
+          range_size -= node_size;
+
+          if (direction === 1) {
+            range.moveStart("character", range_size);
+          } else {
+            range.moveEnd("character", -range_size);
+          }
+
+        } else {
           return direction === 1 ?
             {node: node, offset: range_size} :
             {node: node, offset: node_size - range_size};
@@ -460,8 +473,13 @@ function IER_getPosition(range) {
 
       case 1: // element-node
         node_size = node.innerText.length;
-        if (direction === 1) { range.moveStart("character", node_size); }
-        else { range.moveEnd("character", -node_size); }
+
+        if (direction === 1) {
+          range.moveStart("character", node_size);
+        } else {
+          range.moveEnd("character", -node_size);
+        }
+
         range_size = range_size - node_size;
         break;
     }
@@ -577,7 +595,7 @@ function IER_commonParent(node1, node2) {
 
   node = node2;
   while (node) {
-    parents2.push(ndoe);
+    parents2.push(node);
     node = node.parentNode;
   }
 
