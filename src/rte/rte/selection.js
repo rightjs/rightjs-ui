@@ -212,7 +212,7 @@ Rte.Selection = new Class({
    *
    * @param String command name
    * @param mixed command value
-   * @return Rte.Editor this
+   * @return void
    */
   exec: function(command, value) {
     try {
@@ -224,6 +224,113 @@ Rte.Selection = new Class({
         this.range()._.pasteHTML = value;
       }
     }
+  },
+
+  /**
+   * Inserts special SPAN elements in places where
+   * the selection starts and ends so that it could
+   * be restored later, even if the editor innerHTML
+   * property was brutally manipulated
+   *
+   * @return {Rte.Selection} this
+   */
+  insertMarkers: function() {
+    var range = this.range();
+
+    // reclonning the data so it wasn't lost on changes
+    range = {
+      startContainer: range.startContainer,
+      startOffset:    range.startOffset,
+      endContainer:   range.endContainer,
+      endOffset:      range.endOffset,
+      collapsed:      range.collapsed
+    };
+
+    /**
+     * Places the selection markers into the editor's structure
+     *
+     * @param String name 'end' or 'start'
+     * @return void
+     */
+    function place_marker(name) {
+      var node   = range[name + 'Container'],
+          offset = range[name + 'Offset'],
+          marker = document.createElement('span'),
+          parent = node.parentNode,
+          text   = node.nodeValue,
+          ending = document.createTextNode((''+text).substr(offset));
+
+      marker.setAttribute('rrte-'+name, '1');
+
+      function insert_after(content, anchor) {
+        if (anchor.nextSibling) {
+          anchor.parentNode.insertBefore(content, anchor.nextSibling);
+        } else {
+          anchor.parentNode.appendChild(content);
+        }
+      }
+
+      if (node.nodeType === 3) { // text-node
+        if (offset === 0) {
+          parent.insertBefore(marker,
+            // in case both of the markers are at the beginning of
+            // the same node, the 'end' marker will be already there
+            // and we will need to insert the 'start' one before it.
+            name === 'start' && range.collapsed ? node.previousSibling : node
+          );
+        } else if (offset === text.length) {
+          insert_after(marker, node);
+        } else {   // splitting the text node in two
+          node.nodeValue = text.substr(0, offset);
+          insert_after(ending, node);
+          parent.insertBefore(marker, ending);
+        }
+
+      } else {
+        if (offset === 0) {
+          if (node.firstChild) {
+            node.insertBefore(marker, node.firstChild);
+          } else {
+            node.appendChild(marker);
+          }
+        } else if (offset === node.childNodes.length) {
+          node.appendChild(marker);
+        } else {
+          node.insertBefore(marker, node.childNodes[offset]);
+        }
+      }
+    }
+
+    // NOTE: the 'end' should be before the 'start' in case both of them
+    //       are in the same node, so that the offest didn't shift after
+    //       we insert the marker nodes
+    place_marker('end');
+    place_marker('start');
+  },
+
+  /**
+   * Restores the selection by previously places
+   * special SPAN elements and removes them afterwards
+   *
+   * @return {Rte.Selection} this
+   */
+  removeMarkers: function() {
+    var elements = $A(this.rte.editor._.getElementsByTagName('span')),
+        i=0, method, parent, offset, range = this.range();
+
+    for (; i < elements.length; i++) {
+      method = elements[i].getAttribute('rrte-start') ? 'setStart' :
+               elements[i].getAttribute('rrte-end') ? 'setEnd' : false;
+
+      if (method) {
+        parent = elements[i].parentNode;
+        offset = IER_getIndex(elements[i]);
+        parent.removeChild(elements[i]);
+        range[method](parent, offset);
+      }
+    }
+
+    this.range(range);
   }
 });
 
