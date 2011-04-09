@@ -55,12 +55,12 @@ var Rte = new Widget({
     // the formatting options, you can use simply tag names
     // or you can also specify tag + class like 'div.blue'
     Formats: {
-      'h1':  'Header 1',
-      'h2':  'Header 2',
-      'h3':  'Header 3',
-      'h4':  'Header 4',
-      'p':   'Paragraph',
-      'pre': 'Preformatted',
+      'h1':         'Header 1',
+      'h2':         'Header 2',
+      'h3':         'Header 3',
+      'h4':         'Header 4',
+      'p':          'Paragraph',
+      'pre':        'Preformatted',
       'blockquote': 'Blockquote',
       'tt':         'Typetext',
       'address':    'Address'

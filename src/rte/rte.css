@@ -7,9 +7,9 @@
  *    <div class="rui-rte-toolbar">
  *      <div class="line">
  *        <div class="bar">
- *          <div class="action icon bold"></div>
- *          <div class="action icon italic"></div>
- *          <div class="action icon underline"></div>
+ *          <div class="tool bold"><div class="icon"></div></div>
+ *          <div class="tool italic"><div class="icon"></div></div>
+ *          <div class="tool underline"><div class="icon"></div></div>
  *          .....
  *        </div>
  *        ....
@@ -21,12 +21,12 @@
  *      // your content goes in here
  *    </div>
  *
- *    <div class="rui-rte-toolbar">
+ *    <div class="rui-rte-status">
  *      Some toolbar stuff will be in here
  *    </div>
  *  </div>
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 /** RESET */
 div.rui-rte,
