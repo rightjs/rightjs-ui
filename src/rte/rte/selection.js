@@ -54,89 +54,11 @@ Rte.Selection = new Class({
   },
 
   /**
-   * Saves the current selection range
-   *
-   * Basically we create a pair of sequences of offsets
-   * from the selection's start and the end containers, from
-   * top to the editor's element, so that later on, we could
-   * try to restore the selection position even if the real
-   * data was lost or changed manually via the `innerHTML`
-   * assignment
-   *
-   * @return Array bookmark
-   */
-  store: function() {
-    var range = this.range(), editor = this.rte.editor._.parentNode;
-
-    function find_position(type) {
-      var marker  = [],
-          found   = false,
-          element = range[type + 'Container'],
-          offset  = range[type + 'Offset'];
-
-      while (element.parentNode) {
-        if (element === editor) {
-          found = true;
-          break;
-        } else {
-          marker.push(offset);
-
-          offset  = IER_getOffset(element);
-          element = element.parentNode;
-        }
-      }
-
-      return found ? marker : [];
-    }
-
-    return (this.mark = [find_position('start'), find_position('end')]);
-  },
-
-  /**
-   * Restores previously stored selection range
-   *
-   * SEE: the #save method for more details
-   *
-   * @param Array bookmark
-   * @return void
-   */
-  restore: function(bookmark) {
-    var marker = bookmark || this.mark,
-        editor = this.rte.editor._,
-        range  = this.range();
-
-    function set_position(what, markers) {
-      var element = editor,
-          offset  = markers.shift(),
-          i = markers.length - 1;
-
-      for (; i > -1; i--) {
-        if (!(element.tagName && (element = element.childNodes[markers[i]]))) {
-          break;
-        }
-      }
-
-      if (element && element !== editor) {
-        range[what](element, offset);
-      }
-    }
-
-    if (marker) {
-      try { // sometimes the offsets might not exist anymore
-        set_position('setStart', marker[0]);
-        set_position('setEnd',   marker[1]);
-
-        this.range(range);
-      } catch(e) {}
-    }
-  },
-
-  /**
    * Returns the dom-node that's currently in focus
    *
-   * @return raw dom-node
+   * @return raw dom-element
    */
-  node: function() {
+  element: function() {
     var range = this.range(), node = range.commonAncestorContainer;
 
     // if there is a selection, trying those
@@ -152,7 +74,7 @@ Rte.Selection = new Class({
 
     node = node && node.nodeType === 3 ? node.parentNode : node;
 
-    return node;
+    return node || null;
   },
 
   /**
@@ -227,14 +149,14 @@ Rte.Selection = new Class({
   },
 
   /**
-   * Inserts special SPAN elements in places where
-   * the selection starts and ends so that it could
-   * be restored later, even if the editor innerHTML
-   * property was brutally manipulated
+   * Saves the selection by inserting special SPAN elements
+   * in places where the selection starts and ends so that
+   * it could be restored later, even if the editor innerHTML
+   * property was manipulated directly
    *
    * @return {Rte.Selection} this
    */
-  insertMarkers: function() {
+  store: function() {
     var range = this.range();
 
     // reclonning the data so it wasn't lost on changes
@@ -309,12 +231,12 @@ Rte.Selection = new Class({
   },
 
   /**
-   * Restores the selection by previously places
+   * Restores the selection by previously placed
    * special SPAN elements and removes them afterwards
    *
    * @return {Rte.Selection} this
    */
-  removeMarkers: function() {
+  restore: function() {
     var elements = $A(this.rte.editor._.getElementsByTagName('span')),
         i=0, method, parent, offset, range = this.range();
 

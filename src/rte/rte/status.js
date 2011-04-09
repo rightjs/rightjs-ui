@@ -1,7 +1,7 @@
 /**
  * The Rte's status bar block
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Status = new Class(Element, {
 
@@ -91,7 +91,7 @@ Rte.Status = new Class(Element, {
 
   // finds the nodes from the current selection to the bottom
   _findNodes: function() {
-    var node   = this.rte.selection.node(),
+    var node   = this.rte.selection.element(),
         editor = this.rte.editor._,
         rte    = this.rte._,
         nodes  = [],

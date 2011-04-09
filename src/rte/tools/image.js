@@ -8,8 +8,8 @@ Rte.Tools.Image = new Class(Rte.Tool.Url, {
   attr:    'src',
 
   element: function() {
-    var image = this.rte.selection.node();
-    return image !== null && image !== undefined && image.tagName === "IMG" ? image : null;
+    var image = this.rte.selection.element();
+    return image !== null && image.tagName === "IMG" ? image : null;
   }
 
 });

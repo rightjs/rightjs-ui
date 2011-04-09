@@ -92,7 +92,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
     }
     open_tag += ">";
 
-    selection.insertMarkers();
+    selection.store();
 
     if (formatting) {
       editor.html(editor.html()
@@ -113,7 +113,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       );
     }
 
-    selection.removeMarkers();
+    selection.restore();
   }
 
 });
