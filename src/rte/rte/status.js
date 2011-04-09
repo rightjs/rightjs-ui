@@ -37,7 +37,7 @@ Rte.Status = new Class(Element, {
       }
 
       if (node.className) {
-        node += "."+ node.className;
+        name += "."+ node.className;
       }
 
       return '<a href="" data-index="'+ index +
