@@ -82,9 +82,7 @@ Rte.Tool.Format = new Class(Rte.Tool, {
         range     = selection.range(),
         selected  = selection.text(),
         element   = this.element(),
-        content   = element && (element.textContent || element.innerText),
-        start     = '<span rrte-start="1"></span>',
-        end       = '<span rrte-end="1"></span>';
+        content   = element && (element.textContent || element.innerText);
 
     // building the open-tag attributes
     for (var attr in this.attrs) {
@@ -96,8 +94,8 @@ Rte.Tool.Format = new Class(Rte.Tool, {
 
     if (formatting) {
       editor.html(editor.html()
-        .replace(new RegExp(RegExp.escape(start), 'i'), open_tag + start)
-        .replace(new RegExp(RegExp.escape(end),   'i'), end + close_tag)
+        .replace(SELECTION_START_RE, open_tag + SELECTION_START_MARKER)
+        .replace(SELECTION_END_RE,  SELECTION_END_MARKER + close_tag)
       );
     } else if (element && selected === content) {
       // plainly remove the element if it was fully selected
@@ -106,8 +104,8 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       editor.removeElement(element);
     } else {
       editor.html(editor.html()
-        .replace(new RegExp(RegExp.escape(start), 'i'), close_tag + start)
-        .replace(new RegExp(RegExp.escape(end),   'i'), end + open_tag)
+        .replace(SELECTION_START_RE, close_tag + SELECTION_START_MARKER)
+        .replace(SELECTION_END_RE, SELECTION_END_MARKER + open_tag)
           // cleaning up empty tags
         .replace(new RegExp(RegExp.escape(open_tag + close_tag), 'ig'), '')
       );

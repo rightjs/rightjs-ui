@@ -93,25 +93,39 @@ Rte.Undoer = new Class({
    * @return void
    */
   save: function(event) {
-    this.rte.selection.store();
+    var tool  = event ? event.tool : event,
+        tools = this.rte.tools,
+        html, html1, html2;
 
-    var tool = event ? event.tool : event, html = this.rte.editor._.innerHTML;
+    if (!tool || (tool !== tools.Undo && tool !== tools.Redo)) {
+      this.rte.selection.store();
 
-    if ((!tool || (tool !== this.rte.tools.Undo && tool !== this.rte.tools.Redo)) && this.stash[this.index] !== html) {
-      // cutting off possible redo steps
-      this.stash.length = this.index + 1;
-      this.stash.push(html);
-      this.index = this.stash.length - 1;
+      html = this.rte.editor._.innerHTML;
 
-      if (this.rte.tools.Undo) {
-        this.rte.tools.Undo.check();
+      html1 = html
+        .replace(SELECTION_START_RE, '')
+        .replace(SELECTION_END_RE, '');
+
+      html2 = (this.stash[this.index]||'')
+        .replace(SELECTION_START_RE, '')
+        .replace(SELECTION_END_RE, '');
+
+      if (html1 !== html2) {
+        // cutting off possible redo steps
+        this.stash.length = this.index + 1;
+        this.stash.push(html);
+        this.index = this.stash.length - 1;
+
+        if (tools.Undo) {
+          tools.Undo.check();
+        }
+        if (tools.Redo) {
+          tools.Redo.check();
+        }
       }
-      if (this.rte.tools.Redo) {
-        this.rte.tools.Redo.check();
-      }
+
+      this.rte.selection.restore();
     }
-
-    this.rte.selection.restore();
   }
 
 });

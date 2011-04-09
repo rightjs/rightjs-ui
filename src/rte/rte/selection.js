@@ -256,6 +256,12 @@ Rte.Selection = new Class({
   }
 });
 
+var
+SELECTION_START_MARKER = '<span rrte-start="1"></span>',
+SELECTION_END_MARKER   = '<span rrte-end="1"></span>',
+SELECTION_START_RE     = new RegExp(RegExp.escape(SELECTION_START_MARKER), 'i'),
+SELECTION_END_RE       = new RegExp(RegExp.escape(SELECTION_END_MARKER), 'i');
+
 
 /**
  * W3C ranges API emulator for the old IE browsers
