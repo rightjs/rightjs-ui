@@ -77,8 +77,12 @@ Rte.Tool.Format = new Class(Rte.Tool, {
   _format: function(formatting) {
     var open_tag  = '<'+  this.tag,
         close_tag = '</'+ this.tag + '>',
-        range     = this.rte.selection.range(),
-        editor    = this.rte.editor;
+        editor    = this.rte.editor,
+        selection = this.rte.selection,
+        range     = selection.range(),
+        selected  = selection.text(),
+        element   = this.element(),
+        content   = element && (element.textContent || element.innerText);
 
     // building the open-tag attributes
     for (var attr in this.attrs) {
@@ -91,7 +95,8 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       startContainer: range.startContainer,
       startOffset:    range.startOffset,
       endContainer:   range.endContainer,
-      endOffset:      range.endOffset
+      endOffset:      range.endOffset,
+      collapsed:      range.collapsed
     };
 
     /**
@@ -101,12 +106,12 @@ Rte.Tool.Format = new Class(Rte.Tool, {
      * @return void
      */
     function place_marker(name) {
-      var container = range[name + 'Container'],
-          offset    = range[name + 'Offset'],
-          parent    = container.parentNode,
-          marker    = document.createElement('span'),
-          text      = container.nodeValue,
-          ending    = document.createTextNode((''+text).substr(offset));
+      var node   = range[name + 'Container'],
+          offset = range[name + 'Offset'],
+          marker = document.createElement('span'),
+          parent = node.parentNode,
+          text   = node.nodeValue,
+          ending = document.createTextNode((''+text).substr(offset));
 
       marker.setAttribute('rrte-'+name, '1');
 
@@ -118,23 +123,34 @@ Rte.Tool.Format = new Class(Rte.Tool, {
         }
       }
 
-      if (offset === 0) {
-        parent.insertBefore(marker,
-          // in case both of the markers are at the beginning of
-          // the same node, the 'end' marker will be already there
-          // and we will need to insert the 'start' one before it.
-          name === 'start' && offset === range.endOffset &&
-          container === range.endContainer ?
-            container.previousSibling : container
-        );
-      } else if (text ? offset === text.length : offset === container.childNodes.length) {
-        insert_after(marker, container);
-      } else if (container.nodeType === 3) { // splitting up a textual node
-        container.nodeValue = text.substr(0, offset);
-        insert_after(ending, container);
-        parent.insertBefore(marker, ending);
-      } else { // inserting the marker in a middle of a dom-element
-        container.insertBefore(marker, container.childNodes[offset]);
+      if (node.nodeType === 3) { // text-node
+        if (offset === 0) {
+          parent.insertBefore(marker,
+            // in case both of the markers are at the beginning of
+            // the same node, the 'end' marker will be already there
+            // and we will need to insert the 'start' one before it.
+            name === 'start' && range.collapsed ? node.previousSibling : node
+          );
+        } else if (offset === text.length) {
+          insert_after(marker, node);
+        } else {   // splitting the text node in two
+          node.nodeValue = text.substr(0, offset);
+          insert_after(ending, node);
+          parent.insertBefore(marker, ending);
+        }
+
+      } else {
+        if (offset === 0) {
+          if (node.firstChild) {
+            node.insertBefore(marker, node.firstChild);
+          } else {
+            node.appendChild(marker);
+          }
+        } else if (offset === node.childNodes.length) {
+          node.appendChild(marker);
+        } else {
+          node.insertBefore(marker, node.childNodes[offset]);
+        }
       }
     }
 
@@ -151,15 +167,20 @@ Rte.Tool.Format = new Class(Rte.Tool, {
         end_marker   = '<span rrte-end="1"></span>';
 
     if (formatting) {
-      editor.update(editor.html()
+      editor.html(editor.html()
         .replace(new RegExp(RegExp.escape(start_marker), 'i'), open_tag + start_marker)
         .replace(new RegExp(RegExp.escape(end_marker), 'i'), end_marker + close_tag)
       );
+    } else if (element && selected === content) {
+      // plainly remove the element if it was fully selected
+      // in case there are several nested elements so that
+      // we didn't get screwed with the regexps manipulations
+      editor.removeElement(element);
     } else {
-      editor.update(editor.html()
+      editor.html(editor.html()
         .replace(new RegExp(RegExp.escape(start_marker), 'i'), close_tag + start_marker)
         .replace(new RegExp(RegExp.escape(end_marker), 'i'),   end_marker + open_tag)
-        // cleaning up empty tags
+          // cleaning up empty tags
         .replace(new RegExp(RegExp.escape(open_tag + close_tag), 'ig'), '')
       );
     }

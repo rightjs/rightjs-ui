@@ -173,7 +173,7 @@ Rte.Selection = new Class({
    * @return String selection text
    */
   text: function() {
-    return '' + this.range();
+    return this.range().toString();
   },
 
   /**
