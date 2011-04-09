@@ -93,6 +93,8 @@ Rte.Undoer = new Class({
    * @return void
    */
   save: function(event) {
+    this.rte.selection.store();
+
     var tool = event ? event.tool : event, html = this.rte.editor._.innerHTML;
 
     if ((!tool || (tool !== this.rte.tools.Undo && tool !== this.rte.tools.Redo)) && this.stash[this.index] !== html) {
@@ -108,6 +110,8 @@ Rte.Undoer = new Class({
         this.rte.tools.Redo.check();
       }
     }
+
+    this.rte.selection.restore();
   }
 
 });
