@@ -22,11 +22,12 @@ Rte.Editor = new Class(Element, {
     this.rte = rte;
 
     this.on({
-      focus:   this._focus,
-      blur:    this._blur,
-      mouseup: this._mouseup,
-      keydown: this._keydown,
-      keyup:   this._keyup
+      focus:    this._focus,
+      blur:     this._blur,
+      mouseup:  this._mouseup,
+      keypress: this._keypress,
+      keydown:  this._keydown,
+      keyup:    this._keyup
     });
   },
 
@@ -95,18 +96,34 @@ Rte.Editor = new Class(Element, {
     this._focus();
   },
 
+  _keypress: function(event) {
+    if (this.__stop) {
+      event.stop();
+    }
+  },
+
   _keydown: function(event) {
-    var raw = event._, key = raw.keyCode, tool;
+    var raw = event._, key, tool, stop = false;
 
     if (raw.metaKey || raw.ctrlKey) {
-      if ((tool = this.rte.shortcuts[key])) {
-        if (tool.block) { event.stop(); }
+      key  = raw.keyCode;
+      tool = this.rte.shortcuts[key];
+
+      if (tool) {
+        if (tool.block) { stop = true; }
         tool.call();
       } else if (key === 90) { // 'Z' enforcing the undo/redo actions
-        event.stop();
+        stop = true;
         this.rte.undoer[raw.shiftKey ? 'redo' : 'undo']();
       }
     }
+
+    if (stop) {
+      event.preventDefault();
+    }
+
+    // an internal marker to lock the 'keypress' event later on
+    this.__stop = stop;
   },
 
   _keyup: function(event) {
