@@ -20,7 +20,10 @@ Rte.Undoer = new Class({
    */
   initialize: function(rte) {
     this.rte = rte;
-    this.rte.on('change', R(this.save).bind(this));
+
+    function save() { this.undoer.save(); }
+    this.rte.on({ focus:  save, change: save });
+
     this.clear();
   },
 

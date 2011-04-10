@@ -329,6 +329,8 @@ div.rui-rte-editor > *:last-child {
 /** The source editor block styles */
 div.rui-rte textarea.rui-rte-source {
   position: absolute;
+  outline: none;
+  resize: none;
 }
 
 /** The statusbar block styles */

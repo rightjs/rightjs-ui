@@ -176,7 +176,6 @@ var Rte = new Widget({
     // updating the initial state
     this.selection.exec('styleWithCss', false);
     this.status.update();
-    this.undoer.save();
   },
 
   /**
@@ -273,7 +272,7 @@ var Rte = new Widget({
     // otherwise keeping original textarea where it is
     if (Rte.supported) {
       this.insertTo(textarea.setStyle(
-        'visibility:hidden;position:absolute;z-index:-1;top:-9999px;left:-9999px;'
+        'position:absolute;left:-9999em;'
       ), 'before');
 
       this.editor.resize(size);

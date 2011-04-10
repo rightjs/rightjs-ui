@@ -34,19 +34,13 @@ Rte.Selection = new Class({
 
     } else {
       try {
-        range = selection.getRangeAt(0);
+        range = selection.getRangeAt(0); // FF, Opera, IE9
       } catch (e) {
         try {
-          range = document.createRange();
+          range = document.createRange(); // WebKit
         } catch (ee) {
-          range = new IERangeEmulator();
+          range = new IERangeEmulator(); // Old IE
         }
-      }
-
-      // Webkit needs the range to be preset first
-      if (selection && selection.focusNode && range.setStart) {
-        range.setStart(selection.anchorNode, selection.anchorOffset);
-        range.setEnd(selection.focusNode, selection.focusOffset);
       }
 
       return range;
@@ -208,7 +202,7 @@ Rte.Selection = new Class({
           parent.insertBefore(marker, ending);
         }
 
-      } else {
+      } else if (node.nodeType === 1) { // elements
         if (offset === 0) {
           if (node.firstChild) {
             node.insertBefore(marker, node.firstChild);
