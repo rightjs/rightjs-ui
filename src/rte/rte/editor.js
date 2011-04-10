@@ -119,7 +119,7 @@ Rte.Editor = new Class(Element, {
     }
 
     if (stop) {
-      event.preventDefault();
+      event.stop();
     }
 
     // an internal marker to lock the 'keypress' event later on
@@ -127,6 +127,9 @@ Rte.Editor = new Class(Element, {
   },
 
   _keyup: function(event) {
+    this.rte.status.update();
+    return ;
+
     if (event.keyCode in this._keys) {
       this._focus();
     } else {

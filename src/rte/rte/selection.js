@@ -343,13 +343,9 @@ var IERangeEmulator = new Class({
    * @return void
    */
   setEnd: function (node, offset) {
-    var range = this._.duplicate(), container;
+    var range = this._.duplicate();
 
-    range.collapse(true);
-    container = node.nodeType === 1 ? node : node.parentNode;
-
-    range = this._.duplicate();
-    range.moveToElementText(container);
+    range.moveToElementText(node.nodeType === 1 ? node : node.parentNode);
     range.collapse(true);
     range.move('Character', IER_getOffset(node, offset));
 
@@ -368,54 +364,15 @@ var IERangeEmulator = new Class({
   },
 
   /**
-   * Setting the starting point right before the given node
-   *
-   * @param {Node} node
-   * @return void
-   */
-  setStartBefore: function (node) {
-    this.setStart(node.parentNode, IER_getIndex(node));
-  },
-
-  /**
-   * Setting the starting point right after the given node
-   *
-   * @param {Node} node
-   * @return void
-   */
-  setStartAfter: function (node) {
-    this.setStart(node.parentNode, IER_getIndex(node) + 1);
-  },
-
-  /**
-   * Setting the ending point right before the given node
-   *
-   * @param {Node} node
-   * @return void
-   */
-  setEndBefore: function (node) {
-    this.setEnd(node.parentNode, IER_getIndex(node));
-  },
-
-  /**
-   * Setting the ending point right after the given node
-   *
-   * @param {Node} node
-   * @return void
-   */
-  setEndAfter: function (node) {
-    this.setEnd(node.parentNode, IER_getIndex(node) + 1);
-  },
-
-  /**
    * Wrapps the range around the given node
    *
    * @param {Node} node
    * @return void
    */
   selectNode: function (node) {
-    this.setStartBefore(node);
-    this.setEndAfter(node);
+    return this._.moveToElementText(node);
+    //this.setStart(node.parentNode, IER_getIndex(node));
+    //this.setEnd(node.parentNode, IER_getIndex(node) + 1);
   },
 
   /**
@@ -425,7 +382,7 @@ var IERangeEmulator = new Class({
    * contained in the reference node.
    * @param {Node} node
    * @type Void
-   */
+   * /
   selectNodeContents: function (node) {
     this.setStart(node, 0);
     this.setEnd(
@@ -461,7 +418,7 @@ function IER_getPosition(original_range) {
   var element = original_range.parentElement(),
       range, range_size, direction, node, node_size;
 
-  range = element.ownerDocument.body.createTextRange();
+  range = document.selection.createRange();
   range.moveToElementText(element);
   range.setEndPoint("EndToStart", original_range);
 
@@ -536,7 +493,7 @@ function IER_getOffset(start_node, start_offset) {
   } else if (start_node.nodeType === 1) { // element node
     offset = 0;
 
-    if(start_offset > 0) {
+    if (start_offset > 0) {
       node = start_node.childNodes[start_offset - 1];
     } else {
       return 0;
@@ -569,13 +526,7 @@ function IER_getOffset(start_node, start_offset) {
  * @return void
  */
 function IER_commonAncestorContainer(range) {
-  range.commonAncestorContainer =
-    range.startContainer === null || range.endContainer === null ? null : (
-      range.startContainer === range.endContainer ?
-        range.startContainer : IER_commonParent(
-          range.startContainer, range.endContainer
-        )
-    );
+  range.commonAncestorContainer = range._.parentElement();
 }
 
 /**
@@ -604,40 +555,4 @@ function IER_getIndex(node) {
   }
 
   return index;
-}
-
-/**
- * Finds a common parent for those two nodes
- *
- * @param {Node} node1
- * @param {Node} node2
- * @return {Node} the first common parent
- */
-function IER_commonParent(node1, node2) {
-  var parents1 = [], parents2 = [], node;
-
-  node = node1;
-  while (node) {
-    parents1.push(node);
-    node = node.parentNode;
-  }
-
-  node = node2;
-  while (node) {
-    parents2.push(node);
-    node = node.parentNode;
-  }
-
-  node = parents1.unshift();
-  while (node) {
-    if (node === parents2[0]) {
-      parents2.unshift();
-    } else {
-      return node;
-    }
-
-    node = parents1.unshift();
-  }
-
-  return null;
 }
