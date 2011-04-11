@@ -41,17 +41,13 @@ Rte.Toolbar = new Class(Element, {
    * @return {Rte.Tool} wired tool or false
    */
   shortcut: function(event) {
-    var raw  = event._, key, tool, sym;
+    var raw  = event._, key, tool;
 
     if (raw.metaKey || raw.ctrlKey) {
-      sym = String.fromCharCode(raw.keyCode).toLowerCase();
-      sym = new RegExp(RegExp.escape(sym) + '$');
-
-
       for (key in this.rte.tools) {
         tool = this.rte.tools[key];
 
-        if (sym.test(tool.shortcut) && tool.shiftKey === raw.shiftKey) {
+        if (tool.shortcut === event.keyCode && tool.shiftKey === raw.shiftKey) {
           return tool;
         }
       }

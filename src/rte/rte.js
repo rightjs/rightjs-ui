@@ -42,21 +42,21 @@ var Rte = new Widget({
 
     // the keyboard bindings
     Shortcuts: {
-      Bold:      'ctrl+b',
-      Italic:    'ctrl+i',
-      Underline: 'ctrl+u',
-      Ttext:     'ctrl+t',
-      Header:    'ctrl+h',
-      Link:      'ctrl+l',
-      Cut:       'ctrl+x',
-      Copy:      'ctrl+c',
-      Paste:     'ctrl+v',
-      Undo:      'ctrl+z',
-      Redo:      'ctrl+shift+z',
-      Source:    'ctrl+e',
-      Quote:     'ctrl+q',
-      Code:      'ctrl+p',
-      Save:      'ctrl+s'
+      Bold:      'b',
+      Italic:    'i',
+      Underline: 'u',
+      Ttext:     't',
+      Header:    'h',
+      Link:      'l',
+      Cut:       'x',
+      Copy:      'c',
+      Paste:     'v',
+      Undo:      'z',
+      Redo:      'shift+z',
+      Source:    'e',
+      Quote:     'q',
+      Code:      'p',
+      Save:      's'
     },
 
     // tags used by default with formatting tools

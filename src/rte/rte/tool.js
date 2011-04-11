@@ -9,7 +9,7 @@ Rte.Tool = new Class(Element, {
   blip:     false, // whether it should be highlighted when used
   changes:  true,  // if this tool should fire 'change' on the rte
 
-  shortuct: null,  // the shortuct string
+  shortuct: null,  // the shortuct key-code
   shiftKey: false, // if it should trigger with a shift-key only
 
   /**
@@ -44,6 +44,7 @@ Rte.Tool = new Class(Element, {
     // hooking up the shortcuts
     this.shortcut = this.shortcut && this.shortcut.toLowerCase();
     this.shiftKey = this.shortcut && this.shortcut.indexOf('shift') > -1;
+    this.shortcut = this.shortcut && this.shortcut.toUpperCase().charCodeAt(this.shortcut.length - 1);
 
     // connecting the mousedown the way that the editor din't loose the focus
     this.onMousedown(function(e) {
