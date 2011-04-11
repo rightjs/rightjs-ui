@@ -26,15 +26,15 @@ var Rte = new Widget({
 
     // predefined toolbars set
     Toolbars: {
-      small: ['bold italic underline strike ttext|cut copy paste|header code quote|link image video|source'],
+      small: ['Bold Italic Underline Strike Ttext|Cut Copy Paste|Header Code Quote|Link Image Video|Source'],
       basic: [
-        'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header code quote|link image video|dotlist numlist|indent outdent|source'
+        'Save Clear|Cut Copy Paste|Bold Italic Underline Strike Ttext|Left Center Right Justify',
+        'Undo Redo|Header Code Quote|Link Image Video|Dotlist Numlist|Indent Outdent|Source'
       ],
       extra: [
-        'save clear|cut copy paste|bold italic underline strike ttext|left center right justify',
-        'undo redo|header code quote|link image video|subscript superscript|dotlist numlist|indent outdent',
-        'format|fontname fontsize|forecolor backcolor|source'
+        'Save Clear|Cut Copy Paste|Bold Italic Underline Strike Ttext|Left Center Right Justify',
+        'Undo Redo|Header Code Quote|Link Image Video|Subscript Superscript|Dotlist Numlist|Indent Outdent',
+        'Format|Fontname Fontsize|Forecolor Backcolor|Source'
       ]
     },
 
