@@ -96,7 +96,7 @@ Rte.Undoer = new Class({
    * @return void
    */
   save: function(event) {
-    var tool  = event ? event.tool : event,
+    var tool  = event && event.tool,
         tools = this.rte.tools,
         html, html1, html2;
 
@@ -105,6 +105,7 @@ Rte.Undoer = new Class({
 
       html = this.rte.editor._.innerHTML;
 
+      // stripping off the selection markers
       html1 = html
         .replace(SELECTION_START_RE, '')
         .replace(SELECTION_END_RE, '');
@@ -114,17 +115,13 @@ Rte.Undoer = new Class({
         .replace(SELECTION_END_RE, '');
 
       if (html1 !== html2) {
-        // cutting off possible redo steps
+        // cutting loose possible redo steps
         this.stash.length = this.index + 1;
         this.stash.push(html);
         this.index = this.stash.length - 1;
 
-        if (tools.Undo) {
-          tools.Undo.check();
-        }
-        if (tools.Redo) {
-          tools.Redo.check();
-        }
+        tools.Undo.check();
+        tools.Redo.check();
       }
 
       this.rte.selection.restore();

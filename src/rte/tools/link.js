@@ -1,10 +1,9 @@
 /**
  * The the url link tool
  *
- * Copyrigth (C) 2010 Nikolay Nemshilov
+ * Copyrigth (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tools.Link = new Class(Rte.Tool.Url, {
-  shortcut: 'L',
   command:  'createlink',
   attr:     'href',
 

@@ -4,11 +4,10 @@
  * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tools.Save = new Class(Rte.Tool, {
-  shortcut: 'S',
 
   initialize: function(rte) {
     this.$super(rte);
-    if (!(rte.textarea && rte.textarea._.form)) {
+    if (!(rte.textarea && rte.textarea.form())) {
       this.disabled = true;
       this.addClass('disabled');
     }

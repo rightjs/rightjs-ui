@@ -40,6 +40,23 @@ var Rte = new Widget({
 
     Tools: {}, // the index of available tools will be here
 
+    // the keyboard bindings
+    Shortcuts: {
+      Bold:      'ctrl+b',
+      Italic:    'ctrl+i',
+      Underline: 'ctrl+u',
+      Ttext:     'ctrl+t',
+      Header:    'ctrl+h',
+      Link:      'ctrl+l',
+      Cut:       'ctrl+x',
+      Copy:      'ctrl+c',
+      Paste:     'ctrl+v',
+      Undo:      'ctrl+z',
+      Redo:      'ctrl+shift+z',
+      Source:    'ctrl+e',
+      Save:      'ctrl+s'
+    },
+
     // tags used by default with formatting tools
     Tags: {
       Bold:      'b',

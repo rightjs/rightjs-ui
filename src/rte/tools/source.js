@@ -1,10 +1,9 @@
 /**
  * The source tool
  *
- * Copyrigth (C) 2010 Nikolay Nemshilov
+ * Copyrigth (C) 2010-2011 Nikolay Nemshilov
  */
 Rte.Tools.Source = new Class(Rte.Tool, {
-  shortcut: 'E',
   source:   false, // the textarea element reference
 
   exec: function() {

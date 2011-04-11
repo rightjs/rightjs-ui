@@ -5,10 +5,12 @@
  */
 Rte.Tool = new Class(Element, {
 
-  shortcut: false, // shortcut string
-  block:    true,  // should the 'keypress' be blocked
-  blip:     false, // whether it should 'blip' when used
+  block:    true,  // should the 'keypress' event be blocked
+  blip:     false, // whether it should be highlighted when used
   changes:  true,  // if this tool should fire 'change' on the rte
+
+  shortuct: null,  // the shortuct string
+  shiftKey: false, // if it should trigger with a shift-key only
 
   /**
    * Basic constructor
@@ -17,12 +19,15 @@ Rte.Tool = new Class(Element, {
    * @return Rte.Tool this
    */
   initialize: function(rte) {
+    var name;
+
     // searching for the tool-name
-    for (var name in Rte.Tools) {
+    for (name in Rte.Tools) {
       if (Rte.Tools[name] === this.constructor) { break; }
     }
 
     this.name = name;
+    this.shortcut = this.shortcut || Rte.Shortcuts[name];
 
     this.$super('div', {
       'html':  '<div class="icon"></div>', // <- icon container
@@ -37,9 +42,8 @@ Rte.Tool = new Class(Element, {
     rte.tools[name] = this;
 
     // hooking up the shortcuts
-    if (this.shortcut) {
-      rte.shortcuts[this.shortcut.toUpperCase().charCodeAt(0)] = this;
-    }
+    this.shortcut = this.shortcut && this.shortcut.toLowerCase();
+    this.shiftKey = this.shortcut && this.shortcut.indexOf('shift') > -1;
 
     // connecting the mousedown the way that the editor din't loose the focus
     this.onMousedown(function(e) {
@@ -59,13 +63,17 @@ Rte.Tool = new Class(Element, {
    * The entry point for all the tools, if you need to call a tool,
    * call this method. __DON'T CALL__ the #exec method directly!
    *
+   * @param {Event} 'keydown' event
    * @return void
    */
-  call: function() {
+  call: function(event) {
     if (!this.disabled) {
+      if (event && this.block) { event.stop(); }
+
       this.exec();
       this.rte.status.update();
       this.rte.fire('change', {tool: this});
+
       if (this.blip) { this.highlight(); }
     }
   },

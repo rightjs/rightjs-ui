@@ -97,33 +97,20 @@ Rte.Editor = new Class(Element, {
   },
 
   _keypress: function(event) {
-    if (this.__stop) {
+    if (this.__stopped) {
       event.stop();
     }
   },
 
   _keydown: function(event) {
-    var raw = event._, key, tool, stop = false;
+    var tool = this.rte.toolbar.shortcut(event);
 
-    if (raw.metaKey || raw.ctrlKey) {
-      key  = raw.keyCode;
-      tool = this.rte.shortcuts[key];
-
-      if (tool) {
-        if (tool.block) { stop = true; }
-        tool.call();
-      } else if (key === 90) { // 'Z' enforcing the undo/redo actions
-        stop = true;
-        this.rte.undoer[raw.shiftKey ? 'redo' : 'undo']();
-      }
-    }
-
-    if (stop) {
-      event.stop();
+    if (tool !== null) {
+      tool.call(event);
     }
 
     // an internal marker to lock the 'keypress' event later on
-    this.__stop = stop;
+    this.__stopped = event.stopped === true;
   },
 
   _keyup: function(event) {
