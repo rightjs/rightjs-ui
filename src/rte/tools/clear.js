@@ -6,8 +6,7 @@
 Rte.Tools.Clear = new Class(Rte.Tool, {
 
   exec: function() {
-    this.rte.selection.exec('selectall');
-    this.rte.selection.exec('delete');
+    this.rte.editor.clean();
   }
 
 });
