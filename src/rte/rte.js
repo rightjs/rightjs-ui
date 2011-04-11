@@ -54,6 +54,8 @@ var Rte = new Widget({
       Undo:      'ctrl+z',
       Redo:      'ctrl+shift+z',
       Source:    'ctrl+e',
+      Quote:     'ctrl+q',
+      Code:      'ctrl+p',
       Save:      'ctrl+s'
     },
 

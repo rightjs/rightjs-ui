@@ -45,7 +45,8 @@ Rte.Toolbar = new Class(Element, {
 
     if (raw.metaKey || raw.ctrlKey) {
       sym = String.fromCharCode(raw.keyCode).toLowerCase();
-      sym = new RegExp(sym + '$');
+      sym = new RegExp(RegExp.escape(sym) + '$');
+
 
       for (key in this.rte.tools) {
         tool = this.rte.tools[key];
