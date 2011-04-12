@@ -5,11 +5,12 @@
  * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
-  $ext(Calendar.Options, {
-    firstDay: 0
-  });
+  Calendar.Options.firstDay = 0;
+}
 
-  $ext(Calendar.i18n, {
+RightJS.Object.each({
+
+  Calendar: {
     Done:            'Гаразд',
     Now:             'Зараз',
     NextMonth:       'Наступный мiсяць',
@@ -17,37 +18,29 @@ if (self.Calendar) {
     NextYear:        'Наступний рiк',
     PrevYear:        'Попереднiй рiк',
 
-    dayNames:        $w('Неділя Понеділок Вівторок Середа Четвер П\'ятниця Субота'),
-    dayNamesShort:   $w('Ндл Пнд Втр Срд Чтв Птн Сбт'),
-    dayNamesMin:     $w('Нд Пн Вт Ср Чт Пт Сб'),
-    monthNames:      $w('Січень Лютий Березень Квітень Травень Червень Липень Серпень Вересень Жовтень Листопад Грудень'),
-    monthNamesShort: $w('Січ Лют Бер Квіт Трав Черв Лип Серп Вер Жовт Лист Груд')
-  });
-}
+    dayNames:        'Неділя Понеділок Вівторок Середа Четвер П\'ятниця Субота'.split(' '),
+    dayNamesShort:   'Ндл Пнд Втр Срд Чтв Птн Сбт'.split(' '),
+    dayNamesMin:     'Нд Пн Вт Ср Чт Пт Сб'.split(' '),
+    monthNames:      'Січень Лютий Березень Квітень Травень Червень Липень Серпень Вересень Жовтень Листопад Грудень'.split(' '),
+    monthNamesShort: 'Січ Лют Бер Квіт Трав Черв Лип Серп Вер Жовт Лист Груд'.split(' ')
+  },
 
-if (self.Lightbox) {
-  $ext(Lightbox.i18n, {
+  Lightbox: {
     Close: 'Сховати',
     Prev:  'Попереднє зображення',
     Next:  'Наступне зображення'
-  });
-}
+  },
 
-if (self.InEdit) {
-  $ext(InEdit.i18n, {
+  InEdit: {
     Save:   "Зберегти",
     Cancel: "Скасувати"
-  });
-}
+  },
 
-if (self.Colorpicker) {
-  $ext(Colorpicker.i18n, {
+  Colorpicker: {
     Done: 'Гаразд'
-  });
-}
+  },
 
-if (self.Dialog) {
-  $ext(Dialog.i18n, {
+  Dialog: {
     Ok:       'Гаразд',
     Close:    'Сховати',
     Cancel:   'Сховати',
@@ -57,5 +50,10 @@ if (self.Dialog) {
     Alert:    'Внимание!',
     Confirm:  'Подтверждение',
     Prompt:   'Ввод данных'
-  });
-}
+  }
+
+}, function(module, i18n) {
+  if (self[module]) {
+    RightJS.$ext(self[module].i18n, i18n);
+  }
+});

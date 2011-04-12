@@ -3,8 +3,9 @@
  *
  * Copyright (C) Nikolay Nemshilov
  */
-if (self.Calendar) {
-  $ext(Calendar.i18n, {
+RightJS.Object.each({
+
+  Calendar: {
     Done:            "Fait",
     Now:             "Maint.",
     NextMonth:       "Mois prochain",
@@ -12,37 +13,29 @@ if (self.Calendar) {
     NextYear:        "L'année prochain",
     PrevYear:        "L'année précédente",
 
-    dayNames:        $w('Dimanche Lundi Mardi Mercredi Jeudi Vendredi Samedi'),
-    dayNamesShort:   $w('Dim Lun Mar Mer Jeu Ven Sam'),
-    dayNamesMin:     $w('Di Lu Ma Me Je Ve Sa'),
-    monthNames:      $w('Janvier Février Mars Avril Mai Juin Juillet Août Septembre Octobre Novembre Décembre'),
-    monthNamesShort: $w('Jan Fév Mar Avr Mai Juin Juil Août Sept Oct Nov Déc')
-  });
-}
+    dayNames:        'Dimanche Lundi Mardi Mercredi Jeudi Vendredi Samedi'.split(' '),
+    dayNamesShort:   'Dim Lun Mar Mer Jeu Ven Sam'.split(' '),
+    dayNamesMin:     'Di Lu Ma Me Je Ve Sa'.split(' '),
+    monthNames:      'Janvier Février Mars Avril Mai Juin Juillet Août Septembre Octobre Novembre Décembre'.split(' '),
+    monthNamesShort: 'Jan Fév Mar Avr Mai Juin Juil Août Sept Oct Nov Déc'.split(' ')
+  },
 
-if (self.Lightbox) {
-  $ext(Lightbox.i18n, {
+  Lightbox: {
     Close: 'Fermer',
     Prev:  'Image précédente',
     Next:  'Image suivante'
-  });
-}
+  },
 
-if (self.InEdit) {
-  $ext(InEdit.i18n, {
+  InEdit: {
     Save:   "Enregistrer",
     Cancel: "Annuler"
-  });
-}
+  },
 
-if (self.Colorpicker) {
-  $ext(Colorpicker.i18n, {
+  Colorpicker: {
     Done: 'Fait'
-  });
-}
+  },
 
-if (self.Dialog) {
-  $ext(Dialog.i18n, {
+  Dialog: {
     Ok:       'Ok',
     Close:    'Close',
     Cancel:   'Cancel',
@@ -53,6 +46,10 @@ if (self.Dialog) {
     Alert:    'Warning!',
     Confirm:  'Confirm',
     Prompt:   'Enter'
-  })
-}
+  }
 
+}, function(module, i18n) {
+  if (self[module]) {
+    RightJS.$ext(self[module].i18n, i18n);
+  }
+});

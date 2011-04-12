@@ -4,7 +4,7 @@
  * Copyright (C) Nikolay Nemshilov
  */
 if (self.Calendar) {
-  $ext(Calendar.Options, {
+  RightJS.$ext(self.Calendar.Options, {
     firstDay: 0,
     format:   'US'
   });

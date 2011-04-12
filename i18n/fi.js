@@ -4,8 +4,9 @@
  * Copyright (C) Juho Vepsäläinen
  * Source: http://www.csc.fi/sivut/kotoistus/suositukset/vahv_kalenterit_cldr1_4.htm
  */
-if (self.Calendar) {
-  $ext(Calendar.i18n, {
+RightJS.Object.each({
+
+  Calendar: {
     Done:            "OK",
     Now:             "Tänään",
     NextMonth:       "Seuraava kuukausi",
@@ -13,37 +14,29 @@ if (self.Calendar) {
     NextYear:        "Seuraava vuosi",
     PrevYear:        "Edellinen vuosi",
 
-    dayNames:        $w('Sunnuntai Maanantai Tiistai Keskiviikko Torstai Perjantai Lauantai'),
-    dayNamesShort:   $w('Su Ma Ti Ke To Pe La'),
-    dayNamesMin:     $w('S M T K T P L'),
-    monthNames:      $w('Tammikuu Helmikuu Maaliskuu Huhtikuu Toukokuu Kesäkuu Heinäkuu Elokuu Syyskuu Lokakuu Marraskuu Joulukuu'),
-    monthNamesShort: $w('Tammi Helmi Maalis Huhti Touko Kesä Heinä Elo Syys Loka Marras Joulu')
-  });
-}
+    dayNames:        'Sunnuntai Maanantai Tiistai Keskiviikko Torstai Perjantai Lauantai'.split(' '),
+    dayNamesShort:   'Su Ma Ti Ke To Pe La'.split(' '),
+    dayNamesMin:     'S M T K T P L'.split(' '),
+    monthNames:      'Tammikuu Helmikuu Maaliskuu Huhtikuu Toukokuu Kesäkuu Heinäkuu Elokuu Syyskuu Lokakuu Marraskuu Joulukuu'.split(' '),
+    monthNamesShort: 'Tammi Helmi Maalis Huhti Touko Kesä Heinä Elo Syys Loka Marras Joulu'.split(' ')
+  },
 
-if (self.Lightbox) {
-  $ext(Lightbox.i18n, {
+  Lightbox: {
     Close: 'Sulje',
     Prev:  'Edellinen kuva',
     Next:  'Seuraava kuva'
-  });
-}
+  },
 
-if (self.InEdit) {
-  $ext(InEdit.i18n, {
+  InEdit: {
     Save:   "Tallenna",
     Cancel: "Peruuta"
-  });
-}
+  },
 
-if (self.Colorpicker) {
-  $ext(Colorpicker.i18n, {
+  Colorpicker: {
     Done: 'OK'
-  });
-}
+  },
 
-if (self.Dialog) {
-  $ext(Dialog.i18n, {
+  Dialog: {
     Ok:       'Ok',
     Close:    'Close',
     Cancel:   'Cancel',
@@ -54,6 +47,10 @@ if (self.Dialog) {
     Alert:    'Warning!',
     Confirm:  'Confirm',
     Prompt:   'Enter'
-  })
-}
+  }
 
+}, function(module, i18n) {
+  if (self[module]) {
+    RightJS.$ext(self[module].i18n, i18n);
+  }
+});

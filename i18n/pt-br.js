@@ -3,8 +3,9 @@
  *
  * Copyright (C) Bruno Malvestuto
  */
-if (self.Calendar) {
-  $ext(Calendar.i18n, {
+RightJS.Object.each({
+
+  Calendar: {
     Done:           'Feito',
     Now:            'Agora',
     NextMonth:      'Próximo Mês',
@@ -12,37 +13,29 @@ if (self.Calendar) {
     NextYear:       'Próximo ano',
     PrevYear:       'Ano anterior',
 
-    dayNames:        $w('Domingo Segunda Terça Quarta Quinta Sexta Sábado'),
-    dayNamesShort:   $w('Dom Seg Ter Qua Qui Sex Sáb'),
-    dayNamesMin:     $w('D S T Q Q S S'),
-    monthNames:      $w('Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro Novembro Dezembro'),
-    monthNamesShort: $w('Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez')
-  });
-}
+    dayNames:        'Domingo Segunda Terça Quarta Quinta Sexta Sábado'.split(' '),
+    dayNamesShort:   'Dom Seg Ter Qua Qui Sex Sáb'.split(' '),
+    dayNamesMin:     'D S T Q Q S S'.split(' '),
+    monthNames:      'Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro Novembro Dezembro'.split(' '),
+    monthNamesShort: 'Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez'.split(' ')
+  },
 
-if (self.Lightbox) {
-  $ext(Lightbox.i18n, {
+  Lightbox: {
     Close: 'Fechar',
     Prev:  'Anterior',
     Next:  'Próxima'
-  });
-}
+  },
 
-if (self.InEdit) {
-  $ext(InEdit.i18n, {
+  InEdit: {
     Save:   "Salvar",
     Cancel: "Cancelar"
-  });
-}
+  },
 
-if (self.Colorpicker) {
-  $ext(Colorpicker.i18n, {
+  Colorpicker: {
     Done: 'Feito'
-  });
-}
+  },
 
-if (self.Dialog) {
-  $ext(Dialog.i18n, {
+  Dialog: {
     Ok:       'Ok',
     Close:    'Fechar',
     Cancel:   'Cancelar',
@@ -52,6 +45,11 @@ if (self.Dialog) {
 
     Alert:    'Atenção!',
     Confirm:  'Confirmar',
-    Prompt:   'Editar'    
-  });
-}
+    Prompt:   'Editar'
+  }
+
+}, function(module, i18n) {
+  if (self[module]) {
+    RightJS.$ext(self[module].i18n, i18n);
+  }
+});

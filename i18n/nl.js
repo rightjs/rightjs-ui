@@ -3,8 +3,9 @@
  *
  * Copyright (C) Douwe Maan
  */
-if (self.Calendar) {
-  $ext(Calendar.i18n, {
+RightJS.Object.each({
+
+  Calendar: {
     Done:           'Klaar',
     Now:            'Nu',
     NextMonth:      'Volgende maand',
@@ -12,37 +13,29 @@ if (self.Calendar) {
     NextYear:       'Volgend jaar',
     PrevYear:       'Vorig jaar',
 
-    dayNames:        $w('Zondag Maandag Dinsdag Woensdag Donderdag Vrijdag Zaterdag'),
-    dayNamesShort:   $w('Zo Ma Di Wo Do Vr Za'),
-    dayNamesMin:     $w('Zo Ma Di Wo Do Vr Za'),
-    monthNames:      $w('Januari Februari Maart April Mei Juni Juli Augustus September Oktober November December'),
-    monthNamesShort: $w('Jan Feb Maa Apr Mei Juni Juli Aug Sept Okt Nov Dec')
-  });
-}
+    dayNames:        'Zondag Maandag Dinsdag Woensdag Donderdag Vrijdag Zaterdag'.split(' '),
+    dayNamesShort:   'Zo Ma Di Wo Do Vr Za'.split(' '),
+    dayNamesMin:     'Zo Ma Di Wo Do Vr Za'.split(' '),
+    monthNames:      'Januari Februari Maart April Mei Juni Juli Augustus September Oktober November December'.split(' '),
+    monthNamesShort: 'Jan Feb Maa Apr Mei Juni Juli Aug Sept Okt Nov Dec'.split(' ')
+  },
 
-if (self.Lightbox) {
-  $ext(Lightbox.i18n, {
+  Lightbox: {
     Close: 'Sluiten',
     Prev:  'Vorige afbeelding',
     Next:  'Volgende afbeelding'
-  });
-}
+  },
 
-if (self.InEdit) {
-  $ext(InEdit.i18n, {
+  InEdit: {
     Save:   "Opslaan",
     Cancel: "Annuleren"
-  });
-}
+  },
 
-if (self.Colorpicker) {
-  $ext(Colorpicker.i18n, {
+  Colorpicker: {
     Done: 'Klaar'
-  });
-}
+  },
 
-if (self.Dialog) {
-  $ext(Dialog.i18n, {
+  Dialog: {
     Ok:       'Ok',
     Close:    'Close',
     Cancel:   'Cancel',
@@ -53,5 +46,10 @@ if (self.Dialog) {
     Alert:    'Warning!',
     Confirm:  'Confirm',
     Prompt:   'Enter'
-  })
-}
+  }
+
+}, function(module, i18n) {
+  if (self[module]) {
+    RightJS.$ext(self[module].i18n, i18n);
+  }
+});

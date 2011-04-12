@@ -12,16 +12,19 @@
     </script>
     <script type="text/javascript">
     // <![CDATA[
-      var langs = $w('de en-us es fi fr hu it jp nl pt-br ru ua');
-      var lang  = document.location.href.split('?').last();
+      var R     = RightJS;
+      var langs = R.$w('de en-us es fi fr hu it jp nl pt-br ru ua');
+      var lang  = R(document.location.href.split('?')).last();
       if (lang && langs.include(lang)) {
         include_js('i18n/'+ lang);
       }
-      $(document).onReady(function() {
+      R.$(document).onReady(function() {
         // inserting the languages selector
-        $(document).first('h1').insert(
-          $E('select').insert(
-            ['defaults'].concat(langs).map(function(name) {  return $E('option', {html: name}); })
+        R.$(document).first('h1').insert(
+          R.$E('select').insert(
+            ['defaults'].concat(langs).map(function(name) {
+              return R.$E('option', {html: name});
+            })
           ).setValue(lang).onChange(function() {
             document.location.href = document.location.href.split('?')[0] + '?' + this.value();
           })
