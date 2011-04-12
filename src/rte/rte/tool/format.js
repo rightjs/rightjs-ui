@@ -116,8 +116,9 @@ Rte.Tool.Format = new Class(Rte.Tool, {
       editor.html(editor.html()
         .replace(SELECTION_START_RE, close_tag + SELECTION_START_MARKER)
         .replace(SELECTION_END_RE, SELECTION_END_MARKER + open_tag)
-          // cleaning up empty tags
-        .replace(new RegExp(RegExp.escape(open_tag + close_tag), 'ig'), '')
+
+        // cleaning up empty tags that might left
+        .replace(/<([a-z]+)[^>]*?>\s*?<\/\1>/ig, '')
       );
     }
 

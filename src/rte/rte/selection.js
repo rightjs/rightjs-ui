@@ -206,7 +206,7 @@ Rte.Selection = new Class({
         if (offset === 0) {
           if (node.firstChild) {
             node.insertBefore(marker, node.firstChild);
-          } else {
+          } else if (node.hasChildNodes()) {
             node.appendChild(marker);
           }
         } else if (offset === node.childNodes.length) {
@@ -293,24 +293,30 @@ var IERangeEmulator = new Class({
   initialize: function() {
     this._ = document.selection.createRange();
 
-    //startPoint
-    var range = this._.duplicate();
-    range.collapse(true);
-    range = IER_getPosition(range);
+    if (document.selection.type === 'Control') {
+      this.startContainer = this.endContainer = this.commonAncestorContainer = this._(0);
+      this.startOffset    = this.endOffset    = 0;
+    } else {
+      //startPoint
+      var range = this._.duplicate();
+      range.collapse(true);
+      range = IER_getPosition(range);
 
-    this.startContainer = range.node;
-    this.startOffset    = range.offset;
+      this.startContainer = range.node;
+      this.startOffset    = range.offset;
 
-    //endPoint
-    range = this._.duplicate();
-    range.collapse(false);
-    range = IER_getPosition(range);
+      //endPoint
+      range = this._.duplicate();
+      range.collapse(false);
+      range = IER_getPosition(range);
 
-    this.endContainer = range.node;
-    this.endOffset    = range.offset;
+      this.endContainer = range.node;
+      this.endOffset    = range.offset;
 
-    // the rest of the properties
-    IER_commonAncestorContainer(this);
+      // the rest of the properties
+      IER_commonAncestorContainer(this);
+    }
+
     IER_collapsed(this);
   },
 
@@ -405,7 +411,7 @@ function IER_getPosition(original_range) {
   var element = original_range.parentElement(),
       range, range_size, direction, node, node_size;
 
-  range = document.selection.createRange();
+  range = document.body.createTextRange();
   range.moveToElementText(element);
   range.setEndPoint("EndToStart", original_range);
 
