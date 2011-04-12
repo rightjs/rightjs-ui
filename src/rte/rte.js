@@ -45,7 +45,7 @@ var Rte = new Widget({
       Bold:      'b',
       Italic:    'i',
       Underline: 'u',
-      Ttext:     't',
+//      Ttext:     't',
       Header:    'h',
       Link:      'l',
       Cut:       'x',
@@ -54,7 +54,7 @@ var Rte = new Widget({
       Undo:      'z',
       Redo:      'shift+z',
       Source:    'e',
-      Quote:     'q',
+//      Quote:     'q',
       Code:      'p',
       Save:      's'
     },
