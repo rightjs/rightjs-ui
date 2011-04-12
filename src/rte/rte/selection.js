@@ -137,7 +137,7 @@ Rte.Selection = new Class({
     } catch(e) {
       // emulating insert html under IE
       if (command === 'inserthtml') {
-        this.range()._.pasteHTML = value;
+        this.range()._.pasteHTML(value);
       }
     }
   },
@@ -240,9 +240,15 @@ Rte.Selection = new Class({
 
       if (method) {
         parent = elements[i].parentNode;
-        offset = IER_getIndex(elements[i]);
+
+        if (range._) {
+          range[method](elements[i]);
+        } else {
+          offset = IER_getIndex(elements[i]);
+          range[method](parent, offset);
+        }
+
         parent.removeChild(elements[i]);
-        range[method](parent, offset);
       }
     }
 
@@ -251,6 +257,7 @@ Rte.Selection = new Class({
 });
 
 var
+
 SELECTION_START_MARKER = '<span rrte-start="1"></span>',
 SELECTION_END_MARKER   = '<span rrte-end="1"></span>',
 SELECTION_START_RE     = new RegExp(RegExp.escape(SELECTION_START_MARKER), 'i'),
@@ -317,9 +324,8 @@ var IERangeEmulator = new Class({
   setStart: function(node, offset) {
     var range = this._.duplicate();
 
-    range.moveToElementText(node.nodeType === 1 ? node : node.parentNode);
+    range.moveToElementText(node);
     range.collapse(true);
-    range.move('Character', IER_getOffset(node, offset));
 
     this._.setEndPoint('StartToStart', range);
 
@@ -345,9 +351,8 @@ var IERangeEmulator = new Class({
   setEnd: function (node, offset) {
     var range = this._.duplicate();
 
-    range.moveToElementText(node.nodeType === 1 ? node : node.parentNode);
+    range.moveToElementText(node);
     range.collapse(true);
-    range.move('Character', IER_getOffset(node, offset));
 
     this._.setEndPoint('EndToEnd', range);
 
@@ -370,25 +375,7 @@ var IERangeEmulator = new Class({
    * @return void
    */
   selectNode: function (node) {
-    return this._.moveToElementText(node);
-    //this.setStart(node.parentNode, IER_getIndex(node));
-    //this.setEnd(node.parentNode, IER_getIndex(node) + 1);
-  },
-
-  /**
-   * Sets the Range to contain the contents of a Node.
-   * The parent Node of the start and end of the Range will be the node. The
-   * startOffset is 0, and the endOffset is the number of child Nodes or number of characters
-   * contained in the reference node.
-   * @param {Node} node
-   * @type Void
-   * /
-  selectNodeContents: function (node) {
-    this.setStart(node, 0);
-    this.setEnd(
-      node, node.nodeType === 3 ?
-      node.data.length : node.childNodes.length
-    );
+    this._.moveToElementText(node);
   },
 
   /**
@@ -476,48 +463,6 @@ function IER_getPosition(original_range) {
   // The TextRange was not found. Return a reasonable value instead.
   return {node: element, offset: 0};
 }
-
-/**
- * Find the TextRange offset for a given text node and offset
- *
- * @param {TextNode} start_node The target text node.
- * @param {Number} start_offset
- * @return {Number} offset
- */
-function IER_getOffset(start_node, start_offset) {
-  var node, offset, node_size;
-
-  if (start_node.nodeType === 3) { // a text-node
-    offset = start_offset;
-    node   = start_node.previousSibling;
-  } else if (start_node.nodeType === 1) { // element node
-    offset = 0;
-
-    if (start_offset > 0) {
-      node = start_node.childNodes[start_offset - 1];
-    } else {
-      return 0;
-    }
-  } else {
-    return 0; // fallback
-  }
-
-  while (node) {
-    node_size = 0;
-
-    if (node.nodeType === 1) { // element node
-      node_size = node.hasChildNodes() ? node.innerText.length + 1 : 1;
-    } else if (node.nodeType === 3) { // text node
-       node_size = node.data.length;
-    }
-
-    offset += node_size;
-    node    = node.previousSibling;
-  }
-
-  return offset;
-}
-
 
 /**
  * Assigns a suitable `commonAncestorContainer` property for the range

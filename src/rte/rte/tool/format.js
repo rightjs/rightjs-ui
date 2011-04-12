@@ -92,6 +92,16 @@ Rte.Tool.Format = new Class(Rte.Tool, {
 
     selection.store();
 
+    // Old IEs screw with the starting position
+    // placing it before the open tag, so here we switch it back
+    if (!formatting && range._) {
+      editor.html(editor.html().replace(
+        new RegExp(RegExp.escape(SELECTION_START_MARKER + open_tag), 'i'),
+        open_tag + SELECTION_START_MARKER
+      ));
+    }
+
+
     if (formatting) {
       editor.html(editor.html()
         .replace(SELECTION_START_RE, open_tag + SELECTION_START_MARKER)
