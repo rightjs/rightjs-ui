@@ -1,7 +1,7 @@
 /**
  * RightJS UI Internationalization: Dutch module
  *
- * Copyright (C) Douwe Maan
+ * Copyright (C) Douwe Maan, Jeffrey Gelens <jeffrey@noppo.pro>
  */
 RightJS.Object.each({
 
@@ -13,11 +13,11 @@ RightJS.Object.each({
     NextYear:       'Volgend jaar',
     PrevYear:       'Vorig jaar',
 
-    dayNames:        'Zondag Maandag Dinsdag Woensdag Donderdag Vrijdag Zaterdag'.split(' '),
-    dayNamesShort:   'Zo Ma Di Wo Do Vr Za'.split(' '),
-    dayNamesMin:     'Zo Ma Di Wo Do Vr Za'.split(' '),
-    monthNames:      'Januari Februari Maart April Mei Juni Juli Augustus September Oktober November December'.split(' '),
-    monthNamesShort: 'Jan Feb Maa Apr Mei Juni Juli Aug Sept Okt Nov Dec'.split(' ')
+    dayNames:        'zondag maandag dinsdag woensdag donderdag vrijdag zaterdag'.split(' '),
+    dayNamesShort:   'zo ma di wo do vr za'.split(' '),
+    dayNamesMin:     'zo ma di wo do vr za'.split(' '),
+    monthNames:      'januari februari maart april mei juni juli augustus september oktober november december'.split(' '),
+    monthNamesShort: 'jan feb maa apr mei juni juli aug sept okt nov dec'.split(' ')
   },
 
   Lightbox: {
@@ -37,55 +37,55 @@ RightJS.Object.each({
 
   Dialog: {
     Ok:       'Ok',
-    Close:    'Close',
-    Cancel:   'Cancel',
+    Close:    'Sluiten',
+    Cancel:   'Annuleren',
     Help:     'Help',
-    Expand:   'Expand',
-    Collapse: 'Collapse',
+    Expand:   'Uitklappen',
+    Collapse: 'Inklappen',
 
-    Alert:    'Warning!',
-    Confirm:  'Confirm',
+    Alert:    'Let op!',
+    Confirm:  'Bevestigen',
     Prompt:   'Enter'
   },
 
   Rte: {
     Clear:       'Clear',
-    Save:        'Save',
-    Source:      'Source',
-    Bold:        'Bold',
-    Italic:      'Italic',
-    Underline:   'Underline',
-    Strike:      'Strike through',
+    Save:        'Bewaar',
+    Source:      'Bron',
+    Bold:        'Vetgedrukt',
+    Italic:      'Schuingedrukt',
+    Underline:   'Onderstreept',
+    Strike:      'Doorhalen',
     Ttext:       'Typetext',
-    Header:      'Header',
-    Cut:         'Cut',
-    Copy:        'Copy',
-    Paste:       'Paste',
-    Left:        'Left',
-    Center:      'Center',
-    Right:       'Right',
-    Justify:     'Justify',
-    Undo:        'Undo',
-    Redo:        'Redo',
+    Header:      'Kop',
+    Cut:         'Knippen',
+    Copy:        'Kopieren',
+    Paste:       'Plakken',
+    Left:        'Links',
+    Center:      'Midden',
+    Right:       'Rechts',
+    Justify:     'Uitlijnen',
+    Undo:        'Ongedaan maken',
+    Redo:        'Opnieuw',
     Code:        'Code block',
-    Quote:       'Block quote',
-    Link:        'Add link',
-    Image:       'Insert image',
-    Video:       'Insert video',
-    Dotlist:     'List with dots',
-    Numlist:     'List with numbers',
-    Indent:      'Indent',
-    Outdent:     'Outdent',
-    Forecolor:   'Text color',
-    Backcolor:   'Background color',
-    Select:      'Select',
-    Remove:      'Remove',
-    Format:      'Format',
-    Fontname:    'Font name',
-    Fontsize:    'Size',
+    Quote:       'Blokcitaat',
+    Link:        'Link toevoegen',
+    Image:       'Plaatje toevoegen',
+    Video:       'Video toevoegen',
+    Dotlist:     'Lijst met punten',
+    Numlist:     'Lijst met nummers',
+    Indent:      'Inspringen',
+    Outdent:     'Uitspringen',
+    Forecolor:   'Tekstkleur',
+    Backcolor:   'Achtergrond kleur',
+    Select:      'Selecteren',
+    Remove:      'Verwijderen',
+    Format:      'Formaat',
+    Fontname:    'Lettertype',
+    Fontsize:    'Lettergrootte',
     Subscript:   'Subscript',
     Superscript: 'Superscript',
-    UrlAddress:  'URL Address'
+    UrlAddress:  'URL'
   }
 
 }, function(module, i18n) {
