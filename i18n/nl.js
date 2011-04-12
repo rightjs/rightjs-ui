@@ -13,11 +13,11 @@ RightJS.Object.each({
     NextYear:       'Volgend jaar',
     PrevYear:       'Vorig jaar',
 
-    dayNames:        'Zondag Maandag Dinsdag Woensdag Donderdag Vrijdag Zaterdag'.split(' '),
-    dayNamesShort:   'Zo Ma Di Wo Do Vr Za'.split(' '),
-    dayNamesMin:     'Zo Ma Di Wo Do Vr Za'.split(' '),
-    monthNames:      'Januari Februari Maart April Mei Juni Juli Augustus September Oktober November December'.split(' '),
-    monthNamesShort: 'Jan Feb Maa Apr Mei Juni Juli Aug Sept Okt Nov Dec'.split(' ')
+    dayNames:        'zondag maandag dinsdag woensdag donderdag vrijdag zaterdag'.split(' '),
+    dayNamesShort:   'zo ma di wo do vr za'.split(' '),
+    dayNamesMin:     'zo ma di wo do vr za'.split(' '),
+    monthNames:      'januari februari maart april mei juni juli augustus september oktober november december'.split(' '),
+    monthNamesShort: 'jan feb maa apr mei juni juli aug sept okt nov dec'.split(' ')
   },
 
   Lightbox: {
