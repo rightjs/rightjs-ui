@@ -58,8 +58,8 @@ Rte.Selection = new Class({
     // if there is a selection, trying those
     if (!range.collapsed) {
       if (
-        range.startContainer === range.endContainer &&
-        range.startOffset - range.endOffset < 2     &&
+        range.startContainer === node           &&
+        range.startOffset - range.endOffset < 2 &&
         range.startContainer.hasChildNodes()
       ) {
         node = range.startContainer.childNodes[range.startOffset];
