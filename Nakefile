@@ -7,7 +7,7 @@
 var // the build constants
 BUILD_DIRECTORY = 'build',
 BUILD_PREFIX    = 'right',
-BUILD_EXCLUDE   = ['rte']; // the don't build list
+BUILD_EXCLUDE   = [];      // the don't build list
 
 var // importing the Nake tools
 on_npm          = process.ARGV[1].match(/nake$/),
