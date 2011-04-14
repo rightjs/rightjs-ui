@@ -103,44 +103,45 @@ Rte.Editor = new Class(Element, {
   },
 
   _keydown: function(event) {
-    var tool = this.rte.toolbar.shortcut(event);
+    var raw = event._, stopped = false, tool;
 
-    if (tool !== null) {
-      tool.call(event);
+    if (raw.metaKey || raw.ctrlKey) {
+      if ((tool = this.rte.toolbar.shortcut(event))) {
+        tool.call(event);
+      }
+
+      stopped = event.stopped;
     }
 
     // an internal marker to lock the 'keypress' event later on
-    this.__stopped = event.stopped === true;
+    this.__stopped = stopped;
   },
 
   _keyup: function(event) {
-    this.rte.status.update();
-    return ;
+    switch (event.keyCode) {
+      case 37: // arrow
+      case 38: // arrow
+      case 39: // arrow
+      case 40: // arrow
+        this.rte.status.update();
+        break;
 
-    if (event.keyCode in this._keys) {
-      this._focus();
-    } else {
-      // watching the typing pauses to fire 'change' events
-      if (this._timer) { window.clearTimeout(this._timer); }
-      var rte = this.rte, editor = this._;
-      this._timer = window.setTimeout(function() {
-        if (rte.__old_value !== editor.innerHTML) {
-          rte.__old_value = editor.innerHTML;
-          rte.fire('change');
-        }
-      }, 400);
+      default:
+        // watching the typing pauses to fire 'change' events
+        var rte = this.rte, editor = this._;
+
+        if (this._timer !== false) { window.clearTimeout(this._timer); }
+
+        this._timer = window.setTimeout(function() {
+          if (rte.__old_value !== editor.innerHTML) {
+            rte.__old_value = editor.innerHTML;
+            rte.fire('change');
+          }
+        }, this._delay);
     }
   },
 
   _timer: false,
-
-  // navigation keys
-  _keys: {
-    37: true,
-    38: true,
-    39: true,
-    40: true,
-    13: true
-  }
+  _delay: 400
 
 });

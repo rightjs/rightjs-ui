@@ -43,13 +43,11 @@ Rte.Toolbar = new Class(Element, {
   shortcut: function(event) {
     var raw  = event._, key, tool;
 
-    if (raw.metaKey || raw.ctrlKey) {
-      for (key in this.rte.tools) {
-        tool = this.rte.tools[key];
+    for (key in this.rte.tools) {
+      tool = this.rte.tools[key];
 
-        if (tool.shortcut === event.keyCode && tool.shiftKey === raw.shiftKey) {
-          return tool;
-        }
+      if (tool.shortcut === raw.keyCode && tool.shiftKey === raw.shiftKey) {
+        return tool;
       }
     }
 
