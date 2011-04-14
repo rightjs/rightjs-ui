@@ -6,6 +6,8 @@
 var Rte = new Widget({
 
   extend: {
+    version: '2.2.0',
+
     EVENTS: $w('change focus blur'),
 
     // checking if the 'contentEditable' feature is supported at all
