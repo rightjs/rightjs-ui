@@ -21,14 +21,23 @@ $(document).on({
       if (!(slider instanceof Slider)) {
         slider = new Slider(slider);
       }
-      Slider.current = slider.start(event);
+      var type = null;
+      if (event.target.hasClass('handle')) {
+        if (event.target.hasClass('from')) {
+          type = "from";
+        } else if (event.target.hasClass('to')) {
+          type = "to";
+        }
+      }
+      Slider.current = slider.start(event, type);
+      Slider.handleType = type;
     }
   },
 
   // handles the slider move
   mousemove: function(event) {
     if (Slider.current) {
-      Slider.current.move(event);
+      Slider.current.move(event, Slider.handleType);
     }
   },
 
@@ -36,6 +45,7 @@ $(document).on({
   mouseup: function(event) {
     if (Slider.current) {
       Slider.current = false;
+      Slider.handleType = null;
     }
   }
 });
@@ -43,5 +53,6 @@ $(document).on({
 $(window).onBlur(function() {
   if (Slider.current) {
     Slider.current = false;
+    Slider.handleType = null;
   }
 });
