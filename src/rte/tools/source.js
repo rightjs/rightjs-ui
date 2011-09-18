@@ -37,6 +37,16 @@ Rte.Tools.Source = new Class(Rte.Tool, {
     .insertTo(this.rte.editor, 'before')
     .resize(this.rte.editor.size())
     .setValue('' + this.rte.value())
+    .onKeydown(function(event) {
+      var raw = event._;
+
+      if (raw.metaKey || raw.ctrlKey) {
+        if (raw.keyCode == 69) { // Ctrl+E
+          event.stop();
+          this.exec();
+        }
+      }
+    }.bind(this))
     .focus();
 
     this.rte.focused = true;
