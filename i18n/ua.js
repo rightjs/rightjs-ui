@@ -65,6 +65,7 @@ RightJS.Object.each({
     Cut:         'Cut',
     Copy:        'Copy',
     Paste:       'Paste',
+    Pastetext:   'Вставить как текст',
     Left:        'Left',
     Center:      'Center',
     Right:       'Right',

@@ -62,6 +62,7 @@ RightJS.Object.each({
     Cut:         'Leikkaa',
     Copy:        'Kopioi',
     Paste:       'Liitä',
+    Pastetext:   'Paste as text',
     Left:        'Vasemmalle',
     Center:      'Keskelle',
     Right:       'Oikealle',

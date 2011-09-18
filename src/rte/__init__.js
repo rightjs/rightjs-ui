@@ -43,6 +43,7 @@ include_module_files(
   'tools/cut',
   'tools/copy',
   'tools/paste',
+  //'tools/pastetext',
 
   'tools/left',
   'tools/center',

@@ -61,6 +61,7 @@ RightJS.Object.each({
     Cut:         'Ausschneiden',
     Copy:        'Kopieren',
     Paste:       'Einfügen',
+    Pastetext:   'Paste as text',
     Left:        'Links',
     Center:      'Zentriert',
     Right:       'Rechts',

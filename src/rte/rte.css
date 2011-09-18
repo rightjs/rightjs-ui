@@ -144,6 +144,7 @@ div.rui-rte-toolbar div.strike     div.icon { background-position: -60px  -40px;
 div.rui-rte-toolbar div.cut        div.icon { background-position:   0px  -60px; }
 div.rui-rte-toolbar div.copy       div.icon { background-position: -20px  -60px; }
 div.rui-rte-toolbar div.paste      div.icon { background-position: -40px  -60px; }
+div.rui-rte-toolbar div.pastetext  div.icon { background-position: -60px  -60px; }
 
 div.rui-rte-toolbar div.left       div.icon { background-position:   0px  -80px; }
 div.rui-rte-toolbar div.center     div.icon { background-position: -20px  -80px; }
