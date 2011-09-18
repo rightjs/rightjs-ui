@@ -7,7 +7,7 @@ var Calendar = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.2.0',
+    version: '2.3.0',
 
     EVENTS: $w('show hide change done'),
 
@@ -34,6 +34,8 @@ var Calendar = new Widget({
 
       update:         null,   // a reference to an input element to assign to
       trigger:        null,   // a reference to a trigger element that would be paired too
+
+      highlight:      null,   // a list of dates to highlight
 
       cssRule:        '*[data-calendar]' // css rule for calendar related elements
     },
@@ -269,6 +271,12 @@ var Calendar = new Widget({
 
     if (options.update) {
       this.assignTo(options.update, options.trigger);
+    }
+
+    if (isArray(options.highlight)) {
+      options.highlight = R(options.highlight).map(function(date) {
+        return isString(date) ? this.parse(date) : date;
+      }, this);
     }
 
     return this;

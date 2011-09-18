@@ -88,6 +88,14 @@ var Month = new Class(Element, {
         cell.className = 'disabled';
       }
 
+      if (isArray(options.highlight)) {
+        if (options.highlight.first(function(d) {
+          return d.getFullYear() === date.getFullYear() &&
+                 d.getMonth()    === date.getMonth()    &&
+                 d.getDate()     === date.getDate()
+        })) { cell.className += ' highlighted'; }
+      }
+
       week[day_num].date = new Date(date);
     }
 

@@ -92,6 +92,30 @@
       </script>
     </p>
 
+    <h2>With Dates Highlighting</h2>
+    <p>
+      <div id="with-dates-highlighting"></div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var dates = [-8, -4, 4, 8].map(function(diff) {
+          var date = new Date();
+          date.setDate(date.getDate() + diff);
+
+          var year  = date.getFullYear();
+          var month = date.getMonth() + 1;
+          var date  = date.getDate();
+
+          month < 10 && (month = "0"+ month);
+          date  < 10 && (date  = "0"+ date)
+
+          return year + "-" + month + "-" + date;
+        });
+
+        new Calendar({highlight: dates}).insertTo('with-dates-highlighting');
+      // ]]>
+      </script>
+    </p>
+
     <h2>Assigned To The Input Element</h2>
     <p>
       <input type="text" id="some-input" />

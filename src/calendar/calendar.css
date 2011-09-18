@@ -159,6 +159,11 @@ div.rui-calendar .month td.disabled {
   border-color: #CCC;
   cursor: default;
 }
+div.rui-calendar .month td.highlighted {
+  background-color: #DDD;
+  border-color: #bbb;
+  color: #111;
+}
 
 /** the timepicker block */
 div.rui-calendar .timepicker {
