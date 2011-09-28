@@ -16,6 +16,8 @@ var Colorpicker = new Widget({
 
       update:     null,    // an element to update with the color text
       updateBg:   null,    // an element to update it's background color
+      updateBorder:   null,    // an element to update it's border color
+      updateColor:   null,    // an element to update it's text color 
       trigger:    null,    // a trigger element for the popup
 
       fxName:     'fade',  // popup displaying fx
@@ -65,6 +67,8 @@ var Colorpicker = new Widget({
     // hooking up the elements to update
     if (this.options.update)   { this.assignTo(this.options.update, this.options.trigger); }
     if (this.options.updateBg) { this.updateBg(this.options.updateBg); }
+    if (this.options.updateBorder) { this.updateBorder(this.options.updateBorder); }
+    if (this.options.updateColor) { this.updateColor(this.options.updateColor); }
 
     // setting up the initial values
     this.tint   = R([1, 0, 0]);
@@ -128,6 +132,41 @@ var Colorpicker = new Widget({
     }
     return this;
   },
+  
+    /**
+   * Assigns the colorpicer to automatically update
+   * given element's text color on changes
+   *
+   * @param mixed element reference
+   * @return Colorpicker this
+   */
+    updateColor: function(element_ref) {
+    var element = $(element_ref);
+    if (element) {
+      this.onChange(R(function(color) {
+        element._.style.color = this.toRgb();
+      }).bind(this));
+    }
+    return this;
+  },
+  
+    /**
+   * Assigns the colorpicer to automatically update
+   * given element's border color on changes
+   *
+   * @param mixed element reference
+   * @return Colorpicker this
+   */
+  updateBorder: function(element_ref) {
+    var element = $(element_ref);
+    if (element) {
+      this.onChange(R(function(color) {
+        element._.style.borderColor = this.toRgb();
+      }).bind(this));
+    }
+    return this;
+  },
+
 
   /**
    * Inlines the widget into the given element
