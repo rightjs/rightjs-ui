@@ -7,23 +7,23 @@ var Colorpicker = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('change show hide done'),
 
     Options: {
-      format:     'hex',   // hex or rgb
+      format:       'hex',   // hex or rgb
 
-      update:     null,    // an element to update with the color text
-      updateBg:   null,    // an element to update it's background color
-      updateBorder:   null,    // an element to update it's border color
-      updateColor:   null,    // an element to update it's text color 
-      trigger:    null,    // a trigger element for the popup
+      update:       null,    // an element to update with the color text
+      updateBg:     null,    // an element to update it's background color
+      updateBorder: null,    // an element to update it's border color
+      updateColor:  null,    // an element to update it's text color
+      trigger:      null,    // a trigger element for the popup
 
-      fxName:     'fade',  // popup displaying fx
-      fxDuration: 'short',
+      fxName:       'fade',  // popup displaying fx
+      fxDuration:   'short',
 
-      cssRule:    '*[data-colorpicker]'
+      cssRule:      '*[data-colorpicker]'
     },
 
     i18n: {
@@ -132,7 +132,7 @@ var Colorpicker = new Widget({
     }
     return this;
   },
-  
+
     /**
    * Assigns the colorpicer to automatically update
    * given element's text color on changes
@@ -149,7 +149,7 @@ var Colorpicker = new Widget({
     }
     return this;
   },
-  
+
     /**
    * Assigns the colorpicer to automatically update
    * given element's border color on changes
