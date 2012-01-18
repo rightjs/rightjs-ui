@@ -1,11 +1,11 @@
 /**
  * The resizable unit main file
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 var Resizable = new Widget({
   extend: {
-    version: '2.2.3',
+    version: '2.2.4',
 
     EVENTS: $w('resize start release'),
 
