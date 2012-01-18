@@ -76,12 +76,18 @@ var Loader = new Class({
       ]
     },
     options = Lightbox.current ? Lightbox.current.options : Lightbox.Options,
-    sizes = ' width="'+ options.mediaWidth + '" height="'+ options.mediaHeight + '"';
+    sizes = ' width="'+ options.mediaWidth + '" height="'+ options.mediaHeight + '"',
+    fullscreen_param = options.fullscreen ? '<param name="allowFullScreen" value="true"></param>' : '',
+    fullscreen_attr  = options.fullscreen ? ' allowfullscreen="true"' : '';
+
+    if (url.indexOf('youtube.com') > 0 && options.fullscreen) {
+      url += '?version=3&amp;hl=en_US&amp;rel=0';
+    }
 
     return '<object classid="clsid:' + media_types[type][0] +
       '" codebase="' + media_types[type][1] + '"'+ sizes + '>' +
-      '<param name="src" value="'+ url +'" />'+
-      '<embed src="'+ url +'" type="'+ media_types[type][2]+'"'+ sizes + ' />' +
+      '<param name="src" value="'+ url +'" />'+ fullscreen_param +
+      '<embed src="'+ url +'" type="'+ media_types[type][2]+'"'+ sizes + fullscreen_attr+ ' />' +
     '</object>';
   }
 

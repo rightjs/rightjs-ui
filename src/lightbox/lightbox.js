@@ -1,12 +1,12 @@
 /**
  * The lightbox widget
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Lightbox = new Widget({
 
   extend: {
-    version: '2.2.3',
+    version: '2.4.0',
 
     EVENTS: $w('show hide load'),
 
@@ -24,7 +24,9 @@ var Lightbox = new Widget({
 
       // video links default size
       mediaWidth:      425,
-      mediaHeight:     350
+      mediaHeight:     350,
+
+      fullscreen:      true // allow fullscreen video
     },
 
     i18n: {
