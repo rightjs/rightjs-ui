@@ -10,7 +10,7 @@ BUILD_PREFIX    = 'right',
 BUILD_EXCLUDE   = [];      // the don't build list
 
 var // importing the Nake tools
-on_npm          = process.ARGV[1].match(/nake$/),
+on_npm          = process.argv[1].match(/nake$/),
 Nake            = require(on_npm ? 'nake' : './util/nake'),
 task            = Nake.task,
 namespace       = Nake.namespace;
