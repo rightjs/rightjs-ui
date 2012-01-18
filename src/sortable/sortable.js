@@ -1,11 +1,11 @@
 /**
  * The Sortable unit
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Sortable = new Widget('UL', {
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('start change finish'),
 
