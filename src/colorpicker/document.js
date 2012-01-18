@@ -1,20 +1,27 @@
 /**
  * The document level hooks for colorpicker
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
-$(document).on({
-  mouseup: function() {
-    if (Colorpicker.tracking) {
-      Colorpicker.tracking.stopTrack();
-    }
-  },
 
-  mousemove: function(event) {
-    if (Colorpicker.tracking) {
-      Colorpicker.tracking.trackMove(event);
-    }
-  },
+function document_mouseup() {
+  if (Colorpicker.tracking) {
+    Colorpicker.tracking.stopTrack();
+  }
+}
+
+function document_mousemove(event) {
+  if (Colorpicker.tracking) {
+    Colorpicker.tracking.trackMove(event);
+  }
+}
+
+$(document).on({
+  mouseup:  document_mouseup,
+  touchend: document_mouseup,
+
+  mousemove: document_mousemove,
+  touchmove: document_mousemove,
 
   focus: function(event) {
     var target = event.target instanceof Input ? event.target : null;
@@ -22,6 +29,7 @@ $(document).on({
     Colorpicker.hideAll();
 
     if (target && (target.colorpicker || target.match(Colorpicker.Options.cssRule))) {
+
       (target.colorpicker || new Colorpicker({update: target}))
         .setValue(target.value()).showAt(target);
     }

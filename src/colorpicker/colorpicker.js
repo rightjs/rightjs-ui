@@ -1,13 +1,13 @@
 /**
  * The basic file for Colorpicker
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 var Colorpicker = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('change show hide done'),
 
@@ -55,7 +55,8 @@ var Colorpicker = new Widget({
         this.controls = new Controls()
       ])
       .on({
-        mousedown: this.startTrack,
+        mousedown:  this.startTrack,
+        touchstart: this.startTrack,
 
         keyup: this.recalc,
         blur:  this.update,
