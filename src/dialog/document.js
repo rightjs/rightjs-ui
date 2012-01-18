@@ -1,7 +1,7 @@
 /**
  * Document level hooks for the dialogs
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 $(document).on({
   keydown: function(event) {
@@ -17,18 +17,26 @@ $(document).on({
     }
   },
 
-  mousemove: function(event) {
-    if (Dialog.dragged) {
-      Dialog.dragged.head.dragMove(event);
-    }
-  },
+  mousemove: document_mousemove,
+  touchmove: document_mousemove,
 
-  mouseup: function(event) {
-    if (Dialog.dragged) {
-      Dialog.dragged.head.dragStop(event);
-    }
-  }
+  mouseup:   document_mouseup,
+  touchend:  document_mouseup
 });
+
+function document_mousemove(event) {
+  if (Dialog.dragged) {
+    Dialog.dragged.head.dragMove(event);
+  }
+}
+
+function document_mouseup(event) {
+  if (Dialog.dragged) {
+    Dialog.dragged.head.dragStop(event);
+  }
+}
+
+
 
 $(window).onResize(function() {
   if (Dialog.current) {

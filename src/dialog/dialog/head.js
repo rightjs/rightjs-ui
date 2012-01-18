@@ -1,7 +1,7 @@
 /**
  * Dialog header line element
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 Dialog.Head = new Class(Element, {
 
@@ -43,7 +43,8 @@ Dialog.Head = new Class(Element, {
 
     this.on({
       selectstart: function(e) { e.stop(); },
-      mousedown:   this.dragStart
+      mousedown:   this.dragStart,
+      touchstart:  this.dragStart
     });
 
     if (!this.options.draggable) {

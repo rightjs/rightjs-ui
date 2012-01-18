@@ -1,11 +1,11 @@
 /**
  * Basic dialog class
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 var Dialog = new Widget({
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('ok cancel help expand collapse resize load'),
 
