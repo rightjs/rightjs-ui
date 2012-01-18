@@ -1,13 +1,13 @@
 /**
  * RightJS UI Slider unit
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Slider = new Widget({
   include: Updater,
 
   extend: {
-    version: '2.3.0',
+    version: '2.3.1',
 
     EVENTS: $w('change'),
 
