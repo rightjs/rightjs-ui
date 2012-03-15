@@ -16,7 +16,11 @@
       // <![CDATA[
         new Autocompleter('simple-completer', {
           url: './autocompleter/%{search}.html'
-        });
+        }).on({
+          show: function() { console.log('show') },
+          hide: function() { console.log('hide') },
+          done: function() { console.log('done') }
+        })
       // ]]>
       </script>
     </p>
