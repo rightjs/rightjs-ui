@@ -1,13 +1,13 @@
 /**
  * The RightJS UI Autocompleter unit base class
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Autocompleter = new Widget('UL', {
   include: Toggler,
 
   extend: {
-    version: '2.2.1',
+    version: '2.2.2',
 
     EVENTS: $w('show hide update load select done'),
 

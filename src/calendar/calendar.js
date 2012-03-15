@@ -1,13 +1,13 @@
 /**
  * The calendar widget for RightJS
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Calendar = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.3.0',
+    version: '2.3.1',
 
     EVENTS: $w('show hide change done'),
 
