@@ -1,7 +1,7 @@
 /**
  * The filenames to include
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 
 var R          = RightJS,
@@ -39,7 +39,7 @@ include_module_files(
   // sub-units
   'calendar/swaps',
   'calendar/month',
-  'calendar/greed',
+  'calendar/grid',
   'calendar/timepicker',
   'calendar/buttons',
 

@@ -7,7 +7,7 @@ var Calendar = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.3.1',
+    version: '2.3.2',
 
     EVENTS: $w('show hide change done'),
 
@@ -24,7 +24,7 @@ var Calendar = new Widget({
       fxDuration:     'short', // the fx-duration
 
       firstDay:       1,      // 1 for Monday, 0 for Sunday
-      numberOfMonths: 1,      // a number or [x, y] greed definition
+      numberOfMonths: 1,      // a number or [x, y] grid size
       timePeriod:     1,      // the timepicker minimal periods (in minutes, might be bigger than 60)
 
       twentyFourHour: null,   // null for automatic, or true|false to enforce
@@ -87,7 +87,7 @@ var Calendar = new Widget({
 
     this.insert([
       this.swaps = new Swaps(options),
-      this.greed = new Greed(options)
+      this.grid  = new Grid(options)
     ]);
 
     if (options.showTime) {
@@ -105,7 +105,7 @@ var Calendar = new Widget({
    * Sets the date on the calendar
    *
    * NOTE: if it's `true` then it will change the date but
-   *       won't shift the months greed (used in the days picking)
+   *       won't shift the months grid (used in the days picking)
    *
    * @param Date date or String date
    * @param Boolean no-shifting mode
@@ -124,9 +124,9 @@ var Calendar = new Widget({
         date.setDate(date.getDate() - 1);
       }
 
-      // setting the dates greed
+      // setting the dates grid
       this._date = no_shift ? new Date(this._date || this.date) : null;
-      this.greed.setDate(this._date || date, date);
+      this.grid.setDate(this._date || date, date);
 
       // updating the shifters state
       if (options.minDate || options.maxDate) {

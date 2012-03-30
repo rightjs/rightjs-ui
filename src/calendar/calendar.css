@@ -9,7 +9,7 @@
  *     <div class="rui-button prev-month">&rsaquo:</div>
  *   </div>
  *
- *   <table class="greed">
+ *   <table class="grid">
  *     <tr><td>
  *
  *       <table class="month">
@@ -47,7 +47,7 @@
 
 /* RESET */
 div.rui-calendar .swaps,
-div.rui-calendar .greed,
+div.rui-calendar .grid,
 div.rui-calendar .timepicker,
 div.rui-calendar .buttons,
 div.rui-calendar table,
@@ -98,17 +98,17 @@ div.rui-calendar .swaps .next-year {
   _right: 2.52em;
 }
 
-/** the months greed styles */
-div.rui-calendar .greed {
+/** the months grid styles */
+div.rui-calendar .grid {
   border-spacing: 0px;
   border-collapse: collapse;
   border-size: 0;
 }
-div.rui-calendar .greed td {
+div.rui-calendar .grid td {
   vertical-align: top;
   padding-left: .4em;
 }
-div.rui-calendar .greed > tbody > tr > td:first-child {
+div.rui-calendar .grid > tbody > tr > td:first-child {
   padding: 0;
 }
 
