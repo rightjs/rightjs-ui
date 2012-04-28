@@ -29,7 +29,6 @@ $(document).on({
     Colorpicker.hideAll();
 
     if (target && (target.colorpicker || target.match(Colorpicker.Options.cssRule))) {
-
       (target.colorpicker || new Colorpicker({update: target}))
         .setValue(target.value()).showAt(target);
     }

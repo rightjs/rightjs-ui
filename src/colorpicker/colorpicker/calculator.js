@@ -34,8 +34,8 @@ Colorpicker.include({
   toColor: function(in_value) {
     var value = in_value.toLowerCase(), match;
 
-    if ((match = /rgb\((\d+),(\d+),(\d+)\)/.exec(value))) {
-      return [match[1], match[2], match[3]].map(parseInt);
+    if ((match = /rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/.exec(value))) {
+      return [parseInt(match[1]), parseInt(match[2]), parseInt(match[3])];
 
     } else if (/#[\da-f]+/.test(value)) {
       // converting the shortified hex in to the full-length version

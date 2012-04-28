@@ -7,7 +7,7 @@ var Colorpicker = new Widget({
   include: [Toggler, Assignable],
 
   extend: {
-    version: '2.2.3',
+    version: '2.2.4',
 
     EVENTS: $w('change show hide done'),
 
@@ -88,6 +88,7 @@ var Colorpicker = new Widget({
    */
   setValue: function(value) {
     var color = isArray(value) ? value : this.toColor(value);
+
     if (color && color.length === 3) {
 
       // normalizing the data
@@ -134,14 +135,14 @@ var Colorpicker = new Widget({
     return this;
   },
 
-    /**
+  /**
    * Assigns the colorpicer to automatically update
    * given element's text color on changes
    *
    * @param mixed element reference
    * @return Colorpicker this
    */
-    updateColor: function(element_ref) {
+  updateColor: function(element_ref) {
     var element = $(element_ref);
     if (element) {
       this.onChange(R(function(color) {
@@ -151,7 +152,7 @@ var Colorpicker = new Widget({
     return this;
   },
 
-    /**
+  /**
    * Assigns the colorpicer to automatically update
    * given element's border color on changes
    *
