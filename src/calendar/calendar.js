@@ -227,7 +227,7 @@ var Calendar = new Widget({
     options.i18n = {};
 
     for (var key in klass.i18n) {
-      options.i18n[key] = isArray(klass.i18n[key]) ? klass.i18n[key].clone() : klass.i18n[key];
+      options.i18n[key] = isArray(klass.i18n[key]) ? R(klass.i18n[key]).clone() : klass.i18n[key];
     }
     $ext(options.i18n, user_options.i18n);
 
