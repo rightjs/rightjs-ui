@@ -408,7 +408,7 @@ var Selectable = new Widget('UL', {
     var options = this.options.options, items = R([]);
 
     if (isArray(options)) {
-      options.each(function(option) {
+      R(options).each(function(option) {
         items.push(isArray(option) ? option : [option, option]);
       });
     } else {
